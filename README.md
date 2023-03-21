@@ -1,2 +1,2 @@
-# FA-Online-Test-System
-My final year project - an online examination system for FPT Software Academy
+# Online-Testing-System
+My final year project - an online testing system for businesses and companies
