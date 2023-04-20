@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Employee {
+  employeeNumber Int        @id @default(autoincrement())
+  lastName       String
+  firstName      String
+  extension      String
+  email          String
+  officeCode     String
+  jobTitle       String
+  // 
+  customers      Customer[]
+  reportsTo      Int?
+  User           User?
+  Role           Role       @relation(fields: [jobTitle], references: [name], onDelete: Cascade)
+}
+
+model Customer {
+  customerNumber         Int      @id @default(autoincrement())
+  customerName           String
+  contactLastName        String
+  contactFirstName       String
+  phone                  String
+  addressLine1           String
+  addressLine2           String?
+  city                   String
+  state                  String?
+  postalCode             String?
+  country                String
+  creditLimit            Int?
+  // 
+  Employee               Employee @relation(fields: [salesRepEmployeeNumber], references: [employeeNumber], onDelete: Cascade)
+  salesRepEmployeeNumber Int
+}
+
+model User {
+  username               String   @id
+  password               String
+  employee               Employee @relation(fields: [employeeEmployeeNumber], references: [employeeNumber], onDelete: Cascade)
+  employeeEmployeeNumber Int      @unique()
+}
+
+model Role {
+  name      String     @id
+  // 
+  employees Employee[]
+}
