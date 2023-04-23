@@ -7,48 +7,108 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Employee {
-  employeeNumber Int        @id @default(autoincrement())
-  lastName       String
-  firstName      String
-  extension      String
-  email          String
-  officeCode     String
-  jobTitle       String
-  // 
-  customers      Customer[]
-  reportsTo      Int?
-  User           User?
-  Role           Role       @relation(fields: [jobTitle], references: [name], onDelete: Cascade)
-}
-
-model Customer {
-  customerNumber         Int      @id @default(autoincrement())
-  customerName           String
-  contactLastName        String
-  contactFirstName       String
-  phone                  String
-  addressLine1           String
-  addressLine2           String?
-  city                   String
-  state                  String?
-  postalCode             String?
-  country                String
-  creditLimit            Int?
-  // 
-  Employee               Employee @relation(fields: [salesRepEmployeeNumber], references: [employeeNumber], onDelete: Cascade)
-  salesRepEmployeeNumber Int
-}
-
 model User {
-  username               String   @id
-  password               String
-  employee               Employee @relation(fields: [employeeEmployeeNumber], references: [employeeNumber], onDelete: Cascade)
-  employeeEmployeeNumber Int      @unique()
+  id         Int       @id @default(autoincrement())
+  email      String    @unique
+  name       Int
+  password   String
+  avatar_url String
+  credit     Int       @default(100)
+  // relationships
+  ratings    Rating[]
+  tests      Test[]
+  drafts     Draft[]
+  attempts   Attempt[]
 }
 
-model Role {
-  name      String     @id
-  // 
-  employees Employee[]
+model Test {
+  id                  Int        @id @default(autoincrement())
+  title               String
+  description         String?
+  duration            String
+  number_of_questions Int
+  start_time          DateTime
+  end_time            DateTime?
+  attempt_limit       Int        @default(0)
+  pin_code            String     @unique
+  is_public           Boolean    @default(true)
+  is_mix              Boolean    @default(false)
+  is_show_answer      Boolean    @default(false)
+  is_login_required   Boolean    @default(false)
+  created_at          DateTime   @default(now())
+  // relationships
+  ratings             Rating[]
+  User                User       @relation(fields: [userId], references: [id])
+  userId              Int
+  questions           Question[]
+  attempts            Attempt[]
+}
+
+model Question {
+  id          Int      @id @default(autoincrement())
+  index       Int
+  text        String
+  is_multiple Boolean  @default(false)
+  image_url   String?
+  score       Float    @default(10)
+  // relationships
+  Test        Test     @relation(fields: [testId], references: [id])
+  testId      Int
+  answers     Answer[]
+  choices     Choice[]
+}
+
+model Answer {
+  id         Int      @id @default(autoincrement())
+  index      Int
+  text       String
+  is_correct Boolean  @default(false)
+  // relationships
+  Question   Question @relation(fields: [questionId], references: [id])
+  questionId Int
+  choices    Choice[]
+}
+
+model Draft {
+  id      Int    @id @default(autoincrement())
+  content String
+  // relationships
+  User    User   @relation(fields: [userId], references: [id])
+  userId  Int
+}
+
+model Attempt {
+  id         Int       @id @default(autoincrement())
+  start_time DateTime
+  end_time   DateTime?
+  score      Float?
+  // relationships
+  User       User      @relation(fields: [userId], references: [id])
+  userId     Int
+  Test       Test      @relation(fields: [testId], references: [id])
+  testId     Int
+  choices    Choice[]
+}
+
+model Choice {
+  id         Int      @id @default(autoincrement())
+  is_correct Boolean // co ve ko can thiet lam khi chuan hoa?
+  // relationships
+  Attempt    Attempt  @relation(fields: [attemptId], references: [id])
+  attemptId  Int
+  Question   Question @relation(fields: [questionId], references: [id])
+  questionId Int
+  Answer     Answer   @relation(fields: [answerId], references: [id])
+  answerId   Int
+}
+
+model Rating {
+  id      Int     @id @default(autoincrement())
+  rating  Int
+  comment String?
+  // relationships
+  User    User?   @relation(fields: [userId], references: [id])
+  userId  Int?
+  Test    Test    @relation(fields: [testId], references: [id])
+  testId  Int
 }
