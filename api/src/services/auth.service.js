@@ -1,11 +1,11 @@
 const userService = require("./user.service");
 const passwordService = require("./password.service");
-const ApiError = require("../utils/apiError");
+const { ApiError } = require("../utils");
 const httpStatus = require("http-status");
 
-const login = async ({ username, password }) => {
-  const user = await userService.getUserByUsername({
-    username,
+const login = async ({ email, password }) => {
+  const user = await userService.getUserByEmail({
+    email,
   });
   if (!user)
     throw new ApiError(
@@ -22,12 +22,12 @@ const login = async ({ username, password }) => {
   return user;
 };
 
-const signup = async ({ password, username, employeeNumber }) => {
+const signup = async ({ password, name, email }) => {
   password = await passwordService.hashPassword(password);
   const user = await userService.createUser({
     password,
-    username,
-    employeeNumber,
+    name,
+    email,
   });
   return user;
 };

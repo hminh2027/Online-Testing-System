@@ -1,12 +1,11 @@
 const express = require("express");
-const authentication = require("../middlewares/authentication.middleware");
+const { auth } = require("../middlewares");
 const router = express.Router();
-const customerRoute = require("./customer.route");
-const employeeRoute = require("./employee.route");
-const userRoute = require("./user.route");
 
-router.use("/user", userRoute);
-router.use("/customer", authentication, customerRoute);
-router.use("/employee", authentication, employeeRoute);
+const userRouter = require("./user.route");
+const authRoute = require("./auth.route");
+
+router.use("/auth", authRoute);
+router.use("/user", userRouter);
 
 module.exports = router;

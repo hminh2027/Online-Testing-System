@@ -8,29 +8,21 @@ const enumerateErrorFormat = winston.format((info) => {
   return info;
 });
 
-const winstonConfig = {
+const logger = winston.createLogger({
   level: config.env === "development" ? "debug" : "info",
   format: winston.format.combine(
     enumerateErrorFormat(),
     config.env === "development"
       ? winston.format.colorize()
       : winston.format.uncolorize(),
-    winston.format.timestamp(),
     winston.format.splat(),
-    winston.format.printf(
-      ({ level, message, label, timestamp }) =>
-        `${level}: ${label}: ${[timestamp]}: ${message}`
-    )
+    winston.format.printf(({ level, message }) => `${level}: ${message}`)
   ),
   transports: [
     new winston.transports.Console({
       stderrLevels: ["error"],
     }),
-    new winston.transports.File({
-      level: "error",
-      filename: "logs/errors.log",
-    }),
   ],
-};
+});
 
-module.exports = winstonConfig;
+module.exports = logger;

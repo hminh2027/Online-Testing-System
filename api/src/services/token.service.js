@@ -1,7 +1,7 @@
-const config = require("../config/config");
+const { config } = require("../config");
 const jwt = require("jsonwebtoken");
 const TOKEN = require("../constants/token");
-const ApiError = require("../utils/apiError");
+const ApiError = require("../utils");
 const httpStatus = require("http-status");
 
 const generateToken = ({ username, type, expiresIn }) => {

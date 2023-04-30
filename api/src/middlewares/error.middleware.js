@@ -1,7 +1,6 @@
 const httpStatus = require("http-status");
-const config = require("../config/config");
-const ApiError = require("../utils/apiError");
-const logger = require("../utils/logger");
+const { config, logger } = require("../config");
+const ApiError = require("../utils/ApiError");
 
 const errorHandler = (err, req, res, next) => {
   let { statusCode, message } = err;
@@ -25,7 +24,7 @@ const errorConverter = (err, req, res, next) => {
       ? httpStatus.BAD_REQUEST
       : httpStatus.INTERNAL_SERVER_ERROR;
     const message = error.message || httpStatus[statusCode];
-    error = new ApiError(statusCode, message, err.stack);
+    error = new ApiError(statusCode, message, false, err.stack);
   }
   next(error);
 };

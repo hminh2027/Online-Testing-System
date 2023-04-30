@@ -1,9 +1,9 @@
 const userService = require("../services/user.service");
 const TOKEN = require("../constants/token");
-const config = require("../config/config");
+const { config } = require("../config");
 const jwt = require("jsonwebtoken");
 
-const authentication = async (req, res, next) => {
+const auth = async (req, res, next) => {
   try {
     const token = req.cookies.accessToken;
     if (!token) throw new Error();
@@ -23,4 +23,4 @@ const authentication = async (req, res, next) => {
   }
 };
 
-module.exports = authentication;
+module.exports = auth;
