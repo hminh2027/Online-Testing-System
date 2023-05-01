@@ -35,8 +35,8 @@ const updateOneById = catchAsync(async (req, res) => {
 
   user = _.omit(user, ["password"]);
   res.status(httpStatus.OK).json({
-    data: "User updated successfully",
-    user,
+    message: "User updated successfully",
+    data: user,
   });
 });
 

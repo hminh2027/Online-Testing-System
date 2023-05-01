@@ -4,29 +4,29 @@ const TOKEN = require("../constants/token");
 const ApiError = require("../utils");
 const httpStatus = require("http-status");
 
-const generateToken = ({ username, type, expiresIn }) => {
-  return jwt.sign({ username, type }, config.jwt.secret, { expiresIn });
+const generateToken = ({ name, type, expiresIn }) => {
+  return jwt.sign({ name, type }, config.jwt.secret, { expiresIn });
 };
 
 const generateAuthTokens = (user) => {
-  const { username } = user;
+  const { name } = user;
   return {
-    refreshToken: generateRefreshToken(username),
-    accessToken: generateRefreshToken(username),
+    refreshToken: generateRefreshToken(name),
+    accessToken: generateRefreshToken(name),
   };
 };
 
-const generateRefreshToken = (username) => {
+const generateRefreshToken = (name) => {
   return generateToken({
-    username,
+    name,
     type: TOKEN.ACCESS_TOKEN,
     expiresIn: config.jwt.rtExpiresIn,
   });
 };
 
-const generateAccessToken = (username) => {
+const generateAccessToken = (name) => {
   return generateToken({
-    username,
+    name,
     type: TOKEN.ACCESS_TOKEN,
     expiresIn: config.jwt.atExpiresIn,
   });

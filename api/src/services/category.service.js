@@ -1,12 +1,9 @@
 const { prisma } = require("../database/prisma-client");
 
 async function createOne(data) {
-  return prisma.answer.create({
+  return prisma.category.create({
     data: {
-      index: data.index,
-      text: data.text,
-      is_correct: data.isCorrect,
-      questionId: data.questionId,
+      name: data.name,
     },
   });
 }

@@ -3,19 +3,18 @@ const { catchAsync } = require("../utils");
 const _ = require("lodash");
 const httpStatus = require("http-status");
 
-const register = catchAsync(async (req, res) => {
+const signup = catchAsync(async (req, res) => {
   let user = await authService.signup(req.body);
   const tokens = tokenService.generateAuthTokens(user);
   user = _.omit(user, ["password"]);
   res
-    .status(httpStatus.CREATED)
+    .status(httpStatus.OK)
     .cookie("accessToken", tokens.accessToken, {
       httpOnly: true,
     })
     .json({
-      data: "Registered in successfully",
-      user,
-      tokens,
+      message: "Đăng ký thành công",
+      data: { user, tokens },
     });
 });
 
@@ -25,18 +24,17 @@ const login = catchAsync(async (req, res) => {
   const tokens = tokenService.generateAuthTokens(user);
   user = _.omit(user, ["password"]);
   res
-    .status(httpStatus.CREATED)
+    .status(httpStatus.OK)
     .cookie("accessToken", tokens.accessToken, {
       httpOnly: true,
     })
     .json({
-      data: "Logged in successfully",
-      user,
-      tokens,
+      message: "Đăng nhập thành công",
+      data: { user, tokens },
     });
 });
 
 module.exports = {
-  register,
+  signup,
   login,
 };

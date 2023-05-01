@@ -11,8 +11,8 @@ model User {
   id         Int       @id @default(autoincrement())
   email      String    @unique
   name       String
-  password   String
-  avatar_url String
+  password   String    @db.LongText
+  avatar_url String    @db.LongText
   credit     Int       @default(100)
   // relationships
   ratings    Rating[]
@@ -24,10 +24,11 @@ model User {
 model Test {
   id                  Int        @id @default(autoincrement())
   title               String
-  description         String?
-  duration            String
+  description         String?    @db.LongText
+  image_url           String?    @db.LongText
+  duration            Int
   number_of_questions Int
-  start_time          DateTime
+  start_time          DateTime   @default(now())
   end_time            DateTime?
   attempt_limit       Int        @default(0)
   pin_code            String     @unique
@@ -36,23 +37,28 @@ model Test {
   is_show_answer      Boolean    @default(false)
   is_login_required   Boolean    @default(false)
   created_at          DateTime   @default(now())
+  userId              Int
   // relationships
   ratings             Rating[]
-  User                User       @relation(fields: [userId], references: [id])
-  userId              Int
+  User                User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   questions           Question[]
   attempts            Attempt[]
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String @unique
 }
 
 model Question {
   id          Int      @id @default(autoincrement())
   index       Int
-  text        String
+  text        String   @db.LongText
   is_multiple Boolean  @default(false)
   image_url   String?
   score       Float    @default(10)
   // relationships
-  Test        Test     @relation(fields: [testId], references: [id])
+  Test        Test     @relation(fields: [testId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   testId      Int
   answers     Answer[]
   choices     Choice[]
@@ -61,19 +67,19 @@ model Question {
 model Answer {
   id         Int      @id @default(autoincrement())
   index      Int
-  text       String
+  text       String   @db.LongText
   is_correct Boolean  @default(false)
   // relationships
-  Question   Question @relation(fields: [questionId], references: [id])
+  Question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   questionId Int
   choices    Choice[]
 }
 
 model Draft {
   id      Int    @id @default(autoincrement())
-  content String
+  content String @db.LongText
   // relationships
-  User    User   @relation(fields: [userId], references: [id])
+  User    User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId  Int
 }
 
@@ -83,9 +89,9 @@ model Attempt {
   end_time   DateTime?
   score      Float?
   // relationships
-  User       User      @relation(fields: [userId], references: [id])
+  User       User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId     Int
-  Test       Test      @relation(fields: [testId], references: [id])
+  Test       Test      @relation(fields: [testId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   testId     Int
   choices    Choice[]
 }
@@ -94,21 +100,21 @@ model Choice {
   id         Int      @id @default(autoincrement())
   is_correct Boolean // co ve ko can thiet lam khi chuan hoa?
   // relationships
-  Attempt    Attempt  @relation(fields: [attemptId], references: [id])
+  Attempt    Attempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   attemptId  Int
-  Question   Question @relation(fields: [questionId], references: [id])
+  Question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   questionId Int
-  Answer     Answer   @relation(fields: [answerId], references: [id])
+  Answer     Answer   @relation(fields: [answerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   answerId   Int
 }
 
 model Rating {
   id      Int     @id @default(autoincrement())
   rating  Int
-  comment String?
+  comment String? @db.LongText
   // relationships
-  User    User?   @relation(fields: [userId], references: [id])
+  User    User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId  Int?
-  Test    Test    @relation(fields: [testId], references: [id])
+  Test    Test    @relation(fields: [testId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   testId  Int
 }
