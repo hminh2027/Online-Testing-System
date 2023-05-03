@@ -1,11 +1,12 @@
 const userService = require("./user.service");
 const passwordService = require("./password.service");
-const ApiError = require("../utils/apiError");
+const { ApiError } = require("../utils");
 const httpStatus = require("http-status");
 
-const login = async ({ username, password }) => {
-  const user = await userService.getUserByUsername({
-    username,
+const login = async ({ email, password }) => {
+  console.log("ok");
+  const user = await userService.getOneByEmail({
+    email,
   });
   if (!user)
     throw new ApiError(
@@ -22,12 +23,14 @@ const login = async ({ username, password }) => {
   return user;
 };
 
-const signup = async ({ password, username, employeeNumber }) => {
+const signup = async ({ password, name, email }) => {
+  const isExisted = await userService.getOneByEmail({ email });
+  if (isExisted) throw new ApiError(httpStatus.BAD_REQUEST, "Email đã tồn tại");
   password = await passwordService.hashPassword(password);
-  const user = await userService.createUser({
+  const user = await userService.createOne({
     password,
-    username,
-    employeeNumber,
+    name,
+    email,
   });
   return user;
 };

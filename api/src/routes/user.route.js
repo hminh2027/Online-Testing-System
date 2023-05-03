@@ -1,11 +1,12 @@
 const express = require("express");
-const authController = require("../controllers/auth.controller");
-const { validation } = require("../middlewares/validation.middleware");
-const { register } = require("../validations/auth.validation");
+const { userController } = require("../controllers");
+
 const router = express.Router();
 
-router
-  .post("/register", validation(register), authController.register)
-  .post("/login", authController.login);
+router.route("/").put(userController.updateOneById);
+
+router.route("/:userId").get(userController.getOneById);
+// .get("/tests")
+// .get("/tests/:testsId");
 
 module.exports = router;

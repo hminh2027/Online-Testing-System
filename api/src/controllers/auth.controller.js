@@ -1,42 +1,40 @@
-const authService = require("../services/auth.service");
-const tokenService = require("../services/token.service");
-const catchAsync = require("../utils/catchAsync");
+const { authService, tokenService } = require("../services");
+const { catchAsync } = require("../utils");
 const _ = require("lodash");
+const httpStatus = require("http-status");
 
-const register = catchAsync(async (req, res) => {
+const signup = catchAsync(async (req, res) => {
   let user = await authService.signup(req.body);
-  const tokens = await tokenService.generateAuthTokens(user);
+  const tokens = tokenService.generateAuthTokens(user);
   user = _.omit(user, ["password"]);
   res
-    .status(200)
+    .status(httpStatus.OK)
     .cookie("accessToken", tokens.accessToken, {
       httpOnly: true,
     })
     .json({
-      data: "Registered in successfully",
-      user,
-      tokens,
+      message: "Đăng ký thành công",
+      data: { user, tokens },
     });
 });
 
 const login = catchAsync(async (req, res) => {
-  const { username, password } = req.body;
-  let user = await authService.login({ username, password });
-  const tokens = await tokenService.generateAuthTokens(user);
+  const { email, password } = req.body;
+  let user = await authService.login({ email, password });
+  const tokens = tokenService.generateAuthTokens(user);
   user = _.omit(user, ["password"]);
   res
-    .status(200)
+    .status(httpStatus.OK)
     .cookie("accessToken", tokens.accessToken, {
       httpOnly: true,
     })
     .json({
-      data: "Logged in successfully",
-      user,
-      tokens,
+      message: "Đăng nhập thành công",
+      data: { user, tokens },
     });
 });
 
 module.exports = {
-  register,
+  signup,
   login,
 };
