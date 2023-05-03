@@ -7,7 +7,10 @@ router.route("/").post(testController.createOne);
 router.route("/category").get(testController.getAllWithCaregory);
 router.route("/category/:categoryId").get(testController.getAllByCategoryId);
 
-router.route("/:testId").post(testController.createOneQuestion);
+router
+  .route("/:testId")
+  .get(testController.getoneById)
+  .post(testController.createOneQuestion);
 
 // router.route("/:code").get(userController.getOneById);
 // .get("/tests")

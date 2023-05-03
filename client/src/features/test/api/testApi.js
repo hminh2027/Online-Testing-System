@@ -17,10 +17,16 @@ export const testApi = {
       throw error;
     }
   },
-  getAllByCategoryId: async (categoryId) => {
+  getAllByCategoryId: (categoryId) => {
     try {
-      const result = await axiosInstance.get(`${url}/category/${categoryId}`);
-      return result;
+      return axiosInstance.get(`${url}/category/${categoryId}`);
+    } catch (error) {
+      throw error;
+    }
+  },
+  getOneById: (testId) => {
+    try {
+      return axiosInstance.get(`${url}/${testId}`);
     } catch (error) {
       throw error;
     }
