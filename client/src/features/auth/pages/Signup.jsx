@@ -14,7 +14,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import * as Yup from "yup";
-import { authApi } from "../api";
+import { authApi } from "../api/authApi";
 import { useFormik } from "formik";
 
 const validationSchema = Yup.object().shape({

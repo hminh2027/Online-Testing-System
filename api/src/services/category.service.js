@@ -8,6 +8,11 @@ async function createOne(data) {
   });
 }
 
+async function getAll() {
+  return prisma.category.findMany({ include: { tests: true } });
+}
+
 module.exports = {
   createOne,
+  getAll,
 };

@@ -14,15 +14,15 @@ export const authApi = {
     try {
       return axiosInstance.post(`${url}/signup`, data);
     } catch (error) {
-      return error;
+      throw error;
     }
   },
-  getMe: async () => {
-    const result = await axiosInstance.post(`users/me`);
-    return result;
-  },
-  refreshToken: async () => {
-    const result = await axiosInstance.post("auth/token");
-    return result;
-  },
+  // getMe: async () => {
+  //   const result = await axiosInstance.post(`users/me`);
+  //   return result;
+  // },
+  // refreshToken: async () => {
+  //   const result = await axiosInstance.post("auth/token");
+  //   return result;
+  // },
 };

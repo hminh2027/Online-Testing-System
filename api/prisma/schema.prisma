@@ -35,7 +35,6 @@ model Test {
   is_public           Boolean    @default(true)
   is_mix              Boolean    @default(false)
   is_show_answer      Boolean    @default(false)
-  is_login_required   Boolean    @default(false)
   created_at          DateTime   @default(now())
   userId              Int
   // relationships
@@ -43,11 +42,14 @@ model Test {
   User                User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   questions           Question[]
   attempts            Attempt[]
+  Category            Category   @relation(fields: [categoryId], references: [id])
+  categoryId          Int
 }
 
 model Category {
-  id   Int    @id @default(autoincrement())
-  name String @unique
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  tests Test[]
 }
 
 model Question {
@@ -113,8 +115,8 @@ model Rating {
   rating  Int
   comment String? @db.LongText
   // relationships
-  User    User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId  Int?
+  User    User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId  Int
   Test    Test    @relation(fields: [testId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   testId  Int
 }

@@ -17,7 +17,7 @@ function testPrototype(index) {
     is_public: Math.random() < 0.5,
     is_mix: Math.random() < 0.5,
     is_show_answer: Math.random() < 0.5,
-    is_login_required: Math.random() < 0.5,
+    categoryId: Math.floor(Math.random() * 5) + 1,
     userId: Math.floor(Math.random() * 5) + 1,
   };
 }

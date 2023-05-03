@@ -18,7 +18,7 @@ async function createOne(data) {
       is_public: data.isPublic,
       is_mix: data.isMix,
       is_show_answer: data.isShowAnswer,
-      is_login_required: data.isLoginRequired,
+      categoryId: data.categoryId,
       userId: 1,
     },
   });
@@ -36,6 +36,12 @@ async function getOneByPinCode(code) {
   });
 }
 
+async function getAllByCategoryId(categoryId) {
+  return prisma.test.findMany({
+    where: { categoryId },
+  });
+}
+
 async function updateOneById(id, data) {
   return prisma.test.update({ where: { id } }, data);
 }
@@ -46,4 +52,5 @@ module.exports = {
   getOneByPinCode,
   // getOneByEmail,
   getAllPublic,
+  getAllByCategoryId,
 };

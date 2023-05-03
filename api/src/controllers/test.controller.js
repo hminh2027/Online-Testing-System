@@ -5,6 +5,7 @@ const {
   questionService,
   answerService,
   testService,
+  categoryService,
 } = require("../services");
 const { catchAsync } = require("../utils");
 const httpStatus = require("http-status");
@@ -31,7 +32,22 @@ const createOneQuestion = catchAsync(async (req, res) => {
     .json({ message: "Tạo câu hỏi thành công", data: { question } });
 });
 
+const getAllWithCaregory = catchAsync(async (req, res) => {
+  const categories = await categoryService.getAll();
+
+  res.status(httpStatus.OK).json({ data: { categories } });
+});
+
+const getAllByCategoryId = catchAsync(async (req, res) => {
+  const { categoryId } = req.params;
+  const tests = await testService.getAllByCategoryId(categoryId);
+
+  res.status(httpStatus.OK).json({ data: { tests } });
+});
+
 module.exports = {
   createOneQuestion,
   createOne,
+  getAllWithCaregory,
+  getAllByCategoryId,
 };
