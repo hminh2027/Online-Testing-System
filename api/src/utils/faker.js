@@ -6,4 +6,4 @@ function generateDummyData(quantity, prototypeFn) {
   return initArray;
 }
 
-module.exports = { generateDummyData };
+module.exports = generateDummyData;
