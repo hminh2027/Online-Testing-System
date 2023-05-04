@@ -22,24 +22,28 @@ import {
   Avatar,
   ButtonGroup,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BsShareFill, BsFillPlayFill, BsFillStarFill } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 import { DefaultLayout } from "../../../components/layout";
 import { testApi } from "../api/testApi";
+import moment from "moment";
 
 export function TestDetail() {
   const { testId } = useParams();
+  const [test, setTest] = useState(null);
 
   useEffect(() => {
     const fetch = async () => {
       try {
         const res = await testApi.getOneById(testId);
-        console.log(res);
+        setTest(res.data.data.test);
+        console.log(res.data.data.test);
       } catch (err) {}
     };
     fetch();
-  }, []);
+  }, [testId]);
+
   return (
     <DefaultLayout>
       <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={{ base: 8, md: 10 }}>
@@ -94,7 +98,7 @@ export function TestDetail() {
                 fontSize={{ base: "2xl", sm: "4xl", lg: "4xl" }}
                 noOfLines={1}
               >
-                Bài kiểm tra vào 10 lần 1
+                {test && test.title}
               </Heading>
             </Box>
             <Stack
@@ -107,12 +111,7 @@ export function TestDetail() {
               }
             >
               <VStack spacing={{ base: 4, sm: 6 }}>
-                <Text fontSize={"lg"}>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad
-                  aliquid amet at delectus doloribus dolorum expedita hic, ipsum
-                  maxime modi nam officiis porro, quae, quisquam quos
-                  reprehenderit velit? Natus, totam.
-                </Text>
+                <Text fontSize={"lg"}>{test && test.description}</Text>
               </VStack>
               <Box>
                 <Text
@@ -130,43 +129,44 @@ export function TestDetail() {
                     <Text as={"span"} fontWeight={"bold"}>
                       Thời lượng:
                     </Text>{" "}
-                    20m
+                    {test && test.duration} phút
                   </ListItem>
                   <ListItem>
                     <Text as={"span"} fontWeight={"bold"}>
                       Số câu hỏi:
                     </Text>{" "}
-                    10
+                    {test && test.number_of_questions}
                   </ListItem>
                   <ListItem>
                     <Text as={"span"} fontWeight={"bold"}>
                       Thể loại:
                     </Text>{" "}
-                    Khoa học
+                    {test && test.Category.name}
                   </ListItem>
                   <ListItem>
                     <Text as={"span"} fontWeight={"bold"}>
                       Thời điểm bắt đầu:
                     </Text>{" "}
-                    10:20 12/12/2022
+                    {test &&
+                      moment(test.start_time).format("DD/MM/YYYY - HH:mm")}
                   </ListItem>
                   <ListItem>
                     <Text as={"span"} fontWeight={"bold"}>
                       Thời điểm kết thúc:
                     </Text>{" "}
-                    11:20 12/12/2022
+                    {test && moment(test.end_time).format("DD/MM/YYYY - HH:mm")}
                   </ListItem>
                   <ListItem>
                     <Text as={"span"} fontWeight={"bold"}>
                       Tổng điểm:
                     </Text>{" "}
-                    10
+                    10???
                   </ListItem>
                   <ListItem>
                     <Text as={"span"} fontWeight={"bold"}>
                       Hiển thị kết quả:
                     </Text>{" "}
-                    Không
+                    {test && test.is_show_answer ? "Có" : "Không"}
                   </ListItem>
                 </List>
               </Box>
