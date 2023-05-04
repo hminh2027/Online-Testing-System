@@ -36,6 +36,17 @@ async function getOneByPinCode(code) {
   });
 }
 
+async function getOneById(id) {
+  return prisma.test.findUnique({
+    where: { id },
+    include: {
+      questions: true,
+      attempts: true,
+      Category: true,
+    },
+  });
+}
+
 async function getAllByCategoryId(categoryId) {
   return prisma.test.findMany({
     where: { categoryId },
@@ -50,7 +61,7 @@ module.exports = {
   createOne,
   updateOneById,
   getOneByPinCode,
-  // getOneByEmail,
   getAllPublic,
   getAllByCategoryId,
+  getOneById,
 };

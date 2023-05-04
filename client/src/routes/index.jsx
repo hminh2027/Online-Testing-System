@@ -1,7 +1,7 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Login, Signup, Forgot, Reset } from "../features/auth/pages";
-import { Home } from "../features/test/pages";
+import { Home, TestDetail, TestTaking } from "../features/test/pages";
 import { PrivateRoute } from "../components/common";
 
 export const router = createBrowserRouter([
@@ -36,6 +36,13 @@ export const router = createBrowserRouter([
           { path: "signup", element: <Signup /> },
           { path: "forgot", element: <Forgot /> },
           { path: "reset", element: <Reset /> },
+        ],
+      },
+      {
+        path: "test",
+        children: [
+          { path: ":testId", element: <TestDetail /> },
+          { path: ":testId/taking", element: <TestTaking /> },
         ],
       },
     ],

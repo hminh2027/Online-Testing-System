@@ -45,9 +45,17 @@ const getAllByCategoryId = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json({ data: { tests } });
 });
 
+const getoneById = catchAsync(async (req, res) => {
+  const { testId } = req.params;
+  const test = await testService.getOneById(+testId);
+
+  res.status(httpStatus.OK).json({ data: { test } });
+});
+
 module.exports = {
   createOneQuestion,
   createOne,
   getAllWithCaregory,
   getAllByCategoryId,
+  getoneById,
 };

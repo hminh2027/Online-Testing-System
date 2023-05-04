@@ -12,9 +12,11 @@ import {
   Icon,
   Text,
   useColorModeValue,
+  Center,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
-import { BsFacebook, BsGoogle } from "react-icons/bs";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebook } from "react-icons/fa";
 import { authApi } from "../api/authApi";
 import * as Yup from "yup";
 import { useToast } from "@chakra-ui/react";
@@ -140,28 +142,24 @@ export const Login = () => {
                     <Text fontSize="sm" textAlign={"center"}>
                       Hoặc
                     </Text>
+
                     <Button
-                      bg={"blackAlpha.100"}
-                      color={"black"}
-                      _hover={{
-                        bg: "blackAlpha.200",
-                      }}
+                      w={"full"}
+                      colorScheme={"facebook"}
+                      leftIcon={<FaFacebook />}
                     >
-                      <Flex></Flex>
-                      <Icon mr={"3"} color={"blue.600"} as={BsFacebook} />
-                      Đăng nhập bằng Facebook
+                      <Center>
+                        <Text>Đăng nhập bằng Facebook</Text>
+                      </Center>
                     </Button>
                     <Button
-                      bg={"blackAlpha.100"}
-                      color={"black"}
-                      _hover={{
-                        bg: "blackAlpha.200",
-                      }}
+                      w={"full"}
+                      variant={"outline"}
+                      leftIcon={<FcGoogle />}
                     >
-                      <Flex justify={"space-between"}>
-                        <Icon mr={"3"} color={"red.600"} as={BsGoogle} />
-                        Đăng nhập bằng Google
-                      </Flex>
+                      <Center>
+                        <Text>Đăng nhập bằng Google</Text>
+                      </Center>
                     </Button>
                   </Stack>
                   <Stack pt={6}>

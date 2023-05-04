@@ -12,7 +12,6 @@ export const CategoryList = () => {
       try {
         const rs = await testApi.getALlWithCategory();
         setCategories(rs.data.data.categories);
-        console.log(rs);
       } catch (e) {
         console.log(e);
       }
