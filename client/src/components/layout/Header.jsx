@@ -12,13 +12,21 @@ import {
   PopoverTrigger,
   PopoverContent,
   useColorModeValue,
-  useBreakpointValue,
   useDisclosure,
+  Menu,
+  MenuButton,
+  Avatar,
+  MenuList,
+  MenuItem,
+  MenuDivider,
 } from "@chakra-ui/react";
+import { BiChevronDown } from "react-icons/bi";
 import { Logo } from "../common";
+import { useAuth } from "../../features/auth/stores/useAuth";
 
 export function Header() {
   const { isOpen, onToggle } = useDisclosure();
+  const isAuthed = useAuth((state) => state.isAuthed());
 
   return (
     <Box position={"fixed"} top={0} right={0} left={0} zIndex={999}>
@@ -51,37 +59,58 @@ export function Header() {
             <DesktopNav />
           </Flex>
         </Flex>
-
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={"flex-end"}
-          direction={"row"}
-          spacing={6}
-        >
-          <Button
-            as={"a"}
-            fontSize={"sm"}
-            fontWeight={400}
-            variant={"link"}
-            href={"#"}
+        {isAuthed ? (
+          <Menu>
+            <MenuButton
+              as={Button}
+              rounded={"full"}
+              variant={"link"}
+              cursor={"pointer"}
+              minW={0}
+            >
+              <Avatar
+                size={"sm"}
+                src={
+                  "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
+                }
+              />
+            </MenuButton>
+            <MenuList>
+              <MenuItem>Link 1</MenuItem>
+              <MenuItem>Link 2</MenuItem>
+              <MenuDivider />
+              <MenuItem>Link 3</MenuItem>
+            </MenuList>
+          </Menu>
+        ) : (
+          <Stack
+            flex={{ base: 1, md: 0 }}
+            justify={"flex-end"}
+            direction={"row"}
+            spacing={6}
           >
-            Sign In
-          </Button>
-          <Button
-            as={"a"}
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"white"}
-            bg={"pink.400"}
-            href={"#"}
-            _hover={{
-              bg: "pink.300",
-            }}
-          >
-            Sign Up
-          </Button>
-        </Stack>
+            <Button
+              as={"a"}
+              fontSize={"sm"}
+              fontWeight={400}
+              variant={"link"}
+              colorScheme="linkedin"
+              href={"/auth/login"}
+            >
+              Đăng nhập
+            </Button>
+            <Button
+              as={"a"}
+              display={{ base: "none", md: "inline-flex" }}
+              fontSize={"sm"}
+              fontWeight={600}
+              colorScheme="linkedin"
+              href={"/auth/signup"}
+            >
+              Đăng kí
+            </Button>
+          </Stack>
+        )}
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
@@ -161,17 +190,6 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
           </Text>
           <Text fontSize={"sm"}>{subLabel}</Text>
         </Box>
-        <Flex
-          transition={"all .3s ease"}
-          transform={"translateX(-10px)"}
-          opacity={0}
-          _groupHover={{ opacity: "100%", transform: "translateX(0)" }}
-          justify={"flex-end"}
-          align={"center"}
-          flex={1}
-        >
-          {/* <Icon color={"pink.400"} w={5} h={5} as={ChevronRightIcon} /> */}
-        </Flex>
       </Stack>
     </Link>
   );
@@ -214,7 +232,7 @@ const MobileNavItem = ({ label, children, href }) => {
         </Text>
         {children && (
           <Icon
-            // as={ChevronDownIcon}
+            as={BiChevronDown}
             transition={"all .25s ease-in-out"}
             transform={isOpen ? "rotate(180deg)" : ""}
             w={6}
@@ -246,7 +264,7 @@ const MobileNavItem = ({ label, children, href }) => {
 
 const NAV_ITEMS = [
   {
-    label: "Inspiration",
+    label: "Khám phá",
     children: [
       {
         label: "Explore Design Work",

@@ -1,7 +1,6 @@
 import React from "react";
 import { DefaultLayout } from "../../../components/layout";
-import { TestCard } from "../components/TestCard";
-import { Box, Flex, Spacer } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { CategoryList, CodeInput, SearchInput } from "../components";
 
 export const Home = () => {
