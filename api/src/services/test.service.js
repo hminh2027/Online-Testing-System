@@ -40,7 +40,11 @@ async function getOneById(id) {
   return prisma.test.findUnique({
     where: { id },
     include: {
-      questions: true,
+      questions: {
+        include: {
+          answers: true,
+        },
+      },
       attempts: true,
       Category: true,
     },
