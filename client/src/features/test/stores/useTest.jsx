@@ -3,7 +3,7 @@ import { testApi } from "../api/testApi";
 
 const useTest = create((set) => ({
   test: null,
-  currQuestionIndex: -1,
+  currQuestionIndex: 0,
   userAnswers: null, //[[questionIndex - 1]: answerIndex]
   setTest: async (code) => {
     const { test } = await testApi.getOneByCode(code);
@@ -17,20 +17,17 @@ const useTest = create((set) => ({
   setCurrQuestionIndex: (questionIndex) => {
     set({ currQuestionIndex: questionIndex });
   },
-  setUserAnswers: (questionIndex, answerIndex) => {
-    set((state) => {
-      // state.userAnswers[questionIndex] = { value: answerIndex, doLater: false };
-      return {
-        userAnswers: state.userAnswers.map((answer, index) => {
-          if (index === questionIndex)
-            return {
-              ...answer,
-              value: answerIndex,
-            };
-          else return answer;
-        }),
-      };
-    });
+  setUserAnswers: (questionIndex, value) => {
+    set((state) => ({
+      userAnswers: state.userAnswers.map((answer, index) => {
+        if (index === questionIndex)
+          return {
+            ...answer,
+            value,
+          };
+        else return answer;
+      }),
+    }));
   },
   setDoLater: (questionIndex) => {
     set((state) => {

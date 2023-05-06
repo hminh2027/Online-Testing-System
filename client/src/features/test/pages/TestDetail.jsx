@@ -1,45 +1,54 @@
 import {
+  Avatar,
   Box,
-  Stack,
-  Text,
-  Image,
-  Flex,
-  VStack,
   Button,
+  ButtonGroup,
+  Flex,
   Heading,
-  SimpleGrid,
-  StackDivider,
-  useColorModeValue,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
+  Image,
   List,
   ListItem,
-  TableContainer,
+  SimpleGrid,
+  Spinner,
+  Stack,
+  StackDivider,
   Table,
-  Avatar,
-  ButtonGroup,
+  TableContainer,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+  VStack,
+  useColorModeValue,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { BsShareFill, BsFillPlayFill, BsFillStarFill } from "react-icons/bs";
-import { useParams } from "react-router-dom";
-import { DefaultLayout } from "../../../components/layout";
-import { testApi } from "../api/testApi";
 import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { BsFillPlayFill, BsFillStarFill, BsShareFill } from "react-icons/bs";
+import { Link, useParams } from "react-router-dom";
+import { DefaultLayout } from "../../../components/layout";
+import { useTest } from "../stores/useTest";
 
 export function TestDetail() {
   const { testCode } = useParams();
-  const [test, setTest] = useState(null);
-
+  const [test, setTest] = useTest((state) => [state.test, state.setTest]);
+  const [isFetching, setIsFetching] = useState(true);
   useEffect(() => {
     (async () => {
-      const { test } = await testApi.getOneByCode(testCode);
-      setTest(test);
+      if (!test || test.code !== testCode) await setTest(testCode);
+      setIsFetching(false);
     })();
   }, [testCode]);
 
+  if (isFetching)
+    return (
+      <DefaultLayout>
+        <Flex justifyContent={"center"} alignItems={"center"}>
+          <Spinner size={"xl"} />
+        </Flex>
+      </DefaultLayout>
+    );
   return (
     <DefaultLayout>
       <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={{ base: 8, md: 10 }}>
@@ -61,14 +70,17 @@ export function TestDetail() {
               variant="outline"
               spacing="6"
             >
-              <Button
-                size="lg"
-                colorScheme="linkedin"
-                variant="solid"
-                rightIcon={<BsFillPlayFill />}
-              >
-                Làm bài
-              </Button>
+              <Link to={`/test/${test.code}/taking`}>
+                <Button
+                  size="lg"
+                  colorScheme="linkedin"
+                  variant="solid"
+                  rightIcon={<BsFillPlayFill />}
+                >
+                  Làm bài
+                </Button>
+              </Link>
+
               <Button
                 size="lg"
                 colorScheme="linkedin"
