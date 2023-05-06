@@ -5,11 +5,11 @@ const useTest = create((set) => ({
   test: null,
   currQuestionIndex: -1,
   userAnswers: null, //[[questionIndex - 1]: answerIndex]
-  setTest: async (testId) => {
-    const { data } = await testApi.getOneById(testId);
+  setTest: async (code) => {
+    const { test } = await testApi.getOneByCode(code);
     set({
-      test: data.test,
-      userAnswers: new Array(data.test.questions.length)
+      test,
+      userAnswers: new Array(test.questions.length)
         .fill(0)
         .map(() => ({ value: 0, doLater: false })),
     });

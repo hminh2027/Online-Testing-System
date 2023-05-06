@@ -8,7 +8,7 @@ import QuestionDetails from "../components/taking/QuestionDetails";
 import Progress from "../components/taking/Progress";
 
 export const TestTaking = () => {
-  const { testId } = useParams();
+  const { testCode } = useParams();
   const [test, setTest, setCurrQuestionIndex] = useTest((state) => [
     state.test,
     state.setTest,
@@ -17,8 +17,9 @@ export const TestTaking = () => {
   const [isFetching, setIsFetching] = useState(true);
   useEffect(() => {
     (async () => {
-      if (!test || test.id !== +testId) {
-        await setTest(testId);
+      console.log(testCode);
+      if (!test || test.code !== testCode) {
+        await setTest(testCode);
         setIsFetching(false);
       }
     })();
