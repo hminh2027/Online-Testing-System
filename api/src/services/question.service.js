@@ -8,7 +8,7 @@ async function createOne(data) {
       is_multiple: data.isMultiple,
       image_url: data.imageUrl,
       score: data.score,
-      testId: +data.testId,
+      testCode: data.testCode,
     },
   });
 }

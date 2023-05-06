@@ -1,4 +1,4 @@
-const { authService, tokenService } = require("../services");
+const { authService, tokenService, userService } = require("../services");
 const { catchAsync } = require("../utils");
 const _ = require("lodash");
 const httpStatus = require("http-status");
@@ -34,7 +34,16 @@ const login = catchAsync(async (req, res) => {
     });
 });
 
+const getMe = catchAsync(async (req, res) => {
+  const { id } = req.user;
+  const user = await userService.getOneById(id);
+  res.status(httpStatus.OK).json({
+    data: { user },
+  });
+});
+
 module.exports = {
   signup,
   login,
+  getMe,
 };

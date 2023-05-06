@@ -9,7 +9,9 @@ async function createOne(data) {
 }
 
 async function getAll() {
-  return prisma.category.findMany({ include: { tests: true } });
+  return prisma.category.findMany({
+    include: { tests: { include: { User: true } } },
+  });
 }
 
 module.exports = {

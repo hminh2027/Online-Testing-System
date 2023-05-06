@@ -30,19 +30,15 @@ import { testApi } from "../api/testApi";
 import moment from "moment";
 
 export function TestDetail() {
-  const { testId } = useParams();
+  const { testCode } = useParams();
   const [test, setTest] = useState(null);
 
   useEffect(() => {
-    const fetch = async () => {
-      try {
-        const res = await testApi.getOneById(testId);
-        setTest(res.data.data.test);
-        console.log(res.data.data.test);
-      } catch (err) {}
-    };
-    fetch();
-  }, [testId]);
+    (async () => {
+      const { test } = await testApi.getOneByCode(testCode);
+      setTest(test);
+    })();
+  }, [testCode]);
 
   return (
     <DefaultLayout>
@@ -186,38 +182,25 @@ export function TestDetail() {
             <Thead>
               <Tr>
                 <Th></Th>
-                <Th>Tên</Th>
-                <Th>Điểm</Th>
-                <Th>Trạng thái</Th>
-                <Th>Làm tại</Th>
+                <Th textAlign={"center"}>Tên</Th>
+                <Th textAlign={"center"}>Điểm</Th>
+                <Th textAlign={"center"}>Trạng thái</Th>
+                <Th textAlign={"center"}>Làm tại</Th>
               </Tr>
             </Thead>
             <Tbody>
               <Tr>
-                <Td>
+                <Td textAlign={"center"}>
                   <Avatar
                     src={"https://avatars0.githubusercontent.com/u/1164541?v=4"}
                     alt={"Author"}
                     size="sm"
                   />
                 </Td>
-                <Td>Vu hoang minh</Td>
-                <Td>9</Td>
-                <Td>Hoàn tất</Td>
-                <Td>08:20am 19/09/2023</Td>
-              </Tr>
-              <Tr>
-                <Td>
-                  <Avatar
-                    src={"https://avatars0.githubusercontent.com/u/1164541?v=4"}
-                    alt={"Author"}
-                    size="sm"
-                  />
-                </Td>
-                <Td>Vu hoang minh</Td>
-                <Td>9</Td>
-                <Td>Hoàn tất</Td>
-                <Td>08:20am 19/09/2023</Td>
+                <Td textAlign={"center"}>Vu hoang minh</Td>
+                <Td textAlign={"center"}>9</Td>
+                <Td textAlign={"center"}>Hoàn tất</Td>
+                <Td textAlign={"center"}>08:20am 19/09/2023</Td>
               </Tr>
             </Tbody>
           </Table>

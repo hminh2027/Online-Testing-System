@@ -46,12 +46,17 @@ async function main() {
   logger.info("Test seeded successfully");
 
   // QUESTION & ANSWER;
-  const testsId = await (await prisma.test.findMany()).map((test) => test.id);
-  for (const id of testsId) {
+  const testsCode = await (
+    await prisma.test.findMany()
+  ).map((test) => test.code);
+  for (const code of testsCode) {
     const qns = generateDummyData(5, questionPrototype);
 
     for (const q of qns) {
-      const question = await questionService.createOne({ ...q, testId: id });
+      const question = await questionService.createOne({
+        ...q,
+        testCode: code,
+      });
       q.answers.forEach(async (answer) => {
         await answerService.createOne({ ...answer, questionId: question.id });
       });

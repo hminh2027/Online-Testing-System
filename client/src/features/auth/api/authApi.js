@@ -17,10 +17,13 @@ export const authApi = {
       throw error;
     }
   },
-  // getMe: async () => {
-  //   const result = await axiosInstance.post(`users/me`);
-  //   return result;
-  // },
+  getMe: () => {
+    try {
+      return axiosInstance.get(`${url}/me`);
+    } catch (error) {
+      throw error;
+    }
+  },
   // refreshToken: async () => {
   //   const result = await axiosInstance.post("auth/token");
   //   return result;

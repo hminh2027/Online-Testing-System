@@ -11,7 +11,6 @@ import {
   Text,
   useColorModeValue,
   Link,
-  useToast,
 } from "@chakra-ui/react";
 import * as Yup from "yup";
 import { authApi } from "../api/authApi";
@@ -34,7 +33,6 @@ const validationSchema = Yup.object().shape({
 });
 
 export const Signup = () => {
-  const toast = useToast();
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -43,21 +41,7 @@ export const Signup = () => {
       cfPassword: "",
     },
     onSubmit: async (values) => {
-      try {
-        const rs = await authApi.signup(values);
-        toast({
-          id: rs.data.message,
-          description: rs.data.message,
-          status: "success",
-        });
-      } catch (err) {
-        !toast.isActive(err.response.data.message) &&
-          toast({
-            id: err.response.data.message,
-            description: err.response.data.message,
-            status: "error",
-          });
-      }
+      await authApi.signup(values);
     },
     validationSchema,
   });

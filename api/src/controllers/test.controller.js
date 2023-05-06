@@ -20,9 +20,9 @@ const createOne = catchAsync(async (req, res) => {
 
 const createOneQuestion = catchAsync(async (req, res) => {
   const { answers } = req.body;
-  const { testId } = req.params;
+  const { testCode } = req.params;
 
-  const question = await questionService.createOne({ ...req.body, testId });
+  const question = await questionService.createOne({ ...req.body, testCode });
   answers.forEach(async (answer) => {
     await answerService.createOne({ ...answer, questionId: question.id });
   });
@@ -45,9 +45,9 @@ const getAllByCategoryId = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json({ data: { tests } });
 });
 
-const getoneById = catchAsync(async (req, res) => {
-  const { testId } = req.params;
-  const test = await testService.getOneById(+testId);
+const getoneByCode = catchAsync(async (req, res) => {
+  const { testCode } = req.params;
+  const test = await testService.getOneByCode(testCode);
 
   res.status(httpStatus.OK).json({ data: { test } });
 });
@@ -57,5 +57,5 @@ module.exports = {
   createOne,
   getAllWithCaregory,
   getAllByCategoryId,
-  getoneById,
+  getoneByCode,
 };

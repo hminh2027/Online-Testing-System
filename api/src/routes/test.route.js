@@ -8,8 +8,8 @@ router.route("/category").get(testController.getAllWithCaregory);
 router.route("/category/:categoryId").get(testController.getAllByCategoryId);
 
 router
-  .route("/:testId")
-  .get(testController.getoneById)
+  .route("/:testCode")
+  .get(testController.getoneByCode)
   .post(testController.createOneQuestion);
 
 // router.route("/:code").get(userController.getOneById);

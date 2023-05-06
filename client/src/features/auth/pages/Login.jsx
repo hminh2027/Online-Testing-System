@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Flex,
   Box,
@@ -9,7 +9,6 @@ import {
   Link,
   Button,
   Heading,
-  Icon,
   Text,
   useColorModeValue,
   Center,
@@ -19,7 +18,6 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { authApi } from "../api/authApi";
 import * as Yup from "yup";
-import { useToast } from "@chakra-ui/react";
 import { useAuth } from "../stores/useAuth";
 import { Navigate, useNavigate } from "react-router-dom";
 
@@ -33,8 +31,8 @@ const validationSchema = Yup.object().shape({
 });
 
 export const Login = () => {
-  const toast = useToast();
   const isAuthed = useAuth((state) => state.isAuthed());
+  const { setUser } = useAuth();
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -43,30 +41,13 @@ export const Login = () => {
       password: "",
     },
     onSubmit: async (values) => {
-      try {
-        const rs = await authApi.login(values);
-        console.log(rs);
-        const { refreshToken } = rs.data.data.tokens;
-        localStorage.setItem(
-          import.meta.env.TOKEN_KEY || "API_TOKEN",
-          refreshToken
-        );
+      const { user, tokens } = await authApi.login(values);
+      setUser(user);
 
-        toast({
-          id: rs.data.message,
-          description: rs.data.message,
-          status: "success",
-        });
-        navigate("/");
-      } catch (err) {
-        console.log(err);
-        !toast.isActive(err.response.data.message) &&
-          toast({
-            id: err.response.data.message,
-            description: err.response.data.message,
-            status: "error",
-          });
-      }
+      const { refreshToken } = tokens;
+      localStorage.setItem(import.meta.env.VITE_TOKEN_KEY, refreshToken);
+
+      navigate("/");
     },
     validationSchema,
   });
