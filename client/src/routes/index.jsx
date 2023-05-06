@@ -3,6 +3,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Login, Signup, Forgot, Reset } from "../features/auth/pages";
 import { Home, TestDetail, TestTaking } from "../features/test/pages";
 import { PrivateRoute } from "../components/common";
+import React from "react";
 
 export const router = createBrowserRouter([
   {

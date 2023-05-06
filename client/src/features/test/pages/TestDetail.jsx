@@ -22,7 +22,7 @@ import {
   Avatar,
   ButtonGroup,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsShareFill, BsFillPlayFill, BsFillStarFill } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 import { DefaultLayout } from "../../../components/layout";
