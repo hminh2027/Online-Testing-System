@@ -16,11 +16,16 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// axiosInstance.interceptors.response.use(onResponseSuccess, (error) => {
-//   // Handle API error here
-//   if (error.response?.status !== 401) {
-//     const errMessage = error.response?.data || error?.response || error;
-//     return Promise.reject(errMessage);
-//   }
-//   return Promise.reject(error);
-// });
+axiosInstance.interceptors.response.use(
+  (res) => {
+    if (res && res.data) return res.data;
+  },
+  (error) => {
+    // Handle API error here
+    if (error.response?.status !== 401) {
+      const errorMsg = error.response?.data || error?.response || error;
+      return Promise.reject(errorMsg);
+    }
+    return Promise.reject(error);
+  }
+);
