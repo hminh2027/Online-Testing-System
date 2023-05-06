@@ -82,7 +82,7 @@ export function Header() {
               cursor={"pointer"}
               minW={0}
             >
-              <Avatar size={"sm"} src={user.avatar_url} />
+              <Avatar name={user.name} size={"sm"} src={user.avatar_url} />
             </MenuButton>
             <MenuList>
               <MenuItem>Thông tin cá nhân</MenuItem>

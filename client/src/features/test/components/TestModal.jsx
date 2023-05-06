@@ -43,7 +43,12 @@ export const TestModal = ({ isOpen, onClose, test }) => {
             {test.title}
           </Text>
           <Stack my={4} direction={"row"} spacing={4} align={"center"}>
-            <Avatar src={test.User.avatar_url} alt={"Author"} size="sm" />
+            <Avatar
+              name={test.User.name}
+              src={test.User.avatar_url}
+              alt={"Author"}
+              size="sm"
+            />
             <Stack direction={"column"} spacing={0} fontSize={"sm"}>
               <Text>{test.User.name}</Text>
             </Stack>
