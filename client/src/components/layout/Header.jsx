@@ -23,10 +23,21 @@ import {
 import { BiChevronDown } from "react-icons/bi";
 import { Logo } from "../common";
 import { useAuth } from "../../features/auth/stores/useAuth";
+import { useEffect } from "react";
+import { authApi } from "../../features/auth/api/authApi";
 
 export function Header() {
   const { isOpen, onToggle } = useDisclosure();
   const isAuthed = useAuth((state) => state.isAuthed());
+  const { user, setUser } = useAuth();
+
+  useEffect(() => {
+    if (!isAuthed) return;
+    (async () => {
+      const { user } = await authApi.getMe();
+      setUser(user);
+    })();
+  }, [isAuthed]);
 
   return (
     <Box position={"fixed"} top={0} right={0} left={0} zIndex={999}>
@@ -59,8 +70,11 @@ export function Header() {
             <DesktopNav />
           </Flex>
         </Flex>
-        {isAuthed ? (
+        {user && isAuthed ? (
           <Menu>
+            <Text mr={3}>
+              Chào mừng trở lại, <b>{user.name}</b>
+            </Text>
             <MenuButton
               as={Button}
               rounded={"full"}
@@ -68,18 +82,13 @@ export function Header() {
               cursor={"pointer"}
               minW={0}
             >
-              <Avatar
-                size={"sm"}
-                src={
-                  "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                }
-              />
+              <Avatar size={"sm"} src={user.avatar_url} />
             </MenuButton>
             <MenuList>
-              <MenuItem>Link 1</MenuItem>
-              <MenuItem>Link 2</MenuItem>
+              <MenuItem>Thông tin cá nhân</MenuItem>
+              <MenuItem>Quản lý bài kiểm tra</MenuItem>
               <MenuDivider />
-              <MenuItem>Link 3</MenuItem>
+              <MenuItem>Đăng xuất</MenuItem>
             </MenuList>
           </Menu>
         ) : (

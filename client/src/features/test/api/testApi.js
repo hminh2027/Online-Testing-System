@@ -24,9 +24,9 @@ export const testApi = {
       throw error;
     }
   },
-  getOneById: (testId) => {
+  getOneByCode: (testCode) => {
     try {
-      return axiosInstance.get(`${url}/${testId}`);
+      return axiosInstance.get(`${url}/${testCode}`);
     } catch (error) {
       throw error;
     }

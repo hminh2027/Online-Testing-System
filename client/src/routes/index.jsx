@@ -9,15 +9,7 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ChakraProvider
-        toastOptions={{
-          defaultOptions: {
-            position: "top-right",
-            isClosable: true,
-            duration: 3000,
-          },
-        }}
-      >
+      <ChakraProvider>
         <Outlet />
       </ChakraProvider>
     ),
@@ -38,9 +30,9 @@ export const router = createBrowserRouter([
       {
         path: "test",
         children: [
-          { path: ":testId", element: <TestDetail /> },
+          { path: ":testCode", element: <TestDetail /> },
           {
-            path: ":testId/taking",
+            path: ":testCode/taking",
             element: <PrivateRoute Component={<TestTaking />} />,
           },
         ],

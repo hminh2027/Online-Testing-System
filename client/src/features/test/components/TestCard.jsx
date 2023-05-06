@@ -5,8 +5,10 @@ import {
   CardHeader,
   CardBody,
   useDisclosure,
+  Divider,
 } from "@chakra-ui/react";
 import { TestModal } from "./TestModal";
+import TestBG from "../../../assets/test.jpg";
 
 export const TestCard = ({ test }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -24,12 +26,20 @@ export const TestCard = ({ test }) => {
           <div
             className="h-full w-full"
             style={{
-              background: `url("https://hatrabbits.com/wp-content/uploads/2018/10/risky-assumptions.jpg") no-repeat 50% 50%/cover`,
+              background: `url(${
+                test.image_url || TestBG
+              }) no-repeat 50% 50%/cover`,
             }}
           ></div>
         </CardHeader>
         <CardBody>
-          <Text size={"lg"}>{test.title}</Text>
+          <Text fontWeight={"bold"} fontSize={"lg"}>
+            {test.title}
+          </Text>
+          <Divider my={2} />
+          <Text fontSize={"sm"}>
+            Mã bài kiểm tra: <i>{test.code}</i>
+          </Text>
         </CardBody>
       </Card>
       <TestModal test={test} isOpen={isOpen} onClose={onClose} />

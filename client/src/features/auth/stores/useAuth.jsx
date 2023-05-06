@@ -1,13 +1,13 @@
 import { create } from "zustand";
 
 const useAuth = create((set) => ({
-  token: localStorage.getItem(import.meta.env.TOKEN_KEY || "API_TOKEN"),
-  setToken: (token) => set({ token }),
   isAuthed: () => {
-    const token = localStorage.getItem(
-      import.meta.env.TOKEN_KEY || "API_TOKEN"
-    );
+    const token = localStorage.getItem(import.meta.env.VITE_TOKEN_KEY);
     return !!token;
+  },
+  user: null,
+  setUser: (user) => {
+    set((state) => ({ ...state, user }));
   },
 }));
 export { useAuth };

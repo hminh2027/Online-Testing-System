@@ -14,8 +14,8 @@ import {
   Divider,
   ButtonGroup,
 } from "@chakra-ui/react";
-
 import { BsFillPlayFill } from "react-icons/bs";
+import TestBG from "../../../assets/test.jpg";
 
 export const TestModal = ({ isOpen, onClose, test }) => {
   return (
@@ -29,9 +29,11 @@ export const TestModal = ({ isOpen, onClose, test }) => {
       <ModalContent>
         <ModalHeader p={0}>
           <div
-            className="w-full h-52"
+            className="h-52 w-full"
             style={{
-              background: `url("https://hatrabbits.com/wp-content/uploads/2018/10/risky-assumptions.jpg") no-repeat 50% 50%/cover`,
+              background: `url(${
+                test.image_url || TestBG
+              }) no-repeat 50% 50%/cover`,
             }}
           ></div>
         </ModalHeader>
@@ -41,25 +43,24 @@ export const TestModal = ({ isOpen, onClose, test }) => {
             {test.title}
           </Text>
           <Stack my={4} direction={"row"} spacing={4} align={"center"}>
-            <Avatar
-              src={"https://avatars0.githubusercontent.com/u/1164541?v=4"}
-              alt={"Author"}
-              size="sm"
-            />
+            <Avatar src={test.User.avatar_url} alt={"Author"} size="sm" />
             <Stack direction={"column"} spacing={0} fontSize={"sm"}>
-              <Text>Achim Rolle</Text>
+              <Text>{test.User.name}</Text>
             </Stack>
           </Stack>
           <Divider orientation="horizontal" />
           <Stack mt={6} direction={"column"}>
             <Text>
-              <b>Thời lượng:</b> 10 phút
+              <b>Thời lượng:</b> {test.duration} phút
             </Text>
             <Text>
-              <b>Số câu hỏi:</b> 5
+              <b>Số câu hỏi:</b> {test.number_of_questions}
             </Text>
             <Text>
               <b>Đánh giá:</b> 4.5/5
+            </Text>
+            <Text>
+              <b>Mã bài:</b> {test.code}
             </Text>
           </Stack>
         </ModalBody>
@@ -70,13 +71,20 @@ export const TestModal = ({ isOpen, onClose, test }) => {
             variant="outline"
             spacing="6"
           >
-            <Button size="lg" colorScheme="linkedin">
+            <Button
+              as={"a"}
+              href={`test/${test.code}`}
+              size="lg"
+              colorScheme="linkedin"
+            >
               Xem chi tiết
             </Button>
             <Button
+              as={"a"}
               size="lg"
               colorScheme="linkedin"
               variant="solid"
+              href={`test/${test.code}/taking`}
               rightIcon={<BsFillPlayFill />}
             >
               Làm bài

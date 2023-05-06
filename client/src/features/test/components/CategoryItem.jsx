@@ -27,7 +27,7 @@ export const CategoryItem = ({ data }) => {
       {data.tests.length > 0 ? (
         <Slider {...settings}>
           {data.tests.map((test) => (
-            <div className="px-4" key={test.id}>
+            <div className="px-4" key={test.code}>
               <Box>
                 <TestCard test={test} />
               </Box>
