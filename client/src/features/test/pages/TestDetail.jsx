@@ -34,10 +34,14 @@ export function TestDetail() {
   const { testCode } = useParams();
   const [test, setTest] = useTest((state) => [state.test, state.setTest]);
   const [isFetching, setIsFetching] = useState(true);
+
   useEffect(() => {
     (async () => {
       if (!test || test.code !== testCode) await setTest(testCode);
       setIsFetching(false);
+      const { test } = await testApi.getOneByCode(testCode);
+      console.log(test);
+      setTest(test);
     })();
   }, [testCode]);
 

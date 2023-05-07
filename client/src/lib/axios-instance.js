@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createStandaloneToast } from "@chakra-ui/react";
-const { ToastContainer, toast } = createStandaloneToast();
+const { toast } = createStandaloneToast();
 
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -43,11 +43,6 @@ axiosInstance.interceptors.response.use(
         duration: 3000,
       });
 
-    // Handle API error here
-    // if (error.response?.status !== 401) {
-    //   const errMessage = error.response?.data || error?.response || error;
-    //   return Promise.reject(errMessage);
-    // }
     return Promise.reject(err);
   }
 );
