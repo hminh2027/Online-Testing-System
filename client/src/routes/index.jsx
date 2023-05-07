@@ -4,6 +4,7 @@ import { Login, Signup, Forgot, Reset } from "../features/auth/pages";
 import { Home, TestDetail, TestTaking } from "../features/test/pages";
 import { PrivateRoute } from "../components/common";
 import React from "react";
+import { NotFound } from "../pages/NotFound";
 
 export const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ export const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 

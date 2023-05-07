@@ -13,6 +13,7 @@ const QuestionGrid = () => {
     const answer = userAnswers[questionIndex];
     let color = answer.value === 0 ? "gray" : "green";
     color = answer.doLater ? "orange" : color;
+    if (test.currQuestionIndex === questionIndex) return "blue";
     return color;
   };
 

@@ -12,8 +12,4 @@ router
   .get(testController.getoneByCode)
   .post(testController.createOneQuestion);
 
-// router.route("/:code").get(userController.getOneById);
-// .get("/tests")
-// .get("/tests/:testsId");
-
 module.exports = router;
