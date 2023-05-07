@@ -19,6 +19,7 @@ const QuestionGrid = () => {
   const handleChangeQuestion = (id) => {
     setCurrQuestionIndex(id);
   };
+
   return (
     <SimpleGrid columns={5} spacing={3} w="fit-content" m="auto">
       {test.questions.map((question) => {
@@ -32,7 +33,7 @@ const QuestionGrid = () => {
             _hover={{ cursor: "pointer" }}
             onClick={() => handleChangeQuestion(question.index)}
           >
-            {question.id}
+            {question.index + 1}
           </Circle>
         );
       })}
