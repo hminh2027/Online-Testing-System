@@ -14,10 +14,9 @@ const PrevBtn = () => {
 
   return (
     <Button
-      textColor="white"
-      bg="gray.500"
-      _hover={{ bg: "gray.700" }}
+      colorScheme="blackAlpha"
       onClick={handlePrev}
+      isDisabled={currQuestionIndex === 0}
     >
       Prev
     </Button>

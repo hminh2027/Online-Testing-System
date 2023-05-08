@@ -16,10 +16,9 @@ const NextBtn = () => {
 
   return (
     <Button
-      textColor="white"
-      bg="blue.500"
-      _hover={{ bg: "blue.700" }}
+      colorScheme="blue"
       onClick={handleNext}
+      isDisabled={currQuestionIndex === test.questions.length - 1}
     >
       Next
     </Button>
