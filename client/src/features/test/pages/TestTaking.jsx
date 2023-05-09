@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 import { DefaultLayout } from "../../../components/layout";
 import { useParams } from "react-router-dom";
 import QuestionGrid from "../components/taking/QuestionGrid";
@@ -10,16 +10,20 @@ import {
   Progress,
   QuestionDetails,
 } from "../components/taking";
+import { shallow } from "zustand/shallow";
+
+const selector = (state) => [
+  state.test,
+  state.setTest,
+  state.currQuestionIndex,
+  state.setCurrQuestionIndex,
+];
 
 export const TestTaking = () => {
   const { testCode } = useParams();
   const [test, setTest, currQuestionIndex, setCurrQuestionIndex] = useTest(
-    (state) => [
-      state.test,
-      state.setTest,
-      state.currQuestionIndex,
-      state.setCurrQuestionIndex,
-    ]
+    selector,
+    shallow
   );
 
   const handleKeyDown = useCallback(
@@ -38,7 +42,7 @@ export const TestTaking = () => {
           return;
       }
     },
-    [currQuestionIndex, test]
+    [currQuestionIndex, test, setCurrQuestionIndex]
   );
 
   useEffect(() => {
@@ -55,7 +59,7 @@ export const TestTaking = () => {
       {test ? (
         <Stack direction="row">
           <Box w="25%">
-            <Flex justifyContent={"center"} alignItems={"center"} mb={3}>
+            <Flex justifyContent="center" alignItems="center" mb={3}>
               <Progress duration={test.duration} />
             </Flex>
             <QuestionGrid />
@@ -63,7 +67,7 @@ export const TestTaking = () => {
           <Box w="75%">
             <QuestionDetails />
             <Container mt={5}>
-              <Stack direction={"row"} justifyContent={"space-around"}>
+              <Stack direction="row" justifyContent="space-around">
                 <PrevBtn />
                 <NextBtn />
               </Stack>
@@ -71,8 +75,8 @@ export const TestTaking = () => {
           </Box>
         </Stack>
       ) : (
-        <Flex justifyContent={"center"} alignItems={"center"}>
-          <Spinner size={"xl"} />
+        <Flex justifyContent="center" alignItems="center">
+          <Spinner size="xl" />
         </Flex>
       )}
     </DefaultLayout>
