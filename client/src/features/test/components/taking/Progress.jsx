@@ -5,7 +5,7 @@ import Countdown from "react-countdown";
 const Timer = memo(function Timer({ duration = 3 }) {
   return (
     <Box fontSize="xl" fontWeight="bold">
-      <Countdown date={Date.now() + duration * 60 * 1000} daysInHours={true} />
+      <Countdown date={Date.now() + 0.1 * 60 * 1000} daysInHours={true} />
     </Box>
   );
 });

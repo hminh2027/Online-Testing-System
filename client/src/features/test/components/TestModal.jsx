@@ -14,6 +14,9 @@ import {
   Divider,
   ButtonGroup,
 } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
+import { Link as ChakraLink } from "@chakra-ui/react";
+
 import { BsFillPlayFill } from "react-icons/bs";
 import TestBG from "../../../assets/test.jpg";
 
@@ -76,24 +79,21 @@ export const TestModal = ({ isOpen, onClose, test }) => {
             variant="outline"
             spacing="6"
           >
-            <Button
-              as={"a"}
-              href={`test/${test.code}`}
-              size="lg"
-              colorScheme="linkedin"
-            >
-              Xem chi tiết
-            </Button>
-            <Button
-              as={"a"}
-              size="lg"
-              colorScheme="linkedin"
-              variant="solid"
-              href={`test/${test.code}/taking`}
-              rightIcon={<BsFillPlayFill />}
-            >
-              Làm bài
-            </Button>
+            <ChakraLink as={RouterLink} to={`test/${test.code}`}>
+              <Button size="lg" colorScheme="linkedin">
+                Xem chi tiết
+              </Button>
+            </ChakraLink>
+            <ChakraLink as={RouterLink} to={`test/${test.code}/taking`}>
+              <Button
+                size="lg"
+                colorScheme="linkedin"
+                variant="solid"
+                rightIcon={<BsFillPlayFill />}
+              >
+                Làm bài
+              </Button>
+            </ChakraLink>
           </ButtonGroup>
         </ModalFooter>
       </ModalContent>

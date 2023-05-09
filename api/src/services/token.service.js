@@ -12,14 +12,14 @@ const generateAuthTokens = (user) => {
   const { id } = user;
   return {
     refreshToken: generateRefreshToken(id),
-    accessToken: generateRefreshToken(id),
+    accessToken: generateAccessToken(id),
   };
 };
 
 const generateRefreshToken = (id) => {
   return generateToken({
     id,
-    type: TOKEN.ACCESS_TOKEN,
+    type: TOKEN.REFRESH_TOKEN,
     expiresIn: config.jwt.rtExpiresIn,
   });
 };

@@ -23,6 +23,7 @@
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.11.0",
     "react-slick": "^0.29.0",
+    "screenfull": "^6.0.2",
     "yup": "^1.1.1",
     "zustand": "^4.3.7"
   },
