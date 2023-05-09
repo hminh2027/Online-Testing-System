@@ -1,14 +1,12 @@
 import {
   Box,
-  Checkbox,
-  CheckboxGroup,
-  Container,
   Flex,
   Image,
   Radio,
   RadioGroup,
   Stack,
   Text,
+  VStack,
 } from "@chakra-ui/react";
 import React, { useMemo } from "react";
 import { shallow } from "zustand/shallow";
@@ -19,11 +17,13 @@ const testSelector = (state) => [
   state.currQuestionIndex,
   state.userAnswers,
   state.setUserAnswers,
-  state.setDoLater,
 ];
+
 const QuestionDetails = () => {
-  const [test, currQuestionIndex, userAnswers, setUserAnswers, setDoLater] =
-    useTest(testSelector, shallow);
+  const [test, currQuestionIndex, userAnswers, setUserAnswers] = useTest(
+    testSelector,
+    shallow
+  );
 
   const question = useMemo(() => {
     return test.questions.find(
@@ -37,17 +37,13 @@ const QuestionDetails = () => {
         currQuestionIndex,
         answer.map((value) => parseInt(value)).sort()
       );
-    else setUserAnswers(currQuestionIndex, parseInt(answer));
-  };
-
-  const handleChangeLater = () => {
-    setDoLater(currQuestionIndex);
+    else setUserAnswers(currQuestionIndex, +answer);
   };
 
   return (
     <Flex width="auto" direction="column" textAlign="center">
       <Text fontSize="3xl" fontWeight="bold">
-        Question Number {question.index + 1}
+        Câu thứ {question.index + 1}
       </Text>
 
       <Text fontSize="xl">{question.text}</Text>
@@ -57,52 +53,95 @@ const QuestionDetails = () => {
         </Box>
       )}
 
-      <Container>
+      <VStack>
         {!question.is_multiple ? (
           <RadioGroup
             onChange={handleChangeAnswer}
             value={userAnswers[currQuestionIndex].value}
+            w="full"
+            mt="5"
           >
             <Stack>
               {question.answers
                 .sort((a, b) => a.index - b.index)
                 .map((answer, index) => (
-                  <Radio key={answer.id} value={answer.index}>
-                    {String.fromCharCode("A".charCodeAt(0) + index)}
-                    {". " + answer.text}
-                  </Radio>
+                  <Flex
+                    border="2px"
+                    borderColor="gray.200"
+                    bgColor={
+                      userAnswers[currQuestionIndex].value === answer.index
+                        ? "green.500"
+                        : "transparent"
+                    }
+                    color={
+                      userAnswers[currQuestionIndex].value === answer.index
+                        ? "white"
+                        : "inherit"
+                    }
+                    boxSizing="border-box"
+                    align="center"
+                    rounded="lg"
+                  >
+                    <Radio
+                      key={answer.id}
+                      value={answer.index}
+                      w="full"
+                      alignItems="center"
+                      justifyContent="center"
+                      py="4"
+                    >
+                      {/* {String.fromCharCode("A".charCodeAt(0) + index)} */}
+                      {answer.text}
+                    </Radio>
+                  </Flex>
                 ))}
             </Stack>
           </RadioGroup>
         ) : (
-          <CheckboxGroup
+          <RadioGroup
             onChange={handleChangeAnswer}
-            value={
-              userAnswers[currQuestionIndex].value === 0
-                ? []
-                : userAnswers[currQuestionIndex].value
-            }
+            value={userAnswers[currQuestionIndex].value}
+            w="full"
+            mt="5"
           >
             <Stack>
               {question.answers
                 .sort((a, b) => a.index - b.index)
                 .map((answer, index) => (
-                  <Checkbox key={answer.id} value={answer.index}>
-                    {String.fromCharCode("A".charCodeAt(0) + index)}
-                    {". " + answer.text}
-                  </Checkbox>
+                  <Flex
+                    border="2px"
+                    borderColor="gray.200"
+                    bgColor={
+                      userAnswers[currQuestionIndex].value === answer.index
+                        ? "green.500"
+                        : "transparent"
+                    }
+                    color={
+                      userAnswers[currQuestionIndex].value === answer.index
+                        ? "white"
+                        : "inherit"
+                    }
+                    boxSizing="border-box"
+                    align="center"
+                    rounded="lg"
+                  >
+                    <Radio
+                      key={answer.id}
+                      value={answer.index}
+                      w="full"
+                      alignItems="center"
+                      justifyContent="center"
+                      py="4"
+                    >
+                      {/* {String.fromCharCode("A".charCodeAt(0) + index)} */}
+                      {answer.text}
+                    </Radio>
+                  </Flex>
                 ))}
             </Stack>
-          </CheckboxGroup>
+          </RadioGroup>
         )}
-
-        <Checkbox
-          onChange={handleChangeLater}
-          isChecked={userAnswers[currQuestionIndex].doLater}
-        >
-          Do later
-        </Checkbox>
-      </Container>
+      </VStack>
     </Flex>
   );
 };

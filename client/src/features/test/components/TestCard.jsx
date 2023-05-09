@@ -33,7 +33,7 @@ export const TestCard = ({ test }) => {
           ></div>
         </CardHeader>
         <CardBody>
-          <Text fontWeight={"bold"} fontSize={"lg"}>
+          <Text fontWeight={"bold"} fontSize={"lg"} noOfLines={2}>
             {test.title}
           </Text>
           <Divider my={2} />
