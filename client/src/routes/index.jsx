@@ -5,6 +5,7 @@ import { Home, TestDetail, TestTaking } from "../features/test/pages";
 import { PrivateRoute } from "../components/common";
 import React from "react";
 import { NotFound } from "../pages/NotFound";
+import TestForm from "../features/management/pages/TestForm";
 
 export const router = createBrowserRouter([
   {
@@ -38,6 +39,13 @@ export const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: 'management',
+        children: [{
+          path: 'test/create',
+          element: <TestForm/>
+        }]
+      }
     ],
   },
   {

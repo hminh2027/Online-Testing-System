@@ -15,8 +15,8 @@ const QuestionCircle = ({ index }) => {
   const getBgColor = (questionIndex) => {
     if (currQuestionIndex === questionIndex) return "linkedin.700";
     const answer = userAnswers[questionIndex];
-    if (answer.value !== 0) return "green";
     if (answer.doLater) return "orange";
+    if (answer.value !== 0) return "green";
     return "gray";
   };
 

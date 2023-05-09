@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { Progress, QuestionDetails } from "../components/taking";
 import screenfull from "screenfull";
+import { shallow } from "zustand/shallow";
 
 export const TestTaking = () => {
   const { testCode } = useParams();
@@ -71,7 +72,7 @@ export const TestTaking = () => {
           return;
       }
     },
-    [currQuestionIndex, test]
+    [currQuestionIndex, test, setCurrQuestionIndex]
   );
 
   const handleButton = (index) => {
@@ -145,8 +146,8 @@ export const TestTaking = () => {
           </Card>
         </Stack>
       ) : (
-        <Flex justifyContent={"center"} alignItems={"center"}>
-          <Spinner size={"xl"} />
+        <Flex justifyContent="center" alignItems="center">
+          <Spinner size="xl" />
         </Flex>
       )}
     </DefaultLayout>
