@@ -13,13 +13,13 @@ import {
   CardFooter,
   Button,
 } from "@chakra-ui/react";
-import io from "socket.io-client";
 import { Progress, QuestionDetails } from "../components/taking";
 import { useAuth } from "../../auth/stores/useAuth";
 import moment from "moment";
 import { attemptApi } from "../api/attemptApi";
+import { socket } from "../../../lib";
 
-const HEARTBEAT_INTERVAL = 5000;
+const HEARTBEAT_INTERVAL = import.meta.env.VITE_HEARTBEAT_INTERVAL;
 export const TestTaking = () => {
   const { testCode } = useParams();
   const [
@@ -59,7 +59,7 @@ export const TestTaking = () => {
             setCurrQuestionIndex(currQuestionIndex + 1);
           break;
         case "ArrowDown":
-          console.log("vkl");
+          console.log("uwu");
           break;
         default:
           return;
@@ -93,7 +93,7 @@ export const TestTaking = () => {
   };
 
   const handleBlur = () => {
-    console.log("well where did you go? +1");
+    socket.emit("tabout", user.id);
   };
 
   const submit = async () => {
@@ -135,23 +135,17 @@ export const TestTaking = () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
       window.removeEventListener("blur", handleBlur);
     };
-  }, []);
+  }, [user]);
 
   useEffect(() => {
-    const socket = io(import.meta.env.VITE_SOCKET_URL);
+    if (!user) return;
     let timer = null;
-    socket.on("connect", () => {
-      if (!user) return;
-      socket.emit("reconnect", user.id);
-      timer = setInterval(() => {
-        socket.emit("heartbeat", user.id);
-      }, HEARTBEAT_INTERVAL);
-    });
-    socket.on("connect_error", () => {
-      setTimeout(() => socket.connect(), HEARTBEAT_INTERVAL);
-    });
-    socket.on("disconnect", () => clearInterval(timer));
-    return () => socket.disconnect();
+    socket.emit("reconnect", user.id);
+    timer = setInterval(() => {
+      socket.emit("heartbeat", user.id);
+    }, HEARTBEAT_INTERVAL);
+
+    return () => clearInterval(timer);
   }, [user]);
 
   return (
