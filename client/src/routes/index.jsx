@@ -1,8 +1,8 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Forgot, Login, Reset, Signup } from "../features/auth/pages";
-import TestForm from "../features/management/pages/TestForm";
 import { Home, TestDetail, TestTaking } from "../features/test/pages";
+import { TestForm, Questions } from "../features/management/pages";
 import { NotFound } from "../pages/NotFound";
 import { DefaultLayout } from "../components/layout";
 import { PrivateRoute } from "../components/common";
@@ -40,27 +40,21 @@ export const router = createBrowserRouter([
               },
             ],
           },
+          {
+            path: "management",
+            children: [
+              {
+                path: "test/:code",
+                element: <Questions />,
+                children: [
+                  { path: "create", element: <TestForm /> },
+                  { path: "questions" },
+                ],
+              },
+            ],
+          },
         ],
       },
-      // {
-      //   path: "test",
-      //   children: [
-      //     { path: ":testCode", element: <TestDetail /> },
-      //     {
-      //       path: ":testCode/taking",
-      //       element: <PrivateRoute Component={<TestTaking />} />,
-      //     },
-      //   ],
-      // },
-      // {
-      //   path: "management",
-      //   children: [
-      //     {
-      //       path: "test/create",
-      //       element: <TestForm />,
-      //     },
-      //   ],
-      // },
     ],
   },
   {
