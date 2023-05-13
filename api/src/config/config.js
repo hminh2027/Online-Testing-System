@@ -48,4 +48,7 @@ module.exports = {
     password: envVars.REDIS_PASSWORD,
     username: envVars.REDIS_USERNAME,
   },
+  socket: {
+    heartbeat: 5000,
+  },
 };

@@ -1,27 +1,28 @@
-// let users = [];
+const config = require("./config/config");
+const { redis } = require("./database/redis");
+
 let users = new Map();
-const HEARTBEAT_INTERVAL = 5000;
 
 module.exports.socketServer = (io) => {
   io.on("connection", (socket) => {
     console.log("client connected: ", socket.id);
 
     // Receive heartbeat from client
-    socket.on("heartbeat", (id) => {
-      const user = users.get(id);
+    socket.on("heartbeat", (userId) => {
+      const user = users.get(userId);
 
       // Update last heartbeat time for user
       if (user) user.lastHeartbeat = Date.now();
       console.log('I"m still alive!');
     });
 
-    socket.on("reconnect", (id) => {
+    socket.on("reconnect", (userId) => {
       // Store user socket connection in users object
-      addUser(id, socket.id);
+      addUser(userId, socket.id);
       console.log("current", users);
 
       const heartbeatInterval = setInterval(() => {
-        const user = users.get(id);
+        const user = users.get(userId);
 
         // Check if user has disconnected
         if (!user) {
@@ -31,7 +32,7 @@ module.exports.socketServer = (io) => {
 
         // Check if user has sent a heartbeat within the specified interval
         const timeSinceLastHeartbeat = Date.now() - user.lastHeartbeat;
-        if (timeSinceLastHeartbeat > HEARTBEAT_INTERVAL * 2) {
+        if (timeSinceLastHeartbeat > config.socket.heartbeat * 2) {
           console.log("User disconnected:", id);
           clearInterval(heartbeatInterval);
           users.delete(id);
@@ -39,13 +40,23 @@ module.exports.socketServer = (io) => {
           console.log("well me go lock the test!!!");
           return;
         }
-      }, HEARTBEAT_INTERVAL);
+      }, config.socket.heartbeat);
+    });
+
+    socket.on("tabout", async (userId) => {
+      const user = getUser(userId);
+      const tab = user.tabout++;
+
+      redis.set(userId, tab);
+      console.log("newone", users);
+
+      console.log("in redis", await redis.get(userId));
     });
   });
 };
 
 const addUser = (userId, socketId) => {
-  users.set(userId, { userId, socketId, lastHeartbeat: Date.now() });
+  users.set(userId, { userId, socketId, lastHeartbeat: Date.now(), tabout: 0 });
 };
 
 const removeUser = (socketId) => {
@@ -53,5 +64,5 @@ const removeUser = (socketId) => {
 };
 
 const getUser = (userId) => {
-  return users.find((user) => user.userId === userId);
+  return users.get(userId);
 };

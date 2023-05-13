@@ -13,6 +13,47 @@ async function createOne(data) {
   });
 }
 
+async function findOne(testCode, questionIndex) {
+  return prisma.question.findFirst({
+    where: {
+      testCode,
+      index: questionIndex,
+    },
+  });
+}
+
+async function updateOne(testCode, questionIndex, data) {
+  const question = await findOne(testCode, questionIndex);
+
+  if (!question)
+    throw new ApiError(httpStatus.NOT_FOUND, "Không tìm thấy câu hỏi này!");
+
+  return prisma.question.update({
+    data: {
+      index: data.index,
+      text: data.text,
+      is_multiple: data.isMultiple,
+      image_url: data.imageUrl,
+      score: data.score,
+    },
+    where: { id: question.id },
+  });
+}
+
+async function deleteOne(testCode, questionIndex) {
+  const question = await findOne(testCode, questionIndex);
+
+  if (!question)
+    throw new ApiError(httpStatus.NOT_FOUND, "Không tìm thấy câu hỏi này!");
+
+  return prisma.question.delete({
+    where: { id: question.id },
+  });
+}
+
 module.exports = {
   createOne,
+  findOne,
+  updateOne,
+  deleteOne,
 };

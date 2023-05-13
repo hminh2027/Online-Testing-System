@@ -63,14 +63,46 @@ async function getAllByCategoryId(categoryId) {
   });
 }
 
-async function updateOneById(id, data) {
-  return prisma.test.update({ where: { id } }, data);
+async function getAllByUserId(userId) {
+  return prisma.test.findMany({
+    where: { userId },
+    include: { Category: true },
+  });
+}
+
+async function updateOneByCode(testCode, data) {
+  const test = await prisma.test.findFirst({
+    where: { code: testCode, userId: data.userId },
+  });
+
+  if (!test)
+    throw new ApiError(httpStatus.NOT_FOUND, "Không tìm thấy bài kiểm tra");
+  if (test.start_time < Date.now())
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Bài kiểm tra đã được thời gian thực hiện"
+    );
+
+  return prisma.test.update({ where: { code: test.code } }, data);
+}
+
+async function deleteOneByCode(testCode, userId) {
+  const test = await prisma.test.findFirst({
+    where: { code: testCode, userId: data.userId },
+  });
+
+  if (!test)
+    throw new ApiError(httpStatus.NOT_FOUND, "Không tìm thấy bài kiểm tra");
+
+  return prisma.test.delete({ where: { code: test.code } });
 }
 
 module.exports = {
   createOne,
-  updateOneById,
   getAllPublic,
   getAllByCategoryId,
+  getAllByUserId,
   getOneByCode,
+  updateOneByCode,
+  deleteOneByCode,
 };
