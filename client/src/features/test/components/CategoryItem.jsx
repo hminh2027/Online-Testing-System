@@ -16,7 +16,7 @@ export const CategoryItem = ({ data }) => {
   return (
     <div className="py-2">
       <Flex justify={"space-between"} align={"center"}>
-        <Text p={4} fontSize="3xl">
+        <Text p={4} fontSize="3xl" textTransform="capitalize">
           {data.name}
         </Text>
         <Button colorScheme={"linkedin"} variant="link">

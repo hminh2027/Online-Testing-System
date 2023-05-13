@@ -23,21 +23,10 @@ import {
 import { BiChevronDown } from "react-icons/bi";
 import { Logo } from "../common";
 import { useAuth } from "../../features/auth/stores/useAuth";
-import { useEffect } from "react";
-import { authApi } from "../../features/auth/api/authApi";
 
 export function Header() {
   const { isOpen, onToggle } = useDisclosure();
-  const isAuthed = useAuth((state) => state.isAuthed());
-  const { user, setUser } = useAuth();
-
-  useEffect(() => {
-    if (!isAuthed) return;
-    (async () => {
-      const { user } = await authApi.getMe();
-      setUser(user);
-    })();
-  }, [isAuthed]);
+  const [isAuthed, user] = useAuth((state) => [state.isAuthed(), state.user]);
 
   return (
     <Box position={"fixed"} top={0} right={0} left={0} zIndex={999}>

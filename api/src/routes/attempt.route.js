@@ -1,15 +1,13 @@
 const express = require("express");
-const { testController } = require("../controllers");
+const { attemptController } = require("../controllers");
+const { auth } = require("../middlewares");
 
 const router = express.Router();
 
-router.route("/").post(testController.createOne);
-router.route("/category").get(testController.getAllWithCaregory);
-router.route("/category/:categoryId").get(testController.getAllByCategoryId);
-
 router
-  .route("/:testCode")
-  .get(testController.getoneByCode)
-  .post(testController.createOneQuestion);
+  .route("/")
+  .put(auth, attemptController.updateOneOngoing)
+  .post(auth, attemptController.createOne);
+router.route("/:testCode").get(auth, attemptController.getOneOngoing);
 
 module.exports = router;

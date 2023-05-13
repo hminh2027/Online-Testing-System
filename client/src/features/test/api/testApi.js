@@ -3,13 +3,13 @@ import { axiosInstance } from "../../../lib";
 const url = "test";
 
 export const testApi = {
-  // create: async (data) => {
-  //   try {
-  //     return await axiosInstance.post(`${url}/login`, data);
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // },
+  create: async (data) => {
+    try {
+      return await axiosInstance.post(`${url}/`, data);
+    } catch (error) {
+      throw error;
+    }
+  },
   getALlWithCategory: () => {
     try {
       return axiosInstance.get(`${url}/category`);

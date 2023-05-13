@@ -1,5 +1,6 @@
 const { faker } = require("@faker-js/faker");
 const { customAlphabet } = require("nanoid");
+const { CATEGORIES } = require("../constants");
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -16,7 +17,8 @@ function testPrototype() {
     is_public: Math.random() < 0.5,
     is_mix: Math.random() < 0.5,
     is_show_answer: Math.random() < 0.5,
-    categoryId: Math.floor(Math.random() * 5) + 1,
+    is_camera_required: Math.random() < 0.5,
+    categoryId: Math.floor(Math.random() * CATEGORIES.length) + 1,
     userId: Math.floor(Math.random() * 5) + 1,
   };
 }

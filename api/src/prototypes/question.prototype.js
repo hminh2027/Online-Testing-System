@@ -2,7 +2,7 @@ const { faker } = require("@faker-js/faker");
 
 function questionPrototype(index) {
   return {
-    index,
+    index: index + 1,
     text: faker.lorem.words(3) + "?",
     isMultiple: false,
     score: 10,

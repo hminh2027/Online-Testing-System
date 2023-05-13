@@ -1,11 +1,11 @@
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
-import { Login, Signup, Forgot, Reset } from "../features/auth/pages";
-import { Home, TestDetail, TestTaking } from "../features/test/pages";
-import { PrivateRoute } from "../components/common";
-import React from "react";
-import { NotFound } from "../pages/NotFound";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { Forgot, Login, Reset, Signup } from "../features/auth/pages";
 import TestForm from "../features/management/pages/TestForm";
+import { Home, TestDetail, TestTaking } from "../features/test/pages";
+import { NotFound } from "../pages/NotFound";
+import { DefaultLayout } from "../components/layout";
+import { PrivateRoute } from "../components/common";
 
 export const router = createBrowserRouter([
   {
@@ -27,25 +27,40 @@ export const router = createBrowserRouter([
       },
       {
         path: "/",
-        element: <Home />,
-      },
-      {
-        path: "test",
+        element: <DefaultLayout />,
         children: [
-          { path: ":testCode", element: <TestDetail /> },
+          { path: "/", element: <Home /> },
           {
-            path: ":testCode/taking",
-            element: <PrivateRoute Component={<TestTaking />} />,
+            path: "test",
+            children: [
+              { path: ":testCode", element: <TestDetail /> },
+              {
+                path: ":testCode/taking",
+                element: <PrivateRoute Component={<TestTaking />} />,
+              },
+            ],
           },
         ],
       },
-      {
-        path: 'management',
-        children: [{
-          path: 'test/create',
-          element: <TestForm/>
-        }]
-      }
+      // {
+      //   path: "test",
+      //   children: [
+      //     { path: ":testCode", element: <TestDetail /> },
+      //     {
+      //       path: ":testCode/taking",
+      //       element: <PrivateRoute Component={<TestTaking />} />,
+      //     },
+      //   ],
+      // },
+      // {
+      //   path: "management",
+      //   children: [
+      //     {
+      //       path: "test/create",
+      //       element: <TestForm />,
+      //     },
+      //   ],
+      // },
     ],
   },
   {

@@ -14,9 +14,9 @@ const QuestionCircle = ({ index }) => {
 
   const getBgColor = (questionIndex) => {
     if (currQuestionIndex === questionIndex) return "linkedin.700";
-    const answer = userAnswers[questionIndex];
+    const answer = userAnswers.get(questionIndex);
     if (answer.doLater) return "orange";
-    if (answer.value !== 0) return "green";
+    if (answer.answerIndex !== 0) return "green";
     return "gray";
   };
 
@@ -34,7 +34,7 @@ const QuestionCircle = ({ index }) => {
       cursor="pointer"
       onClick={() => setCurrQuestionIndex(index)}
     >
-      {index + 1}
+      {index}
     </Circle>
   );
 };

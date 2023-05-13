@@ -1,11 +1,10 @@
 import React from "react";
-import { DefaultLayout } from "../../../components/layout";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Stack } from "@chakra-ui/react";
 import { CategoryList, CodeInput, SearchInput } from "../components";
 
 export const Home = () => {
   return (
-    <DefaultLayout>
+    <Stack>
       <Flex justify={"space-between"}>
         <Box w={"60%"}>
           <SearchInput />
@@ -14,8 +13,7 @@ export const Home = () => {
           <CodeInput />
         </Box>
       </Flex>
-
       <CategoryList />
-    </DefaultLayout>
+    </Stack>
   );
 };
