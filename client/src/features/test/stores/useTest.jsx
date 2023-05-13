@@ -1,47 +1,63 @@
 import { create } from "zustand";
 import { testApi } from "../api/testApi";
+import { attemptApi } from "../api/attemptApi";
 
-const useTest = create((set) => ({
+const useTest = create((set, get) => ({
   test: null,
-  currQuestionIndex: 0,
-  userAnswers: null, //[[questionIndex - 1]: answerIndex]
-  setTest: async (code) => {
-    const { test } = await testApi.getOneByCode(code);
-    set({
-      test,
-      userAnswers: new Array(test.questions.length)
-        .fill(0)
-        .map(() => ({ value: 0, doLater: false })),
-    });
+  attempt: null,
+  currQuestionIndex: 1,
+  userAnswers: null,
+  setAttempt: async (testCode) => {
+    let { attempt } = await attemptApi.getOneByCode(testCode);
+    if (!attempt) {
+      const rs = await attemptApi.create({ testCode });
+      attempt = rs.attempt;
+    }
+
+    set({ attempt });
+  },
+  setTest: async (testCode) => {
+    const { test } = await testApi.getOneByCode(testCode);
+    set({ test });
+  },
+  resumeTest: async (test, attempt) => {
+    const answers = new Map();
+    for (let i = 0; i < test.questions.length; i++) {
+      answers.set(test.questions[i].index, {
+        answerIndex: 0,
+        doLater: false,
+      });
+    }
+
+    for (let i = 0; i < attempt.choices.length; i++) {
+      answers.set(attempt.choices[i].questionIndex, {
+        answerIndex: attempt.choices[i].answerIndex,
+        doLater: false,
+      });
+    }
+    set({ userAnswers: answers });
   },
   setCurrQuestionIndex: (questionIndex) => {
     set({ currQuestionIndex: questionIndex });
   },
-  setUserAnswers: (questionIndex, value) => {
+  setUserAnswers: async (questionIndex, answerIndex) => {
     set((state) => ({
-      userAnswers: state.userAnswers.map((answer, index) => {
-        if (index === questionIndex)
-          return {
-            ...answer,
-            value,
-          };
-        else return answer;
+      userAnswers: state.userAnswers.set(questionIndex, {
+        ...state.userAnswers.get(questionIndex),
+        answerIndex,
       }),
     }));
   },
   setDoLater: (questionIndex) => {
-    set((state) => {
-      return {
-        userAnswers: state.userAnswers.map((answer, index) => {
-          if (index === questionIndex)
-            return {
-              ...answer,
-              doLater: !answer.doLater,
-            };
-          else return answer;
-        }),
-      };
-    });
+    const userAnswers = get().userAnswers;
+    const answer = userAnswers.get(questionIndex);
+
+    set((state) => ({
+      userAnswers: state.userAnswers.set(questionIndex, {
+        ...answer,
+        doLater: !answer.doLater,
+      }),
+    }));
   },
 }));
 export { useTest };

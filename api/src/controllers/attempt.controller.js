@@ -13,6 +13,28 @@ const createOne = catchAsync(async (req, res) => {
     .json({ message: "Bắt đầu làm bài thi!", data: { attempt } });
 });
 
+const getOneOngoing = catchAsync(async (req, res) => {
+  const { id } = req.user;
+  const { testCode } = req.params;
+  let attempt = await attemptService.getOneOngoing({
+    userId: id,
+    testCode,
+  });
+  res.status(httpStatus.OK).json({ data: { attempt } });
+});
+
+const updateOneOngoing = catchAsync(async (req, res) => {
+  const { id } = req.user;
+  const { attemptId } = req.body;
+  let attempt = await attemptService.updateOneById({
+    userId: id,
+    attemptId,
+  });
+  res.status(httpStatus.OK).json({ data: { attempt } });
+});
+
 module.exports = {
   createOne,
+  getOneOngoing,
+  updateOneOngoing,
 };

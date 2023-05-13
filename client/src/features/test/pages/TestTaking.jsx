@@ -1,5 +1,4 @@
-import React, { useEffect, useCallback } from "react";
-import { DefaultLayout } from "../../../components/layout";
+import { useEffect, useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 import QuestionGrid from "../components/taking/QuestionGrid";
 import { useTest } from "../stores/useTest";
@@ -14,10 +13,13 @@ import {
   CardFooter,
   Button,
 } from "@chakra-ui/react";
+import io from "socket.io-client";
 import { Progress, QuestionDetails } from "../components/taking";
-import screenfull from "screenfull";
-import { shallow } from "zustand/shallow";
+import { useAuth } from "../../auth/stores/useAuth";
+import moment from "moment";
+import { attemptApi } from "../api/attemptApi";
 
+const HEARTBEAT_INTERVAL = 5000;
 export const TestTaking = () => {
   const { testCode } = useParams();
   const [
@@ -27,6 +29,9 @@ export const TestTaking = () => {
     setCurrQuestionIndex,
     setDoLater,
     userAnswers,
+    attempt,
+    setAttempt,
+    resumeTest,
   ] = useTest((state) => [
     state.test,
     state.setTest,
@@ -34,25 +39,13 @@ export const TestTaking = () => {
     state.setCurrQuestionIndex,
     state.setDoLater,
     state.userAnswers,
+    state.attempt,
+    state.setAttempt,
+    state.resumeTest,
   ]);
 
-  // const handleClick = () => {
-  //   if (screenfull.isEnabled) {
-  //     console.log(screenfull.isFullscreen);
-  //     screenfull.request();
-  //   }
-  // };
-  // useEffect(() => {
-  //   document.addEventListener("fullscreenchange", (e) => {
-  //     console.log("hello ");
-  //     console.log(screenfull.isFullscreen);
-  //   });
-
-  //   return () => {
-  //     document.removeEventListener("fullscreenchange");
-  //   };
-  // }, []);
-
+  const user = useAuth((state) => state.user);
+  const [time, setTime] = useState(null);
   const handleKeyDown = useCallback(
     (e) => {
       if (!test) return;
@@ -76,7 +69,7 @@ export const TestTaking = () => {
   );
 
   const handleButton = (index) => {
-    if (index > test.questions.length - 1 || index < 0) return;
+    if (index > test.questions.length || index < 1) return;
     setCurrQuestionIndex(index);
   };
 
@@ -86,30 +79,93 @@ export const TestTaking = () => {
 
   const handleSubmit = () => {
     const ans = confirm("Bạn có chắc là muốn nộp bài?");
-    alert(ans);
+    if (ans) {
+      submit();
+    }
+  };
+
+  const handleBeforeUnload = (event) => {
+    if (!confirm("Bạn có chắc là muốn nộp bài?")) {
+      event.preventDefault();
+      event.returnValue = "";
+    }
+    return "Bạn có chắc là muốn rời đi?";
+  };
+
+  const handleBlur = () => {
+    console.log("well where did you go? +1");
+  };
+
+  const submit = async () => {
+    // viet tu dong nop bai + onblur
+    // tu dong redirect vao phan lam bai khi vo web
+    await attemptApi.updateOneOngoing(attempt.id);
   };
 
   useEffect(() => {
-    setTest(testCode);
+    if (!attempt || !test) return;
+    let now = moment(Date.now());
+    let then = moment(attempt.start_time);
+    const diff = now.diff(then, "seconds");
+
+    if (diff > test.duration * 60) {
+      alert("Out of time!");
+      submit();
+    } else setTime(test.duration * 60 - diff);
+  }, [attempt]);
+
+  useEffect(() => {
+    !test && setTest(testCode);
   }, [testCode, setTest]);
 
   useEffect(() => {
+    test && !attempt && setAttempt(testCode);
+  }, [test, testCode]);
+
+  useEffect(() => {
+    test && attempt && resumeTest(test, attempt);
+  }, [test, testCode, attempt]);
+
+  useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [handleKeyDown]);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener("blur", handleBlur);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("blur", handleBlur);
+    };
+  }, []);
+
+  useEffect(() => {
+    const socket = io(import.meta.env.VITE_SOCKET_URL);
+    let timer = null;
+    socket.on("connect", () => {
+      if (!user) return;
+      socket.emit("reconnect", user.id);
+      timer = setInterval(() => {
+        socket.emit("heartbeat", user.id);
+      }, HEARTBEAT_INTERVAL);
+    });
+    socket.on("connect_error", () => {
+      setTimeout(() => socket.connect(), HEARTBEAT_INTERVAL);
+    });
+    socket.on("disconnect", () => clearInterval(timer));
+    return () => socket.disconnect();
+  }, [user]);
 
   return (
-    <DefaultLayout>
-      {test ? (
+    <div>
+      {test && attempt && userAnswers ? (
         <Stack direction="row">
           <Card align="center" justify="center">
             <CardHeader>
               <Flex justifyContent={"center"} alignItems={"center"} mb={3}>
-                <Progress duration={test.duration} />
+                {time && <Progress duration={time} />}
               </Flex>
             </CardHeader>
             <CardBody>
-              <QuestionGrid />
+              <QuestionGrid questions={test.questions} />
             </CardBody>
             <CardFooter>
               <Button w="full" colorScheme="red" onClick={handleSubmit}>
@@ -119,12 +175,16 @@ export const TestTaking = () => {
           </Card>
           <Card w={"75%"}>
             <CardBody>
-              <QuestionDetails />
+              <QuestionDetails
+                question={test.questions.find(
+                  (question) => question.index === currQuestionIndex
+                )}
+              />
             </CardBody>
             <CardFooter justify={"center"}>
               <ButtonGroup spacing="4">
                 <Button colorScheme="orange" onClick={() => handleDoLater()}>
-                  {userAnswers[currQuestionIndex].doLater
+                  {userAnswers.get(currQuestionIndex).doLater
                     ? "Bỏ đánh dấu"
                     : "Đánh dấu"}
                 </Button>
@@ -150,6 +210,6 @@ export const TestTaking = () => {
           <Spinner size="xl" />
         </Flex>
       )}
-    </DefaultLayout>
+    </div>
   );
 };

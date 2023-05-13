@@ -8,42 +8,41 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import React, { useMemo } from "react";
 import { shallow } from "zustand/shallow";
 import { useTest } from "../../stores/useTest";
+import { choiceApi } from "../../api/choiceApi";
 
 const testSelector = (state) => [
-  state.test,
   state.currQuestionIndex,
   state.userAnswers,
   state.setUserAnswers,
+  state.attempt,
 ];
 
-const QuestionDetails = () => {
-  const [test, currQuestionIndex, userAnswers, setUserAnswers] = useTest(
+const QuestionDetails = ({ question }) => {
+  const [currQuestionIndex, userAnswers, setUserAnswers, attempt] = useTest(
     testSelector,
     shallow
   );
 
-  const question = useMemo(() => {
-    return test.questions.find(
-      (question) => question.index === currQuestionIndex
-    );
-  }, [currQuestionIndex]);
-
-  const handleChangeAnswer = (answer) => {
-    if (Array.isArray(answer))
+  const handleChangeAnswer = async (answerIndex) => {
+    if (Array.isArray(answerIndex))
       setUserAnswers(
         currQuestionIndex,
-        answer.map((value) => parseInt(value)).sort()
+        answerIndex.map((value) => parseInt(value)).sort()
       );
-    else setUserAnswers(currQuestionIndex, +answer);
+    else setUserAnswers(currQuestionIndex, +answerIndex);
+    await choiceApi.create({
+      questionIndex: currQuestionIndex,
+      answerIndex: +answerIndex,
+      attemptId: attempt.id,
+    });
   };
 
   return (
     <Flex width="auto" direction="column" textAlign="center">
       <Text fontSize="3xl" fontWeight="bold">
-        Câu thứ {question.index + 1}
+        Câu thứ {question.index}
       </Text>
 
       <Text fontSize="xl">{question.text}</Text>
@@ -57,7 +56,7 @@ const QuestionDetails = () => {
         {!question.is_multiple ? (
           <RadioGroup
             onChange={handleChangeAnswer}
-            value={userAnswers[currQuestionIndex].value}
+            value={userAnswers.get(currQuestionIndex).answerIndex}
             w="full"
             mt="5"
           >
@@ -66,15 +65,18 @@ const QuestionDetails = () => {
                 .sort((a, b) => a.index - b.index)
                 .map((answer, index) => (
                   <Flex
+                    key={answer.index}
                     border="2px"
                     borderColor="gray.200"
                     bgColor={
-                      userAnswers[currQuestionIndex].value === answer.index
+                      userAnswers.get(currQuestionIndex).answerIndex ===
+                      answer.index
                         ? "green.500"
                         : "transparent"
                     }
                     color={
-                      userAnswers[currQuestionIndex].value === answer.index
+                      userAnswers.get(currQuestionIndex).answerIndex ===
+                      answer.index
                         ? "white"
                         : "inherit"
                     }
@@ -90,7 +92,6 @@ const QuestionDetails = () => {
                       justifyContent="center"
                       py="4"
                     >
-                      {/* {String.fromCharCode("A".charCodeAt(0) + index)} */}
                       {answer.text}
                     </Radio>
                   </Flex>
@@ -100,7 +101,7 @@ const QuestionDetails = () => {
         ) : (
           <RadioGroup
             onChange={handleChangeAnswer}
-            value={userAnswers[currQuestionIndex].value}
+            value={userAnswers.get(currQuestionIndex).answerIndex}
             w="full"
             mt="5"
           >
@@ -112,12 +113,14 @@ const QuestionDetails = () => {
                     border="2px"
                     borderColor="gray.200"
                     bgColor={
-                      userAnswers[currQuestionIndex].value === answer.index
+                      userAnswers.get(currQuestionIndex).answerIndex ===
+                      answer.index
                         ? "green.500"
                         : "transparent"
                     }
                     color={
-                      userAnswers[currQuestionIndex].value === answer.index
+                      userAnswers.get(currQuestionIndex).answerIndex ===
+                      answer.index
                         ? "white"
                         : "inherit"
                     }

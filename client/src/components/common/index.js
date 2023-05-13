@@ -1,2 +1,2 @@
-export * from "./PrivateRoute";
-export * from "./Logo";
+export * from "./Logo.jsx";
+export * from "./PrivateRoute.jsx";

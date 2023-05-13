@@ -1,8 +1,6 @@
 import React from "react";
 import { DefaultLayout } from "../../../components/layout";
 
-const Home = () => {
+export const Home = () => {
   return <DefaultLayout>Management Home page</DefaultLayout>;
 };
-
-export default Home;

@@ -1,12 +1,11 @@
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
-import { Login, Signup, Forgot, Reset } from "../features/auth/pages";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { Forgot, Login, Reset, Signup } from "../features/auth/pages";
 import { Home, TestDetail, TestTaking } from "../features/test/pages";
-import { PrivateRoute } from "../components/common";
-import React from "react";
+import { TestForm, Questions } from "../features/management/pages";
 import { NotFound } from "../pages/NotFound";
-import TestForm from "../features/management/pages/TestForm";
-import Questions from "../features/management/pages/Questions";
+import { DefaultLayout } from "../components/layout";
+import { PrivateRoute } from "../components/common";
 
 export const router = createBrowserRouter([
   {
@@ -28,27 +27,30 @@ export const router = createBrowserRouter([
       },
       {
         path: "/",
-        element: <Home />,
-      },
-      {
-        path: "test",
+        element: <DefaultLayout />,
         children: [
-          { path: ":testCode", element: <TestDetail /> },
+          { path: "/", element: <Home /> },
           {
-            path: ":testCode/taking",
-            element: <PrivateRoute Component={<TestTaking />} />,
-          },
-        ],
-      },
-      {
-        path: "management",
-        children: [
-          {
-            path: "test/:code",
-            element: <Questions />,
+            path: "test",
             children: [
-              { path: "create", element: <TestForm /> },
-              { path: "questions" },
+              { path: ":testCode", element: <TestDetail /> },
+              {
+                path: ":testCode/taking",
+                element: <PrivateRoute Component={<TestTaking />} />,
+              },
+            ],
+          },
+          {
+            path: "management",
+            children: [
+              {
+                path: "test/:code",
+                element: <Questions />,
+                children: [
+                  { path: "create", element: <TestForm /> },
+                  { path: "questions" },
+                ],
+              },
             ],
           },
         ],

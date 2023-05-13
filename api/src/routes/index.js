@@ -5,10 +5,12 @@ const userRoute = require("./user.route");
 const authRoute = require("./auth.route");
 const testRoute = require("./test.route");
 const attemptRoute = require("./attempt.route");
+const choiceRoute = require("./choice.route");
 
 router.use("/auth", authRoute);
 router.use("/user", userRoute);
 router.use("/test", testRoute);
 router.use("/attempt", attemptRoute);
+router.use("/choice", choiceRoute);
 
 module.exports = router;

@@ -10,20 +10,18 @@ const { logger } = require("../config");
 const { testPrototype } = require("../prototypes/test.prototype");
 const { userPrototype } = require("../prototypes/user.prototype");
 const { questionPrototype } = require("../prototypes/question.prototype");
+const { CATEGORIES } = require("../constants");
 
 async function main() {
   logger.info("Seeding...");
   // CATEGORY
   await prisma.category.deleteMany();
   await prisma.category.createMany({
-    data: [
-      { name: "Giáo dục" },
-      { name: "Khoa học" },
-      { name: "Giải trí" },
-      { name: "Công nghệ" },
-      { name: "Ngôn ngữ" },
-    ],
+    data: CATEGORIES.map((cate) => {
+      return { name: cate };
+    }),
   });
+
   logger.info("Category seeded successfully");
   // USER
   const users = generateDummyData(5, userPrototype);
@@ -40,7 +38,7 @@ async function main() {
   logger.info("User seeded successfully");
 
   // TEST
-  const tests = generateDummyData(10, testPrototype);
+  const tests = generateDummyData(30, testPrototype);
   await prisma.test.createMany({ data: tests });
 
   logger.info("Test seeded successfully");

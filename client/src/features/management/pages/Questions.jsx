@@ -7,7 +7,7 @@ import { managementApi } from "../api/managementApi";
 import QuestionDetail from "../components/QuestionDetail";
 import { useTest } from "../stores/useTest";
 import { AddQuestionModal } from "../components/modal/QuestionModal";
-const Questions = () => {
+export const Questions = () => {
   const [questions, setQuestions] = useTest((state) => [
     state.questions,
     state.setQuestions,
@@ -58,9 +58,9 @@ const Questions = () => {
   };
 
   const handleEditQuestion = (editIndex) => {
-    const questionToEdit = questions[editIndex]
-    //Do something you might need to do 
-  }
+    const questionToEdit = questions[editIndex];
+    //Do something you might need to do
+  };
 
   return (
     <DefaultLayout>
@@ -103,5 +103,3 @@ const Questions = () => {
     </DefaultLayout>
   );
 };
-
-export default Questions;

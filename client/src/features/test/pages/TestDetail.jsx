@@ -26,7 +26,6 @@ import moment from "moment";
 import React, { useEffect } from "react";
 import { BsFillPlayFill, BsFillStarFill, BsShareFill } from "react-icons/bs";
 import { Link, useParams } from "react-router-dom";
-import { DefaultLayout } from "../../../components/layout";
 import { useTest } from "../stores/useTest";
 import TestBG from "../../../assets/test.jpg";
 
@@ -38,10 +37,8 @@ export function TestDetail() {
     setTest(testCode);
   }, [testCode, setTest]);
 
-  console.log(test);
-
   return (
-    <DefaultLayout>
+    <Stack>
       {test ? (
         <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={{ base: 8, md: 10 }}>
           <Stack>
@@ -211,6 +208,6 @@ export function TestDetail() {
           <Spinner size={"xl"} />
         </Flex>
       )}
-    </DefaultLayout>
+    </Stack>
   );
 }

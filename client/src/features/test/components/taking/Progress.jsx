@@ -5,7 +5,7 @@ import Countdown from "react-countdown";
 const Timer = memo(function Timer({ duration = 3 }) {
   return (
     <Box fontSize="xl" fontWeight="bold">
-      <Countdown date={Date.now() + 0.1 * 60 * 1000} daysInHours={true} />
+      <Countdown date={Date.now() + duration * 1000} daysInHours={true} />
     </Box>
   );
 });
@@ -13,7 +13,7 @@ const Timer = memo(function Timer({ duration = 3 }) {
 let id;
 const Progress = ({ duration }) => {
   const [value, setValue] = useState(0);
-  const jump = useMemo(() => (1000 * 100) / (duration * 1000 * 60), [duration]);
+  const jump = useMemo(() => (1000 * 100) / (duration * 1000), [duration]);
 
   useEffect(() => {
     id = setInterval(() => {
