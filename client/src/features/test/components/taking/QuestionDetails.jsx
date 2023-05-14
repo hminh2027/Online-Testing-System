@@ -49,7 +49,7 @@ const QuestionDetails = ({ question }) => {
     });
   };
 
-  console.log(userAnswers);
+  // console.log(userAnswers);
 
   return (
     <Flex width="auto" direction="column" textAlign="center">
