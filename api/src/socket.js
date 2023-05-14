@@ -33,9 +33,9 @@ module.exports.socketServer = (io) => {
         // Check if user has sent a heartbeat within the specified interval
         const timeSinceLastHeartbeat = Date.now() - user.lastHeartbeat;
         if (timeSinceLastHeartbeat > config.socket.heartbeat * 2) {
-          console.log("User disconnected:", id);
+          console.log("User disconnected:", userId);
           clearInterval(heartbeatInterval);
-          users.delete(id);
+          users.delete(userId);
           // TODO: Update test database to lock test
           console.log("well me go lock the test!!!");
           return;
@@ -45,13 +45,23 @@ module.exports.socketServer = (io) => {
 
     socket.on("tabout", async (userId) => {
       const user = getUser(userId);
+      if (!user) return;
       const tab = user.tabout++;
-
+      console.log("tab", tab);
       redis.set(userId, tab);
-      console.log("newone", users);
+      // console.log("newone", users);
 
-      console.log("in redis", await redis.get(userId));
+      // console.log("in redis", await redis.get(userId));
     });
+
+    socket.on(
+      "changeAnswer",
+      async ({ attemptId, questionIndex, answerIndex }) => {
+        await redis.hset(attemptId, questionIndex, answerIndex);
+        const qns = await redis.hget(attemptId, questionIndex);
+        console.log("qns ans", qns);
+      }
+    );
   });
 };
 
