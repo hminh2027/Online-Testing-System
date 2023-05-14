@@ -1,5 +1,7 @@
 import {
   Box,
+  Checkbox,
+  CheckboxGroup,
   Flex,
   Image,
   Radio,
@@ -27,17 +29,18 @@ const QuestionDetails = ({ question }) => {
   );
 
   const handleChangeAnswer = async (answerIndex) => {
+    console.log(answerIndex);
     if (Array.isArray(answerIndex))
       setUserAnswers(
         currQuestionIndex,
         answerIndex.map((value) => parseInt(value)).sort()
       );
     else setUserAnswers(currQuestionIndex, +answerIndex);
-    await choiceApi.create({
-      questionIndex: currQuestionIndex,
-      answerIndex: +answerIndex,
-      attemptId: attempt.id,
-    });
+    // await choiceApi.create({
+    //   questionIndex: currQuestionIndex,
+    //   answerIndex: +answerIndex,
+    //   attemptId: attempt.id,
+    // });
 
     socket.emit("changeAnswer", {
       attemptId: attempt.id,
@@ -45,6 +48,8 @@ const QuestionDetails = ({ question }) => {
       answerIndex: +answerIndex,
     });
   };
+
+  console.log(userAnswers);
 
   return (
     <Flex width="auto" direction="column" textAlign="center">
@@ -67,7 +72,7 @@ const QuestionDetails = ({ question }) => {
             w="full"
             mt="5"
           >
-            <Stack>
+            <Stack w="full">
               {question.answers
                 .sort((a, b) => a.index - b.index)
                 .map((answer, index) => (
@@ -106,17 +111,18 @@ const QuestionDetails = ({ question }) => {
             </Stack>
           </RadioGroup>
         ) : (
-          <RadioGroup
+          <CheckboxGroup
             onChange={handleChangeAnswer}
             value={userAnswers.get(currQuestionIndex).answerIndex}
             w="full"
             mt="5"
           >
-            <Stack>
+            <Stack w="full">
               {question.answers
                 .sort((a, b) => a.index - b.index)
                 .map((answer, index) => (
                   <Flex
+                    key={answer.index}
                     border="2px"
                     borderColor="gray.200"
                     bgColor={
@@ -135,7 +141,7 @@ const QuestionDetails = ({ question }) => {
                     align="center"
                     rounded="lg"
                   >
-                    <Radio
+                    <Checkbox
                       key={answer.id}
                       value={answer.index}
                       w="full"
@@ -143,13 +149,12 @@ const QuestionDetails = ({ question }) => {
                       justifyContent="center"
                       py="4"
                     >
-                      {/* {String.fromCharCode("A".charCodeAt(0) + index)} */}
                       {answer.text}
-                    </Radio>
+                    </Checkbox>
                   </Flex>
                 ))}
             </Stack>
-          </RadioGroup>
+          </CheckboxGroup>
         )}
       </VStack>
     </Flex>

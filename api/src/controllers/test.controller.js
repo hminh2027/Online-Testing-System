@@ -8,8 +8,8 @@ const { catchAsync } = require("../utils");
 const httpStatus = require("http-status");
 
 const createOne = catchAsync(async (req, res) => {
-  const { userId } = req.params;
-  let test = await testService.createOne({ ...req.body, userId });
+  const { id } = req.user;
+  let test = await testService.createOne({ ...req.body, userId: id });
   res
     .status(httpStatus.CREATED)
     .json({ message: "Tạo bài kiểm tra thành công", data: { test } });

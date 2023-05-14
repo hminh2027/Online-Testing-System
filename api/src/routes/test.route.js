@@ -1,10 +1,10 @@
 const express = require("express");
 const { testController } = require("../controllers");
-const auth = require("../middlewares/auth.middleware");
+const { auth } = require("../middlewares");
 
 const router = express.Router();
 
-router.route("/").post(testController.createOne);
+router.route("/").post(auth, testController.createOne);
 router.route("/category").get(testController.getAllWithCategory);
 router.route("/category/:categoryId").get(testController.getAllByCategoryId);
 

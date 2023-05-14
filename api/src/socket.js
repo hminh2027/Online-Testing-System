@@ -1,5 +1,6 @@
 const config = require("./config/config");
 const { redis } = require("./database/redis");
+const { testService } = require("./services");
 
 let users = new Map();
 
@@ -37,6 +38,7 @@ module.exports.socketServer = (io) => {
           clearInterval(heartbeatInterval);
           users.delete(userId);
           // TODO: Update test database to lock test
+          // await testService.updateOneByCode()
           console.log("well me go lock the test!!!");
           return;
         }
@@ -44,22 +46,22 @@ module.exports.socketServer = (io) => {
     });
 
     socket.on("tabout", async (userId) => {
-      const user = getUser(userId);
-      if (!user) return;
-      const tab = user.tabout++;
-      console.log("tab", tab);
-      redis.set(userId, tab);
-      // console.log("newone", users);
-
-      // console.log("in redis", await redis.get(userId));
+      let tab = await redis.get(userId);
+      if (!tab) tab = 0;
+      await redis.set(userId, +tab + 1);
     });
 
     socket.on(
       "changeAnswer",
       async ({ attemptId, questionIndex, answerIndex }) => {
-        await redis.hset(attemptId, questionIndex, answerIndex);
-        const qns = await redis.hget(attemptId, questionIndex);
-        console.log("qns ans", qns);
+        let attempt = await redis.hget("attempt", attemptId);
+        if (!attempt) attempt = "{}";
+        const object = JSON.parse(qns);
+
+        object[questionIndex] = answerIndex;
+
+        const json = JSON.stringify(object);
+        await redis.hset("attempt", attemptId, json);
       }
     );
   });
