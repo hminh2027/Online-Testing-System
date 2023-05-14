@@ -1,6 +1,17 @@
+const httpStatus = require("http-status");
+const { testService } = require(".");
 const { prisma } = require("../database/prisma-client");
+const { ApiError } = require("../utils");
 
 async function createOne({ userId, testCode }) {
+  const test = await testService.getOneByCode(testCode);
+  if (!test)
+    throw new ApiError(httpStatus.NOT_FOUND, "Bài kiểm tra không tồn tại");
+  if (test.attempts.length >= test.attempt_limit)
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Đã đạt giới hạn làm bài kiểm tra"
+    );
   return prisma.attempt.create({
     data: {
       start_time: new Date(Date.now()),

@@ -11,6 +11,7 @@ import {
 import { shallow } from "zustand/shallow";
 import { useTest } from "../../stores/useTest";
 import { choiceApi } from "../../api/choiceApi";
+import { socket } from "../../../../lib";
 
 const testSelector = (state) => [
   state.currQuestionIndex,
@@ -36,6 +37,12 @@ const QuestionDetails = ({ question }) => {
       questionIndex: currQuestionIndex,
       answerIndex: +answerIndex,
       attemptId: attempt.id,
+    });
+
+    socket.emit("changeAnswer", {
+      attemptId: attempt.id,
+      questionIndex: currQuestionIndex,
+      answerIndex: +answerIndex,
     });
   };
 

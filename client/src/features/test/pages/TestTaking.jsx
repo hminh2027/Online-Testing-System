@@ -94,6 +94,7 @@ export const TestTaking = () => {
 
   const handleBlur = () => {
     socket.emit("tabout", user.id);
+    console.log("Bạn vừa thoát ra ngoài!");
   };
 
   const submit = async () => {
@@ -115,8 +116,8 @@ export const TestTaking = () => {
   }, [attempt]);
 
   useEffect(() => {
-    !test && setTest(testCode);
-  }, [testCode, setTest]);
+    setTest(testCode);
+  }, [testCode]);
 
   useEffect(() => {
     test && !attempt && setAttempt(testCode);

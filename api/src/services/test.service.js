@@ -20,8 +20,16 @@ async function createOne(data) {
       is_mix: data.isMix,
       is_show_answer: data.isShowAnswer,
       is_camera_required: data.isCameraRequired,
-      categoryId: data.categoryId,
-      userId: 1,
+      User: {
+        connect: {
+          id: data.userId,
+        },
+      },
+      Category: {
+        connect: {
+          id: data.categoryId,
+        },
+      },
     },
   });
 }

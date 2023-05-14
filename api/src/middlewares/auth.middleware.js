@@ -11,7 +11,7 @@ const auth = async (req, res, next) => {
     if (!token) throw new Error();
 
     const decoded = jwt.verify(token, config.jwt.secret);
-    if (decoded.type !== TOKEN.ACCESS_TOKEN) throw new Error();
+    if (decoded.type !== TOKEN.REFRESH_TOKEN) throw new Error();
 
     const user = await userService.getOneById(decoded.id);
     if (!user) throw new Error();

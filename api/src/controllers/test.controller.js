@@ -8,8 +8,8 @@ const { catchAsync } = require("../utils");
 const httpStatus = require("http-status");
 
 const createOne = catchAsync(async (req, res) => {
-  // const { userId } = req.params;
-  let test = await testService.createOne(req.body);
+  const { userId } = req.params;
+  let test = await testService.createOne({ ...req.body, userId });
   res
     .status(httpStatus.CREATED)
     .json({ message: "Tạo bài kiểm tra thành công", data: { test } });
@@ -29,7 +29,7 @@ const createOneQuestion = catchAsync(async (req, res) => {
     .json({ message: "Tạo câu hỏi thành công", data: { question } });
 });
 
-const getAllWithCaregory = catchAsync(async (req, res) => {
+const getAllWithCategory = catchAsync(async (req, res) => {
   const categories = await categoryService.getAll();
 
   res.status(httpStatus.OK).json({ data: { categories } });
@@ -118,7 +118,7 @@ const deleteOneQuestion = catchAsync(async (req, res) => {
 module.exports = {
   createOneQuestion,
   createOne,
-  getAllWithCaregory,
+  getAllWithCategory,
   getAllByCategoryId,
   getAllByUserId,
   getoneByCode,
