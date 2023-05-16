@@ -13,7 +13,6 @@ async function createOne(data) {
       title: data.title,
       description: data.description,
       duration: +data.duration,
-      number_of_questions: +data.numberOfQuestions,
       start_time: new Date(data.startTime),
       end_time: data.endTime ? new Date(data.endTime) : null,
       attempt_limit: +data.attemptLimit,
@@ -53,7 +52,11 @@ async function getOneByCode(code) {
           answers: true,
         },
       },
-      attempts: true,
+      attempts: {
+        include: {
+          User: true,
+        },
+      },
       Category: true,
     },
   });
