@@ -1,13 +1,18 @@
 import { ChakraProvider } from "@chakra-ui/react";
+import React from "react";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import { Forgot, Login, Reset, Signup } from "../features/auth/pages";
-import { Home, TestDetail, TestTaking } from "../features/test/pages";
-import { TestForm, Questions } from "../features/management/pages";
-import { NotFound } from "../pages/NotFound";
-import { DefaultLayout } from "../components/layout";
 import { PrivateRoute } from "../components/common";
+import { DefaultLayout } from "../components/layout";
+import { Forgot, Login, Reset, Signup } from "../features/auth/pages";
+import {
+  CreateTest,
+  ManagementHome,
+  Questions,
+} from "../features/management/pages";
+import EditTest from "../features/management/pages/EditTest";
+import { Home, TestDetail, TestTaking } from "../features/test/pages";
 import TestResult from "../features/test/pages/TestResult";
-
+import { NotFound } from "../pages/NotFound";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -49,11 +54,25 @@ export const router = createBrowserRouter([
             path: "management",
             children: [
               {
-                path: "test/:code",
-                element: <Questions />,
+                path: "test",
+
                 children: [
-                  { path: "create", element: <TestForm /> },
-                  { path: "questions" },
+                  {
+                    path: "",
+                    element: <PrivateRoute Component={<ManagementHome />} />,
+                  },
+                  {
+                    path: "create",
+                    element: <PrivateRoute Component={<CreateTest />} />,
+                  },
+                  {
+                    path: ":testCode/edit",
+                    element: <PrivateRoute Component={<EditTest />} />,
+                  },
+                  {
+                    path: ":testCode/questions",
+                    element: <PrivateRoute Component={<Questions />} />,
+                  },
                 ],
               },
             ],

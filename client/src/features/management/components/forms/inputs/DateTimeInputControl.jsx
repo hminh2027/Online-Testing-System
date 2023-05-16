@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import {
   FormControl,
   FormLabel,
@@ -14,6 +14,10 @@ registerLocale("vi", vi);
 const DateTimeInputControl = ({ name, label, required = false }) => {
   const { setFieldValue } = useFormikContext();
   const [field, { error }] = useField(name);
+  useLayoutEffect(() => {
+    if (new Date(field.value).toISOString() === new Date(null).toISOString())
+      setFieldValue(field.name, null);
+  }, [field.name, field.value, setFieldValue]);
   return (
     <FormControl isInvalid={error} my={3} isRequired={required}>
       <FormLabel>{label}</FormLabel>

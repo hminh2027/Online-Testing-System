@@ -1,8 +1,7 @@
-import { Box, CircularProgress, Flex } from "@chakra-ui/react";
+import { Box, CircularProgress, Flex, Text } from "@chakra-ui/react";
 import React, { useCallback, useEffect } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
-import { DefaultLayout } from "../../../components/layout";
 import { managementApi } from "../api/managementApi";
 import QuestionDetail from "../components/QuestionDetail";
 import { useTest } from "../stores/useTest";
@@ -12,19 +11,18 @@ export const Questions = () => {
     state.questions,
     state.setQuestions,
   ]);
-  const { code } = useParams();
+  const { testCode } = useParams();
   useEffect(() => {
     (async () => {
-      const { test } = await managementApi.getOneByCode(code);
+      const { test } = await managementApi.getOneByCode(testCode);
       setQuestions(test.questions);
     })();
-  }, [code, setQuestions]);
+  }, [testCode, setQuestions]);
 
   const handleDragEnd = useCallback(
     (result) => {
       const sourceIndex = result.source?.index;
       const targetIndex = result.destination?.index;
-      console.log(sourceIndex, targetIndex);
       if (
         sourceIndex === undefined ||
         targetIndex === undefined ||
@@ -62,44 +60,45 @@ export const Questions = () => {
     //Do something you might need to do
   };
 
-  return (
-    <DefaultLayout>
-      {questions ? (
-        <>
-          <AddQuestionModal />
-          <DragDropContext onDragEnd={handleDragEnd}>
-            <Droppable droppableId="questions" type="QUESTION">
-              {(dropProvided) => (
-                <Box
-                  borderRadius="3xl"
-                  w="70%"
-                  mx="auto"
-                  p="10"
-                  bg="white"
-                  ref={dropProvided.innerRef}
-                  {...dropProvided.dragHandleProps}
-                  {...dropProvided.draggableProps}
-                >
-                  {questions.map((q, index) => (
-                    <QuestionDetail
-                      key={q.index}
-                      question={q}
-                      index={index}
-                      onDelete={handleDeleteQuestion}
-                      onEdit={handleEditQuestion}
-                    />
-                  ))}
-                  {dropProvided.placeholder}
-                </Box>
+  return questions ? (
+    <>
+      <AddQuestionModal />
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <Droppable droppableId="questions" type="QUESTION">
+          {(dropProvided) => (
+            <Box
+              borderRadius="3xl"
+              w="70%"
+              mx="auto"
+              p="10"
+              bg="white"
+              ref={dropProvided.innerRef}
+              {...dropProvided.dragHandleProps}
+              {...dropProvided.draggableProps}
+            >
+              {questions.length === 0 && (
+                <Text fontSize="xl" fontWeight="bold" textAlign="center">
+                  Không có dữ liệu
+                </Text>
               )}
-            </Droppable>
-          </DragDropContext>
-        </>
-      ) : (
-        <Flex>
-          <CircularProgress />
-        </Flex>
-      )}
-    </DefaultLayout>
+              {questions.map((q, index) => (
+                <QuestionDetail
+                  key={q.index}
+                  question={q}
+                  index={index}
+                  onDelete={handleDeleteQuestion}
+                  onEdit={handleEditQuestion}
+                />
+              ))}
+              {dropProvided.placeholder}
+            </Box>
+          )}
+        </Droppable>
+      </DragDropContext>
+    </>
+  ) : (
+    <Flex>
+      <CircularProgress />
+    </Flex>
   );
 };

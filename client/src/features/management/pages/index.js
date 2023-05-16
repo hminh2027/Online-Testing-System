@@ -1,3 +1,3 @@
 export * from "./Questions";
-export * from "./TestForm";
-export * from "./Home";
+export * from "./CreateTest";
+export * from "./ManagementHome";

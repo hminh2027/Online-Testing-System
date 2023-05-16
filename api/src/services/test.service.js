@@ -3,7 +3,6 @@ const { customAlphabet } = require("nanoid");
 const ApiError = require("../utils/ApiError");
 const httpStatus = require("http-status");
 const moment = require("moment");
-
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 async function createOne(data) {

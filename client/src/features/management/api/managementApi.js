@@ -3,6 +3,9 @@ import { axiosInstance } from "../../../lib";
 const url = "test";
 
 export const managementApi = {
+  getTestByUserId: (id) => {
+    return axiosInstance.get(`${url}/user/${id}`);
+  },
   getALlWithCategory: () => {
     return axiosInstance.get(`${url}/category`);
   },
@@ -11,6 +14,12 @@ export const managementApi = {
   },
   getOneByCode: (testCode) => {
     return axiosInstance.get(`${url}/${testCode}`);
+  },
+  updateTest: (testCode, data) => {
+    return axiosInstance.put(`${url}/${testCode}`, data);
+  },
+  deleteTest: (testCode) => {
+    return axiosInstance.delete(`${url}/${testCode}`);
   },
   updateQuestions: (testCode, questions) => {
     return axiosInstance.patch(`${url}/${testCode}/questions`, questions);

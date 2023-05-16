@@ -23,11 +23,13 @@ import {
 import { BiChevronDown } from "react-icons/bi";
 import { Logo } from "../common";
 import { useAuth } from "../../features/auth/stores/useAuth";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export function Header() {
   const { isOpen, onToggle } = useDisclosure();
   const [isAuthed, user] = useAuth((state) => [state.isAuthed(), state.user]);
-
+  const navigate = useNavigate();
   return (
     <Box position={"fixed"} top={0} right={0} left={0} zIndex={999}>
       <Flex
@@ -75,7 +77,9 @@ export function Header() {
             </MenuButton>
             <MenuList>
               <MenuItem>Thông tin cá nhân</MenuItem>
-              <MenuItem>Quản lý bài kiểm tra</MenuItem>
+              <MenuItem onClick={() => navigate("/management/test")}>
+                Quản lý bài kiểm tra
+              </MenuItem>
               <MenuDivider />
               <MenuItem>Đăng xuất</MenuItem>
             </MenuList>

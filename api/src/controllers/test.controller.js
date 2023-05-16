@@ -92,7 +92,7 @@ const updateOneQuestion = catchAsync(async (req, res) => {
 const updateOneByCode = catchAsync(async (req, res) => {
   const { testCode } = req.params;
   const { id } = req.user;
-  const data = { ...req.user, userId: id };
+  const data = { ...req.user, userId: id, ...req.body };
   const test = await testService.updateOneByCode(testCode, data);
 
   res
