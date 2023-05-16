@@ -2,6 +2,7 @@ const httpStatus = require("http-status");
 const { testService } = require(".");
 const { prisma } = require("../database/prisma-client");
 const { ApiError } = require("../utils");
+const { redis } = require("../database/redis");
 
 async function createOne({ userId, testCode }) {
   const test = await testService.getOneByCode(testCode);
@@ -99,6 +100,7 @@ async function updateOneById({ userId, attemptId }) {
     data: {
       end_time: new Date(Date.now()),
       score,
+      number_of_tabout: await redis.get(userId),
     },
   });
 }

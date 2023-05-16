@@ -22,28 +22,27 @@ model User {
 }
 
 model Test {
-  code                String     @id
-  title               String
-  description         String?    @db.LongText
-  image_url           String?    @db.LongText
-  duration            Int
-  number_of_questions Int
-  start_time          DateTime   @default(now())
-  end_time            DateTime?
-  attempt_limit       Int        @default(0)
-  is_public           Boolean    @default(true)
-  is_mix              Boolean    @default(false)
-  is_show_answer      Boolean    @default(false)
-  is_camera_required  Boolean    @default(false)
-  created_at          DateTime   @default(now())
-  userId              Int
+  code               String     @id
+  title              String
+  description        String?    @db.LongText
+  image_url          String?    @db.LongText
+  duration           Int
+  start_time         DateTime   @default(now())
+  end_time           DateTime?
+  attempt_limit      Int        @default(0)
+  is_public          Boolean    @default(true)
+  is_mix             Boolean    @default(false)
+  is_show_answer     Boolean    @default(false)
+  is_camera_required Boolean    @default(false)
+  created_at         DateTime   @default(now())
+  userId             Int
   // relationships
-  ratings             Rating[]
-  User                User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  questions           Question[]
-  attempts            Attempt[]
-  Category            Category   @relation(fields: [categoryId], references: [id])
-  categoryId          Int
+  ratings            Rating[]
+  User               User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  questions          Question[]
+  attempts           Attempt[]
+  Category           Category   @relation(fields: [categoryId], references: [id])
+  categoryId         Int
 }
 
 model Category {

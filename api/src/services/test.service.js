@@ -2,6 +2,7 @@ const { prisma } = require("../database/prisma-client");
 const { customAlphabet } = require("nanoid");
 const ApiError = require("../utils/ApiError");
 const httpStatus = require("http-status");
+const moment = require("moment");
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -93,7 +94,23 @@ async function updateOneByCode(testCode, data) {
 
   return prisma.test.update({
     where: { code: test.code },
-    data: { ...data, end_time: data.endTime ? new Date(data.endTime) : null },
+    data: {
+      title: data.title,
+      description: data.description,
+      duration: +data.duration,
+      start_time: new Date(data.startTime),
+      end_time: data.endTime ? new Date(data.endTime) : null,
+      attempt_limit: +data.attemptLimit,
+      is_public: data.isPublic,
+      is_mix: data.isMix,
+      is_show_answer: data.isShowAnswer,
+      is_camera_required: data.isCameraRequired,
+      Category: {
+        connect: {
+          id: data.categoryId,
+        },
+      },
+    },
   });
 }
 

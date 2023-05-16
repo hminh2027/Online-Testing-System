@@ -47,7 +47,7 @@ export function Footer() {
         align={{ base: "center", md: "center" }}
       >
         <Logo />
-        <Text>© 2023 MinhVu2027. All rights reserved</Text>
+        <Text>© 2023 MinhVu2027</Text>
         <Stack direction={"row"} spacing={6}>
           <SocialButton label={"Twitter"} href={"#"}>
             <FaTwitter />

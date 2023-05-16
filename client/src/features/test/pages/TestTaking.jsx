@@ -139,15 +139,15 @@ export const TestTaking = () => {
   }, [user]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !attempt) return;
     let timer = null;
-    socket.emit("reconnect", user.id);
+    socket.emit("reconnect", user.id, attempt.id);
     timer = setInterval(() => {
       socket.emit("heartbeat", user.id);
     }, HEARTBEAT_INTERVAL);
 
     return () => clearInterval(timer);
-  }, [user]);
+  }, [user, attempt]);
 
   return (
     <div>
