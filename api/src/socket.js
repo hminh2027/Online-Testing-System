@@ -1,6 +1,6 @@
 const config = require("./config/config");
 const { redis } = require("./database/redis");
-const { testService } = require("./services");
+const { testService, attemptService } = require("./services");
 
 let users = new Map();
 
@@ -17,12 +17,12 @@ module.exports.socketServer = (io) => {
       console.log('I"m still alive!');
     });
 
-    socket.on("reconnect", (userId) => {
+    socket.on("reconnect", (userId, attemptId) => {
       // Store user socket connection in users object
       addUser(userId, socket.id);
       console.log("current", users);
 
-      const heartbeatInterval = setInterval(() => {
+      const heartbeatInterval = setInterval(async () => {
         const user = users.get(userId);
 
         // Check if user has disconnected
@@ -38,8 +38,8 @@ module.exports.socketServer = (io) => {
           clearInterval(heartbeatInterval);
           users.delete(userId);
           // TODO: Update test database to lock test
-          // await testService.updateOneByCode()
           console.log("well me go lock the test!!!");
+          await attemptService.updateOneById({ userId, attemptId });
           return;
         }
       }, config.socket.heartbeat);
