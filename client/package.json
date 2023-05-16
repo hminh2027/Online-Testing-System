@@ -13,6 +13,7 @@
     "@chakra-ui/react": "^2.6.0",
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.8",
+    "@google-cloud/text-to-speech": "^4.2.2",
     "axios": "^1.4.0",
     "date-fns": "^2.30.0",
     "formik": "^2.2.9",

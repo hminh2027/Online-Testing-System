@@ -42,6 +42,33 @@ async function getOneOngoing({ userId, testCode }) {
   });
 }
 
+async function getManyByTestCode({ userId, testCode }) {
+  return prisma.attempt.findMany({
+    where: {
+      testCode,
+    },
+    include: {
+      choices: {
+        include: { Answer: true, Question: true },
+      },
+    },
+  });
+}
+
+async function getManyByTestCodeAndUserId({ userId, testCode }) {
+  return prisma.attempt.findMany({
+    where: {
+      userId,
+      testCode,
+    },
+    include: {
+      choices: {
+        include: { Answer: true, Question: true },
+      },
+    },
+  });
+}
+
 async function updateOneById({ userId, attemptId }) {
   const attempt = await prisma.attempt.findFirst({
     where: { id: attemptId, end_time: null, score: null, userId },
@@ -79,5 +106,7 @@ async function updateOneById({ userId, attemptId }) {
 module.exports = {
   createOne,
   getOneOngoing,
+  getManyByTestCode,
+  getManyByTestCodeAndUserId,
   updateOneById,
 };

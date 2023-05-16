@@ -48,7 +48,7 @@ async function main() {
     await prisma.test.findMany()
   ).map((test) => test.code);
   for (const code of testsCode) {
-    const qns = generateDummyData(20, questionPrototype);
+    const qns = generateDummyData(10, questionPrototype);
 
     for (const q of qns) {
       const question = await questionService.createOne({

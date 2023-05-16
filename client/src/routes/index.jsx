@@ -6,6 +6,7 @@ import { TestForm, Questions } from "../features/management/pages";
 import { NotFound } from "../pages/NotFound";
 import { DefaultLayout } from "../components/layout";
 import { PrivateRoute } from "../components/common";
+import TestResult from "../features/test/pages/TestResult";
 
 export const router = createBrowserRouter([
   {
@@ -27,7 +28,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/",
-        element: <DefaultLayout />,
+        element: <PrivateRoute Component={<DefaultLayout />} />,
         children: [
           { path: "/", element: <Home /> },
           {
@@ -36,7 +37,11 @@ export const router = createBrowserRouter([
               { path: ":testCode", element: <TestDetail /> },
               {
                 path: ":testCode/taking",
-                element: <PrivateRoute Component={<TestTaking />} />,
+                element: <TestTaking />,
+              },
+              {
+                path: ":testCode/result",
+                element: <TestResult />,
               },
             ],
           },
