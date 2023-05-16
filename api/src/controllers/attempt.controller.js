@@ -23,6 +23,22 @@ const getOneOngoing = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json({ data: { attempt } });
 });
 
+const getManyByTestCode = catchAsync(async (req, res) => {
+  const { testCode } = req.params;
+  let attempts = await attemptService.getManyByTestCode({ testCode });
+  res.status(httpStatus.OK).json({ data: { attempts } });
+});
+
+const getManyByTestCodeAndUserId = catchAsync(async (req, res) => {
+  const { testCode } = req.params;
+  const { id } = req.user;
+  let attempts = await attemptService.getManyByTestCodeAndUserId({
+    testCode,
+    userId: id,
+  });
+  res.status(httpStatus.OK).json({ data: { attempts } });
+});
+
 const updateOneOngoing = catchAsync(async (req, res) => {
   const { id } = req.user;
   const { attemptId } = req.body;
@@ -36,5 +52,7 @@ const updateOneOngoing = catchAsync(async (req, res) => {
 module.exports = {
   createOne,
   getOneOngoing,
+  getManyByTestCode,
+  getManyByTestCodeAndUserId,
   updateOneOngoing,
 };

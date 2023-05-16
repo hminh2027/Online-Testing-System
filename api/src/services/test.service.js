@@ -14,7 +14,7 @@ async function createOne(data) {
       duration: +data.duration,
       number_of_questions: +data.numberOfQuestions,
       start_time: new Date(data.startTime),
-      end_time: new Date(data.endTime),
+      end_time: data.endTime ? new Date(data.endTime) : null,
       attempt_limit: +data.attemptLimit,
       is_public: data.isPublic,
       is_mix: data.isMix,
@@ -85,18 +85,21 @@ async function updateOneByCode(testCode, data) {
 
   if (!test)
     throw new ApiError(httpStatus.NOT_FOUND, "Không tìm thấy bài kiểm tra");
-  if (test.start_time < Date.now())
+  if (moment(test.start_time).isBefore(moment()))
     throw new ApiError(
       httpStatus.BAD_REQUEST,
-      "Bài kiểm tra đã được thời gian thực hiện"
+      "Không được phép cập nhật bài kiểm tra đã diễn ra!"
     );
 
-  return prisma.test.update({ where: { code: test.code } }, data);
+  return prisma.test.update({
+    where: { code: test.code },
+    data: { ...data, end_time: data.endTime ? new Date(data.endTime) : null },
+  });
 }
 
 async function deleteOneByCode(testCode, userId) {
   const test = await prisma.test.findFirst({
-    where: { code: testCode, userId: data.userId },
+    where: { code: testCode, userId },
   });
 
   if (!test)

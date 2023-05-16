@@ -17,6 +17,13 @@ export const attemptApi = {
       throw error;
     }
   },
+  getAllByCode: async (testCode) => {
+    try {
+      return await axiosInstance.get(`${url}/${testCode}/result`);
+    } catch (error) {
+      throw error;
+    }
+  },
   updateOneOngoing: async (attemptId) => {
     try {
       return await axiosInstance.put(`${url}`, { attemptId });

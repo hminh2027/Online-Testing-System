@@ -14,6 +14,7 @@ import { shallow } from "zustand/shallow";
 import { useTest } from "../../stores/useTest";
 import { choiceApi } from "../../api/choiceApi";
 import { socket } from "../../../../lib";
+import TextToSpeech from "./TextToSpeech";
 
 const testSelector = (state) => [
   state.currQuestionIndex,
@@ -36,26 +37,27 @@ const QuestionDetails = ({ question }) => {
         answerIndex.map((value) => parseInt(value)).sort()
       );
     else setUserAnswers(currQuestionIndex, +answerIndex);
-    // await choiceApi.create({
-    //   questionIndex: currQuestionIndex,
-    //   answerIndex: +answerIndex,
-    //   attemptId: attempt.id,
-    // });
-
-    socket.emit("changeAnswer", {
-      attemptId: attempt.id,
+    await choiceApi.create({
       questionIndex: currQuestionIndex,
       answerIndex: +answerIndex,
+      attemptId: attempt.id,
     });
+
+    // socket.emit("changeAnswer", {
+    //   attemptId: attempt.id,
+    //   questionIndex: currQuestionIndex,
+    //   answerIndex: +answerIndex,
+    // });
   };
 
-  // console.log(userAnswers);
+  console.log(userAnswers.get(currQuestionIndex).answerIndex);
 
   return (
     <Flex width="auto" direction="column" textAlign="center">
       <Text fontSize="3xl" fontWeight="bold">
         Câu thứ {question.index}
       </Text>
+      <TextToSpeech />
 
       <Text fontSize="xl">{question.text}</Text>
       {question.image_url && (
@@ -113,7 +115,11 @@ const QuestionDetails = ({ question }) => {
         ) : (
           <CheckboxGroup
             onChange={handleChangeAnswer}
-            value={userAnswers.get(currQuestionIndex).answerIndex}
+            defaultValue={
+              userAnswers.get(currQuestionIndex).answerIndex === 0
+                ? []
+                : userAnswers.get(currQuestionIndex).answerIndex
+            }
             w="full"
             mt="5"
           >
