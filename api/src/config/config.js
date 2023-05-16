@@ -13,10 +13,6 @@ const envVariables = Joi.object()
     JWT_SECRET: Joi.string().required(),
     JWT_AT_EXPIRE_IN: Joi.string().required(),
     JWT_RT_EXPIRE_IN: Joi.string().required(),
-    REDIS_HOST: Joi.string().required(),
-    REDIS_PORT: Joi.number().required(),
-    REDIS_PASSWORD: Joi.string().required(),
-    REDIS_USERNAME: Joi.string().required(),
   })
   .unknown();
 
@@ -41,12 +37,6 @@ module.exports = {
     secret: envVars.JWT_SECRET,
     atExpiresIn: envVars.JWT_AT_EXPIRE_IN,
     rtExpiresIn: envVars.JWT_RT_EXPIRE_IN,
-  },
-  redis: {
-    host: envVars.REDIS_HOST,
-    port: envVars.REDIS_PORT,
-    password: envVars.REDIS_PASSWORD,
-    username: envVars.REDIS_USERNAME,
   },
   socket: {
     heartbeat: 5000,

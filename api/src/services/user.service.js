@@ -6,7 +6,7 @@ async function createOne({ name, password, email }) {
   });
 }
 
-async function getOneByEmail({ email }) {
+async function getOneByEmail(email) {
   return prisma.user.findFirst({
     where: { email },
   });
@@ -15,6 +15,19 @@ async function getOneByEmail({ email }) {
 async function getOneById(id) {
   return prisma.user.findUnique({
     where: { id },
+  });
+}
+
+async function getOneByUsername(username) {
+  return prisma.user.findFirst({
+    where: { username },
+  });
+}
+
+async function getManyByUserClassId(userClassId) {
+  return prisma.userClass.findMany({
+    where: { class_id: userClassId },
+    select: { User },
   });
 }
 
@@ -27,4 +40,6 @@ module.exports = {
   getOneById,
   updateOneById,
   getOneByEmail,
+  getOneByUsername,
+  getManyByUserClassId,
 };

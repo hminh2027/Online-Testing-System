@@ -8,118 +8,113 @@ datasource db {
 }
 
 model User {
-  id         Int       @id @default(autoincrement())
-  email      String    @unique
-  name       String
-  password   String    @db.LongText
-  avatar_url String    @db.LongText
-  credit     Int       @default(100)
-  // relationships
-  ratings    Rating[]
-  tests      Test[]
-  drafts     Draft[]
-  attempts   Attempt[]
+  id        Int         @id @default(autoincrement())
+  email     String      @unique
+  name      String
+  password  String      @db.LongText
+  // relations
+  UserClass UserClass[]
+  Class     Class[]
+  Exam      Exam[]
+  Attempt   Attempt[]
 }
 
-model Test {
-  code               String     @id
-  title              String
-  description        String?    @db.LongText
-  image_url          String?    @db.LongText
-  duration           Int
-  start_time         DateTime   @default(now())
-  end_time           DateTime?
-  attempt_limit      Int        @default(0)
-  is_public          Boolean    @default(true)
-  is_mix             Boolean    @default(false)
-  is_show_answer     Boolean    @default(false)
-  is_camera_required Boolean    @default(false)
-  created_at         DateTime   @default(now())
-  userId             Int
-  // relationships
-  ratings            Rating[]
-  User               User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  questions          Question[]
-  attempts           Attempt[]
-  Category           Category   @relation(fields: [categoryId], references: [id])
-  categoryId         Int
+model UserClass {
+  id         Int         @id @default(autoincrement())
+  class_id   Int
+  student_id Int
+  // relations
+  User       User        @relation(fields: [student_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Class      Class       @relation(fields: [class_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  ClassExam  ClassExam[]
 }
 
-model Category {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  tests Test[]
+model Class {
+  id          Int         @id @default(autoincrement())
+  teacher_id  Int
+  name        String
+  image_url   String?
+  description String?     @db.LongText
+  grade       String?
+  password    String?
+  is_public   Boolean     @default(true)
+  // relations
+  User        User        @relation(fields: [teacher_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  UserClass   UserClass[]
+}
+
+model Exam {
+  id          Int         @id @default(autoincrement())
+  teacher_id  Int
+  title       String
+  description String?     @db.LongText
+  image_url   String?     @db.LongText
+  duration    Int
+  created_at  DateTime    @default(now())
+  // relations
+  User        User        @relation(fields: [teacher_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Question    Question[]
+  ClassExam   ClassExam[]
 }
 
 model Question {
-  id          Int      @id @default(autoincrement())
-  index       Int
-  text        String   @db.LongText
-  is_multiple Boolean  @default(false)
-  score       Float    @default(10)
-  // relationships
-  Test        Test     @relation(fields: [testCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
-  testCode    String
-  answers     Answer[]
-  choices     Choice[]
-
-  @@unique([index, testCode])
+  id      Int      @id @default(autoincrement())
+  exam_id Int
+  content String   @db.LongText
+  score   Int
+  // relations
+  Exam    Exam     @relation(fields: [exam_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Answer  Answer[]
+  Choice  Choice[]
 }
 
 model Answer {
-  id         Int      @id @default(autoincrement())
-  index      Int
-  text       String   @db.LongText
-  is_correct Boolean  @default(false)
-  // relationships
-  Question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  questionId Int
-  choices    Choice[]
-
-  @@unique([index, questionId])
+  id          Int      @id @default(autoincrement())
+  question_id Int
+  index       Int
+  content     String   @db.LongText
+  is_correct  Boolean  @default(false)
+  // relations
+  Question    Question @relation(fields: [question_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
-model Draft {
-  id      Int    @id @default(autoincrement())
-  content String @db.LongText
-  // relationships
-  User    User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId  Int
+model ClassExam {
+  id             Int       @id @default(autoincrement())
+  user_class_id  Int
+  exam_id        Int
+  start_time     DateTime  @default(now())
+  end_time       DateTime?
+  attempt_limit  Int?      @default(0)
+  is_public      Boolean?  @default(true)
+  is_mix         Boolean?  @default(false)
+  is_show_answer Boolean?  @default(false)
+  created_at     DateTime  @default(now())
+  // relations
+  UserClass      UserClass @relation(fields: [user_class_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Exam           Exam      @relation(fields: [exam_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Attempt        Attempt[]
 }
 
 model Attempt {
-  id               Int       @id @default(autoincrement())
-  start_time       DateTime  @default(now())
-  end_time         DateTime?
-  score            Float?
-  number_of_tabout Int       @default(0)
-
-  // relationships
-  User     User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId   Int
-  Test     Test     @relation(fields: [testCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
-  testCode String
-  choices  Choice[]
+  id            Int       @id @default(autoincrement())
+  student_id    Int
+  class_exam_id Int
+  start_time    DateTime  @default(now())
+  end_time      DateTime?
+  score         Float?
+  tabouts       Int       @default(0)
+  // relations
+  User          User      @relation(fields: [student_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  ClassExam     ClassExam @relation(fields: [class_exam_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Choice        Choice[]
 }
 
 model Choice {
-  id            Int      @id @default(autoincrement())
-  // relationships
-  Attempt       Attempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  attemptId     Int
-  Question      Question @relation(fields: [questionIndex], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  questionIndex Int
-  Answer        Answer   @relation(fields: [answerIndex], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  answerIndex   Int
-}
-
-model Rating {
-  id       Int     @id @default(autoincrement())
-  rating   Int
-  comment  String? @db.LongText
-  // relationships
-  User     User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId   Int
-  Test     Test    @relation(fields: [testCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
-  testCode String
+  id          Int      @id @default(autoincrement())
+  attempt_id  Int
+  question_id Int
+  answer_id   Int
+  // relations
+  Attempt     Attempt  @relation(fields: [attempt_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Question    Question @relation(fields: [question_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
