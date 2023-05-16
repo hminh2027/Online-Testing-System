@@ -86,12 +86,15 @@ async function updateOneById({ userId, attemptId }) {
     },
   });
 
+  if (!attempt) return;
   let score = 0;
   attempt.choices.map((choice) => {
     if (choice.Answer.is_correct) {
       score += choice.Answer.Question.score;
     }
   });
+
+  const tabout = await redis.get(userId);
 
   return prisma.attempt.update({
     where: {
@@ -100,7 +103,7 @@ async function updateOneById({ userId, attemptId }) {
     data: {
       end_time: new Date(Date.now()),
       score,
-      number_of_tabout: await redis.get(userId),
+      number_of_tabout: +tabout,
     },
   });
 }

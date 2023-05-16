@@ -35,8 +35,9 @@ export function TestDetail() {
 
   useEffect(() => {
     setTest(testCode);
-  }, [testCode, setTest]);
+  }, [testCode]);
 
+  console.log(test);
   return (
     <Stack>
       {test ? (
@@ -125,7 +126,7 @@ export function TestDetail() {
                       <Text as={"span"} fontWeight={"bold"}>
                         Số câu hỏi:
                       </Text>{" "}
-                      {test && test.number_of_questions}
+                      {test && test.questions.length}
                     </ListItem>
                     <ListItem>
                       <Text as={"span"} fontWeight={"bold"}>
@@ -138,20 +139,14 @@ export function TestDetail() {
                         Thời điểm bắt đầu:
                       </Text>{" "}
                       {test &&
-                        moment(test.start_time).format("DD/MM/YYYY - HH:mm")}
+                        moment(test.start_time).format("HH:mm - DD/MM/YYYY")}
                     </ListItem>
                     <ListItem>
                       <Text as={"span"} fontWeight={"bold"}>
                         Thời điểm kết thúc:
                       </Text>{" "}
                       {test &&
-                        moment(test.end_time).format("DD/MM/YYYY - HH:mm")}
-                    </ListItem>
-                    <ListItem>
-                      <Text as={"span"} fontWeight={"bold"}>
-                        Tổng điểm:
-                      </Text>{" "}
-                      10???
+                        moment(test.end_time).format("HH:mm - DD/MM/YYYY")}
                     </ListItem>
                     <ListItem>
                       <Text as={"span"} fontWeight={"bold"}>
@@ -184,21 +179,25 @@ export function TestDetail() {
                 </Tr>
               </Thead>
               <Tbody>
-                <Tr>
-                  <Td textAlign={"center"}>
-                    <Avatar
-                      src={
-                        "https://avatars0.githubusercontent.com/u/1164541?v=4"
-                      }
-                      alt={"Author"}
-                      size="sm"
-                    />
-                  </Td>
-                  <Td textAlign={"center"}>Vu hoang minh</Td>
-                  <Td textAlign={"center"}>9</Td>
-                  <Td textAlign={"center"}>Hoàn tất</Td>
-                  <Td textAlign={"center"}>08:20am 19/09/2023</Td>
-                </Tr>
+                {test.attempts.map((attempt) => (
+                  <Tr>
+                    <Td textAlign={"center"}>
+                      <Avatar
+                        src={attempt.User.avatar_url}
+                        alt={"Author"}
+                        size="sm"
+                      />
+                    </Td>
+                    <Td textAlign={"center"}>{attempt.User.name}</Td>
+                    <Td textAlign={"center"}>{attempt.score}</Td>
+                    <Td textAlign={"center"}>
+                      {attempt.start_time ? "Hoàn tất" : "Chưa hoàn tất"}
+                    </Td>
+                    <Td textAlign={"center"}>
+                      {moment(attempt.start_time).format("HH:mm - DD/MM/YYYY")}
+                    </Td>
+                  </Tr>
+                ))}
               </Tbody>
             </Table>
           </TableContainer>

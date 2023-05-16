@@ -39,7 +39,7 @@ module.exports.socketServer = (io) => {
           users.delete(userId);
           // TODO: Update test database to lock test
           console.log("well me go lock the test!!!");
-          await attemptService.updateOneById({ userId, attemptId });
+          // await attemptService.updateOneById({ userId, attemptId });
           return;
         }
       }, config.socket.heartbeat);
