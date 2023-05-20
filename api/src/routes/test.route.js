@@ -18,10 +18,11 @@ router
   .delete(auth, testController.deleteOneByCode);
 
 router
-  .route("/:testCode/:questionIndex")
+  .route("/:testCode/questions/:questionIndex")
   .put(auth, testController.updateOneQuestion)
   .delete(auth, testController.deleteOneQuestion);
 
+router.route("/:testCode/questions").put(auth, testController.updateQuestionsIndex)
 // router
 //   .route("/:testCode/:questionIndex/:answerIndex")
 //   .put(testController.createOneQuestion)

@@ -4,6 +4,7 @@ const {
   testService,
   categoryService,
 } = require("../services");
+const { updateIndexesByQuestionId } = require("../services/question.service");
 const { catchAsync } = require("../utils");
 const httpStatus = require("http-status");
 
@@ -75,6 +76,14 @@ const updateOneQuestion = catchAsync(async (req, res) => {
 
   res.status(httpStatus.OK).json({ message: "Cập nhật câu hỏi thành công" });
 });
+
+const updateQuestionsIndex = catchAsync(async (req, res) => {
+  const { testCode } = req.params;
+  res
+    .status(httpStatus.OK)
+    .json({ questions: await updateIndexesByQuestionId(testCode, req.body) });
+});
+
 // xem answer update ntn
 // const updateOneAnswer = catchAsync(async (req, res) => {
 //   const { answers } = req.body;
@@ -124,6 +133,7 @@ module.exports = {
   getoneByCode,
   updateOneByCode,
   updateOneQuestion,
+  updateQuestionsIndex,
   deleteOneByCode,
   deleteOneQuestion,
 };

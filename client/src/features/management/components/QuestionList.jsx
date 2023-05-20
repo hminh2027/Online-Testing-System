@@ -3,10 +3,10 @@ import React, { useCallback, useEffect } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
 import { managementApi } from "../api/managementApi";
-import QuestionDetail from "../components/QuestionDetail";
+import QuestionDetail from "./QuestionDetail";
 import { useTest } from "../stores/useTest";
-import { AddQuestionModal } from "../components/modal/QuestionModal";
-export const Questions = () => {
+import { AddQuestionModal } from "./modal/QuestionModal";
+export const QuestionList = () => {
   const [questions, setQuestions] = useTest((state) => [
     state.questions,
     state.setQuestions,
@@ -20,7 +20,7 @@ export const Questions = () => {
   }, [testCode, setQuestions]);
 
   const handleDragEnd = useCallback(
-    (result) => {
+    async (result) => {
       const sourceIndex = result.source?.index;
       const targetIndex = result.destination?.index;
       if (
@@ -32,14 +32,14 @@ export const Questions = () => {
       const newQuestions = structuredClone(questions);
       const [temp] = newQuestions.splice(sourceIndex, 1);
       newQuestions.splice(targetIndex, 0, temp);
-      setQuestions(
-        newQuestions.map((question, index) => ({
-          ...question,
-          index: index + 1,
-        }))
-      );
+      const data = newQuestions.map((question, index) => ({
+        ...question,
+        index: index + 1,
+      }));
+      await managementApi.updateQuestions(testCode, data);
+      setQuestions(data);
     },
-    [questions, setQuestions]
+    [questions, setQuestions, testCode]
   );
 
   const handleDeleteQuestion = (deleteIndex) => {
@@ -62,13 +62,12 @@ export const Questions = () => {
 
   return questions ? (
     <>
-      <AddQuestionModal />
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="questions" type="QUESTION">
           {(dropProvided) => (
             <Box
               borderRadius="3xl"
-              w="70%"
+              w="container.md"
               mx="auto"
               p="10"
               bg="white"
@@ -76,6 +75,9 @@ export const Questions = () => {
               {...dropProvided.dragHandleProps}
               {...dropProvided.draggableProps}
             >
+              <Text fontWeight="bold" fontSize="2xl" textAlign="center">
+                Danh sách câu hỏi
+              </Text>
               {questions.length === 0 && (
                 <Text fontSize="xl" fontWeight="bold" textAlign="center">
                   Không có dữ liệu
@@ -91,6 +93,7 @@ export const Questions = () => {
                 />
               ))}
               {dropProvided.placeholder}
+              <AddQuestionModal />
             </Box>
           )}
         </Droppable>

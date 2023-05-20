@@ -22,9 +22,12 @@ export const managementApi = {
     return axiosInstance.delete(`${url}/${testCode}`);
   },
   updateQuestions: (testCode, questions) => {
-    return axiosInstance.patch(`${url}/${testCode}/questions`, questions);
+    return axiosInstance.put(`${url}/${testCode}/questions`, questions);
   },
   createQuestion: (testCode, question) => {
     return axiosInstance.post(`${url}/${testCode}/questions`, question);
+  },
+  deleteQuestion: (testCode, questionIndex) => {
+    return axiosInstance.delete(`${url}/${testCode}/${questionIndex}`);
   },
 };

@@ -3,6 +3,7 @@ import { EditTestMetadataForm } from "../components/forms/TestMetadataForm";
 import { useParams } from "react-router-dom";
 import { useTest } from "../stores/useTest";
 import { Flex, Spinner } from "@chakra-ui/react";
+import { QuestionList } from "../components/QuestionList";
 
 const EditTest = () => {
   const { testCode } = useParams();
@@ -28,7 +29,10 @@ const EditTest = () => {
         <Spinner />
       </Flex>
     );
-  return <EditTestMetadataForm test={test} />;
+  return <>
+    <EditTestMetadataForm test={test} />
+    <QuestionList/>
+  </>;
 };
 
 export default EditTest;

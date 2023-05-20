@@ -40,6 +40,20 @@ async function updateOne(testCode, questionIndex, data) {
   });
 }
 
+async function updateIndexesByQuestionId(testCode, questions) {
+  console.log(questions);
+  prisma.question.deleteMany({
+    where: { id: { in: questions.map((question) => question.id) } },
+  });
+  return Promise.all(
+    questions.map((question) =>
+      prisma.question.create({
+        data: question,
+      })
+    )
+  );
+}
+
 async function deleteOne(testCode, questionIndex) {
   const question = await findOne(testCode, questionIndex);
 
@@ -56,4 +70,5 @@ module.exports = {
   findOne,
   updateOne,
   deleteOne,
+  updateIndexesByQuestionId,
 };

@@ -6,6 +6,12 @@ const useTest = create((set) => ({
   questions: null,
   fetchTest: async (code) => {
     const { test } = await managementApi.getOneByCode(code);
+    test.questions
+      .sort((a, b) => a.index - b.index)
+      .forEach((q) => ({
+        ...q,
+        answers: q.answers.sort((x, y) => x.index - y.index),
+      }));
     set({ test, questions: test.questions });
   },
   setTest: (test) => {

@@ -11,7 +11,7 @@ import {
   TextareaControl,
 } from "./inputs";
 import AppAlertDialog from "../dialogs/AlertDialog";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FaPaperPlane } from "react-icons/fa";
 import { Action } from "../../../../constants";
 
@@ -64,6 +64,7 @@ const TestMetadataForm = withFormik({
   }),
   validationSchema: TestMetadataFormSchema,
 })(({ handleSubmit }) => {
+  const navigate = useNavigate();
   const { testCode } = useParams();
   const [categories, setCategories] = useState(null);
   const { setFieldValue, values } = useFormikContext();
@@ -85,6 +86,7 @@ const TestMetadataForm = withFormik({
 
   const handleDelete = async () => {
     await managementApi.deleteTest(testCode);
+    navigate("/management/test");
   };
 
   return (

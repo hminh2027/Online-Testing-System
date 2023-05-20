@@ -4,15 +4,12 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { PrivateRoute } from "../components/common";
 import { DefaultLayout } from "../components/layout";
 import { Forgot, Login, Reset, Signup } from "../features/auth/pages";
-import {
-  CreateTest,
-  ManagementHome,
-  Questions,
-} from "../features/management/pages";
+import { CreateTest, ManagementHome } from "../features/management/pages";
 import EditTest from "../features/management/pages/EditTest";
 import { Home, TestDetail, TestTaking } from "../features/test/pages";
 import TestResult from "../features/test/pages/TestResult";
 import { NotFound } from "../pages/NotFound";
+import { QuestionList } from "../features/management/components/QuestionList";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -71,7 +68,7 @@ export const router = createBrowserRouter([
                   },
                   {
                     path: ":testCode/questions",
-                    element: <PrivateRoute Component={<Questions />} />,
+                    element: <PrivateRoute Component={<QuestionList />} />,
                   },
                 ],
               },
