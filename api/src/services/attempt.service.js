@@ -29,13 +29,12 @@ async function createOne({ userId, testCode }) {
   });
 }
 
-async function getOneOngoing({ userId, testCode }) {
+async function getOneOngoing({ userId }) {
   return prisma.attempt.findFirst({
     where: {
       end_time: null,
       score: null,
       userId,
-      testCode,
     },
     include: {
       choices: true,
@@ -43,10 +42,10 @@ async function getOneOngoing({ userId, testCode }) {
   });
 }
 
-async function getManyByTestCode({ userId, testCode }) {
+async function getManyByClassExamId(classExamId) {
   return prisma.attempt.findMany({
     where: {
-      testCode,
+      class_exam_id: classExamId,
     },
     include: {
       choices: {
@@ -56,11 +55,11 @@ async function getManyByTestCode({ userId, testCode }) {
   });
 }
 
-async function getManyByTestCodeAndUserId({ userId, testCode }) {
+async function getManyByClassExamIdAndUserId(classExamId, userId) {
   return prisma.attempt.findMany({
     where: {
       userId,
-      testCode,
+      class_exam_id: classExamId,
     },
     include: {
       choices: {
@@ -70,9 +69,9 @@ async function getManyByTestCodeAndUserId({ userId, testCode }) {
   });
 }
 
-async function updateOneById({ userId, attemptId }) {
+async function updateOneOnGoing(userId) {
   const attempt = await prisma.attempt.findFirst({
-    where: { id: attemptId, end_time: null, score: null, userId },
+    where: { end_time: null, score: null, userId },
     include: {
       choices: {
         include: {
@@ -103,15 +102,25 @@ async function updateOneById({ userId, attemptId }) {
     data: {
       end_time: new Date(Date.now()),
       score,
-      number_of_tabout: +tabout,
+      tabout: +tabout,
     },
   });
 }
 
+async function updateTaboutOnGoing(userId) {
+  const attempt = await getOneOngoing(userId);
+  if (!attempt)
+    throw new ApiError(httpStatus.NOT_FOUND, "Không có bài kiểm tra đang làm");
+  return prisma.attempt.update({
+    where: { id: attempt.id },
+    data: { tabouts: attempt.tabouts + 1 },
+  });
+}
 module.exports = {
   createOne,
   getOneOngoing,
-  getManyByTestCode,
-  getManyByTestCodeAndUserId,
-  updateOneById,
+  getManyByClassExamId,
+  getManyByClassExamIdAndUserId,
+  updateOneOnGoing,
+  updateTaboutOnGoing,
 };

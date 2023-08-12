@@ -6,52 +6,74 @@ async function createOne(data) {
   return prisma.answer.create({
     data: {
       index: data.index,
-      text: data.text,
+      content: data.content,
       is_correct: data.isCorrect,
-      questionId: data.questionId,
+      Question: {
+        connect: {
+          id: data.questionId,
+        },
+      },
     },
   });
 }
 
-// Tim theo id hay index?
-async function findOne(questionId, answerIndex) {
+async function createMany(data) {
+  // return prisma.question.createMany({
+  //   data: {
+  //     index: data.index,
+  //     content: data.content,
+  //     image_url: data.imageUrl,
+  //     score: data.score,
+  //     Exam: {
+  //       connect: { id: data.examId },
+  //     },
+  //   },
+  // });
+}
+
+async function getOneById(id) {
   return prisma.answer.findFirst({
-    where: {
-      questionId,
-      index: answerIndex,
-    },
+    where: { id },
   });
 }
 
-async function updateOne(questionId, answerIndex, data) {
-  const answer = await findOne(questionId, answerIndex);
+async function getManyByQuestionId(questionId) {
+  return prisma.answer.findFirst({
+    where: { question_id: questionId },
+  });
+}
+
+async function updateOneById(id, data) {
+  const answer = await getOneById(id);
 
   if (!answer)
     throw new ApiError(httpStatus.NOT_FOUND, "Không tìm thấy đáp án này!");
 
   return prisma.answer.update({
     data: {
-      text: data.text,
+      content: data.content,
       is_correct: data.isCorrect,
       index: data.index,
     },
-    where: { id: answer.id },
+    where: { id },
   });
 }
 
-async function deleteOne(questionId, answerIndex) {
-  const answer = await findOne(questionId, answerIndex);
+async function deleteOneById(id) {
+  const answer = await getOneById(id);
 
   if (!answer)
     throw new ApiError(httpStatus.NOT_FOUND, "Không tìm thấy đáp án này!");
 
   return prisma.answer.delete({
-    where: { id: answer.id },
+    where: { id },
   });
 }
 
 module.exports = {
   createOne,
-  updateOne,
-  deleteOne,
+  createMany,
+  getManyByQuestionId,
+  updateOneById,
+  deleteOneById,
 };
