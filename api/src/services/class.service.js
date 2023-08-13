@@ -51,7 +51,6 @@ module.exports = {
   createOne,
   getOneById,
   updateOneById,
-  getOneByEmail,
   getOneByUsername,
   getManyByTeacherId,
   getManyByStudentId,

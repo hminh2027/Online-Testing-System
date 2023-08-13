@@ -1,7 +1,7 @@
 const {
   questionService,
   answerService,
-  testService,
+  examService,
   categoryService,
 } = require("../services");
 const { catchAsync } = require("../utils");
@@ -9,7 +9,7 @@ const httpStatus = require("http-status");
 
 const createOne = catchAsync(async (req, res) => {
   const { id } = req.user;
-  let test = await testService.createOne({ ...req.body, userId: id });
+  let test = await examService.createOne({ ...req.body, userId: id });
   res
     .status(httpStatus.CREATED)
     .json({ message: "Tạo bài kiểm tra thành công", data: { test } });
@@ -37,34 +37,30 @@ const getAllWithCategory = catchAsync(async (req, res) => {
 
 const getAllByCategoryId = catchAsync(async (req, res) => {
   const { categoryId } = req.params;
-  const tests = await testService.getAllByCategoryId(categoryId);
+  const tests = await examService.getAllByCategoryId(categoryId);
 
   res.status(httpStatus.OK).json({ data: { tests } });
 });
 
-const getoneByCode = catchAsync(async (req, res) => {
-  const { testCode } = req.params;
-  const test = await testService.getOneByCode(testCode);
+const getoneById = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const exam = await examService.getOneById(id);
 
-  res.status(httpStatus.OK).json({ data: { test } });
+  res.status(httpStatus.OK).json({ data: { exam } });
 });
 
-const getAllByUserId = catchAsync(async (req, res) => {
+const getManyByTeacherId = catchAsync(async (req, res) => {
   const { userId } = req.params;
-  const test = await testService.getAllByUserId(+userId);
+  const exam = await examService.getManyByTeacherId(+userId);
 
-  res.status(httpStatus.OK).json({ data: { test } });
+  res.status(httpStatus.OK).json({ data: { exam } });
 });
 
 const updateOneQuestion = catchAsync(async (req, res) => {
   const { answers } = req.body;
-  const { testCode, questionIndex } = req.params;
+  const { id } = req.params;
 
-  const question = await questionService.updateOne(
-    testCode,
-    questionIndex,
-    req.body
-  );
+  const question = await questionService.updateOneById(id, req.body);
   answers.forEach(async (answer) => {
     await answerService.updateOne(question.id, answer.index, {
       text: answer.text,
@@ -93,7 +89,7 @@ const updateOneByCode = catchAsync(async (req, res) => {
   const { testCode } = req.params;
   const { id } = req.user;
   const data = { ...req.user, userId: id };
-  const test = await testService.updateOneByCode(testCode, data);
+  const test = await examService.updateOneByCode(testCode, data);
 
   res
     .status(httpStatus.OK)
@@ -103,7 +99,7 @@ const updateOneByCode = catchAsync(async (req, res) => {
 const deleteOneByCode = catchAsync(async (req, res) => {
   const { testCode } = req.params;
   const { id } = req.user;
-  await testService.deleteOneByCode(testCode, id);
+  await examService.deleteOneByCode(testCode, id);
 
   res.status(httpStatus.OK).json({ message: "Xóa bài kiểm tra thành công" });
 });

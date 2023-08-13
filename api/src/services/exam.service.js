@@ -17,6 +17,12 @@ async function createOne(data) {
   });
 }
 
+async function getOneById(id) {
+  return prisma.class.findUnique({
+    where: { id },
+  });
+}
+
 async function getManyByTeacherId(teacherId) {
   return prisma.exam.findMany({
     where: { teacher_id: teacherId },
@@ -54,6 +60,7 @@ async function deleteOneById(id, teacherId) {
 
 module.exports = {
   createOne,
+  getOneById,
   getManyByTeacherId,
   updateOneById,
   deleteOneById,

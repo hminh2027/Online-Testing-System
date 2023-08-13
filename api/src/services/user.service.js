@@ -18,19 +18,6 @@ async function getOneById(id) {
   });
 }
 
-async function getOneByUsername(username) {
-  return prisma.user.findFirst({
-    where: { username },
-  });
-}
-
-async function getManyByUserClassId(userClassId) {
-  return prisma.userClass.findMany({
-    where: { class_id: userClassId },
-    select: { User },
-  });
-}
-
 async function updateOneById(id, data) {
   return prisma.user.update({ where: { id } }, data);
 }
@@ -40,6 +27,4 @@ module.exports = {
   getOneById,
   updateOneById,
   getOneByEmail,
-  getOneByUsername,
-  getManyByUserClassId,
 };
