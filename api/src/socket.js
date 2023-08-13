@@ -1,5 +1,4 @@
 const config = require("./config/config");
-const { redis } = require("./database/redis");
 const { testService, attemptService } = require("./services");
 
 let users = new Map();
