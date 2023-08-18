@@ -4,7 +4,12 @@ const { auth } = require("../middlewares");
 
 const router = express.Router();
 
-router.route("/").put(auth, userController.updateOneById);
-router.route("/:userId").get(userController.getOneById);
+router
+  .route("/:id")
+  .get(userController.getOneById)
+  .put(auth, userController.updateOneById);
+
+// TODO: update password later
+// ...
 
 module.exports = router;

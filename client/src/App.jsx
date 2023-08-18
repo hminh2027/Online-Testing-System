@@ -1,42 +1,35 @@
-import { useEffect } from "react";
-import RouteProvider from "./routes";
-import { authApi } from "./features/auth/api/authApi";
-import { useAuth } from "./features/auth/stores/useAuth";
-import { socket } from "./lib";
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 
-export const App = () => {
-  const [isAuthed, setUser, user] = useAuth((state) => [
-    state.isAuthed(),
-    state.setUser,
-    state.user,
-  ]);
+function App() {
+  const [count, setCount] = useState(0)
 
-  const onConnect = () => console.log("Client connected:", socket.id);
+  return (
+    <>
+      <div>
+        <a href="https://vitejs.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.jsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
+  )
+}
 
-  const onDisconnect = () => socket.disconnect();
-
-  useEffect(() => {
-    socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect);
-    socket.on("connect_error", () => {
-      setTimeout(
-        () => socket.connect(),
-        import.meta.env.VITE_HEARTBEAT_INTERVAL
-      );
-    });
-    return () => {
-      socket.off("connect", onConnect);
-      socket.off("disconnect", onDisconnect);
-    };
-  }, [user]);
-
-  useEffect(() => {
-    if (!isAuthed) return;
-    (async () => {
-      const { user } = await authApi.getMe();
-      setUser(user);
-    })();
-  }, [isAuthed]);
-
-  return <RouteProvider />;
-};
+export default App

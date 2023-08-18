@@ -6,7 +6,7 @@ async function createOne({ name, password, email }) {
   });
 }
 
-async function getOneByEmail({ email }) {
+async function getOneByEmail(email) {
   return prisma.user.findFirst({
     where: { email },
   });

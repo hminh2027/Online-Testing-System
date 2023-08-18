@@ -14,7 +14,7 @@ const signup = catchAsync(async (req, res) => {
     })
     .json({
       message: "Đăng ký thành công",
-      data: { user, tokens },
+      content: { user, tokens },
     });
 });
 
@@ -30,7 +30,7 @@ const login = catchAsync(async (req, res) => {
     })
     .json({
       message: "Đăng nhập thành công",
-      data: { user, tokens },
+      content: { user, tokens },
     });
 });
 
@@ -38,7 +38,7 @@ const getMe = catchAsync(async (req, res) => {
   const { id } = req.user;
   const user = await userService.getOneById(id);
   res.status(httpStatus.OK).json({
-    data: { user },
+    content: { user },
   });
 });
 

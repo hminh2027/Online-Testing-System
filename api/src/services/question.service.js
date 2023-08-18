@@ -4,26 +4,44 @@ async function createOne(data) {
   return prisma.question.create({
     data: {
       index: data.index,
-      text: data.text,
-      is_multiple: data.isMultiple,
+      content: data.content,
       image_url: data.imageUrl,
       score: data.score,
-      testCode: data.testCode,
+      Exam: {
+        connect: { id: data.examId },
+      },
     },
   });
 }
 
-async function findOne(testCode, questionIndex) {
+async function createMany(data) {
+  // return prisma.question.createMany({
+  //   data: {
+  //     index: data.index,
+  //     content: data.content,
+  //     image_url: data.imageUrl,
+  //     score: data.score,
+  //     Exam: {
+  //       connect: { id: data.examId },
+  //     },
+  //   },
+  // });
+}
+
+async function getOneById(id) {
   return prisma.question.findFirst({
-    where: {
-      testCode,
-      index: questionIndex,
-    },
+    where: { id },
   });
 }
 
-async function updateOne(testCode, questionIndex, data) {
-  const question = await findOne(testCode, questionIndex);
+async function getManyByExamId(examId) {
+  return prisma.question.findFirst({
+    where: { exam_id: examId },
+  });
+}
+
+async function updateOneById(id, data) {
+  const question = await getOneById(id);
 
   if (!question)
     throw new ApiError(httpStatus.NOT_FOUND, "Không tìm thấy câu hỏi này!");
@@ -31,29 +49,30 @@ async function updateOne(testCode, questionIndex, data) {
   return prisma.question.update({
     data: {
       index: data.index,
-      text: data.text,
-      is_multiple: data.isMultiple,
+      content: data.content,
       image_url: data.imageUrl,
       score: data.score,
     },
-    where: { id: question.id },
+    where: { id },
   });
 }
 
-async function deleteOne(testCode, questionIndex) {
-  const question = await findOne(testCode, questionIndex);
+async function deleteOneById(id) {
+  const question = await getOneById(id);
 
   if (!question)
     throw new ApiError(httpStatus.NOT_FOUND, "Không tìm thấy câu hỏi này!");
 
   return prisma.question.delete({
-    where: { id: question.id },
+    where: { id },
   });
 }
 
 module.exports = {
   createOne,
-  findOne,
-  updateOne,
-  deleteOne,
+  createMany,
+  getOneById,
+  getManyByExamId,
+  updateOneById,
+  deleteOneById,
 };

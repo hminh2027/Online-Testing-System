@@ -7,25 +7,15 @@ const getOneById = catchAsync(async (req, res) => {
   const { userId } = req.params;
   let user = await userService.getOneById(+userId);
   user = _.omit(user, ["password"]);
-  res.status(httpStatus.OK).json({ user });
+  res.status(httpStatus.OK).json({ content: { user } });
 });
 
-// const getoneByEmail = catchAsync(async (req, res) => {
-//   const { email, password } = req.body;
-//   let user = await authService.login({ email, password });
-//   const tokens = tokenService.generateAuthTokens(user);
-//   user = _.omit(user, ["password"]);
-//   res
-//     .status(httpStatus.CREATED)
-//     .cookie("accessToken", tokens.accessToken, {
-//       httpOnly: true,
-//     })
-//     .json({
-//       data: "Logged in successfully",
-//       user,
-//       tokens,
-//     });
-// });
+const getOneByEmail = catchAsync(async (req, res) => {
+  const { email } = req.body;
+  let user = await userService.getOneByEmail(email);
+  user = _.omit(user, ["password"]);
+  res.status(httpStatus.OK).json({ content: { user } });
+});
 
 const updateOneById = catchAsync(async (req, res) => {
   // should be validated before get into the handlers
@@ -36,12 +26,26 @@ const updateOneById = catchAsync(async (req, res) => {
   user = _.omit(user, ["password"]);
   res.status(httpStatus.OK).json({
     message: "User updated successfully",
-    data: user,
+    content: user,
+  });
+});
+
+// TODO: update password later
+const updateOnePasswordByEmail = catchAsync(async (req, res) => {
+  const { email, password } = req.body;
+  const { id } = req.user;
+  let user = await userService.updateOneById(id, { ...req.body, password });
+
+  user = _.omit(user, ["password"]);
+  res.status(httpStatus.OK).json({
+    message: "User updated successfully",
+    content: user,
   });
 });
 
 module.exports = {
-  updateOneById,
-  // getoneByEmail,
+  getOneByEmail,
   getOneById,
+  updateOneById,
+  updateOnePasswordByEmail,
 };
