@@ -7,40 +7,73 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Grade {
+  primary
+  secondary
+  highschool
+  college
+  university
+  other
+}
+
+enum RequestStatus {
+  pending
+  accepted
+  declined
+}
+
 model User {
-  id        Int         @id @default(autoincrement())
-  email     String      @unique
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
   name      String
-  password  String      @db.LongText
+  password  String    @db.LongText
+  isTeacher Boolean   @default(false)
+  phone     String?
+  birth     DateTime?
+  school    String?
+  studentId String?   @unique
+
   // relations
-  UserClass UserClass[]
-  Class     Class[]
-  Exam      Exam[]
-  Attempt   Attempt[]
+  Classes           Class[]
+  Exam              Exam[]
+  Attempt           Attempt[]
+  Post              Post[]
+  Comment           Comment[]
+  Notification      Notification[]
+  User_Notification User_Notification[]
+  UserClass         UserClass[]
 }
 
 model UserClass {
-  id         Int         @id @default(autoincrement())
-  class_id   Int
+  id Int @id @default(autoincrement())
+
   student_id Int
+  class_id   Int
+
   // relations
-  User       User        @relation(fields: [student_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Class      Class       @relation(fields: [class_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  ClassExam  ClassExam[]
+  User  User  @relation(fields: [student_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Class Class @relation(fields: [class_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([student_id, class_id])
 }
 
 model Class {
-  id          Int         @id @default(autoincrement())
-  teacher_id  Int
-  name        String
-  image_url   String?
-  description String?     @db.LongText
-  grade       String?
-  password    String?
-  is_public   Boolean     @default(true)
+  id                        Int         @id @default(autoincrement())
+  teacher_id                Int
+  name                      String
+  image_url                 String?
+  description               String?     @db.LongText
+  grade                     Grade
+  password                  String?
+  is_student_approval_join  Boolean     @default(false)
+  is_student_approval_leave Boolean     @default(false)
+  is_active                 Boolean     @default(true)
+  created_at                DateTime    @default(now())
   // relations
-  User        User        @relation(fields: [teacher_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  UserClass   UserClass[]
+  Users                     User[]
+  ClassExam                 ClassExam[]
+  Post                      Post[]
+  UserClass                 UserClass[]
 }
 
 model Exam {
@@ -48,26 +81,38 @@ model Exam {
   teacher_id  Int
   title       String
   description String?     @db.LongText
-  image_url   String?     @db.LongText
   duration    Int
   created_at  DateTime    @default(now())
   // relations
   User        User        @relation(fields: [teacher_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Question    Question[]
+  ExamIndex   ExamIndex[]
   ClassExam   ClassExam[]
 }
 
-model Question {
-  id        Int      @id @default(autoincrement())
-  exam_id   Int
-  index     Int
-  image_url String?  @db.LongText
-  content   String   @db.LongText
-  score     Int
+model ExamIndex {
+  id       Int        @id @default(autoincrement())
+  exam_id  Int
+  index    Int
   // relations
-  Exam      Exam     @relation(fields: [exam_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Answer    Answer[]
-  Choice    Choice[]
+  Exam     Exam       @relation(fields: [exam_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Question Question[]
+  Attempt  Attempt[]
+
+  // constraints
+  @@unique([exam_id, index])
+}
+
+model Question {
+  id            Int       @id @default(autoincrement())
+  exam_index_id Int
+  index         Int
+  image_url     String?   @db.LongText
+  content       String    @db.LongText
+  score         Int
+  // relations
+  ExamIndex     ExamIndex @relation(fields: [exam_index_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Answer        Answer[]
+  Choice        Choice[]
 }
 
 model Answer {
@@ -78,45 +123,100 @@ model Answer {
   is_correct  Boolean  @default(false)
   // relations
   Question    Question @relation(fields: [question_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Choice      Choice[]
 }
 
 model ClassExam {
   id             Int       @id @default(autoincrement())
-  user_class_id  Int
+  class_id       Int
   exam_id        Int
   start_time     DateTime  @default(now())
-  end_time       DateTime?
+  deadline_at    DateTime?
   attempt_limit  Int?      @default(0)
-  is_public      Boolean?  @default(true)
-  is_mix         Boolean?  @default(false)
-  is_show_answer Boolean?  @default(false)
+  is_submit_late Boolean?  @default(true)
+  is_shuffle     Boolean?  @default(false)
+  is_show_answer Boolean?  @default(true)
   created_at     DateTime  @default(now())
   // relations
-  UserClass      UserClass @relation(fields: [user_class_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Class          Class     @relation(fields: [class_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   Exam           Exam      @relation(fields: [exam_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Attempt        Attempt[]
 }
 
 model Attempt {
   id            Int       @id @default(autoincrement())
   student_id    Int
-  class_exam_id Int
-  start_time    DateTime  @default(now())
-  end_time      DateTime?
+  exam_index_id Int
+  started_at    DateTime  @default(now())
+  ended_at      DateTime?
   score         Float?
-  tabouts       Int       @default(0)
+  tabout        Int       @default(0)
   // relations
   User          User      @relation(fields: [student_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  ClassExam     ClassExam @relation(fields: [class_exam_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  ExamIndex     ExamIndex @relation(fields: [exam_index_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   Choice        Choice[]
 }
 
 model Choice {
-  id          Int      @id @default(autoincrement())
-  attempt_id  Int
-  question_id Int
-  answer_id   Int
+  id             Int      @id @default(autoincrement())
+  attempt_id     Int
+  question_index Int
+  answer_index   Int
   // relations
-  Attempt     Attempt  @relation(fields: [attempt_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Question    Question @relation(fields: [question_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Attempt        Attempt  @relation(fields: [attempt_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Question       Question @relation(fields: [question_index], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Answer         Answer   @relation(fields: [answer_index], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Post {
+  id         Int       @id @default(autoincrement())
+  user_id    Int
+  class_id   Int
+  content    String
+  image_url  String?   @db.LongText
+  created_at DateTime  @default(now())
+  // relations
+  User       User      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Class      Class     @relation(fields: [class_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Comment    Comment[]
+}
+
+model Comment {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  post_id    Int
+  content    String
+  created_at DateTime @default(now())
+  // relations
+  User       User     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Post       Post     @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Notification {
+  id                Int                 @id @default(autoincrement())
+  user_id           Int
+  request_id        Int?                @unique
+  content           String
+  url               String
+  created_at        DateTime            @default(now())
+  // relations
+  User              User                @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Request           Request?            @relation(fields: [request_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  User_Notification User_Notification[]
+}
+
+model Request {
+  id           Int           @id @default(autoincrement())
+  status       RequestStatus
+  // relations
+  Notification Notification?
+}
+
+model User_Notification {
+  id           Int          @id @default(autoincrement())
+  noti_id      Int
+  user_id      Int
+  is_read      Boolean      @default(false)
+  // relations
+  Notification Notification @relation(fields: [noti_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  User         User         @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }

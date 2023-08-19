@@ -1,0 +1,410 @@
+[
+  {
+    "code": "VNU",
+    "name": "Trường Đại học Quốc gia Hà Nội"
+  },
+  {
+    "code": "UET",
+    "name": "Trường Đại học Công nghệ"
+  },
+  {
+    "code": "UEd",
+    "name": "Trường Đại học Giáo dục"
+  },
+  {
+    "code": "UEB",
+    "name": "Trường Đại học Kinh tế"
+  },
+  {
+    "code": "HUS",
+    "name": "Trường Đại học Khoa học Tự nhiên"
+  },
+  {
+    "code": "HUSSH",
+    "name": "Trường Đại học Khoa học Xã hội và Nhân văn"
+  },
+  {
+    "code": "ULIS",
+    "name": "Trường Đại học Ngoại ngữ"
+  },
+  {
+    "code": "VNU-UMP",
+    "name": "Trường Đại học Y Dược"
+  },
+  {
+    "code": "VJU",
+    "name": "Trường Đại học Việt Nhật"
+  },
+  {
+    "code": "VNU-UL",
+    "name": "Trường Đại học Luật"
+  },
+  {
+    "code": "HSB",
+    "name": "Trường Quản trị và Kinh doanh"
+  },
+  {
+    "code": "VNU-IS",
+    "name": "Trường Quốc tế"
+  },
+  {
+    "code": "SIS",
+    "name": "Khoa Các khoa học liên ngành"
+  },
+  {
+    "code": "AGU",
+    "name": "Trường Đại học An Giang"
+  },
+  {
+    "code": "VNU-HCM",
+    "name": "Đại học Quốc gia TP.HCM"
+  },
+  {
+    "code": "HCMUT",
+    "name": "Trường Đại học Bách khoa"
+  },
+  {
+    "code": "UIT",
+    "name": "Trường Đại học Công nghệ Thông tin"
+  },
+  {
+    "code": "HCMUS",
+    "name": "Trường Đại học Khoa học Tự nhiên"
+  },
+  {
+    "code": "HCMUSSH",
+    "name": "Trường Đại học Khoa học Xã hội và Nhân văn"
+  },
+  {
+    "code": "UEL",
+    "name": "Trường Đại học Kinh tế – Luật"
+  },
+  {
+    "code": "HCMIU",
+    "name": "Trường Đại học Quốc tế"
+  },
+  {
+    "code": "UHS",
+    "name": "Khoa Y[a]"
+  },
+  {
+    "code": "SPAS",
+    "name": "Khoa Chính trị – Hành chính"
+  },
+  {
+    "code": "—",
+    "name": "Phân hiệu Đại học Quốc gia TP.HCM tại Bến Tre"
+  },
+  {
+    "code": "TNU",
+    "name": "Trường Đại học Thái Nguyên"
+  },
+  {
+    "code": "TNUICT",
+    "name": "Trường Đại học Công nghệ Thông tin và Truyền thông"
+  },
+  {
+    "code": "TNUS",
+    "name": "Trường Đại học Khoa học"
+  },
+  {
+    "code": "TNUEBA",
+    "name": "Trường Đại học Kinh tế và Quản trị kinh doanh"
+  },
+  {
+    "code": "TNUT",
+    "name": "Trường Đại học Kỹ thuật Công nghiệp"
+  },
+  {
+    "code": "TNUAF",
+    "name": "Trường Đại học Nông Lâm"
+  },
+  {
+    "code": "TNUEd",
+    "name": "Trường Đại học Sư phạm"
+  },
+  {
+    "code": "TNUMP",
+    "name": "Trường Đại học Y Dược"
+  },
+  {
+    "code": "—",
+    "name": "Trường Ngoại ngữ"
+  },
+  {
+    "code": "TNEC",
+    "name": "Trường Cao đẳng Kinh tế - Kỹ thuật"
+  },
+  {
+    "code": "—",
+    "name": "Khoa Quốc tế"
+  },
+  {
+    "code": "—",
+    "name": "Phân hiệu Đại học Thái Nguyên tại Lào Cai"
+  },
+  {
+    "code": "—",
+    "name": "Phân hiệu Đại học Thái Nguyên tại Hà Giang"
+  },
+  {
+    "code": "HueUni",
+    "name": "Trường Đại học Huế"
+  },
+  {
+    "code": "HUSC",
+    "name": "Trường Đại học Khoa học"
+  },
+  {
+    "code": "HCE",
+    "name": "Trường Đại học Kinh tế"
+  },
+  {
+    "code": "HUL",
+    "name": "Trường Đại học Luật"
+  },
+  {
+    "code": "HUA",
+    "name": "Trường Đại học Nghệ thuật"
+  },
+  {
+    "code": "HUCFL",
+    "name": "Trường Đại học Ngoại ngữ"
+  },
+  {
+    "code": "HUAF",
+    "name": "Trường Đại học Nông Lâm"
+  },
+  {
+    "code": "HUCE",
+    "name": "Trường Đại học Sư phạm"
+  },
+  {
+    "code": "YDH",
+    "name": "Trường Đại học Y Dược"
+  },
+  {
+    "code": "HUHT",
+    "name": "Trường Du lịch"
+  },
+  {
+    "code": "HUET",
+    "name": "Khoa Kỹ thuật và Công nghệ"
+  },
+  {
+    "code": "HUIS",
+    "name": "Khoa Quốc tế"
+  },
+  {
+    "code": "FPE",
+    "name": "Khoa Giáo dục thể chất"
+  },
+  {
+    "code": "HU-QTC",
+    "name": "Phân hiệu Đại học Huế tại Quảng Trị"
+  },
+  {
+    "code": "UDN",
+    "name": "Đại học Đà Nẵng"
+  },
+  {
+    "code": "DUT",
+    "name": "Trường Đại học Bách khoa"
+  },
+  {
+    "code": "DUE",
+    "name": "Trường Đại học Kinh tế"
+  },
+  {
+    "code": "DUEd",
+    "name": "Trường Đại học Sư phạm"
+  },
+  {
+    "code": "DNUFL",
+    "name": "Trường Đại học Ngoại ngữ"
+  },
+  {
+    "code": "DNUTE",
+    "name": "Trường Đại học Sư phạm Kỹ thuật"
+  },
+  {
+    "code": "VKU",
+    "name": "Trường Đại học Công nghệ thông tin và Truyền thông Việt – Hàn[d]"
+  },
+  {
+    "code": "—",
+    "name": "Phân hiệu Đại học Đà Nẵng tại Kon Tum"
+  },
+  {
+    "code": "—",
+    "name": "Khoa Y – Dược"
+  },
+  {
+    "code": "—",
+    "name": "Khoa Giáo dục thể chất"
+  },
+  {
+    "code": "—",
+    "name": "Khoa Giáo dục Quốc phòng An ninh"
+  },
+  {
+    "code": "HUST",
+    "name": "Trường Đại học Bách khoa Hà Nội"
+  },
+  {
+    "code": "SoICT",
+    "name": "Trường Công nghệ Thông tin và Truyền thông"
+  },
+  {
+    "code": "SMS",
+    "name": "Trường Vật liệu"
+  },
+  {
+    "code": "SME",
+    "name": "Trường Cơ khí"
+  },
+  {
+    "code": "SCLS",
+    "name": "Trường Hóa và Khoa học sự sống"
+  },
+  {
+    "code": "SEEE",
+    "name": "Trường Điện – Điện tử"
+  },
+  {
+    "code": "NAEM",
+    "name": "Học viện Quản lý giáo dục"
+  },
+  {
+    "code": "HANU",
+    "name": "Trường Đại học Hà Nội"
+  },
+  {
+    "code": "UTC",
+    "name": "Trường Đại học Giao thông Vận tải"
+  },
+  {
+    "code": "NEU",
+    "name": "Trường Đại học Kinh tế Quốc dân"
+  },
+  {
+    "code": "HUMG",
+    "name": "Trường Đại học Mỏ – Địa chất"
+  },
+  {
+    "code": "HOU",
+    "name": "Trường Đại học Mở Hà Nội"
+  },
+  {
+    "code": "UAD",
+    "name": "Trường Đại học Mỹ thuật Công nghiệp"
+  },
+  {
+    "code": "FTU",
+    "name": "Trường Đại học Ngoại thương[f]"
+  },
+  {
+    "code": "HNUE",
+    "name": "Trường Đại học Sư phạm Hà Nội"
+  },
+  {
+    "code": "HPU2",
+    "name": "Trường Đại học Sư phạm Hà Nội 2"
+  },
+  {
+    "code": "NUAE",
+    "name": "Trường Đại học Sư phạm Nghệ thuật Trung ương"
+  },
+  {
+    "code": "HUPES",
+    "name": "Trường Đại học Sư phạm Thể dục Thể thao Hà Nội"
+  },
+  {
+    "code": "TMU",
+    "name": "Trường Đại học Thương mại"
+  },
+  {
+    "code": "HUCE",
+    "name": "Trường Đại học Xây dựng Hà Nội"
+  },
+  {
+    "code": "Trường Đại học Kinh tế Thành phố Hồ Chí Minh",
+    "name": "TP.HCM"
+  },
+  {
+    "code": "ULaw",
+    "name": "Trường Đại học Luật Thành phố Hồ Chí Minh"
+  },
+  {
+    "code": "HCMOU",
+    "name": "Trường Đại học Mở Thành phố Hồ Chí Minh"
+  },
+  {
+    "code": "NLU",
+    "name": "Trường Đại học Nông Lâm Thành phố Hồ Chí Minh"
+  },
+  {
+    "code": "HCMUTE",
+    "name": "Trường Đại học Sư phạm Kỹ thuật Thành phố Hồ Chí Minh"
+  },
+  {
+    "code": "HCMUE",
+    "name": "Trường Đại học Sư phạm Thành phố Hồ Chí Minh"
+  },
+  {
+    "code": "HCMUPES",
+    "name": "Trường Đại học Sư phạm Thể dục Thể thao Thành phố Hồ Chí Minh"
+  },
+  {
+    "code": "VinhUni",
+    "name": "Trường Đại học Vinh"
+  },
+  {
+    "code": "CTU",
+    "name": "Trường Đại học Cần Thơ"
+  },
+  {
+    "code": "DLU",
+    "name": "Trường Đại học Đà Lạt"
+  },
+  {
+    "code": "DTU",
+    "name": "Trường Đại học Đồng Tháp"
+  },
+  {
+    "code": "KGU",
+    "name": "Trường Đại học Kiên Giang"
+  },
+  {
+    "code": "NTU",
+    "name": "Trường Đại học Nha Trang"
+  },
+  {
+    "code": "QNU",
+    "name": "Trường Đại học Quy Nhơn"
+  },
+  {
+    "code": "HYUTE",
+    "name": "Trường Đại học Sư phạm Kỹ thuật Hưng Yên"
+  },
+  {
+    "code": "TBU",
+    "name": "Trường Đại học Tây Bắc"
+  },
+  {
+    "code": "HMU",
+    "name": "Trường Đại học Y Hà Nội"
+  },
+  {
+    "code": "HUP",
+    "name": "Trường Đại học Dược Hà Nội"
+  },
+  {
+    "code": "HUPH",
+    "name": "Trường Đại học Y tế Công cộng"
+  },
+  {
+    "code": "VUTM",
+    "name": "Học viện Y – Dược học cổ truyền Việt Nam"
+  }
+]

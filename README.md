@@ -29,7 +29,7 @@
   - take exam
 
 - Shared common
-    - login/sign up 
+    - login/sign up (supports UTC login!)
     - forgot password
     - update/view profile
     - statistics:

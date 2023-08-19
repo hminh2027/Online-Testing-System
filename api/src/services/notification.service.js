@@ -1,71 +1,44 @@
 const { prisma } = require("../database/prisma-client");
 
-async function createOne(data) {
-  return prisma.classExam.create({
+async function createOne({ content, url = "", userId, requestId }) {
+  return prisma.notification.create({
     data: {
-      start_time: data.startTime,
-      end_time: data.endTime,
-      attempt_limit: data.attemptLimit,
-      is_public: data.isPublic,
-      is_mix: data.isMix,
-      is_show_answer: data.isShowAnswer,
-      Exam: {
-        connect: { id: data.examId },
+      content,
+      url,
+      user_id: userId,
+      request_id: requestId,
+      User: {
+        connect: { id: userId },
       },
-      UserClass: {
-        connect: { id: data.userClassId },
+      Request: {
+        connect: { id: requestId },
       },
     },
   });
 }
 
-async function getOneById(id) {
-  return prisma.classExam.findFirst({
-    where: { id },
+async function getManyByUserId({ userId }) {
+  return prisma.user_Notification.findMany({
+    where: { user_id: userId },
   });
 }
 
-async function getManyByUserClassId(classId) {
-  return prisma.classExam.findFirst({
-    where: { user_class_id: classId },
-  });
-}
-
-async function getManyByExamId(examId) {
-  return prisma.classExam.findFirst({
-    where: { exam_id: examId },
-  });
-}
-
-async function updateOneById(id, data) {
-  return prisma.classExam.update({
+async function patchOneById(id, { isRead }) {
+  return prisma.user_Notification.update({
     where: { id },
     data: {
-      start_time: data.startTime,
-      end_time: data.endTime,
-      attempt_limit: data.attemptLimit,
-      is_public: data.isPublic,
-      is_mix: data.isMix,
-      is_show_answer: data.isShowAnswer,
-      Exam: {
-        connect: { id: data.examId },
-      },
-      UserClass: {
-        connect: { id: data.userClassId },
-      },
+      is_read: isRead,
     },
   });
 }
 
 async function deleteOneById(id) {
-  return prisma.classExam.delete({ where: { id } });
+  return prisma.user_Notification.delete({ where: { id } });
 }
 
 module.exports = {
   createOne,
-  getOneById,
-  getManyByUserClassId,
-  getManyByExamId,
-  updateOneById,
+  getManyByUserId,
+  patchOneById,
   deleteOneById,
 };
