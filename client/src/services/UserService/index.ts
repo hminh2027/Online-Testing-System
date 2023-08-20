@@ -1,6 +1,7 @@
-import { config } from '../../config';
+import config from '@/config';
+import type { Service } from '@/types/service';
 
-export const UserService = {
+const UserService: Service = {
   path: config.apis.user.path,
   getOne: {
     method: 'get',
@@ -21,3 +22,5 @@ export const UserService = {
     method: 'delete',
   },
 };
+
+export default UserService;
