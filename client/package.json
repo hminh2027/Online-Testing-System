@@ -23,10 +23,12 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
     "react-use": "^17.4.0",
+    "use-query-params": "^2.2.1",
     "yup": "^1.2.0",
     "zustand": "^4.4.1"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.197",
     "@types/node": "^20.5.1",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
@@ -36,6 +38,7 @@
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.1.0",
+    "eslint-config-prettier": "^9.0.0",
     "eslint-import-resolver-typescript": "^3.6.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-import": "^2.25.3",

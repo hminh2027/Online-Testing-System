@@ -1,4 +1,6 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import type { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios from 'axios';
+
 import config from '@/config';
 
 export interface Request<T> {
@@ -11,6 +13,7 @@ export const defaultOptions: AxiosRequestConfig = {
   method: 'GET',
   headers: {
     Accept: 'application/json',
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     'Content-Type': 'application/json',
   },
   baseURL: config.baseUrl,
