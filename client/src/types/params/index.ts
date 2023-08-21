@@ -5,6 +5,7 @@ import {
   StringParam,
 } from 'use-query-params';
 
+// ko can thiet
 export const CommaArrayParam = {
   encode: (array: string[] | null | undefined) => {
     if (array?.length === 0) return encodeDelimitedArray(undefined, ',');
@@ -15,16 +16,10 @@ export const CommaArrayParam = {
     decodeDelimitedArray(arrayStr, ','),
 };
 
-export const CommaArrayParamWIthDefault = (
+export const CommaArrayParamWithDefault = (
   defaultValue: string[] | string,
 ) => ({
-  encode: (array: string[] | null | undefined) => {
-    if (array?.length === 0) return encodeDelimitedArray(undefined, ',');
-
-    return encodeDelimitedArray(array, ',');
-  },
-  decode: (arrayStr: string | (string | null)[] | null | undefined) =>
-    decodeDelimitedArray(arrayStr, ','),
+  ...CommaArrayParam,
   default: defaultValue,
 });
 
