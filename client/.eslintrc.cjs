@@ -35,13 +35,20 @@ module.exports = {
     '@typescript-eslint',
     'react-refresh',
   ],
-  // rules: {
-  //   // 'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
-  // },
   rules: {
     'react-refresh/only-export-components': 'warn',
     // ts eslint
-    'import/extensions': ['error', 'ignorePackages', { '': 'never' }],
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
+    // 'import/extensions': ['error', 'ignorePackages', { '': 'never' }],
     '@typescript-eslint/consistent-type-assertions': [
       'error',
       {
@@ -389,7 +396,7 @@ module.exports = {
     'import/resolver': {
       typescript: {
         alwaysTryTypes: true,
-        project: '/client/tsconfig.json',
+        project: 'client/tsconfig.json',
       },
     },
   },
