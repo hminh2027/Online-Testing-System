@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 
+import ClassDetailLayout from './layouts/ClassDetailLayout';
 import MainLayout from './layouts/MainLayout';
 
 const router = createBrowserRouter([
@@ -20,6 +21,16 @@ const router = createBrowserRouter([
       {
         path: 'signup',
         element: <div>this is signup</div>,
+      },
+      {
+        path: 'class',
+        element: <ClassDetailLayout />,
+        children: [
+          {
+            path: 'hello',
+            element: <>this is detail</>,
+          },
+        ],
       },
       {
         index: true,

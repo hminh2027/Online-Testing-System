@@ -31,7 +31,6 @@ module.exports = {
     'eslint-comments',
     'import-newlines',
     'promise',
-    'simple-import-sort',
     '@typescript-eslint',
     'react-refresh',
   ],
@@ -285,29 +284,6 @@ module.exports = {
     'react/require-default-props': 'off',
     'react-hooks/exhaustive-deps': 'warn',
     'semi-spacing': ['error', { before: false, after: true }],
-    'simple-import-sort/imports': [
-      'error',
-      {
-        groups: [
-          // Node.js builtins prefixed with `node:`.
-          ['^node:'],
-          // Packages. `react` related packages come first.
-          ['^react', '^@?\\w'],
-          // Internal packages.
-          ['^(@|components)(/.*|$)'],
-          // Side effect imports.
-          ['^\\u0000'],
-          // Parent imports. Put `..` last.
-          ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
-          // Other relative imports. Put same-folder imports and `.` last.
-          ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
-          // Style imports.
-          ['^.+\\.s?css$'],
-        ],
-      },
-    ],
-
-    'simple-import-sort/exports': 'error',
     'space-before-function-paren': [
       'error',
       {

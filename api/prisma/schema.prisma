@@ -74,6 +74,7 @@ model Class {
   ClassExam                 ClassExam[]
   Post                      Post[]
   UserClass                 UserClass[]
+  Files                     Files[]
 }
 
 model Exam {
@@ -168,16 +169,17 @@ model Choice {
 }
 
 model Post {
-  id         Int       @id @default(autoincrement())
-  user_id    Int
-  class_id   Int
-  content    String
-  image_url  String?   @db.LongText
-  created_at DateTime  @default(now())
+  id                    Int       @id @default(autoincrement())
+  user_id               Int
+  class_id              Int
+  content               String
+  image_url             String?   @db.LongText
+  allow_student_comment Boolean   @default(true)
+  created_at            DateTime  @default(now())
   // relations
-  User       User      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Class      Class     @relation(fields: [class_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Comment    Comment[]
+  User                  User      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Class                 Class     @relation(fields: [class_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Comment               Comment[]
 }
 
 model Comment {
@@ -219,4 +221,14 @@ model User_Notification {
   // relations
   Notification Notification @relation(fields: [noti_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   User         User         @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Files {
+  id         Int      @id @default(autoincrement())
+  class_id   Int
+  name       String
+  url        String
+  created_at DateTime @default(now())
+  // relations
+  Class      Class    @relation(fields: [class_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
