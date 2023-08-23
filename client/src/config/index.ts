@@ -5,6 +5,9 @@ export const config = {
     user: {
       path: '/user',
     },
+    nofitication: {
+      path: '/nofitication',
+    },
   },
 };
 

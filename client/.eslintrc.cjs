@@ -37,6 +37,7 @@ module.exports = {
   rules: {
     'react-refresh/only-export-components': 'warn',
     // ts eslint
+    'react/jsx-props-no-spreading': 'off',
     'import/extensions': [
       'error',
       'ignorePackages',

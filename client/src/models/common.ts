@@ -1,4 +1,4 @@
-import type { defaultParams } from '@/types/params';
+import type { defaultParams } from '@/types/query-params';
 
 export interface Resource {
   id?: string;

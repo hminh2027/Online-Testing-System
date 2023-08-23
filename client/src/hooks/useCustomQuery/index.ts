@@ -1,6 +1,5 @@
 import type { UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-
 import {
   addItem,
   deleteItem,
@@ -13,9 +12,9 @@ import type { QueryParams, Resource, ResponseItem } from '@/models/common';
 import type { Service } from '@/types/service';
 import { getFilteredList } from '@/utils/service';
 
-type ResponseList = ResponseItem<Resource[]>;
-type ResponseDetail = ResponseItem<Resource[]>;
-type ResponseModify = ResponseItem<Resource>;
+type ResponseList = ResponseItem<Resource[]> | null;
+type ResponseDetail = ResponseItem<Resource[]> | null;
+type ResponseModify = ResponseItem<Resource> | null;
 type RequestQuery = QueryParams | undefined | null;
 
 export type UseCustomQueryOptions<T> = Omit<

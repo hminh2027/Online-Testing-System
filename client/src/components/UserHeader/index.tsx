@@ -42,7 +42,13 @@ export default function UserHeader({ username }: UserHeaderProps) {
 
   return (
     <Dropdown menu={{ items }} trigger={['click']}>
-      <Avatar>{initials()}</Avatar>
+      <Avatar
+        src="https://play-lh.googleusercontent.com/aAZvy2vK1GUeB0JR3pjEvhCYZ-nci12JciXr7Xy2oj5EvweA_ZMvWCmQyQsY-1NQXUoF"
+        shape="circle"
+        size="large"
+      >
+        {initials()}
+      </Avatar>
     </Dropdown>
   );
 }

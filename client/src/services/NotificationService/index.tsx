@@ -1,19 +1,13 @@
-import config from '@/config';
+import { config } from '@/config';
 import type { Service } from '@/types/service';
 
-const UserService: Service = {
-  path: config.apis.user.path,
-  getOne: {
-    method: 'get',
-  },
+const NotificationService: Service = {
+  path: config.apis.nofitication.path,
   getMany: {
     method: 'get',
   },
   create: {
     method: 'post',
-  },
-  update: {
-    method: 'put',
   },
   patch: {
     method: 'patch',
@@ -23,4 +17,4 @@ const UserService: Service = {
   },
 };
 
-export default UserService;
+export default NotificationService;
