@@ -13,6 +13,7 @@ const envVariables = Joi.object()
     JWT_SECRET: Joi.string().required(),
     JWT_AT_EXPIRE_IN: Joi.string().required(),
     JWT_RT_EXPIRE_IN: Joi.string().required(),
+    IS_AUTH: Joi.boolean().required(),
   })
   .unknown();
 
@@ -24,6 +25,7 @@ if (error) throw new Error(error.message);
 
 module.exports = {
   env: envVars.NODE_ENV,
+  isAuth: envVars.IS_AUTH,
   port: envVars.APP_PORT,
   database: {
     name: envVars.DATABASE_NAME,

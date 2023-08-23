@@ -1,74 +1,62 @@
-// const { prisma } = require("./prisma-client");
-// const { generateDummyData } = require("../utils");
-// const {
-//   authService,
-//   testService,
-//   questionService,
-//   answerService,
-// } = require("../services");
-// const { logger } = require("../config");
-// const { testPrototype } = require("../prototypes/test.prototype");
-// const { userPrototype } = require("../prototypes/user.prototype");
-// const { questionPrototype } = require("../prototypes/question.prototype");
-// const { CATEGORIES } = require("../constants");
+const { prisma } = require("./prisma-client");
+const { generateDummyData } = require("../utils");
+const { authService } = require("../services");
+const { logger } = require("../config");
+const { userPrototype } = require("../prototypes/user.prototype");
 
-// async function main() {
-//   logger.info("Seeding...");
-//   // CATEGORY
-//   await prisma.category.deleteMany();
-//   await prisma.category.createMany({
-//     data: CATEGORIES.map((cate) => {
-//       return { name: cate };
-//     }),
-//   });
+async function main() {
+  logger.info("Seeding...");
+  // USER
+  const users = generateDummyData(5, userPrototype);
+  await prisma.user.deleteMany();
+  await authService.signup({
+    password: "123456",
+    email: "teacher@gmail.com",
+    username: "Minh Mẫn",
+  });
+  for (user of users) {
+    await authService.signup({
+      password: user.password,
+      email: user.email,
+      username: user.username,
+    });
+  }
 
-//   logger.info("Category seeded successfully");
-//   // USER
-//   const users = generateDummyData(5, userPrototype);
-//   await prisma.user.deleteMany();
+  logger.info("User seeded successfully");
 
-//   for (user of users) {
-//     await authService.signup({
-//       password: user.password,
-//       email: user.email,
-//       name: user.name,
-//     });
-//   }
+  // // TEST
+  // const tests = generateDummyData(30, testPrototype);
+  // await prisma.test.createMany({ data: tests });
 
-//   logger.info("User seeded successfully");
+  // logger.info("Test seeded successfully");
 
-//   // TEST
-//   const tests = generateDummyData(30, testPrototype);
-//   await prisma.test.createMany({ data: tests });
+  // // QUESTION & ANSWER;
+  // const testsCode = await (
+  //   await prisma.test.findMany()
+  // ).map((test) => test.code);
+  // for (const code of testsCode) {
+  //   const qns = generateDummyData(10, questionPrototype);
 
-//   logger.info("Test seeded successfully");
+  //   for (const q of qns) {
+  //     const question = await questionService.createOne({
+  //       ...q,
+  //       testCode: code,
+  //     });
+  //     q.answers.forEach(async (answer) => {
+  //       await answerService.createOne({ ...answer, questionId: question.id });
+  //     });
+  //   }
+  // }
 
-//   // QUESTION & ANSWER;
-//   const testsCode = await (
-//     await prisma.test.findMany()
-//   ).map((test) => test.code);
-//   for (const code of testsCode) {
-//     const qns = generateDummyData(10, questionPrototype);
-
-//     for (const q of qns) {
-//       const question = await questionService.createOne({
-//         ...q,
-//         testCode: code,
-//       });
-//       q.answers.forEach(async (answer) => {
-//         await answerService.createOne({ ...answer, questionId: question.id });
-//       });
-//     }
-//   }
-
-//   logger.info("Question seeded successfully");
-// }
-// main()
-//   .then(async () => {
-//     await prisma.$disconnect();
-//   })
-//   .catch(async (e) => {
-//     console.log(e);
-//     await prisma.$disconnect();
-//     process.exit(1);
-//   });
+  // logger.info("Question seeded successfully");
+  logger.info("Data seeding finished!");
+}
+main()
+  .then(async () => {
+    await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.log(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });

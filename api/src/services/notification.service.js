@@ -1,17 +1,13 @@
 const { prisma } = require("../database/prisma-client");
 
-async function createOne({ content, url = "", userId, requestId }) {
+async function createOne({ content, url = "", userId }) {
   return prisma.notification.create({
     data: {
       content,
       url,
       user_id: userId,
-      request_id: requestId,
       User: {
         connect: { id: userId },
-      },
-      Request: {
-        connect: { id: requestId },
       },
     },
   });

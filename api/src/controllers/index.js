@@ -4,3 +4,4 @@ module.exports.examController = require("./exam.controller");
 module.exports.attemptController = require("./attempt.controller");
 module.exports.choiceController = require("./choice.controller");
 module.exports.classController = require("./class.controller");
+module.exports.notificationController = require("./notification.controller");

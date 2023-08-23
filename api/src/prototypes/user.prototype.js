@@ -2,9 +2,10 @@ const { faker } = require("@faker-js/faker");
 
 function userPrototype(index) {
   return {
-    email: `user${index}@gmail.com`,
-    name: faker.name.fullName(),
+    email: `student${index}@gmail.com`,
+    username: faker.person.fullName(),
     password: "123456",
+    isTeacher: false,
   };
 }
 

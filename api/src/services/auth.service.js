@@ -23,13 +23,13 @@ const login = async ({ email, password }) => {
   return user;
 };
 
-const signup = async ({ password, name, email }) => {
-  const isExisted = await userService.getOneByEmail({ email });
+const signup = async ({ password, username, email }) => {
+  const isExisted = await userService.getOneByEmail(email);
   if (isExisted) throw new ApiError(httpStatus.BAD_REQUEST, "Email đã tồn tại");
   password = await passwordService.hashPassword(password);
   const user = await userService.createOne({
     password,
-    name,
+    username,
     email,
   });
   return user;

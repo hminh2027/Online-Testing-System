@@ -1,8 +1,28 @@
 const { prisma } = require("../database/prisma-client");
 
-async function createOne({ name, password, email }) {
+async function createOne({
+  username,
+  password,
+  email,
+  isTeacher = false,
+  phone = null,
+  birth = null,
+  school = null,
+  studentId = null,
+  imageUrl = null,
+}) {
   return prisma.user.create({
-    data: { name, password, email, credit: 100, avatar_url: "" },
+    data: {
+      username,
+      password,
+      email,
+      isTeacher,
+      phone,
+      birth,
+      school,
+      studentId,
+      imageUrl,
+    },
   });
 }
 

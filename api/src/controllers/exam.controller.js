@@ -29,26 +29,6 @@ const createOneQuestion = catchAsync(async (req, res) => {
     .json({ message: "Tạo câu hỏi thành công", data: { question } });
 });
 
-const getAllWithCategory = catchAsync(async (req, res) => {
-  const categories = await categoryService.getAll();
-
-  res.status(httpStatus.OK).json({ data: { categories } });
-});
-
-const getAllByCategoryId = catchAsync(async (req, res) => {
-  const { categoryId } = req.params;
-  const tests = await examService.getAllByCategoryId(categoryId);
-
-  res.status(httpStatus.OK).json({ data: { tests } });
-});
-
-const getoneById = catchAsync(async (req, res) => {
-  const { id } = req.params;
-  const exam = await examService.getOneById(id);
-
-  res.status(httpStatus.OK).json({ data: { exam } });
-});
-
 const getManyByTeacherId = catchAsync(async (req, res) => {
   const { userId } = req.params;
   const exam = await examService.getManyByTeacherId(+userId);
@@ -114,10 +94,7 @@ const deleteOneQuestion = catchAsync(async (req, res) => {
 module.exports = {
   createOneQuestion,
   createOne,
-  getAllWithCategory,
-  getAllByCategoryId,
-  getAllByUserId,
-  getoneByCode,
+  getManyByTeacherId,
   updateOneByCode,
   updateOneQuestion,
   deleteOneByCode,

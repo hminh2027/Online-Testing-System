@@ -1,10 +1,22 @@
-const TOKEN = require("../constants/token");
 const { config } = require("../config");
 const jwt = require("jsonwebtoken");
 const { userService } = require("../services");
+const { TOKEN } = require("../constants");
 
 const auth = async (req, res, next) => {
   try {
+    if (!config.isAuth) {
+      req.user = {
+        id: 1,
+        email: "student1@gmail.com",
+        username: "Vu Hoang Minh",
+        password: "123456",
+        is_teacher: false,
+        phone: "123456789",
+      };
+      next();
+      return;
+    }
     const authHeader = req.headers.authorization;
     const token = authHeader.split(" ")[1];
 

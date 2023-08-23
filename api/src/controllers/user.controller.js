@@ -1,19 +1,19 @@
+const { omit } = require("lodash");
 const { authService, tokenService, userService } = require("../services");
 const { catchAsync } = require("../utils");
-const _ = require("lodash");
 const httpStatus = require("http-status");
 
 const getOneById = catchAsync(async (req, res) => {
   const { userId } = req.params;
   let user = await userService.getOneById(+userId);
-  user = _.omit(user, ["password"]);
+  user = omit(user, ["password"]);
   res.status(httpStatus.OK).json({ content: { user } });
 });
 
 const getOneByEmail = catchAsync(async (req, res) => {
   const { email } = req.body;
   let user = await userService.getOneByEmail(email);
-  user = _.omit(user, ["password"]);
+  user = omit(user, ["password"]);
   res.status(httpStatus.OK).json({ content: { user } });
 });
 
@@ -23,7 +23,7 @@ const updateOneById = catchAsync(async (req, res) => {
   const { id } = req.user;
   let user = await userService.updateOneById(id, req.body);
 
-  user = _.omit(user, ["password"]);
+  user = omit(user, ["password"]);
   res.status(httpStatus.OK).json({
     message: "User updated successfully",
     content: user,
@@ -36,7 +36,7 @@ const updateOnePasswordByEmail = catchAsync(async (req, res) => {
   const { id } = req.user;
   let user = await userService.updateOneById(id, { ...req.body, password });
 
-  user = _.omit(user, ["password"]);
+  user = omit(user, ["password"]);
   res.status(httpStatus.OK).json({
     message: "User updated successfully",
     content: user,
