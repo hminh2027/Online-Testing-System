@@ -5,8 +5,8 @@ export const config = {
     user: {
       path: '/user',
     },
-    nofitication: {
-      path: '/nofitication',
+    notification: {
+      path: '/notification',
     },
   },
 };

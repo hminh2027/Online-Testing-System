@@ -10,6 +10,7 @@ import MainLayout from './layouts/MainLayout';
 import 'antd/dist/reset.css';
 import './App.css';
 import themeConfig from './config/theme';
+import ClassesPage from './features/class/pages/ClassList';
 
 const router = createBrowserRouter([
   {
@@ -29,11 +30,20 @@ const router = createBrowserRouter([
       },
       {
         path: 'class',
-        element: <ClassDetailLayout />,
         children: [
           {
-            path: 'hello',
-            element: <>this is detail</>,
+            path: '',
+            element: <ClassesPage />,
+          },
+          {
+            path: ':id',
+            element: <ClassDetailLayout />,
+            children: [
+              {
+                path: '',
+                element: <>detail</>,
+              },
+            ],
           },
         ],
       },

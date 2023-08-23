@@ -3,10 +3,10 @@ import { Content, Header } from 'antd/es/layout/layout';
 import type { ReactNode } from 'react';
 import { Outlet } from 'react-router-dom';
 import Notification from '@/components/Notification';
-import Logo from '../../../public/logo.png';
-import TabBar from '../../components/TabBar';
-import UserHeader from '../../components/UserHeader';
+import Logo from '@/assets/logo.png';
 import styles from './index.module.css';
+import TabBar from '@/components/TabBar';
+import UserHeader from '@/components/UserHeader';
 
 interface MainLayoutProps {
   children?: ReactNode;

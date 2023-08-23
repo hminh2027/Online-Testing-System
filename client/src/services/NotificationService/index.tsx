@@ -2,7 +2,7 @@ import { config } from '@/config';
 import type { Service } from '@/types/service';
 
 const NotificationService: Service = {
-  path: config.apis.nofitication.path,
+  path: config.apis.notification.path,
   getMany: {
     method: 'get',
   },
