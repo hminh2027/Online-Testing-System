@@ -2,23 +2,13 @@ import { Menu } from 'antd';
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useLocation } from 'react-use';
+import type { TabBarCustomConfig } from './config';
 
-const items = [
-  {
-    label: 'Tổng quan',
-    path: 'overview',
-  },
-  {
-    label: 'Lớp học',
-    path: 'class',
-  },
-  {
-    label: 'Lịch thi',
-    path: 'schedule',
-  },
-];
+interface TabBarProps {
+  items: TabBarCustomConfig[];
+}
 
-export default function TabBar() {
+export default function TabBar({ items }: TabBarProps) {
   const location = useLocation();
   const [curPath, setCurPath] = useState<string>('');
 
@@ -35,6 +25,11 @@ export default function TabBar() {
   }));
 
   return (
-    <Menu selectedKeys={[curPath]} mode="horizontal" items={mappedItems} />
+    <Menu
+      disabledOverflow
+      selectedKeys={[curPath]}
+      mode="horizontal"
+      items={mappedItems}
+    />
   );
 }
