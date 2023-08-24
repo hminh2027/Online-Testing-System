@@ -5,7 +5,7 @@ interface CustomSpaceProps extends SpaceProps {
   fullWidth?: boolean;
   justify?: CSSProperties['justifyContent'];
 }
-export default function CustomSpace(props: CustomSpaceProps) {
+export function CustomSpace(props: CustomSpaceProps) {
   const { fullWidth, children, justify, ...rest } = props;
 
   return (

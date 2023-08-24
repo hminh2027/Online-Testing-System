@@ -8,7 +8,7 @@ interface TabBarProps {
   items: TabBarCustomConfig[];
 }
 
-export default function TabBar({ items }: TabBarProps) {
+export function TabBar({ items }: TabBarProps) {
   const location = useLocation();
   const [curPath, setCurPath] = useState<string>('');
 

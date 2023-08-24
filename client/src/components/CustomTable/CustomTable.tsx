@@ -2,8 +2,8 @@ import type { TableProps } from 'antd';
 import { Button, Input, Table } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import type { ReactNode } from 'react';
-import CustomSpace from '../CustomSpace';
-import CustomCard from '../CustomCard';
+import { CustomSpace } from '@/components/CustomSpace';
+import { CustomCard } from '@/components/CustomCard';
 
 export type Action = { element: ReactNode };
 
@@ -12,9 +12,7 @@ interface CustomTableProps<T extends object> extends TableProps<T> {
   showSearch?: boolean;
   showFilter?: boolean;
 }
-export default function CustomTable<T extends object>(
-  props: CustomTableProps<T>,
-) {
+export function CustomTable<T extends object>(props: CustomTableProps<T>) {
   const { dataSource, columns, actionHeader, showSearch, showFilter, ...rest } =
     props;
   const navigation = useNavigate();

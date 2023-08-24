@@ -4,7 +4,7 @@ import { Card } from 'antd';
 interface CustomCardProps extends CardProps {
   shadow?: boolean;
 }
-export default function CustomCard(props: CustomCardProps) {
+export function CustomCard(props: CustomCardProps) {
   const { shadow, children, ...rest } = props;
 
   return (

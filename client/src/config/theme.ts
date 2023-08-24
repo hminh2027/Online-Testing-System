@@ -2,7 +2,7 @@ import type { ThemeConfig } from 'antd';
 
 const fontFamily = '"Open Sans", "Segoe UI", "Helvetica Neue", "Arial"';
 
-const themeConfig: ThemeConfig = {
+export const themeConfig: ThemeConfig = {
   token: {
     fontFamily,
   },
@@ -12,5 +12,3 @@ const themeConfig: ThemeConfig = {
     },
   },
 };
-
-export default themeConfig;

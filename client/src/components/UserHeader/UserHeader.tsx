@@ -23,7 +23,7 @@ const items: MenuProps['items'] = [
   },
 ];
 
-export default function UserHeader({ username }: UserHeaderProps) {
+export function UserHeader({ username }: UserHeaderProps) {
   const initials = (): string | null => {
     const trimmedName = username && username.trim();
 
