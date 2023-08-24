@@ -2,12 +2,12 @@ import { AppstoreOutlined, BarsOutlined } from '@ant-design/icons';
 
 export const classSegments = [
   {
-    label: 'Weekly',
-    value: 'Weekly',
+    label: 'Lớp học của bạn',
+    value: 'false',
   },
   {
-    label: 'Quarterly',
-    value: 'Quarterly',
+    label: 'Lớp học đã khoá',
+    value: 'true',
   },
 ];
 

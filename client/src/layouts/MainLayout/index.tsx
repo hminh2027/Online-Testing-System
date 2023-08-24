@@ -7,6 +7,7 @@ import Logo from '@/assets/logo.png';
 import styles from './index.module.css';
 import TabBar from '@/components/TabBar';
 import UserHeader from '@/components/UserHeader';
+import { studentTabs, teacherTabs } from '@/components/TabBar/config';
 
 interface MainLayoutProps {
   children?: ReactNode;
@@ -14,14 +15,19 @@ interface MainLayoutProps {
 }
 
 export default function MainLayout({ children }: MainLayoutProps) {
+  const { username, isTeacher } = {
+    username: 'Vu Hoang Minh',
+    isTeacher: false,
+  };
+
   return (
     <Layout>
       <Header className={styles.header}>
         <Image preview={false} height="100%" src={Logo} />
-        <TabBar />
+        <TabBar items={isTeacher ? teacherTabs : studentTabs} />
         <Space>
           <Notification count={15} />
-          <UserHeader username="Vu Hoang Minh" />
+          <UserHeader username={username} />
         </Space>
       </Header>
       <Content>{children ?? <Outlet />}</Content>
