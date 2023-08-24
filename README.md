@@ -21,8 +21,9 @@
       - can assign multiple class at once
     - duplicate an exam
     - import/export an exam
+  - mark exam (can be manually or automatically)
   - upload a post to timeline
-  - create/upload file to folder in class
+  - upload file in class
 
 - Student
   - join/leave a class
@@ -38,12 +39,13 @@
       - score
       - history
       - ...
+    - check exam schedule
     - searching:
       - user
       - exam
       - class
     - notify (via email & app)
-    - accept/decline request
+    - accept/decline request (cancel request after send)
     - comment in a post
 
 - Examination proctoring
