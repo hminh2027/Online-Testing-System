@@ -77,7 +77,7 @@ const actionHeaderMock: Action[] = [
 interface ClassesPageProps {}
 export default function ClassesPage({}: ClassesPageProps) {
   return (
-    <CustomSpace direction="vertical" fullWidth>
+    <CustomSpace direction="vertical" isFullWidth>
       <CustomTable
         actionHeader={actionHeaderMock}
         showSearch

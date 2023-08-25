@@ -2,16 +2,16 @@ import { Space, type SpaceProps } from 'antd';
 import type { CSSProperties } from 'react';
 
 interface CustomSpaceProps extends SpaceProps {
-  fullWidth?: boolean;
+  isFullWidth?: boolean;
   justify?: CSSProperties['justifyContent'];
 }
 export function CustomSpace(props: CustomSpaceProps) {
-  const { fullWidth, children, justify, ...rest } = props;
+  const { isFullWidth, children, justify, ...rest } = props;
 
   return (
     <Space
       style={{
-        width: fullWidth ? '100%' : 'inherit',
+        width: isFullWidth ? '100%' : 'inherit',
         justifyContent: justify,
       }}
       {...rest}

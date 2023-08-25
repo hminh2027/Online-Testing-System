@@ -18,9 +18,9 @@ export function CustomTable<T extends object>(props: CustomTableProps<T>) {
   const navigation = useNavigate();
 
   return (
-    <CustomSpace direction="vertical" fullWidth>
+    <CustomSpace direction="vertical" isFullWidth>
       {actionHeader && (
-        <CustomSpace justify="space-between" fullWidth>
+        <CustomSpace justify="space-between" isFullWidth>
           <CustomSpace>
             {actionHeader.map((action: Action) => (
               <>{action.element}</>
@@ -32,7 +32,7 @@ export function CustomTable<T extends object>(props: CustomTableProps<T>) {
           </CustomSpace>
         </CustomSpace>
       )}
-      <CustomCard shadow>
+      <CustomCard hasShadow>
         <Table
           rowSelection={{
             type: 'checkbox',
