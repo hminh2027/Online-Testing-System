@@ -1,4 +1,3 @@
-import type { defaultParams } from '@/types/query-params';
 import type { Resource, ResponseItem } from '../../../types/common';
 
 export interface Notification extends Resource {
@@ -11,4 +10,3 @@ export interface Notification extends Resource {
 
 export type ResNotificationList = ResponseItem<Notification[]>;
 export type ResNotificationModify = ResponseItem<Notification>;
-export type NotificationQuery = typeof defaultParams;

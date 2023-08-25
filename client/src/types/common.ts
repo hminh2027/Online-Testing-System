@@ -1,5 +1,3 @@
-import type { defaultParams } from '@/types/query-params';
-
 export interface Resource {
   id?: string;
 }
@@ -15,4 +13,8 @@ export interface ResponseItem<T> {
   content: T;
 }
 
-export type QueryParams = typeof defaultParams;
+export interface QueryParams {
+  page: number;
+  size: number;
+  sort: string;
+}

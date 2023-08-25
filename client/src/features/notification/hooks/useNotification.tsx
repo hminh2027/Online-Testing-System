@@ -2,7 +2,6 @@ import NotificationService from '@/features/notification/services/NotificationSe
 import { initialCustomQuery } from '../../../hooks/useCustomQuery/useCustomQuery';
 import type {
   Notification,
-  NotificationQuery,
   ResNotificationList,
   ResNotificationModify,
 } from '@/features/notification/types/notification';
@@ -16,6 +15,5 @@ export const {
   Notification,
   ResNotificationList,
   null,
-  ResNotificationModify,
-  NotificationQuery
+  ResNotificationModify
 >(NotificationService);

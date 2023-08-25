@@ -1,13 +1,9 @@
 import type { TableColumnsType } from 'antd';
-import { Button, Segmented, Space, Typography } from 'antd';
+import { Button, Typography } from 'antd';
 import { capitalize } from 'lodash';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { classSegments, displaySegments } from './config';
 import { GRADE } from '@/constants';
-import type { Action } from '@/components/CustomTable';
-import CustomTable from '@/components/CustomTable';
-import CustomSpace from '@/components/CustomSpace';
+import { CustomTable, type Action } from '@/components/CustomTable';
+import { CustomSpace } from '@/components/CustomSpace';
 
 const columns: TableColumnsType = [
   {

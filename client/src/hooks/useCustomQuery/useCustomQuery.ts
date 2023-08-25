@@ -10,7 +10,6 @@ import {
 } from '@/hooks/useCustomQuery/fetchQuery';
 import type { QueryParams, Resource, ResponseItem } from '@/types/common';
 import type { Service } from '@/types/service';
-import { getFilteredList } from '@/utils/service';
 
 type ResponseList = ResponseItem<Resource[]> | null;
 type ResponseDetail = ResponseItem<Resource[]> | null;
@@ -48,7 +47,6 @@ export const initialCustomQuery = <
   Y extends ResponseList,
   Z extends ResponseDetail,
   W extends ResponseModify,
-  T extends RequestQuery,
 >(
   service: Service,
 ) => {
@@ -70,11 +68,11 @@ export const initialCustomQuery = <
       },
     );
 
-  const useList = (params: T, options?: UseCustomQueryOptions<Y>) =>
+  const useList = (params: RequestQuery, options?: UseCustomQueryOptions<Y>) =>
     useQuery<Y>(
       [service.path, params],
       () =>
-        fetchList<T, Y>({
+        fetchList<RequestQuery, Y>({
           params,
           url: service.path,
         }),
@@ -147,27 +145,12 @@ export const initialCustomQuery = <
     const queryClient = useQueryClient();
 
     return useMutation(
-      ({ id }: DeleteParams<T>) =>
+      ({ id }: DeleteParams<RequestQuery>) =>
         deleteItem<W>({
           id,
           url: service.path,
         }),
       {
-        // Perform Optimistic update
-        onMutate: ({ id, currentFilter }: DeleteParams<T>) => {
-          const previousData = queryClient.getQueryData([
-            service.path,
-            currentFilter,
-          ]) as Y;
-
-          queryClient.setQueryData(
-            [service.path, currentFilter],
-            (old: Y = previousData) => ({
-              ...old,
-              data: getFilteredList(old, id),
-            }),
-          );
-        },
         onSettled: async (_data, _error, variables) => {
           await queryClient.invalidateQueries([
             service.path,

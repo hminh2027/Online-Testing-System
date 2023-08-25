@@ -2,8 +2,8 @@ import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { BadgeProps, MenuProps } from 'antd';
 import { Avatar, Badge, Dropdown } from 'antd';
+import { useQueryParams } from 'use-query-params';
 import { useListNotification } from '@/features/notification/hooks/useNotification';
-import queryParams from '@/types/query-params';
 
 const items: MenuProps['items'] = [
   {
@@ -26,6 +26,7 @@ const items: MenuProps['items'] = [
 interface NotificationProps extends BadgeProps {}
 export default function Notification(props: NotificationProps) {
   const { count, ...rest } = props;
+  const [queryParams, _setQueryParams] = useQueryParams();
   const { data } = useListNotification(queryParams as never);
 
   console.log(data);
