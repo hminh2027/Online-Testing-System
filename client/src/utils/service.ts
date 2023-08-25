@@ -1,6 +1,6 @@
 import { isArray } from 'lodash';
 
-import type { Resource, ResponseItem } from '@/models/common';
+import type { Resource, ResponseItem } from '@/types/common';
 
 export function getFilteredList<Y extends Resource>(
   old: ResponseItem<Y[]>,
@@ -16,5 +16,3 @@ export function getFilteredList<Y extends Resource>(
     data: content,
   };
 }
-
-export default {};

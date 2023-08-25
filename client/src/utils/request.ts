@@ -1,7 +1,6 @@
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 import axios from 'axios';
-
-import config from '@/config/config';
+import { config } from '@/config';
 
 export interface Request<T> {
   data?: T | null;

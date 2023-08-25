@@ -1,5 +1,5 @@
 import type { defaultParams } from '@/types/query-params';
-import type { Resource, ResponseItem } from './common';
+import type { Resource, ResponseItem } from '../../../types/common';
 
 export interface Notification extends Resource {
   userId: number;

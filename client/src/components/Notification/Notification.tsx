@@ -2,7 +2,7 @@ import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { BadgeProps, MenuProps } from 'antd';
 import { Avatar, Badge, Dropdown } from 'antd';
-import { useListNotification } from '@/hooks/useNotification';
+import { useListNotification } from '@/features/notification/hooks/useNotification';
 import queryParams from '@/types/query-params';
 
 const items: MenuProps['items'] = [

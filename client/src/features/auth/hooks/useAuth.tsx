@@ -1,11 +1,11 @@
-import NotificationService from '@/services/NotificationService';
-import { initialCustomQuery } from '../useCustomQuery';
+import NotificationService from '@/features/notification/services/NotificationService';
+import { initialCustomQuery } from '../../../hooks/useCustomQuery/useCustomQuery';
 import type {
   Notification,
   NotificationQuery,
   ResNotificationList,
   ResNotificationModify,
-} from '@/models/notification';
+} from '@/features/notification/types/notification';
 
 export const {
   useList: useListNotification,
