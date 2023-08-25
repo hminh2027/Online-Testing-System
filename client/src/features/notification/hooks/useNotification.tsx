@@ -4,7 +4,7 @@ import type {
   Notification,
   ResNotificationList,
   ResNotificationModify,
-} from '@/features/notification/types/notification';
+} from '@/features/notification/types';
 
 export const {
   useList: useListNotification,

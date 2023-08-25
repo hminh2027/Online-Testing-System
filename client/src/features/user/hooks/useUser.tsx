@@ -1,21 +1,17 @@
-import NotificationService from '@/features/notification/services/NotificationService';
-import { initialCustomQuery } from '../../../hooks/useCustomQuery/useCustomQuery';
+import { UserService } from '@/features/user/services';
+import { initialCustomQuery } from '@/hooks/useCustomQuery/useCustomQuery';
+
 import type {
-  Notification,
-  NotificationQuery,
-  ResNotificationList,
-  ResNotificationModify,
-} from '@/features/notification/types/notification';
+  ResUserItem,
+  ResUserList,
+  ResUserModify,
+  User,
+} from '@/features/user/types';
 
 export const {
-  useList: useListNotification,
-  useAddItem: useAddNotification,
-  usePatchItem: usePatchNotification,
-  useDeleteItem: useDeleteNotification,
-} = initialCustomQuery<
-  Notification,
-  ResNotificationList,
-  null,
-  ResNotificationModify,
-  NotificationQuery
->(NotificationService);
+  useList: useListUser,
+  useAddItem: useAddUser,
+  useUpdateItem: useUpdateUser,
+} = initialCustomQuery<User, ResUserList, ResUserItem, ResUserModify>(
+  UserService,
+);
