@@ -25,7 +25,7 @@ enum RequestStatus {
 model User {
   id        Int       @id @default(autoincrement())
   email     String    @unique
-  username  String
+  fullname  String
   password  String    @db.LongText
   isTeacher Boolean   @default(false)
   phone     String?
@@ -33,6 +33,7 @@ model User {
   school    String?
   studentId String?   @unique
   imageUrl  String?
+  createdAt DateTime  @default(now())
 
   // relations
   Classes           Class[]
@@ -75,7 +76,7 @@ model Class {
   ClassExam              ClassExam[]
   Post                   Post[]
   UserClass              UserClass[]
-  Files                  Files[]
+  Resource               Resource[]
 }
 
 model Exam {
@@ -224,7 +225,7 @@ model User_Notification {
   User         User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
-model Files {
+model Resource {
   id        Int      @id @default(autoincrement())
   classId   Int
   name      String
