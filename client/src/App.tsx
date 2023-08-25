@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { QueryParamProvider } from 'use-query-params';
-import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
+// import { QueryParamProvider } from 'use-query-params';
+// import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 
 import { ConfigProvider } from 'antd';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -9,25 +9,22 @@ import ClassDetailLayout from './layouts/ClassDetailLayout';
 import MainLayout from './layouts/MainLayout';
 import 'antd/dist/reset.css';
 import './App.css';
-import themeConfig from './config/theme';
 import ClassesPage from './features/class/pages/ClassList';
+import { themeConfig } from './config';
+import { Login } from './features/auth';
 
 const router = createBrowserRouter([
   {
-    element: (
-      <QueryParamProvider adapter={ReactRouter6Adapter}>
-        <MainLayout />
-      </QueryParamProvider>
-    ),
+    path: 'login',
+    element: <Login />,
+  },
+  {
+    path: 'signup',
+    element: <div>this is signup</div>,
+  },
+  {
+    element: <MainLayout />,
     children: [
-      {
-        path: 'login',
-        element: <div>this is login</div>,
-      },
-      {
-        path: 'signup',
-        element: <div>this is signup</div>,
-      },
       {
         path: 'class',
         children: [
@@ -47,15 +44,16 @@ const router = createBrowserRouter([
           },
         ],
       },
-      {
-        index: true,
-        element: <div>defaulT</div>,
-      },
-      {
-        path: '*',
-        element: <div>404 | Page not found</div>,
-      },
     ],
+  },
+
+  {
+    index: true,
+    element: <div>defaulT</div>,
+  },
+  {
+    path: '*',
+    element: <div>404 | Page not found</div>,
   },
 ]);
 

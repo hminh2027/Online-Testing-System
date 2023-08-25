@@ -1,5 +1,6 @@
 export interface Resource {
   id?: string;
+  createdAt?: Date;
 }
 
 export interface Pagination {

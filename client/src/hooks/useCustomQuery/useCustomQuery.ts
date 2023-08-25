@@ -12,7 +12,7 @@ import type { QueryParams, Resource, ResponseItem } from '@/types/common';
 import type { Service } from '@/types/service';
 
 type ResponseList = ResponseItem<Resource[]> | null;
-type ResponseDetail = ResponseItem<Resource[]> | null;
+type ResponseDetail = ResponseItem<Resource> | null;
 type ResponseModify = ResponseItem<Resource> | null;
 type RequestQuery = QueryParams | undefined | null;
 
