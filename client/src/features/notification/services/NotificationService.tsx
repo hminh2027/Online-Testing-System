@@ -1,7 +1,7 @@
-import { config } from '@/config/config';
+import { config } from '@/config/service';
 import type { Service } from '@/types/service';
 
-const NotificationService: Service = {
+export const NotificationService: Service = {
   path: config.apis.notification.path,
   getMany: {
     method: 'get',
@@ -16,5 +16,3 @@ const NotificationService: Service = {
     method: 'delete',
   },
 };
-
-export default NotificationService;

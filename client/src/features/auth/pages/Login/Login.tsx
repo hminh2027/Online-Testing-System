@@ -2,23 +2,61 @@ import { Button, Divider, Form, Input } from 'antd';
 import { Link } from 'react-router-dom';
 import { CustomCard } from '@/components/CustomCard';
 import { CustomSpace } from '@/components/CustomSpace';
+import { useAuth } from '@/features/auth/hooks';
+
+interface Credentials {
+  email: string;
+  password: string;
+}
 
 export function Login() {
+  // const { logIn } = useAuth();
+  // const { data, mutate } = logIn();
+
+  const { login } = useAuth();
+
+  const [form] = Form.useForm();
+
+  const handleSubmit = (values: Credentials) => {
+    console.log(values);
+
+    const { email, password } = values;
+
+    login(email, password);
+    // mutate(values);
+    // const data = await request({
+    //   url: 'student',
+    //   options: {
+    //     method: 'POST',
+    //     baseURL: 'http://localhost:5000',
+    //     data: {
+    //       username: values.email,
+    //       password: values.password,
+    //     },
+    //   },
+    // });
+
+    // console.log(data);
+  };
+
   return (
-    <div
+    <CustomSpace
+      isFullWidth
+      justify="center"
+      align="center"
+      direction="vertical"
       style={{
-        width: '50%',
+        minHeight: '100vh',
         margin: 'auto',
       }}
     >
       Đăng nhập
       <CustomCard hasShadow>
         <Form
-          name="normal_login"
-          className="login-form"
-          initialValues={{ remember: true }}
+          form={form}
+          name="login"
           layout="vertical"
-          onFinish={() => {}}
+          onFinish={handleSubmit}
         >
           <Form.Item label="Email" name="email">
             <Input />
@@ -40,7 +78,7 @@ export function Login() {
               direction="vertical"
               isFullWidth
             >
-              <Button type="primary" block>
+              <Button type="primary" block htmlType="submit">
                 Đăng nhập
               </Button>
               <Divider>Hoặc</Divider>
@@ -51,6 +89,6 @@ export function Login() {
           </Form.Item>
         </Form>
       </CustomCard>
-    </div>
+    </CustomSpace>
   );
 }

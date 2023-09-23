@@ -1,4 +1,4 @@
-import NotificationService from '@/features/notification/services/NotificationService';
+import { NotificationService } from '@/features/notification/services';
 import { initialCustomQuery } from '../../../hooks/useCustomQuery/useCustomQuery';
 import type {
   Notification,
