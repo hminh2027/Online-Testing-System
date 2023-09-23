@@ -1,7 +1,15 @@
-import type { User } from '@/features/user/types';
-import type { ResponseItem } from '@/types/common';
+export interface LoginPayload {
+  email: string;
+  password: string;
+}
 
-export interface Auth extends User {}
-
-export type ResAuthItem = ResponseItem<Auth>;
-export type ResAuthModify = ResponseItem<Auth>;
+export interface SignUpPayload {
+  email: string;
+  password: string;
+  fullname: string;
+  isTeacher: boolean;
+  phone?: string;
+  birth?: Date;
+  school?: string;
+  studentId?: string;
+}

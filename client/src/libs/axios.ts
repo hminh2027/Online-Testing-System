@@ -2,7 +2,6 @@ import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 import Axios from 'axios';
 
 import { endpoints } from '@/config';
-import { CustomMessage } from '@/components/CustomMessage';
 
 export type ResponseData<T> = AxiosResponse<T> | T | null;
 
@@ -36,9 +35,7 @@ axios.interceptors.response.use(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const errMessage = err.response.data.message as string;
 
-    CustomMessage.error(errMessage);
-
-    return Promise.reject(err);
+    return Promise.reject(errMessage);
   },
 );
 

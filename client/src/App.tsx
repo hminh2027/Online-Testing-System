@@ -12,7 +12,7 @@ import MainLayout from '@/layouts/MainLayout';
 import 'antd/dist/reset.css';
 import '@/App.css';
 import { themeConfig } from '@/config';
-import { Login } from '@/features/auth';
+import { Login, SignUp } from '@/features/auth';
 import { ClassRoute } from '@/features/class';
 import { AppRoutes } from '@/constants/path';
 import { ErrorPage } from './features/error';
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'signup',
-        element: <div>this is signup</div>,
+        element: <SignUp />,
       },
       {
         element: <MainLayout />,

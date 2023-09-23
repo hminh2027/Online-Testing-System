@@ -3,21 +3,14 @@ import { Link } from 'react-router-dom';
 import { CustomCard } from '@/components/CustomCard';
 import { CustomSpace } from '@/components/CustomSpace';
 import { useAuth } from '@/features/auth/hooks';
-
-interface Credentials {
-  email: string;
-  password: string;
-}
+import type { LoginPayload } from '..';
 
 export function Login() {
-  // const { logIn } = useAuth();
-  // const { data, mutate } = logIn();
-
   const { login } = useAuth();
 
   const [form] = Form.useForm();
 
-  const handleSubmit = (values: Credentials) => {
+  const handleSubmit = (values: LoginPayload) => {
     const { email, password } = values;
 
     login(email, password);
