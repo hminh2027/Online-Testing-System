@@ -4,7 +4,6 @@ const { ApiError } = require("../utils");
 const httpStatus = require("http-status");
 
 const login = async ({ email, password }) => {
-  console.log("ok");
   const user = await userService.getOneByEmail({
     email,
   });

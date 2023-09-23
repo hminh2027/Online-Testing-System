@@ -26,8 +26,8 @@ async function createOne({
   });
 }
 
-async function getOneByEmail(email) {
-  return prisma.user.findFirst({
+async function getOneByEmail({ email }) {
+  return prisma.user.findUnique({
     where: { email },
   });
 }
