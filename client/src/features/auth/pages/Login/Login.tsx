@@ -18,25 +18,9 @@ export function Login() {
   const [form] = Form.useForm();
 
   const handleSubmit = (values: Credentials) => {
-    console.log(values);
-
     const { email, password } = values;
 
     login(email, password);
-    // mutate(values);
-    // const data = await request({
-    //   url: 'student',
-    //   options: {
-    //     method: 'POST',
-    //     baseURL: 'http://localhost:5000',
-    //     data: {
-    //       username: values.email,
-    //       password: values.password,
-    //     },
-    //   },
-    // });
-
-    // console.log(data);
   };
 
   return (

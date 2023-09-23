@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import { axiosInstance } from '@/libs/axios';
 
 type ParamsData = {
   url?: string;
@@ -10,23 +10,21 @@ type AddData<T> = ParamsData & { payload: T };
 type UpdateData<T> = ItemData & AddData<T>;
 
 export function fetchItem<Y>({ id, url = '' }: ItemData): Promise<Y> {
-  return request<Y>({ url: `${url}/${id}` });
+  return axiosInstance<Y>({ url: `${url}/${id}` });
 }
 
 export function fetchList<X, Y>({ params, url }: ListData<X>) {
-  return request<Y>({
+  return axiosInstance<Y>({
     url,
-    options: { params },
+    params,
   });
 }
 
 export function addItem<X, Y>({ payload, url = '' }: AddData<X>): Promise<Y> {
-  return request<Y>({
+  return axiosInstance<Y>({
     url,
-    options: {
-      method: 'POST',
-      data: payload,
-    },
+    method: 'POST',
+    data: payload,
   });
 }
 
@@ -35,12 +33,10 @@ export function patchItem<X, Y>({
   payload,
   url = '',
 }: UpdateData<X>): Promise<Y> {
-  return request<Y>({
+  return axiosInstance<Y>({
     url: `${url}/${id}`,
-    options: {
-      method: 'PATCH',
-      data: payload,
-    },
+    method: 'PATCH',
+    data: payload,
   });
 }
 
@@ -49,20 +45,16 @@ export function updateItem<X, Y>({
   payload,
   url = '',
 }: UpdateData<X>): Promise<Y> {
-  return request<Y>({
+  return axiosInstance<Y>({
     url: `${url}/${id}`,
-    options: {
-      method: 'PUT',
-      data: payload,
-    },
+    method: 'PUT',
+    data: payload,
   });
 }
 
 export function deleteItem<Y>({ id, url = '' }: ItemData): Promise<Y> {
-  return request<Y>({
+  return axiosInstance<Y>({
     url: `${url}/${id}`,
-    options: {
-      method: 'DELETE',
-    },
+    method: 'DELETE',
   });
 }
