@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 import axios from 'axios';
-import { config } from '@/config';
+import { endpoints } from '@/config';
 
 export interface Request<T> {
   data?: T | null;
@@ -15,13 +15,13 @@ export const defaultOptions: AxiosRequestConfig = {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     'Content-Type': 'application/json',
   },
-  baseURL: config.baseUrl,
+  baseURL: endpoints.baseUrl,
 };
 
 export type ResponstData<T> = AxiosResponse<T> | T | null;
 
 export const request = async <T>({
-  url = config.apis.default,
+  url = endpoints.apis.default,
   options = {},
 }: Request<T>): Promise<T> => {
   const mergedOptions = {

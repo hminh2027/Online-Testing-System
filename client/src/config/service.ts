@@ -1,12 +1,16 @@
-export const config = {
+export const endpoints = {
   baseUrl: import.meta.env.VITE_API_URL as string,
   apis: {
     default: '/',
     user: {
       path: '/user',
+      detail: (id: string) => `/user/${id}`, // TODO: this way will make the typing more loosely
     },
     notification: {
       path: '/notification',
+    },
+    auth: {
+      path: '/auth',
     },
   },
 };

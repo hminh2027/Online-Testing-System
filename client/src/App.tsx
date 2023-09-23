@@ -1,17 +1,19 @@
 import { Suspense } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-// import { QueryParamProvider } from 'use-query-params';
-// import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from 'react-router-dom';
 
 import { ConfigProvider } from 'antd';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import ClassDetailLayout from './layouts/ClassDetailLayout';
-import MainLayout from './layouts/MainLayout';
+import MainLayout from '@/layouts/MainLayout';
 import 'antd/dist/reset.css';
-import './App.css';
-import ClassesPage from './features/class/pages/ClassList';
-import { themeConfig } from './config';
-import { Login } from './features/auth';
+import '@/App.css';
+import { themeConfig } from '@/config';
+import { Login } from '@/features/auth';
+import { ClassRoute } from '@/features/class';
+import { AppRoutes } from '@/constants/path';
 
 const router = createBrowserRouter([
   {
@@ -27,29 +29,13 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'class',
-        children: [
-          {
-            path: '',
-            element: <ClassesPage />,
-          },
-          {
-            path: ':id',
-            element: <ClassDetailLayout />,
-            children: [
-              {
-                path: '',
-                element: <>detail</>,
-              },
-            ],
-          },
-        ],
+        children: ClassRoute,
       },
     ],
   },
-
   {
     index: true,
-    element: <div>defaulT</div>,
+    element: <Navigate to={AppRoutes.Login} replace />,
   },
   {
     path: '*',

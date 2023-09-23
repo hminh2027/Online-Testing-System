@@ -6,9 +6,3 @@ export enum GRADE {
   university = 'đại học',
   other = 'khác',
 }
-
-export enum REQUEST_STATUS {
-  pending = 'chờ duyệt',
-  accepted = 'chấp nhận',
-  declined = 'từ chối',
-}

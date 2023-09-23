@@ -1,8 +1,8 @@
-import { config } from '@/config/config';
+import { endpoints } from '@/config/service';
 import type { Service } from '@/types/service';
 
 const UserService: Service = {
-  path: config.apis.user.path,
+  path: endpoints.apis.user.path,
   getOne: {
     method: 'get',
   },
