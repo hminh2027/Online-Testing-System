@@ -1,14 +1,22 @@
 import { Button, Divider, Form, Input } from 'antd';
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { CustomCard } from '@/components/CustomCard';
 import { CustomSpace } from '@/components/CustomSpace';
 import { useAuth } from '@/features/auth/hooks';
 import type { LoginPayload } from '..';
+import { useAuthStore } from '../stores';
 
 export default function Login() {
   const { logIn } = useAuth();
+  const { isAuthed } = useAuthStore();
+  const navigator = useNavigate();
 
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (isAuthed) navigator('/class');
+  });
 
   const handleSubmit = (values: LoginPayload) => {
     const { email, password } = values;

@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { storage } from '@/utils';
 
 interface AuthStore {
   isAuthed: boolean;
@@ -6,6 +7,6 @@ interface AuthStore {
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
-  isAuthed: false,
+  isAuthed: !!storage.getToken(),
   setIsAuth: (isAuth: boolean) => set(() => ({ isAuthed: isAuth })),
 }));

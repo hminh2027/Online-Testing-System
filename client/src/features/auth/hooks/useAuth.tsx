@@ -53,6 +53,7 @@ export const useAuth = () => {
 
   const logOut = () => {
     storage.clearToken();
+    setIsAuth(false);
     navigator('/login');
   };
 
