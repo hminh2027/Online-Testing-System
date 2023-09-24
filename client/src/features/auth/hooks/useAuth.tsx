@@ -4,15 +4,15 @@ import { useAuthStore } from '../stores';
 import { endpoints } from '@/config';
 import { addItem } from '@/hooks/useCustomQuery';
 import { CustomMessage } from '@/components/CustomMessage';
-import type { LoginPayload } from '..';
+import type { LoginPayload, ResAuthItem, SignUpPayload } from '..';
 
 export const useAuth = () => {
   const { setIsAuth } = useAuthStore();
   const navigator = useNavigate();
 
-  const { mutate } = useMutation(
+  const { mutate: logInMutate } = useMutation(
     (payload: LoginPayload) =>
-      addItem({
+      addItem<LoginPayload, ResAuthItem>({
         payload,
         url: `${endpoints.apis.auth.path}/login`,
       }),
@@ -22,26 +22,32 @@ export const useAuth = () => {
     },
   );
 
-  function handleOnSuccess() {
+  const { mutate: signUpMutate } = useMutation(
+    (payload: SignUpPayload) =>
+      addItem<SignUpPayload, ResAuthItem>({
+        payload,
+        url: `${endpoints.apis.auth.path}/signup`,
+      }),
+    {
+      onSuccess: handleOnSuccess,
+      onError: handleOnError,
+    },
+  );
+
+  function handleOnSuccess(res: ResAuthItem) {
     setIsAuth(true);
     navigator('/class');
+
+    return CustomMessage.success(res.message);
   }
 
   function handleOnError(err: string) {
     return CustomMessage.error(err);
   }
 
-  const logIn = (email: string, password: string) =>
-    mutate({
-      email,
-      password,
-    });
+  const logIn = (loginPayload: LoginPayload) => logInMutate(loginPayload);
 
-  const signUp = (email: string, password: string) =>
-    mutate({
-      email,
-      password,
-    });
+  const signUp = (signUpPayload: SignUpPayload) => signUpMutate(signUpPayload);
 
   const logOut = () => {};
 

@@ -6,14 +6,17 @@ import { useAuth } from '@/features/auth/hooks';
 import type { LoginPayload } from '..';
 
 export function Login() {
-  const { login } = useAuth();
+  const { logIn } = useAuth();
 
   const [form] = Form.useForm();
 
   const handleSubmit = (values: LoginPayload) => {
     const { email, password } = values;
 
-    login(email, password);
+    logIn({
+      email,
+      password,
+    });
   };
 
   return (

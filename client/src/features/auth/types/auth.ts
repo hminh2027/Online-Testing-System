@@ -1,3 +1,5 @@
+import type { ResponseItem } from '@/types';
+
 export interface LoginPayload {
   email: string;
   password: string;
@@ -13,3 +15,10 @@ export interface SignUpPayload {
   school?: string;
   studentId?: string;
 }
+
+interface AuthResponse {
+  tokens: string;
+  user: string;
+}
+
+export type ResAuthItem = ResponseItem<AuthResponse>;

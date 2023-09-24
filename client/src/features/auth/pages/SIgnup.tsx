@@ -1,4 +1,12 @@
-import { Button, Col, DatePicker, Form, Input, Row } from 'antd';
+import {
+Button,
+Col,
+DatePicker,
+Form,
+Input,
+Row,
+Select,
+} from 'antd';
 import { Link } from 'react-router-dom';
 import { CustomCard } from '@/components/CustomCard';
 import { CustomSpace } from '@/components/CustomSpace';
@@ -11,9 +19,27 @@ export function SignUp() {
   const [form] = Form.useForm();
 
   const handleSubmit = (values: SignUpPayload) => {
-    const { email, password } = values;
+    const {
+      email,
+      password,
+      fullname,
+      isTeacher,
+      birth,
+      phone,
+      school,
+      studentId,
+    } = values;
 
-    signUp(email, password);
+    signUp({
+      email,
+      password,
+      fullname,
+      isTeacher,
+      birth,
+      phone,
+      school,
+      studentId,
+    });
   };
 
   return (
@@ -46,7 +72,19 @@ export function SignUp() {
             <Input type="password" />
           </Form.Item>
           <Form.Item label="Đăng ký với vai trò" name="isTeacher">
-            <Input />
+            <Select
+              defaultValue={false}
+              options={[
+                {
+                  value: false,
+                  label: 'Học sinh/sinh viên',
+                },
+                {
+                  value: true,
+                  label: 'Giáo viên',
+                },
+              ]}
+            />
           </Form.Item>
           Thông tin cá nhân
           <Row gutter={10}>
