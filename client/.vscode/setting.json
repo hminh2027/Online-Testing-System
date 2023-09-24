@@ -2,7 +2,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "editor.formatOnSave": true,
   "css.format.enable": true,
   "eslint.format.enable": true,
@@ -10,5 +10,8 @@
   "javascript.format.enable": true,
   "scss.format.enable": true,
   "typescript.format.enable": true,
-  "autoimport.showNotifications": true
+  "autoimport.showNotifications": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  }
 }
