@@ -12,13 +12,13 @@ async function main() {
   await authService.signup({
     password: "123456",
     email: "teacher@gmail.com",
-    username: "Minh Mẫn",
+    fullname: "Minh Mẫn",
   });
   for (user of users) {
     await authService.signup({
       password: user.password,
       email: user.email,
-      username: user.username,
+      fullname: user.fullname,
     });
   }
 

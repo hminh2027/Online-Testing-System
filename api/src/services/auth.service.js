@@ -22,14 +22,28 @@ const login = async ({ email, password }) => {
   return user;
 };
 
-const signup = async ({ password, username, email }) => {
-  const isExisted = await userService.getOneByEmail(email);
-  if (isExisted) throw new ApiError(httpStatus.BAD_REQUEST, "Email đã tồn tại");
+const signup = async ({
+  password,
+  fullname,
+  email,
+  isTeacher,
+  studentId,
+  phone,
+  birth,
+  school,
+}) => {
+  const isExisted = await userService.getOneByEmail({ email });
+  if (isExisted) throw new ApiError(httpStatus.CONFLICT, "Email đã tồn tại");
   password = await passwordService.hashPassword(password);
   const user = await userService.createOne({
     password,
-    username,
+    fullname,
     email,
+    isTeacher,
+    studentId,
+    phone,
+    birth,
+    school,
   });
   return user;
 };
