@@ -6,12 +6,14 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from 'react-error-boundary';
 import 'antd/dist/reset.css';
 import '@/App.css';
+import { HelmetProvider } from 'react-helmet-async';
 import { themeConfig } from '@/config';
-import { ClassRoute } from '@/features/class';
+
 import { AppRoutes } from '@/constants/path';
 import { ErrorPage } from './features/error';
 import { MainLayout } from './layouts';
 import * as AuthPages from '@/features/auth/pages';
+import { ClassRoute } from './features/class/routes';
 
 const router = createBrowserRouter([
   {
@@ -60,11 +62,13 @@ function App() {
   return (
     <ErrorBoundary FallbackComponent={ErrorPage}>
       <Suspense fallback={<Spin />}>
-        <ConfigProvider theme={themeConfig}>
-          <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
-          </QueryClientProvider>
-        </ConfigProvider>
+        <HelmetProvider>
+          <ConfigProvider theme={themeConfig}>
+            <QueryClientProvider client={queryClient}>
+              <RouterProvider router={router} />
+            </QueryClientProvider>
+          </ConfigProvider>
+        </HelmetProvider>
       </Suspense>
     </ErrorBoundary>
   );
