@@ -27,13 +27,7 @@ module.exports = {
     project: 'tsconfig.json',
     sourceType: 'module',
   },
-  plugins: [
-    'eslint-comments',
-    'import-newlines',
-    'promise',
-    '@typescript-eslint',
-    'react-refresh',
-  ],
+  plugins: ['eslint-comments', 'import-newlines', 'promise', '@typescript-eslint', 'react-refresh'],
   rules: {
     'react-refresh/only-export-components': 'warn',
     // ts eslint
@@ -57,10 +51,7 @@ module.exports = {
       },
     ],
     '@typescript-eslint/consistent-type-exports': 'error',
-    '@typescript-eslint/consistent-type-imports': [
-      'error',
-      { disallowTypeAnnotations: false },
-    ],
+    '@typescript-eslint/consistent-type-imports': ['error', { disallowTypeAnnotations: false }],
     '@typescript-eslint/func-call-spacing': 'error',
     'key-spacing': 'off',
     '@typescript-eslint/key-spacing': 'error',
@@ -146,7 +137,7 @@ module.exports = {
     'import-newlines/enforce': [
       'error',
       {
-        items: 4,
+        items: 10,
         // "max-len": 80, // doesn't work well with prettier
         semi: true,
         forceSingleLine: false, // true doesn't work well with prettier
@@ -339,10 +330,7 @@ module.exports = {
     // Too restrictive: https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/destructuring-assignment.md
     'react/destructuring-assignment': 'off',
     // Use function hoisting to improve code readability
-    'no-use-before-define': [
-      'error',
-      { functions: false, classes: true, variables: true },
-    ],
+    'no-use-before-define': ['error', { functions: false, classes: true, variables: true }],
     // It's not accurate in the monorepo style
     'import/no-extraneous-dependencies': 'off',
   },
