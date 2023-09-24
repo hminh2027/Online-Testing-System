@@ -1,30 +1,28 @@
-import { Button, Divider, Form, Input } from 'antd';
+import { Button, Divider, Form, Input, Typography } from 'antd';
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CustomCard } from '@/components/CustomCard';
 import { CustomSpace } from '@/components/CustomSpace';
 import { useAuth } from '@/features/auth/hooks';
 import type { LoginPayload } from '..';
-import { useAuthStore } from '../stores';
+import { useAuthStore } from '@/features/auth/stores';
+import { createValidator } from '@/utils/validator';
+import { logInSchema } from '@/features/auth/schemas/logInSchema';
 
 export default function Login() {
   const { logIn } = useAuth();
   const { isAuthed } = useAuthStore();
   const navigator = useNavigate();
-
   const [form] = Form.useForm();
+
+  const yupSync = createValidator(logInSchema);
 
   useEffect(() => {
     if (isAuthed) navigator('/class');
   });
 
   const handleSubmit = (values: LoginPayload) => {
-    const { email, password } = values;
-
-    logIn({
-      email,
-      password,
-    });
+    logIn(values);
   };
 
   return (
@@ -36,22 +34,25 @@ export default function Login() {
       style={{
         minHeight: '100vh',
         margin: 'auto',
+        // width: '1000px',
       }}
     >
-      Đăng nhập
+      <Typography.Title>Đăng Nhập</Typography.Title>
       <CustomCard hasShadow>
-        <Form form={form} name="login" layout="vertical" onFinish={handleSubmit}>
-          <Form.Item label="Email" name="email">
+        <Form autoComplete="off" form={form} name="login" layout="vertical" onFinish={handleSubmit}>
+          <Form.Item label="Email" name="email" rules={[yupSync]}>
             <Input />
           </Form.Item>
-          <Form.Item label="Mật khẩu" name="password">
+          <Form.Item label="Mật khẩu" name="password" rules={[yupSync]}>
             <Input type="password" />
           </Form.Item>
           <Form.Item>
             <CustomSpace isFullWidth justify="space-between">
-              <Link to="/forgot">Quên mật khẩu?</Link>
+              <Link to="/forgot">Quên mật khẩu</Link>
 
-              <Link to="/signup">Chưa có tài khoản?</Link>
+              <Link replace to="/signup">
+                Chưa có tài khoản?
+              </Link>
             </CustomSpace>
           </Form.Item>
 

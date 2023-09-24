@@ -1,29 +1,27 @@
-import { Button, Col, DatePicker, Form, Input, Row, Select } from 'antd';
+import { Button, Col, DatePicker, Divider, Form, Input, Row, Select, Typography } from 'antd';
 import { Link } from 'react-router-dom';
+import dayjs from 'dayjs';
+import type { RangePickerProps } from 'antd/es/date-picker';
 import { CustomCard } from '@/components/CustomCard';
 import { useAuth } from '@/features/auth/hooks';
 import { CustomSpace } from '@/components/CustomSpace';
 import type { SignUpPayload } from '..';
+import { signUpSchema } from '../schemas/signUpSchema';
+import { createValidator } from '@/utils/validator';
 
 export default function SignUp() {
   const { signUp } = useAuth();
+  const yupSync = createValidator(signUpSchema);
 
   const [form] = Form.useForm();
 
   const handleSubmit = (values: SignUpPayload) => {
-    const { email, password, fullname, isTeacher, birth, phone, school, studentId } = values;
-
-    signUp({
-      email,
-      password,
-      fullname,
-      isTeacher,
-      birth,
-      phone,
-      school,
-      studentId,
-    });
+    signUp(values);
   };
+
+  const disabledDate: RangePickerProps['disabledDate'] = (current) =>
+    // Can not select days before today and today
+    current && current > dayjs().endOf('day');
 
   return (
     <CustomSpace
@@ -36,22 +34,27 @@ export default function SignUp() {
         margin: 'auto',
       }}
     >
-      Tạo tài khoản
+      <Typography.Title>Tạo Tài Khoản</Typography.Title>
       <CustomCard hasShadow>
-        <Form form={form} name="signup" layout="vertical" onFinish={handleSubmit}>
-          Thông tin tài khoản
-          <Form.Item required label="Email" name="email">
+        <Form
+          autoComplete="off"
+          form={form}
+          name="signup"
+          layout="vertical"
+          onFinish={handleSubmit}
+        >
+          <Divider orientation="left">Thông tin tài khoản</Divider>
+          <Form.Item rules={[yupSync]} required label="Email" name="email">
             <Input />
           </Form.Item>
-          <Form.Item required label="Mật khẩu" name="password">
+          <Form.Item rules={[yupSync]} required label="Mật khẩu" name="password">
             <Input type="password" />
           </Form.Item>
-          <Form.Item required label="Xác nhận mật khẩu" name="rePassword">
+          <Form.Item rules={[yupSync]} required label="Xác nhận mật khẩu" name="confirmPassword">
             <Input type="password" />
           </Form.Item>
-          <Form.Item label="Đăng ký với vai trò" name="isTeacher">
+          <Form.Item initialValue={false} label="Đăng ký với vai trò" name="isTeacher">
             <Select
-              defaultValue={false}
               options={[
                 {
                   value: false,
@@ -64,41 +67,45 @@ export default function SignUp() {
               ]}
             />
           </Form.Item>
-          Thông tin cá nhân
+          <Divider orientation="left">Thông tin cá nhân</Divider>
           <Row gutter={10}>
             <Col span={12}>
-              <Form.Item required label="Họ và tên" name="fullname">
+              <Form.Item rules={[yupSync]} required label="Họ và tên" name="fullname">
                 <Input />
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label="Mã học sinh/sinh viên" name="studentId">
+              <Form.Item rules={[yupSync]} label="Mã học sinh/sinh viên" name="studentId">
                 <Input />
               </Form.Item>
             </Col>
           </Row>
           <Row gutter={10}>
             <Col span={12}>
-              <Form.Item label="Số điện thoại" name="phone">
+              <Form.Item rules={[yupSync]} label="Số điện thoại" name="phone">
                 <Input />
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label="Ngày sinh" name="birth">
+              <Form.Item rules={[yupSync]} label="Ngày sinh" name="birth">
                 <DatePicker
+                  format="DD/MM/YYYY"
                   style={{
                     width: '100%',
                   }}
+                  disabledDate={disabledDate}
                 />
               </Form.Item>
             </Col>
           </Row>
-          <Form.Item label="Trường học" name="school">
+          <Form.Item rules={[yupSync]} label="Trường học" name="school">
             <Input />
           </Form.Item>
           <Form.Item>
             <CustomSpace isFullWidth justify="space-between">
-              <Link to="/signup">Đã có tài khoản?</Link>
+              <Link replace to="/login">
+                Đã có tài khoản?
+              </Link>
             </CustomSpace>
           </Form.Item>
           <Form.Item>
@@ -112,7 +119,7 @@ export default function SignUp() {
               isFullWidth
             >
               <Button type="primary" block htmlType="submit">
-                Đăng nhập
+                Đăng ký
               </Button>
             </CustomSpace>
           </Form.Item>
