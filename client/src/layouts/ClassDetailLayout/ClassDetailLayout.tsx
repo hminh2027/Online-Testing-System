@@ -29,9 +29,7 @@ const items2: MenuProps['items'] = sideNavItems.map((item) => ({
   label: <NavLink to={`/${item.path}`}>{item.label}</NavLink>,
 }));
 
-export default function ClassDetailLayout({
-  children,
-}: ClassDetailLayoutProps) {
+export function ClassDetailLayout({ children }: ClassDetailLayoutProps) {
   return (
     <Layout>
       <Sider>

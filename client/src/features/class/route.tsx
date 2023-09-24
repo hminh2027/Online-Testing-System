@@ -1,4 +1,4 @@
-import ClassDetailLayout from '@/layouts/ClassDetailLayout';
+import { ClassDetailLayout } from '@/layouts/ClassDetailLayout';
 import ClassesPage from './pages/ClassList';
 
 export const ClassRoute = [

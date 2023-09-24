@@ -15,7 +15,7 @@ interface MainLayoutProps {
   // items: [];
 }
 
-export default function MainLayout({ children }: MainLayoutProps) {
+export function MainLayout({ children }: MainLayoutProps) {
   const { username, isTeacher } = {
     username: 'Vu Hoang Minh',
     isTeacher: false,

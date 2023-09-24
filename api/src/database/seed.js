@@ -13,6 +13,7 @@ async function main() {
     password: "123456",
     email: "teacher@gmail.com",
     fullname: "Minh Mẫn",
+    isTeacher: true,
   });
   for (user of users) {
     await authService.signup({

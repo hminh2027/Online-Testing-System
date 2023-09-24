@@ -261,7 +261,7 @@ module.exports = {
       'error',
       {
         maximum: {
-          single: 3,
+          single: 5,
           multi: 1,
         },
       },

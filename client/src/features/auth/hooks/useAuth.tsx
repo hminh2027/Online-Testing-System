@@ -5,6 +5,7 @@ import { endpoints } from '@/config';
 import { addItem } from '@/hooks/useCustomQuery';
 import { CustomMessage } from '@/components/CustomMessage';
 import type { LoginPayload, ResAuthItem, SignUpPayload } from '..';
+import { storage } from '@/utils';
 
 export const useAuth = () => {
   const { setIsAuth } = useAuthStore();
@@ -37,6 +38,7 @@ export const useAuth = () => {
   function handleOnSuccess(res: ResAuthItem) {
     setIsAuth(true);
     navigator('/class');
+    storage.setToken(res.content.tokens.accessToken);
 
     return CustomMessage.success(res.message);
   }
@@ -49,7 +51,10 @@ export const useAuth = () => {
 
   const signUp = (signUpPayload: SignUpPayload) => signUpMutate(signUpPayload);
 
-  const logOut = () => {};
+  const logOut = () => {
+    storage.clearToken();
+    navigator('/login');
+  };
 
   const refresh = () => {};
 

@@ -15,19 +15,19 @@ export const defaultOptions: AxiosRequestConfig = {
   baseURL: endpoints.baseUrl,
 };
 
-// function authRequestInterceptor(config: AxiosRequestConfig) {
-//   const token = storage.getToken();
+function authRequestInterceptor(config: AxiosRequestConfig) {
+  const token = localStorage.getItem('TOKEN');
 
-//   if (token) config.headers.authorization = `${token}`;
+  if (token) config.headers.authorization = `${token}`;
 
-//   config.headers.Accept = 'application/json';
+  config.headers.Accept = 'application/json';
 
-//   return config;
-// }
+  return config;
+}
 
 const axios = Axios.create(defaultOptions);
 
-// axios.interceptors.request.use(authRequestInterceptor);
+axios.interceptors.request.use(authRequestInterceptor);
 
 axios.interceptors.response.use(
   (res) => res,
@@ -39,9 +39,7 @@ axios.interceptors.response.use(
   },
 );
 
-export const axiosInstance = async <T>(
-  config?: AxiosRequestConfig,
-): Promise<T> => {
+export const axiosInstance = async <T>(config?: AxiosRequestConfig): Promise<T> => {
   const res: AxiosResponse<T> = await axios({
     ...defaultOptions,
     ...config,

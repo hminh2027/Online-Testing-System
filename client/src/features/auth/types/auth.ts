@@ -16,9 +16,12 @@ export interface SignUpPayload {
   studentId?: string;
 }
 
-interface AuthResponse {
-  tokens: string;
-  user: string;
-}
+type AuthResponse = {
+  tokens: {
+    accessToken: string;
+    refreshToken: string;
+  };
+  user: object;
+};
 
 export type ResAuthItem = ResponseItem<AuthResponse>;

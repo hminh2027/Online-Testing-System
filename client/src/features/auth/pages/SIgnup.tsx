@@ -1,16 +1,8 @@
-import {
-Button,
-Col,
-DatePicker,
-Form,
-Input,
-Row,
-Select,
-} from 'antd';
+import { Button, Col, DatePicker, Form, Input, Row, Select } from 'antd';
 import { Link } from 'react-router-dom';
 import { CustomCard } from '@/components/CustomCard';
-import { CustomSpace } from '@/components/CustomSpace';
 import { useAuth } from '@/features/auth/hooks';
+import { CustomSpace } from '@/components/CustomSpace';
 import type { SignUpPayload } from '..';
 
 export function SignUp() {
@@ -19,16 +11,7 @@ export function SignUp() {
   const [form] = Form.useForm();
 
   const handleSubmit = (values: SignUpPayload) => {
-    const {
-      email,
-      password,
-      fullname,
-      isTeacher,
-      birth,
-      phone,
-      school,
-      studentId,
-    } = values;
+    const { email, password, fullname, isTeacher, birth, phone, school, studentId } = values;
 
     signUp({
       email,
@@ -55,12 +38,7 @@ export function SignUp() {
     >
       Tạo tài khoản
       <CustomCard hasShadow>
-        <Form
-          form={form}
-          name="signup"
-          layout="vertical"
-          onFinish={handleSubmit}
-        >
+        <Form form={form} name="signup" layout="vertical" onFinish={handleSubmit}>
           Thông tin tài khoản
           <Form.Item required label="Email" name="email">
             <Input />
@@ -107,7 +85,11 @@ export function SignUp() {
             </Col>
             <Col span={12}>
               <Form.Item label="Ngày sinh" name="birth">
-                <DatePicker style={{ width: '100%' }} />
+                <DatePicker
+                  style={{
+                    width: '100%',
+                  }}
+                />
               </Form.Item>
             </Col>
           </Row>
@@ -121,7 +103,11 @@ export function SignUp() {
           </Form.Item>
           <Form.Item>
             <CustomSpace
-              styles={{ item: { textAlign: 'center' } }}
+              styles={{
+                item: {
+                  textAlign: 'center',
+                },
+              }}
               direction="vertical"
               isFullWidth
             >

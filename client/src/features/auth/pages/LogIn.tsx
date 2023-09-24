@@ -32,12 +32,7 @@ export function Login() {
     >
       Đăng nhập
       <CustomCard hasShadow>
-        <Form
-          form={form}
-          name="login"
-          layout="vertical"
-          onFinish={handleSubmit}
-        >
+        <Form form={form} name="login" layout="vertical" onFinish={handleSubmit}>
           <Form.Item label="Email" name="email">
             <Input />
           </Form.Item>

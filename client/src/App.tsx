@@ -1,21 +1,17 @@
 import { Suspense } from 'react';
-import {
-  createBrowserRouter,
-  Navigate,
-  RouterProvider,
-} from 'react-router-dom';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 
 import { ConfigProvider, Spin } from 'antd';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from 'react-error-boundary';
-import MainLayout from '@/layouts/MainLayout';
 import 'antd/dist/reset.css';
 import '@/App.css';
 import { themeConfig } from '@/config';
-import { Login, SignUp } from '@/features/auth';
 import { ClassRoute } from '@/features/class';
 import { AppRoutes } from '@/constants/path';
 import { ErrorPage } from './features/error';
+import { MainLayout } from './layouts';
+import * as AuthPages from '@/features/auth/pages';
 
 const router = createBrowserRouter([
   {
@@ -24,11 +20,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'login',
-        element: <Login />,
+        element: <AuthPages.Login />,
       },
       {
         path: 'signup',
-        element: <SignUp />,
+        element: <AuthPages.SignUp />,
       },
       {
         element: <MainLayout />,
