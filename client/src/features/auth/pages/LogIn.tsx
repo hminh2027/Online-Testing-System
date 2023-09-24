@@ -5,7 +5,7 @@ import { CustomSpace } from '@/components/CustomSpace';
 import { useAuth } from '@/features/auth/hooks';
 import type { LoginPayload } from '..';
 
-export function Login() {
+export default function Login() {
   const { logIn } = useAuth();
 
   const [form] = Form.useForm();

@@ -1,3 +1,3 @@
-export function Forgot() {
+export default function Forgot() {
   return <div>Login</div>;
 }

@@ -5,7 +5,7 @@ import { useAuth } from '@/features/auth/hooks';
 import { CustomSpace } from '@/components/CustomSpace';
 import type { SignUpPayload } from '..';
 
-export function SignUp() {
+export default function SignUp() {
   const { signUp } = useAuth();
 
   const [form] = Form.useForm();
