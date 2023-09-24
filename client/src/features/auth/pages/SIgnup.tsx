@@ -20,7 +20,6 @@ export default function SignUp() {
   };
 
   const disabledDate: RangePickerProps['disabledDate'] = (current) =>
-    // Can not select days before today and today
     current && current > dayjs().endOf('day');
 
   return (
