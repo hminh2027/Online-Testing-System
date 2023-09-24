@@ -10,5 +10,8 @@ export const themeConfig: ThemeConfig = {
     Avatar: {
       fontSize: 14,
     },
+    Form: {
+      marginLG: 16,
+    },
   },
 };
