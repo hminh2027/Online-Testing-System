@@ -1,24 +1,10 @@
-import { ClassDetailLayout } from '@/layouts/ClassDetailLayout';
+import { Routes, Route } from 'react-router-dom';
 import ClassesPage from '../pages/ClassList';
-import { Layout } from '../layouts/Layout';
 
-export const ClassRoute = [
-  {
-    path: '',
-    element: (
-      <Layout title="Lớp học">
-        <ClassesPage />
-      </Layout>
-    ),
-  },
-  {
-    path: ':id',
-    element: <ClassDetailLayout />,
-    children: [
-      {
-        path: '',
-        element: <>detail</>,
-      },
-    ],
-  },
-];
+export default function ClassRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<ClassesPage />} />
+    </Routes>
+  );
+}

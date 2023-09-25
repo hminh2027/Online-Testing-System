@@ -1,4 +1,4 @@
-export enum AppRoutes {
+export enum AppRoutesPath {
   Login = 'login',
   Class = 'class',
   Notification = 'notification',
