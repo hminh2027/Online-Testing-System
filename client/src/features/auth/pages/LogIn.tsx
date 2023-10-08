@@ -68,7 +68,6 @@ export default function Login() {
               <Divider>Hoặc</Divider>
               <Button block>Đăng nhập với facebook</Button>
               <Button block>Đăng nhập với gmail</Button>
-              <Button block>Đăng nhập bằng mã sinh viên UTC</Button>
             </CustomSpace>
           </Form.Item>
         </Form>

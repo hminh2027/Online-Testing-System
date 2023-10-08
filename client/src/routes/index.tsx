@@ -6,9 +6,9 @@ import { storage } from '@/utils';
 export function AppRoutes() {
   const token = storage.getToken();
 
-  // const routes = token ? protectedRoutes : publicRoutes;
+  const routes = token ? protectedRoutes : publicRoutes;
 
-  const element = useRoutes([...protectedRoutes, ...publicRoutes]);
+  const element = useRoutes([...routes]);
 
   return <>{element}</>;
 }

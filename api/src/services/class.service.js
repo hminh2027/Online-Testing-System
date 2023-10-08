@@ -7,14 +7,26 @@ async function createOne({
   description = "",
   grade = "",
   password = "",
-  isPublic,
+  isStudentApprovalJoin,
+  isStudentApprovalLeave,
 }) {
+  const code = generateUniqueId(6);
   return prisma.class.create({
-    data: { name, password, teacherId, description, imageUrl, grade, isPublic },
+    data: {
+      code,
+      name,
+      password,
+      teacherId,
+      description,
+      imageUrl,
+      grade,
+      isStudentApprovalJoin,
+      isStudentApprovalLeave,
+    },
   });
 }
 
-async function getOneById(id) {
+async function getOneByCode(id) {
   return prisma.class.findUnique({
     where: { id },
   });
@@ -39,20 +51,20 @@ async function getManyByStudentId(studentId) {
   });
 }
 
-async function updateOneById(id, data) {
+async function updateOneByCode(id, data) {
   return prisma.class.update({ where: { id } }, data);
 }
 
-async function deleteOneById(id) {
+async function deleteOneByCode(id) {
   return prisma.class.delete({ where: { id } });
 }
 
 module.exports = {
   createOne,
-  getOneById,
-  updateOneById,
+  getOneByCode,
+  updateOneByCode,
   getOneByUsername,
   getManyByTeacherId,
   getManyByStudentId,
-  deleteOneById,
+  deleteOneByCode,
 };

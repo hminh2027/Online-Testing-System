@@ -50,17 +50,17 @@ model UserClass {
   id Int @id @default(autoincrement())
 
   studentId Int
-  classId   Int
+  classCode String
 
   // relations
   User  User  @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Class Class @relation(fields: [classId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Class Class @relation(fields: [classCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
 
-  @@unique([studentId, classId])
+  @@unique([studentId, classCode])
 }
 
 model Class {
-  id                     Int         @id @default(autoincrement())
+  code                   String      @id
   teacherId              Int
   name                   String
   imageUrl               String?
@@ -76,7 +76,6 @@ model Class {
   ClassExam              ClassExam[]
   Post                   Post[]
   UserClass              UserClass[]
-  Resource               Resource[]
 }
 
 model Exam {
@@ -131,7 +130,7 @@ model Answer {
 
 model ClassExam {
   id           Int       @id @default(autoincrement())
-  classId      Int
+  classCode    String
   examId       Int
   startTime    DateTime  @default(now())
   deadlineAt   DateTime?
@@ -141,7 +140,7 @@ model ClassExam {
   isShowAnswer Boolean?  @default(true)
   createdAt    DateTime  @default(now())
   // relations
-  Class        Class     @relation(fields: [classId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Class        Class     @relation(fields: [classCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
   Exam         Exam      @relation(fields: [examId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
@@ -173,14 +172,14 @@ model Choice {
 model Post {
   id                  Int       @id @default(autoincrement())
   userId              Int
-  classId             Int
+  classCode           String
   content             String
   imageUrl            String?   @db.LongText
   allowStudentComment Boolean   @default(true)
   createdAt           DateTime  @default(now())
   // relations
   User                User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Class               Class     @relation(fields: [classId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Class               Class     @relation(fields: [classCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
   Comment             Comment[]
 }
 
@@ -223,14 +222,4 @@ model User_Notification {
   // relations
   Notification Notification @relation(fields: [notiId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   User         User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-}
-
-model Resource {
-  id        Int      @id @default(autoincrement())
-  classId   Int
-  name      String
-  url       String
-  createdAt DateTime @default(now())
-  // relations
-  Class     Class    @relation(fields: [classId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }

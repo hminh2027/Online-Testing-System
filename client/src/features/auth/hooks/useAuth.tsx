@@ -6,6 +6,7 @@ import { addItem } from '@/hooks/useCustomQuery';
 import { CustomMessage } from '@/components/CustomMessage';
 import type { LoginPayload, ResAuthItem, SignUpPayload } from '..';
 import { storage } from '@/utils';
+import type { LoginUtcPayload } from '../components/LoginModal';
 
 export const useAuth = () => {
   const { setIsAuth } = useAuthStore();
@@ -19,6 +20,18 @@ export const useAuth = () => {
       }),
     {
       onSuccess: handleOnSuccess,
+      onError: handleOnError,
+    },
+  );
+
+  const { mutate: logInUtcMutate } = useMutation(
+    (payload: LoginUtcPayload) =>
+      addItem<LoginUtcPayload, ResAuthItem>({
+        payload,
+        url: 'http://localhost:5000/student',
+      }),
+    {
+      onSuccess: (res) => res,
       onError: handleOnError,
     },
   );
@@ -48,6 +61,11 @@ export const useAuth = () => {
   }
 
   const logIn = (loginPayload: LoginPayload) => logInMutate(loginPayload);
+  const logInUtc = (loginPayload: LoginUtcPayload) => {
+    const vkl = logInUtcMutate(loginPayload);
+
+    console.log(vkl);
+  };
 
   const signUp = (signUpPayload: SignUpPayload) => signUpMutate(signUpPayload);
 
@@ -63,6 +81,7 @@ export const useAuth = () => {
 
   return {
     logIn,
+    logInUtc,
     signUp,
     logOut,
     refresh,
