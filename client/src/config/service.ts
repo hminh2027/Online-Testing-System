@@ -9,6 +9,9 @@ export const endpoints = {
     notification: {
       path: '/notification',
     },
+    class: {
+      path: '/class',
+    },
     auth: {
       path: '/auth',
     },
