@@ -5,22 +5,13 @@ const httpStatus = require("http-status");
 
 const createOne = catchAsync(async (req, res) => {
   const { id } = req.user;
-  const {
-    isStudentApprovalJoin,
-    isStudentApprovalLeave,
-    name,
-    description,
-    grade,
-    imageUrl,
-    password,
-  } = req.body;
+  const { isStudentApprovalLeave, name, description, imageUrl, password } =
+    req.body;
   let _class = await classService.createOne({
     teacherId: id,
-    isStudentApprovalJoin,
     isStudentApprovalLeave,
     name,
     description,
-    grade,
     imageUrl,
     password,
   });
@@ -62,7 +53,7 @@ const updateOneByCode = catchAsync(async (req, res) => {
   let _class = await classService.updateOneByCode(id, req.body);
 
   res.status(httpStatus.OK).json({
-    message: "Class updated successfully",
+    message: "Cập nhật lớp học thành công",
     content: _class,
   });
 });
@@ -72,7 +63,7 @@ const deleteOneByCode = catchAsync(async (req, res) => {
   await classService.deleteOneByCode(id);
 
   res.status(httpStatus.OK).json({
-    message: "Class deleted successfully",
+    message: "Xóa lớp học thành công",
   });
 });
 

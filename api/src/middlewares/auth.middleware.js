@@ -5,13 +5,14 @@ const { TOKEN } = require("../constants");
 
 const auth = async (req, res, next) => {
   try {
+    console.log(config.isAuth);
     if (!config.isAuth) {
       req.user = {
         id: 1,
-        email: "student1@gmail.com",
-        username: "Vu Hoang Minh",
+        email: "teacher@gmail.com",
+        username: "Minh Mẫn",
         password: "123456",
-        is_teacher: false,
+        is_teacher: true,
         phone: "123456789",
       };
       next();
