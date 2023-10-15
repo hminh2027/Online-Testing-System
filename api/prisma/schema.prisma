@@ -7,15 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Grade {
-  primary
-  secondary
-  highschool
-  college
-  university
-  other
-}
-
 enum RequestStatus {
   pending
   accepted
@@ -65,9 +56,7 @@ model Class {
   name                   String
   imageUrl               String?
   description            String?     @db.LongText
-  grade                  Grade
   password               String?
-  isStudentApprovalJoin  Boolean     @default(false)
   isStudentApprovalLeave Boolean     @default(false)
   isActive               Boolean     @default(true)
   createdAt              DateTime    @default(now())
