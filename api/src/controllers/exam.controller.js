@@ -1,9 +1,4 @@
-const {
-  questionService,
-  answerService,
-  examService,
-  categoryService,
-} = require("../services");
+const { questionService, answerService, examService } = require("../services");
 const { catchAsync } = require("../utils");
 const httpStatus = require("http-status");
 

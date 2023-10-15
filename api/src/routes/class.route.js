@@ -14,6 +14,7 @@ router
   .get(classController.getOneByCode)
   // .get("/users", classController.getUsersByClassCode)
   .put(auth, classController.updateOneByCode)
+  .patch(auth, classController.patchStatusByCode)
   .delete(classController.deleteOneByCode);
 
 module.exports = router;

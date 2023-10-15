@@ -6,6 +6,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter } from 'react-router-dom';
 import { ErrorPage } from '@/features/error';
 import { themeConfig } from '@/config';
+import { DrawerContextProvider } from '@/hooks/useDrawer';
 
 const queryClient = new QueryClient();
 
@@ -27,7 +28,9 @@ export default function AppProvider({ children }: PropsWithChildren) {
         <HelmetProvider>
           <ConfigProvider theme={themeConfig}>
             <QueryClientProvider client={queryClient}>
-              <BrowserRouter>{children}</BrowserRouter>
+              <BrowserRouter>
+                <DrawerContextProvider>{children}</DrawerContextProvider>
+              </BrowserRouter>
             </QueryClientProvider>
           </ConfigProvider>
         </HelmetProvider>

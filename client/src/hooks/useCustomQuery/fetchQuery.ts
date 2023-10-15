@@ -5,7 +5,7 @@ type ParamsData = {
 };
 
 type ItemData = ParamsData & { id: string | number };
-type ListData<T> = ParamsData & { params: T };
+type ListData = ParamsData;
 type AddData<T> = ParamsData & { payload: T };
 type UpdateData<T> = ItemData & AddData<T>;
 
@@ -13,10 +13,9 @@ export function fetchItem<Y>({ id, url = '' }: ItemData): Promise<Y> {
   return axiosInstance<Y>({ url: `${url}/${id}` });
 }
 
-export function fetchList<X, Y>({ params, url }: ListData<X>) {
+export function fetchList<Y>({ url }: ListData) {
   return axiosInstance<Y>({
     url,
-    params,
   });
 }
 
@@ -28,11 +27,7 @@ export function addItem<X, Y>({ payload, url = '' }: AddData<X>): Promise<Y> {
   });
 }
 
-export function patchItem<X, Y>({
-  id,
-  payload,
-  url = '',
-}: UpdateData<X>): Promise<Y> {
+export function patchItem<X, Y>({ id, payload, url = '' }: UpdateData<X>): Promise<Y> {
   return axiosInstance<Y>({
     url: `${url}/${id}`,
     method: 'PATCH',
@@ -40,11 +35,7 @@ export function patchItem<X, Y>({
   });
 }
 
-export function updateItem<X, Y>({
-  id,
-  payload,
-  url = '',
-}: UpdateData<X>): Promise<Y> {
+export function updateItem<X, Y>({ id, payload, url = '' }: UpdateData<X>): Promise<Y> {
   return axiosInstance<Y>({
     url: `${url}/${id}`,
     method: 'PUT',

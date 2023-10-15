@@ -8,13 +8,13 @@ import {
   patchItem,
   updateItem,
 } from '@/hooks/useCustomQuery/fetchQuery';
-import type { QueryParams, Resource, ResponseItem } from '@/types/common';
+import type { Resource, ResponseItem } from '@/types/common';
 import type { Service } from '@/types/service';
 
 type ResponseList = ResponseItem<Resource[]> | null;
 type ResponseDetail = ResponseItem<Resource> | null;
 type ResponseModify = ResponseItem<Resource> | null;
-type RequestQuery = QueryParams | undefined | null;
+type RequestQuery = undefined | null;
 
 export type UseCustomQueryOptions<T> = Omit<
   UseQueryOptions<T>,
@@ -51,7 +51,7 @@ export const initialCustomQuery = <
   service: Service,
 ) => {
   const useItem = (
-    id: number,
+    id: number | string,
     options?: UseCustomQueryOptions<Z>,
   ): UseQueryResult<Z, unknown> =>
     useQuery<Z>(
@@ -68,12 +68,11 @@ export const initialCustomQuery = <
       },
     );
 
-  const useList = (params: RequestQuery, options?: UseCustomQueryOptions<Y>) =>
+  const useList = (options?: UseCustomQueryOptions<Y>) =>
     useQuery<Y>(
-      [service.path, params],
+      [service.path],
       () =>
-        fetchList<RequestQuery, Y>({
-          params,
+        fetchList<Y>({
           url: service.path,
         }),
       {
@@ -152,10 +151,7 @@ export const initialCustomQuery = <
         }),
       {
         onSettled: async (_data, _error, variables) => {
-          await queryClient.invalidateQueries([
-            service.path,
-            variables.currentFilter,
-          ]);
+          await queryClient.invalidateQueries([service.path, variables.currentFilter]);
         },
         onError,
         onSuccess: handleSuccess(onSuccess),

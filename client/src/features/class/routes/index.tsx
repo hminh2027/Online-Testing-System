@@ -6,7 +6,6 @@ export default function ClassRoutes() {
   return (
     <Routes>
       <Route path="/" element={<ClassPage.ClassList />} />
-      <Route path="/add" element={<ClassPage.ClassAddEdit />} />
     </Routes>
   );
 }

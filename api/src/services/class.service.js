@@ -1,7 +1,7 @@
 const { prisma } = require("../database/prisma-client");
 const { generateUniqueId } = require("../utils");
 
-async function createOne({
+function createOne({
   teacherId,
   name,
   imageUrl = "",
@@ -23,36 +23,36 @@ async function createOne({
   });
 }
 
-async function getOneByCode(code) {
+function getOneByCode(code) {
   return prisma.class.findUnique({
     where: { code },
   });
 }
 
-async function getOneByUsername(username) {
+function getOneByUsername(username) {
   return prisma.user.findFirst({
     where: { username },
   });
 }
 
-async function getManyByTeacherId(teacherId) {
+function getManyByTeacherId(teacherId) {
   return prisma.class.findMany({
     where: { teacherId },
   });
 }
 
-async function getManyByStudentId(studentId) {
+function getManyByStudentId(studentId) {
   return prisma.userClass.findMany({
     where: { student_id: studentId },
     select: { Class },
   });
 }
 
-async function updateOneByCode(code, data) {
+function updateOneByCode(code, data) {
   return prisma.class.update({ where: { code } }, data);
 }
 
-async function deleteOneByCode(code) {
+function deleteOneByCode(code) {
   return prisma.class.delete({ where: { code } });
 }
 

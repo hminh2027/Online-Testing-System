@@ -1,5 +1,11 @@
 export enum REQUEST_STATUS {
-  pending = 'chờ duyệt',
-  accepted = 'chấp nhận',
-  declined = 'từ chối',
+  PENDING = 'chờ duyệt',
+  ACCEPTED = 'chấp nhận',
+  DECLINED = 'từ chối',
+}
+
+export enum MODE {
+  ADD,
+  EDIT,
+  DETAIL,
 }

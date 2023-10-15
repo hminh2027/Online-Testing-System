@@ -26,14 +26,17 @@ const getManyByUserId = catchAsync(async (req, res) => {
 
   if (is_teacher) classes = await classService.getManyByTeacherId(+id);
   else classService.getManyByStudentId(+id);
-  res.status(httpStatus.OK).json({ content: { classes } });
+  res.status(httpStatus.OK).json({ content: classes });
 });
 
 const getOneByCode = catchAsync(async (req, res) => {
-  const { userId } = req.params;
-  let user = await userService.getOneByCode(+userId);
-  user = _.omit(user, ["password"]);
-  res.status(httpStatus.OK).json({ content: { user } });
+  const { code } = req.params;
+  let classRoom = await classService.getOneByCode(code);
+  if (!classRoom)
+    res
+      .status(httpStatus.NOT_FOUND)
+      .json({ message: "Không tìm thấy lớp học" });
+  res.status(httpStatus.OK).json({ content: classRoom });
 });
 
 // TODO: Check this
@@ -48,9 +51,20 @@ const getUsersByClassCode = catchAsync(async (req, res) => {
 // TODO: getManyBy? // (so hs lam bai kiem tra)
 
 const updateOneByCode = catchAsync(async (req, res) => {
-  // const { email, password, name, avatar_url } = req.body;
   const { id } = req.params;
   let _class = await classService.updateOneByCode(id, req.body);
+
+  res.status(httpStatus.OK).json({
+    message: "Cập nhật lớp học thành công",
+    content: _class,
+  });
+});
+
+const patchStatusByCode = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  let _class = await classService.updateOneByCode(id, {
+    isActive: req.body.isActive,
+  });
 
   res.status(httpStatus.OK).json({
     message: "Cập nhật lớp học thành công",
@@ -73,5 +87,6 @@ module.exports = {
   getUsersByClassCode,
   getManyByUserId,
   updateOneByCode,
+  patchStatusByCode,
   deleteOneByCode,
 };
