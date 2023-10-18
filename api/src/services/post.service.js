@@ -1,46 +1,47 @@
 const { prisma } = require("../database/prisma-client");
 
-async function createOne({ content, image_url = "", userId, classId }) {
+function createOne({ content, imageUrl = "", userId, classCode }) {
   return prisma.post.create({
     data: {
       content,
-      image_url,
-      user_id: userId,
-      class_id: classId,
+      imageUrl,
+      userId,
+      classCode,
     },
   });
 }
 
-async function getOneById(id) {
-  return prisma.post.findUnique({
-    where: { id },
+function getOneById(id, classCode) {
+  return prisma.post.findFirst({
+    where: { id, classCode },
     include: { Comment },
   });
 }
 
-async function getManyByClassId(classId) {
+function getManyByClassCode(classCode) {
   return prisma.post.findMany({
-    where: { class_id: classId },
+    where: { classCode },
   });
 }
 
-async function updateOneById(id, { content }) {
+function updateOneById(id, { content, imageUrl, userId }) {
   return prisma.post.update({
-    where: { id },
+    where: { id, userId },
     data: {
       content,
+      imageUrl,
     },
   });
 }
 
-async function deleteOneById(id) {
-  return prisma.post.delete({ where: { id } });
+function deleteOneById(id, userId) {
+  return prisma.post.delete({ where: { id, userId } });
 }
 
 module.exports = {
   createOne,
   getOneById,
-  getManyByClassId,
+  getManyByClassCode,
   updateOneById,
   deleteOneById,
 };

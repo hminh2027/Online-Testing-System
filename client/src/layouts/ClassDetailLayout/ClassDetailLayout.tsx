@@ -11,22 +11,30 @@ interface ClassDetailLayoutProps {
 
 const sideNavItems = [
   {
-    label: 'Tong quan',
-    path: 'class/hello',
+    label: 'Bảng tin',
+    path: 'newsfeed',
   },
   {
-    label: 'Lop hoc',
-    path: 'class/bello',
+    label: 'Thành viên',
+    path: 'students',
   },
   {
-    label: 'Lich thi',
+    label: 'Bài kiểm tra',
+    path: 'exams',
+  },
+  {
+    label: 'Lịch thi',
     path: 'schedule',
+  },
+  {
+    label: 'Yêu cầu',
+    path: 'request',
   },
 ];
 
 const items2: MenuProps['items'] = sideNavItems.map((item) => ({
   key: item.path,
-  label: <NavLink to={`/${item.path}`}>{item.label}</NavLink>,
+  label: <NavLink to={`${item.path}`}>{item.label}</NavLink>,
 }));
 
 export function ClassDetailLayout({ children }: ClassDetailLayoutProps) {

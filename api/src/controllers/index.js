@@ -5,3 +5,4 @@ module.exports.attemptController = require("./attempt.controller");
 module.exports.choiceController = require("./choice.controller");
 module.exports.classController = require("./class.controller");
 module.exports.notificationController = require("./notification.controller");
+module.exports.postController = require("./post.controller");

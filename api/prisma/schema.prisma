@@ -159,17 +159,16 @@ model Choice {
 }
 
 model Post {
-  id                  Int       @id @default(autoincrement())
-  userId              Int
-  classCode           String
-  content             String
-  imageUrl            String?   @db.LongText
-  allowStudentComment Boolean   @default(true)
-  createdAt           DateTime  @default(now())
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  classCode String
+  content   String
+  imageUrl  String?   @db.LongText
+  createdAt DateTime  @default(now())
   // relations
-  User                User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Class               Class     @relation(fields: [classCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
-  Comment             Comment[]
+  User      User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Class     Class     @relation(fields: [classCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
+  Comment   Comment[]
 }
 
 model Comment {

@@ -3,56 +3,53 @@ const { catchAsync } = require("../utils");
 const httpStatus = require("http-status");
 
 const createOne = catchAsync(async (req, res) => {
+  const { code } = req.params;
   const { id } = req.user;
   let post = await postService.createOne({
     userId: id,
-    testCode: req.body.testCode,
+    classCode: code,
+    ...req.body,
   });
   res
     .status(httpStatus.CREATED)
-    .json({ message: "Bắt đầu làm bài thi!", data: { post } });
+    .json({ message: "Tạo bài viết thành công", content: post });
 });
 
-const getOneOngoing = catchAsync(async (req, res) => {
-  const { id } = req.user;
-  const { testCode } = req.params;
-  let post = await postService.getOneOngoing({
-    userId: id,
-    testCode,
+const getOneById = catchAsync(async (req, res) => {
+  const { code, id } = req.params;
+  let post = await postService.getOneById(id, code);
+  res.status(httpStatus.OK).json({ content: post });
+});
+
+const getManyByClassCode = catchAsync(async (req, res) => {
+  const { code } = req.params;
+  let posts = await postService.getManyByClassCode(code);
+  res.status(httpStatus.OK).json({ content: posts });
+});
+
+const updateOneById = catchAsync(async (req, res) => {
+  const { id: userId } = req.user;
+  const { id: postId } = req.params;
+  let post = await postService.updateOneById(postId, {
+    userId,
+    ...req.body,
   });
-  res.status(httpStatus.OK).json({ data: { post } });
+  res
+    .status(httpStatus.OK)
+    .json({ message: "Cập nhật bài viết thành công", content: post });
 });
 
-const getManyByTestCode = catchAsync(async (req, res) => {
-  const { testCode } = req.params;
-  let posts = await postService.getManyByTestCode({ testCode });
-  res.status(httpStatus.OK).json({ data: { posts } });
-});
-
-const getManyByTestCodeAndUserId = catchAsync(async (req, res) => {
-  const { testCode } = req.params;
-  const { id } = req.user;
-  let posts = await postService.getManyByTestCodeAndUserId({
-    testCode,
-    userId: id,
-  });
-  res.status(httpStatus.OK).json({ data: { posts } });
-});
-
-const updateOneOngoing = catchAsync(async (req, res) => {
-  const { id } = req.user;
-  const { postId } = req.body;
-  let post = await postService.updateOneById({
-    userId: id,
-    postId,
-  });
-  res.status(httpStatus.OK).json({ data: { post } });
+const deleteOneById = catchAsync(async (req, res) => {
+  const { id: userId } = req.user;
+  const { id: postId } = req.params;
+  await postService.deleteOneById(postId, userId);
+  res.status(httpStatus.OK).json({ message: "Xoá bài viết thành công" });
 });
 
 module.exports = {
   createOne,
-  getOneOngoing,
-  getManyByTestCode,
-  getManyByTestCodeAndUserId,
-  updateOneOngoing,
+  getOneById,
+  getManyByClassCode,
+  updateOneById,
+  deleteOneById,
 };

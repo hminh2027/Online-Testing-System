@@ -8,3 +8,4 @@ module.exports.answer = require("./answer.prototype");
 module.exports.classExam = require("./classExam.prototype");
 module.exports.classUser = require("./classUser.prototype");
 module.exports.examQuestion = require("./examQuestion.prototype");
+module.exports.post = require("./post.prototype");

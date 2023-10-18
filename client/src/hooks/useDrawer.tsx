@@ -40,9 +40,6 @@ export function DrawerContextProvider({ children }: PropsWithChildren) {
 
   const handleClose = useCallback(() => resetDrawerState(), [resetDrawerState]);
 
-  /**
-   * Combines toggle drawer with set drawer mode
-   */
   const handleToggleMode = useCallback(
     (targetMode: MODE) => {
       setMode(targetMode);
@@ -51,9 +48,6 @@ export function DrawerContextProvider({ children }: PropsWithChildren) {
     [toggleDrawer],
   );
 
-  /**
-   * Set drawer state according to url
-   */
   useEffect(() => {
     const pathArray = pathname?.split('/');
     const action = pathArray[pathArray.length - 1];

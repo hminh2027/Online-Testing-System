@@ -15,5 +15,8 @@ export const endpoints = {
     auth: {
       path: '/auth',
     },
+    post: {
+      path: '/post',
+    },
   },
 };
