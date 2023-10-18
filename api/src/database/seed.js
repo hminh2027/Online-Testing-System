@@ -2,8 +2,11 @@ const { prisma } = require("./prisma-client");
 const { generateDummyData } = require("../utils");
 const { authService, classService } = require("../services");
 const { logger } = require("../config");
-const { userPrototype } = require("../prototypes/user.prototype");
-const { classPrototype } = require("../prototypes/class.prototype");
+const {
+  postPrototype,
+  userPrototype,
+  classPrototype,
+} = require("../prototypes");
 
 async function main() {
   logger.info("Seeding...");
@@ -29,8 +32,9 @@ async function main() {
   // CLASS
   const classes = generateDummyData(10, classPrototype);
   await prisma.class.deleteMany();
+  const classCode = [];
   for (_class of classes) {
-    await classService.createOne({
+    const classRoom = await classService.createOne({
       name: _class.name,
       description: _class.description,
       imageUrl: _class.imageUrl,
@@ -38,9 +42,13 @@ async function main() {
       isStudentApprovalLeave: _class.isStudentApprovalLeave,
       teacherId: _class.teacherId,
     });
+    classCode.push(classRoom.code);
   }
 
   logger.info("Class seeded successfully");
+
+  // POST
+  // const posts = generateDummyData(10, postPrototype);
 
   // // TEST
   // const tests = generateDummyData(30, testPrototype);

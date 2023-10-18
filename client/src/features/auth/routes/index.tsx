@@ -1,12 +1,14 @@
-import { Route, Routes } from 'react-router-dom';
+import type { RouteObject } from 'react-router-dom';
 
 import * as AuthPage from '../pages';
 
-export default function AuthRoutes() {
-  return (
-    <Routes>
-      <Route path="signup" element={<AuthPage.SignUp />} />
-      <Route path="login" element={<AuthPage.Login />} />
-    </Routes>
-  );
-}
+export const authRoutes: RouteObject[] = [
+  {
+    path: 'signup',
+    element: <AuthPage.SignUp />,
+  },
+  {
+    path: 'login',
+    element: <AuthPage.Login />,
+  },
+];

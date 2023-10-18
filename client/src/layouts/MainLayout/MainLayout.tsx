@@ -9,6 +9,7 @@ import { TabBar } from '@/components/TabBar';
 import { Notification } from '@/components/Notification';
 import { UserHeader } from '@/components/UserHeader';
 import { useAuthStore } from '@/features/auth/stores';
+import { DrawerContextProvider } from '@/hooks/useDrawer';
 
 interface MainLayoutProps {
   children?: ReactNode;
@@ -37,7 +38,9 @@ export function MainLayout({ children }: MainLayoutProps) {
               <UserHeader username={username} />
             </Space>
           </Header>
-          <Content>{children ?? <Outlet />}</Content>
+          <Content>
+            <DrawerContextProvider>{children ?? <Outlet />}</DrawerContextProvider>
+          </Content>
         </Layout>
       )}
     </>

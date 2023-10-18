@@ -3,10 +3,8 @@ import { Spin, ConfigProvider } from 'antd';
 import { Suspense, type PropsWithChildren } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { HelmetProvider } from 'react-helmet-async';
-import { BrowserRouter } from 'react-router-dom';
 import { ErrorPage } from '@/features/error';
 import { themeConfig } from '@/config';
-import { DrawerContextProvider } from '@/hooks/useDrawer';
 
 const queryClient = new QueryClient();
 
@@ -27,11 +25,7 @@ export default function AppProvider({ children }: PropsWithChildren) {
       <Suspense fallback={<Spin />}>
         <HelmetProvider>
           <ConfigProvider theme={themeConfig}>
-            <QueryClientProvider client={queryClient}>
-              <BrowserRouter>
-                <DrawerContextProvider>{children}</DrawerContextProvider>
-              </BrowserRouter>
-            </QueryClientProvider>
+            <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
           </ConfigProvider>
         </HelmetProvider>
       </Suspense>

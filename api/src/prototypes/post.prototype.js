@@ -1,11 +1,11 @@
 const { faker } = require("@faker-js/faker");
 
-function postPrototype(index) {
+function postPrototype(classCode) {
   return {
-    classCode: "",
-    content: "",
+    classCode,
+    content: "Đây là bài viết tự động tạo " + faker.music.songName(),
     imageUrl: "",
   };
 }
 
-module.exports = { postPrototype };
+module.exports = postPrototype;

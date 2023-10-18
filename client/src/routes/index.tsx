@@ -1,9 +1,9 @@
-import { useRoutes } from 'react-router-dom';
-import { protectedRoutes } from './protected';
-import { publicRoutes } from './public';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { classRoutes } from '@/features/class/routes';
+import { authRoutes } from '@/features/auth/routes';
 
 export function AppRoutes() {
-  const element = useRoutes([...protectedRoutes, ...publicRoutes]);
+  const routes = createBrowserRouter([...authRoutes, ...classRoutes]);
 
-  return <>{element}</>;
+  return <RouterProvider router={routes} />;
 }
