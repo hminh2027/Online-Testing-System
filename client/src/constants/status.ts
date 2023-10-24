@@ -9,3 +9,8 @@ export enum MODE {
   EDIT,
   DETAIL,
 }
+
+export enum STATUS {
+  ACTIVE,
+  INACTIVE,
+}

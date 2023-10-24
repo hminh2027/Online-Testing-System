@@ -29,7 +29,7 @@ export function MainLayout({ children }: MainLayoutProps) {
       {!isAuthed ? (
         <Navigate to="/login" />
       ) : (
-        <Layout>
+        <Layout style={{ height: '100%' }}>
           <Header className={styles.header}>
             <Image preview={false} height="100%" src={Logo} />
             <TabBar items={isTeacher ? teacherTabs : studentTabs} />

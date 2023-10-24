@@ -11,4 +11,4 @@ function classPrototype() {
   };
 }
 
-module.exports = { classPrototype };
+module.exports = classPrototype;

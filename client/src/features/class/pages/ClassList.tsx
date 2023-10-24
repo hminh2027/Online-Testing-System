@@ -1,31 +1,33 @@
-import { Button, Drawer, Space } from 'antd';
+import { Drawer } from 'antd';
 import { useDrawer } from '@/hooks/useDrawer';
 import ClassTable from '../components/ClassTable/ClassTable';
-import { MainLayout } from '@/layouts/';
 import { Head } from '@/components/Head';
-import { CustomSpace } from '@/components/CustomSpace';
+import ClassAddEdit from '../components/Drawer/ClassAddEdit';
+import ClassDetail from '../components/Drawer/ClassDetail';
 
 export default function ClassList() {
-  const { isDrawerOpen } = useDrawer();
+  const { isDrawerOpen, genTitle, genFooter, genContent, handleClose, detailId } = useDrawer();
 
   return (
-    <MainLayout>
+    <>
       <Head title="Danh sách lớp học" />
-
       <Drawer
+        size="large"
+        onClose={handleClose}
         closable
+        closeIcon={false}
         destroyOnClose
         open={isDrawerOpen}
-        footer={
-          <CustomSpace isFullWidth justify="end">
-            <Button>Đóng</Button>
-            <Button type="primary">Tạo lớp</Button>
-          </CustomSpace>
-        }
+        title={genTitle()}
+        footer={genFooter()}
       >
-        content
+        {genContent({
+          ADD: <ClassAddEdit />,
+          EDIT: <ClassAddEdit code={detailId as string} />,
+          DETAIL: <ClassDetail />,
+        })}
       </Drawer>
       <ClassTable />
-    </MainLayout>
+    </>
   );
 }

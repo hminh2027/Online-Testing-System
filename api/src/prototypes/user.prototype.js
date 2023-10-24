@@ -9,4 +9,4 @@ function userPrototype(index) {
   };
 }
 
-module.exports = { userPrototype };
+module.exports = userPrototype;

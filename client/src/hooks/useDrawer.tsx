@@ -1,21 +1,24 @@
-import type { PropsWithChildren } from 'react';
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import type { PropsWithChildren, ReactElement } from 'react';
+import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { useToggle } from 'react-use';
 
+import { Button, Space } from 'antd';
 import { MODE } from '@/constants/status';
+
+type ContentConfig = Record<keyof typeof MODE, ReactElement>;
 
 interface DrawerProps {
   isDrawerOpen: boolean;
   mode: MODE;
-  toggleDrawer: (value: boolean) => void;
-  setMode: (mode: MODE) => void;
   handleCancel: () => void;
   handleClose: () => void;
-  handleToggleMode: (targetMode: MODE) => void;
-  detailId: number;
-  setDetailId: (id: number) => void;
+  toggleMode: (targetMode: MODE) => void;
+  detailId: number | string;
+  setDetailId: (id: number | string) => void;
   resetDrawerState: () => void;
+  genTitle: () => string | null;
+  genFooter: () => ReactElement | null;
+  genContent: (content: ContentConfig) => ReactElement | null;
 }
 
 const DrawerContext = createContext({});
@@ -25,22 +28,15 @@ export function DrawerContextProvider({ children }: PropsWithChildren) {
   const [isDrawerOpen, toggleDrawer] = useToggle(false);
   const [detailId, setDetailId] = useState<number | null | string>(null);
 
-  const navigation = useNavigate();
-  const { id } = useParams();
-  const { pathname } = useLocation();
-
   const resetDrawerState = useCallback(() => {
     toggleDrawer(false);
     setDetailId(null);
     setMode(null);
-    navigation({
-      pathname: '',
-    });
-  }, [navigation, toggleDrawer]);
+  }, [toggleDrawer]);
 
   const handleClose = useCallback(() => resetDrawerState(), [resetDrawerState]);
 
-  const handleToggleMode = useCallback(
+  const toggleMode = useCallback(
     (targetMode: MODE) => {
       setMode(targetMode);
       toggleDrawer(true);
@@ -48,46 +44,79 @@ export function DrawerContextProvider({ children }: PropsWithChildren) {
     [toggleDrawer],
   );
 
-  useEffect(() => {
-    const pathArray = pathname?.split('/');
-    const action = pathArray[pathArray.length - 1];
+  const genTitle = useCallback(() => {
+    switch (mode) {
+      case MODE.ADD:
+        return 'Tạo Mới';
 
-    if (action === 'create') {
-      handleToggleMode(MODE.ADD);
+      case MODE.EDIT:
+        return 'Chỉnh Sửa';
 
-      return;
+      case MODE.DETAIL:
+        return 'Thông Tin Chi Tiết';
+
+      default:
+        return null;
+    }
+  }, [mode]);
+
+  const genFooter = useCallback(() => {
+    if (mode === MODE.ADD || mode === MODE.EDIT) {
+      return (
+        <Button block type="primary">
+          Lưu
+        </Button>
+      );
     }
 
-    if (id) {
-      handleToggleMode(action === 'edit' ? MODE.EDIT : MODE.DETAIL);
+    return null;
+  }, [mode]);
 
-      setDetailId(id);
-    }
-  }, [pathname, id, handleToggleMode, setDetailId]);
+  const genContent = useCallback(
+    (content: ContentConfig) => {
+      switch (mode) {
+        case MODE.ADD:
+          return content.ADD;
+
+        case MODE.EDIT:
+          return content.EDIT;
+
+        case MODE.DETAIL:
+          return content.DETAIL;
+
+        default:
+          return null;
+      }
+    },
+    [mode],
+  );
 
   const value = useMemo(
     () => ({
       children,
       mode,
-      setMode,
       isDrawerOpen,
-      toggleDrawer,
       handleClose,
-      handleToggleMode,
+      toggleMode,
       detailId,
       setDetailId,
       resetDrawerState,
+      genTitle,
+      genFooter,
+      genContent,
     }),
     [
       children,
       handleClose,
-      handleToggleMode,
+      toggleMode,
       isDrawerOpen,
       mode,
-      toggleDrawer,
       detailId,
       setDetailId,
       resetDrawerState,
+      genTitle,
+      genFooter,
+      genContent,
     ],
   );
 

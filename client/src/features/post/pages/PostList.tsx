@@ -1,4 +1,4 @@
-import { ClassDetailLayout } from '@/layouts';
+import { ClassDetailLayout } from '@/features/class/layouts';
 import PostCreateForm from '../components/PostCreateForm';
 import PostInfiniteList from '../components/PostInfiniteList';
 

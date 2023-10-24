@@ -26,10 +26,6 @@ const sideNavItems = [
     label: 'Lịch thi',
     path: 'schedule',
   },
-  {
-    label: 'Yêu cầu',
-    path: 'request',
-  },
 ];
 
 const items2: MenuProps['items'] = sideNavItems.map((item) => ({
@@ -39,9 +35,16 @@ const items2: MenuProps['items'] = sideNavItems.map((item) => ({
 
 export function ClassDetailLayout({ children }: ClassDetailLayoutProps) {
   return (
-    <Layout>
+    <Layout style={{ height: '100%' }}>
       <Sider>
-        <Menu mode="vertical" items={items2} style={{ width: '100%' }} />
+        <Menu
+          mode="vertical"
+          items={items2}
+          style={{
+            width: '100%',
+            height: '100%',
+          }}
+        />
       </Sider>
       <Content>{children ?? <Outlet />}</Content>
     </Layout>

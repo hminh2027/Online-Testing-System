@@ -4,7 +4,7 @@ import * as PostPage from '../pages';
 
 export const postRoutes: RouteObject[] = [
   {
-    path: 'newsfeed',
+    path: '',
     children: [
       {
         path: '',
