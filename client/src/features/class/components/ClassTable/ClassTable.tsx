@@ -28,51 +28,38 @@ export default function ClassTable({}: ClassTableProps) {
 
   const handleDelete = (code: string) => {};
 
+  // TODO: them xem, sua, xoa vao trong table luon
   return (
     <CustomTable
       showActionHeader
       hasShadow
       rowKey="code"
       key="class-table"
-      columns={[
-        ...columns,
-        {
-          render: ({ code }: ClassRoom) => (
-            <Dropdown
-              menu={{
-                items: [
-                  {
-                    label: 'Sửa',
-                    key: '0',
-                    onClick: () => handleEdit(code),
-                  },
-                  {
-                    label: 'Xem',
-                    key: '1',
-                    onClick: () => handleDetail(code),
-                  },
-                  {
-                    label: 'Xoá',
-                    key: '3',
-                    onClick: () => handleDelete(code),
-                  },
-                ],
-              }}
-              trigger={['click']}
-            >
-              <Button icon={<DownOutlined />}>Nhấp</Button>
-            </Dropdown>
-          ),
-          key: 'action',
-          title: 'Hành động',
-          fixed: 'right',
-          width: 150,
-        },
-      ]}
+      columns={columns}
+      actionColumnItems={{
+        items: () => [
+          {
+            label: 'Sửa',
+            key: '0',
+            onClick: () => handleEdit(code),
+          },
+          {
+            label: 'Xem',
+            key: '1',
+            onClick: () => handleDetail(code),
+          },
+          {
+            label: 'Xoá',
+            key: '3',
+            onClick: () => handleDelete(code),
+          },
+        ],
+      }}
       dataSource={classes}
       scroll={{
         x: 1500,
       }}
+      pagination={{ total: classes.length }}
     />
   );
 }

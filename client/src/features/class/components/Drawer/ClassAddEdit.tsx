@@ -1,4 +1,6 @@
-import { Form, Input, Switch, Upload } from 'antd';
+import { Form, Input, Switch } from 'antd';
+import Dragger from 'antd/es/upload/Dragger';
+import { InboxOutlined } from '@ant-design/icons';
 import { CustomSpace } from '@/components/CustomSpace';
 import { useClass } from '@/features/class/hooks/useClass';
 import type { ClassCreateDTO, ClassRoom } from '../../types';
@@ -43,9 +45,8 @@ export default function ClassAddEdit({ code }: ClassAddEditProps) {
         <Form.Item label="Mô tả lớp học" required name="description">
           <Input.TextArea />
         </Form.Item>
-        <Form.Item label="Ảnh bìa lớp">
-          <Upload
-            name="imageUrl"
+        <Form.Item label="Ảnh bìa lớp" name="imageUrl">
+          <Dragger
             listType="picture-card"
             showUploadList={false}
             action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
@@ -53,13 +54,16 @@ export default function ClassAddEdit({ code }: ClassAddEditProps) {
             // onChange={handleChange}
             style={{ width: '100%' }}
           >
-            <div>Nhấn để đăng ảnh</div>
-          </Upload>
+            <p className="ant-upload-drag-icon">
+              <InboxOutlined />
+            </p>
+            <p>Nhấn để đăng ảnh</p>
+          </Dragger>
         </Form.Item>
-        <Form.Item label="Mật khẩu lớp học">
+        <Form.Item label="Mật khẩu lớp học" name="password">
           <Input />
         </Form.Item>
-        <Form.Item label="Chặn học sinh tự rời lớp học">
+        <Form.Item label="Chặn học sinh tự rời lớp học" name="isStudentApprovalLeave">
           <Switch checkedChildren="Bật" unCheckedChildren="Tắt" defaultChecked />
         </Form.Item>
       </Form>

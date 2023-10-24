@@ -13,15 +13,13 @@ export default function ClassDetail() {
   const classDetails = data?.content;
 
   return (
-    <Descriptions bordered colon={false} column={1} title="title">
+    <Descriptions bordered colon={false} column={1}>
       <Descriptions.Item label="Tên lớp">{classDetails?.name}</Descriptions.Item>
       <Descriptions.Item label="Mã lớp">{classDetails?.code}</Descriptions.Item>
       <Descriptions.Item label="Mô tả">{classDetails?.description}</Descriptions.Item>
-
       <Descriptions.Item label="Mật khẩu">
         <Input.Password value="classDetails?.password" bordered={false} readOnly />
       </Descriptions.Item>
-
       <Descriptions.Item label="Chặn học sinh tự rời lớp học">
         <Checkbox checked={classDetails?.isStudentApprovalLeave} disabled />
       </Descriptions.Item>
