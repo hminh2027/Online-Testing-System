@@ -12,23 +12,48 @@ export default function ClassDetail() {
 
   const classDetails = data?.content;
 
+  const mapDetailsToArray = () => [
+    {
+      label: 'Tên lớp',
+      value: classDetails?.name,
+    },
+    {
+      label: 'Mã lớp',
+      value: classDetails?.code,
+    },
+    {
+      label: 'Mô tả',
+      value: classDetails?.description,
+    },
+    {
+      label: 'Mật khẩu',
+      value: <Input.Password value={classDetails?.password} bordered={false} readOnly />,
+    },
+    {
+      label: 'Chặn học sinh tự rời lớp học',
+      value: <Checkbox checked={classDetails?.isStudentApprovalLeave} disabled />,
+    },
+    {
+      label: 'Ngày tạo',
+      value: <>{classDetails?.createdAt}</>,
+    },
+    {
+      label: 'Trạng thái',
+      value: <Status status={classDetails?.isActive ? STATUS.ACTIVE : STATUS.INACTIVE} />,
+    },
+  ];
+
   return (
     <Descriptions bordered colon={false} column={1}>
-      <Descriptions.Item label="Tên lớp">{classDetails?.name}</Descriptions.Item>
-      <Descriptions.Item label="Mã lớp">{classDetails?.code}</Descriptions.Item>
-      <Descriptions.Item label="Mô tả">{classDetails?.description}</Descriptions.Item>
-      <Descriptions.Item label="Mật khẩu">
-        <Input.Password value="classDetails?.password" bordered={false} readOnly />
-      </Descriptions.Item>
-      <Descriptions.Item label="Chặn học sinh tự rời lớp học">
-        <Checkbox checked={classDetails?.isStudentApprovalLeave} disabled />
-      </Descriptions.Item>
-      <Descriptions.Item label="Ngày tạo">
-        <>{classDetails?.createdAt}</>
-      </Descriptions.Item>
-      <Descriptions.Item label="Trạng thái">
-        <Status status={classDetails?.isActive ? STATUS.ACTIVE : STATUS.INACTIVE} />
-      </Descriptions.Item>
+      {mapDetailsToArray().map((detail) => (
+        <Descriptions.Item
+          labelStyle={{ fontWeight: 'bold' }}
+          key={detail.label}
+          label={detail.label}
+        >
+          {detail.value}
+        </Descriptions.Item>
+      ))}
     </Descriptions>
   );
 }

@@ -1,13 +1,19 @@
-import { ClassDetailLayout } from '@/features/class/layouts';
-import PostCreateForm from '../components/PostCreateForm';
-import PostInfiniteList from '../components/PostInfiniteList';
+import { Flex } from 'antd';
+import { PostCreateForm, PostInfiniteList } from '../components';
 
 export default function PostList() {
-  // TODO: nên tạo layout riêng
   return (
-    <ClassDetailLayout>
+    <Flex
+      align="center"
+      justify="center"
+      vertical
+      style={{
+        width: '40%',
+        margin: 'auto',
+      }}
+    >
       <PostCreateForm />
       <PostInfiniteList />
-    </ClassDetailLayout>
+    </Flex>
   );
 }

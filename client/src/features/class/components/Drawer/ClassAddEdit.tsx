@@ -1,7 +1,6 @@
-import { Form, Input, Switch } from 'antd';
+import { Flex, Form, Input, Switch } from 'antd';
 import Dragger from 'antd/es/upload/Dragger';
 import { InboxOutlined } from '@ant-design/icons';
-import { CustomSpace } from '@/components/CustomSpace';
 import { useClass } from '@/features/class/hooks/useClass';
 import type { ClassCreateDTO, ClassRoom } from '../../types';
 
@@ -26,24 +25,17 @@ export default function ClassAddEdit({ code }: ClassAddEditProps) {
   if (isFetching) return <></>;
 
   return (
-    <CustomSpace
-      isFullWidth
-      align="center"
-      justify="center"
-      direction="vertical"
-      styles={{
-        item: {
-          textAlign: 'center',
-          width: '100%',
-        },
-      }}
-    >
-      <Form layout="vertical" initialValues={classRoom ? { ...dataAdapter(classRoom) } : {}}>
+    <Flex>
+      <Form
+        style={{ width: '100%' }}
+        layout="vertical"
+        initialValues={classRoom ? { ...dataAdapter(classRoom) } : {}}
+      >
         <Form.Item label="Tên lớp học" required name="name">
           <Input />
         </Form.Item>
         <Form.Item label="Mô tả lớp học" required name="description">
-          <Input.TextArea />
+          <Input.TextArea rows={8} />
         </Form.Item>
         <Form.Item label="Ảnh bìa lớp" name="imageUrl">
           <Dragger
@@ -66,7 +58,10 @@ export default function ClassAddEdit({ code }: ClassAddEditProps) {
         <Form.Item label="Chặn học sinh tự rời lớp học" name="isStudentApprovalLeave">
           <Switch checkedChildren="Bật" unCheckedChildren="Tắt" defaultChecked />
         </Form.Item>
+        <Form.Item label="Chặn học sinh đăng bài" name="isStudentPostAllow">
+          <Switch checkedChildren="Bật" unCheckedChildren="Tắt" defaultChecked />
+        </Form.Item>
       </Form>
-    </CustomSpace>
+    </Flex>
   );
 }

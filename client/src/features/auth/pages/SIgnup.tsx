@@ -1,11 +1,10 @@
-import { Button, Col, DatePicker, Divider, Form, Input, Row, Select, Typography } from 'antd';
+import { Button, Col, DatePicker, Divider, Flex, Form, Input, Row, Select, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import type { RangePickerProps } from 'antd/es/date-picker';
 import { useToggle } from 'react-use';
 import { CustomCard } from '@/components/CustomCard';
 import { useAuth } from '@/features/auth/hooks';
-import { CustomSpace } from '@/components/CustomSpace';
 import type { SignUpPayload } from '..';
 import { signUpSchema } from '../schemas/signUpSchema';
 import { createValidator } from '@/utils/validator';
@@ -29,14 +28,12 @@ export default function SignUp() {
   return (
     <>
       <LoginModal isModalOpen={isModalOpen} />
-      <CustomSpace
-        isFullWidth
+      <Flex
         justify="center"
         align="center"
-        direction="vertical"
+        vertical
         style={{
           minHeight: '100vh',
-          margin: 'auto',
         }}
       >
         <Typography.Title>Tạo Tài Khoản</Typography.Title>
@@ -107,33 +104,25 @@ export default function SignUp() {
               <Input />
             </Form.Item>
             <Form.Item>
-              <CustomSpace isFullWidth justify="space-between">
+              <Flex justify="space-between">
                 <Link replace to="/login">
                   Đã có tài khoản?
                 </Link>
                 <Button type="link" onClick={toggleModal}>
                   Là sinh viên UTC?
                 </Button>
-              </CustomSpace>
+              </Flex>
             </Form.Item>
             <Form.Item>
-              <CustomSpace
-                styles={{
-                  item: {
-                    textAlign: 'center',
-                  },
-                }}
-                direction="vertical"
-                isFullWidth
-              >
+              <Flex vertical>
                 <Button type="primary" block htmlType="submit">
                   Đăng ký
                 </Button>
-              </CustomSpace>
+              </Flex>
             </Form.Item>
           </Form>
         </CustomCard>
-      </CustomSpace>
+      </Flex>
     </>
   );
 }

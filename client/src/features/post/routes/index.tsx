@@ -4,16 +4,11 @@ import * as PostPage from '../pages';
 
 export const postRoutes: RouteObject[] = [
   {
-    path: '',
-    children: [
-      {
-        path: '',
-        element: <PostPage.PostList />,
-      },
-      {
-        path: ':id',
-        element: <PostPage.PostDetail />,
-      },
-    ],
+    index: true,
+    element: <PostPage.PostList />,
+  },
+  {
+    path: ':id',
+    element: <PostPage.PostDetail />,
   },
 ];

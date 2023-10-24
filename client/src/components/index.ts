@@ -1,6 +1,6 @@
 export * from './CustomCard';
+export * from './CustomDrawer';
 export * from './CustomMessage';
-export * from './CustomSpace';
 export * from './CustomTable';
 export * from './Head';
 export * from './Notification';

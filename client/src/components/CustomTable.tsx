@@ -1,8 +1,6 @@
 import type { DropDownProps, TableProps } from 'antd';
-import { Button, Dropdown, Table } from 'antd';
+import { Button, Flex, Space, Table } from 'antd';
 import type { ReactNode } from 'react';
-import { DownOutlined } from '@ant-design/icons';
-import { CustomSpace } from '@/components/CustomSpace';
 import { useDrawer } from '@/hooks/useDrawer';
 import { MODE } from '@/constants';
 
@@ -33,37 +31,22 @@ export function CustomTable<T extends object>(props: CustomTableProps<T>) {
   };
 
   return (
-    <CustomSpace direction="vertical" isFullWidth>
+    <Flex vertical>
       {showActionHeader &&
         (actionHeader ? (
-          <CustomSpace justify="space-between" isFullWidth>
-            <CustomSpace>
-              {actionHeader.map((action: Action) => (
-                <>{action.element}</>
-              ))}
-            </CustomSpace>
-          </CustomSpace>
+          <Flex>
+            {actionHeader.map((action: Action) => (
+              <>{action.element}</>
+            ))}
+          </Flex>
         ) : (
-          <CustomSpace>
+          <Space>
             <Button onClick={handleCreate}>Create</Button>
-          </CustomSpace>
+          </Space>
         ))}
       <Table
         rowKey="id"
-        columns={[
-          ...columns,
-          {
-            render: (value) => (
-              <Dropdown menu={actionColumnItems} trigger={['click']}>
-                <Button icon={<DownOutlined />}>Nhấp</Button>
-              </Dropdown>
-            ),
-            key: 'action',
-            title: 'Hành động',
-            fixed: 'right',
-            width: 150,
-          },
-        ]}
+        columns={columns}
         dataSource={dataSource}
         style={{
           boxShadow: hasShadow ? '0px 2px 12px rgba(39, 49, 60, 0.16)' : 'inherit',
@@ -76,6 +59,6 @@ export function CustomTable<T extends object>(props: CustomTableProps<T>) {
         }}
         {...rest}
       />
-    </CustomSpace>
+    </Flex>
   );
 }
