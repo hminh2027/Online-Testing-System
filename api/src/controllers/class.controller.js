@@ -1,19 +1,14 @@
-const { userService, userClassService, classService } = require("../services");
+const { userClassService, classService } = require("../services");
 const { catchAsync } = require("../utils");
 const _ = require("lodash");
 const httpStatus = require("http-status");
 
 const createOne = catchAsync(async (req, res) => {
   const { id } = req.user;
-  const { isStudentApprovalLeave, name, description, imageUrl, password } =
-    req.body;
+
   let _class = await classService.createOne({
     teacherId: id,
-    isStudentApprovalLeave,
-    name,
-    description,
-    imageUrl,
-    password,
+    ...req.body,
   });
   res
     .status(httpStatus.OK)

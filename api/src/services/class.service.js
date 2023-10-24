@@ -8,6 +8,7 @@ function createOne({
   description = "",
   password = "",
   isStudentApprovalLeave,
+  isStudentPostAllowed,
 }) {
   const code = generateUniqueId(6);
   return prisma.class.create({
@@ -19,6 +20,7 @@ function createOne({
       description,
       imageUrl,
       isStudentApprovalLeave,
+      isStudentPostAllowed,
     },
   });
 }

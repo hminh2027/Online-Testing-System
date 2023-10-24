@@ -7,6 +7,7 @@ function classPrototype() {
     imageUrl: "",
     password: Math.random() < 0.5 ? "123456" : "",
     isStudentApprovalLeave: Math.random() < 0.5,
+    isStudentPostAllowed: Math.random() < 0.5,
     teacherId: 1,
   };
 }
