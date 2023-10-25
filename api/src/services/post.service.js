@@ -11,18 +11,13 @@ function createOne({ content, imageUrl = "", userId, classCode }) {
   });
 }
 
-function getOneById(id, classCode) {
-  return prisma.post.findFirst({
-    where: { id, classCode },
-    include: { Comment },
-  });
-}
-
 function getManyByClassCode(classCode) {
   return prisma.post.findMany({
     where: { classCode },
     include: {
-      Comment: true,
+      Comment: {
+        include: { User: { select: { fullname: true, imageUrl: true } } },
+      },
       User: {
         select: { fullname: true, imageUrl: true },
       },
@@ -46,7 +41,6 @@ function deleteOneById(id, userId) {
 
 module.exports = {
   createOne,
-  getOneById,
   getManyByClassCode,
   updateOneById,
   deleteOneById,

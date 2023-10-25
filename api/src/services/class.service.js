@@ -46,7 +46,6 @@ function getManyByTeacherId(teacherId) {
 function getManyByStudentId(studentId) {
   return prisma.userClass.findMany({
     where: { student_id: studentId },
-    select: { Class },
   });
 }
 

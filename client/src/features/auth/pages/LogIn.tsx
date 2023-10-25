@@ -1,24 +1,16 @@
 import { Button, Divider, Flex, Form, Input, Typography } from 'antd';
-import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { CustomCard } from '@/components/CustomCard';
 import { useAuth } from '@/features/auth/hooks';
 import type { LoginPayload } from '..';
-import { useAuthStore } from '@/features/auth/stores';
 import { createValidator } from '@/utils/validator';
 import { logInSchema } from '@/features/auth/schemas/logInSchema';
 
 export default function Login() {
   const { logIn } = useAuth();
-  const { isAuthed } = useAuthStore();
-  const navigator = useNavigate();
   const [form] = Form.useForm();
 
   const yupSync = createValidator(logInSchema);
-
-  useEffect(() => {
-    if (isAuthed) navigator('/class');
-  });
 
   const handleSubmit = (values: LoginPayload) => {
     logIn(values);

@@ -16,10 +16,10 @@ const createOne = catchAsync(async (req, res) => {
 });
 
 const getManyByUserId = catchAsync(async (req, res) => {
-  const { id, is_teacher } = req.user;
+  const { id, isTeacher } = req.user;
   let classes = null;
 
-  if (is_teacher) classes = await classService.getManyByTeacherId(+id);
+  if (isTeacher) classes = await classService.getManyByTeacherId(+id);
   else classService.getManyByStudentId(+id);
   res.status(httpStatus.OK).json({ content: classes });
 });

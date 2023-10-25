@@ -5,7 +5,6 @@ const { TOKEN } = require("../constants");
 
 const auth = async (req, res, next) => {
   try {
-    console.log(config.isAuth);
     if (!config.isAuth) {
       req.user = {
         id: 1,
@@ -18,13 +17,15 @@ const auth = async (req, res, next) => {
       next();
       return;
     }
+
     const authHeader = req.headers.authorization;
-    const token = authHeader.split(" ")[1];
+    const token = authHeader;
 
     if (!token) throw new Error();
 
     const decoded = jwt.verify(token, config.jwt.secret);
-    if (decoded.type !== TOKEN.REFRESH_TOKEN) throw new Error();
+
+    if (decoded.type !== TOKEN.ACCESS_TOKEN) throw new Error();
 
     const user = await userService.getOneById(decoded.id);
     if (!user) throw new Error();
@@ -33,7 +34,7 @@ const auth = async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    next({ ...error, message: "Token invalid" });
+    next({ ...error, message: "Token không hợp lệ, vui lòng đăng nhập lại" });
   }
 };
 

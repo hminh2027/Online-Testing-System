@@ -46,7 +46,14 @@ export function ClassDetailLayout({ children }: ClassDetailLayoutProps) {
           }}
         />
       </Sider>
-      <Content style={{ padding: 30 }}>{children ?? <Outlet />}</Content>
+      <Content
+        style={{
+          padding: 30,
+          overflow: 'auto',
+        }}
+      >
+        {children ?? <Outlet />}
+      </Content>
     </Layout>
   );
 }

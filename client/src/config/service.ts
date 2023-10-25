@@ -18,5 +18,8 @@ export const endpoints = {
     post: {
       path: '/post',
     },
+    comment: {
+      path: '/comment',
+    },
   },
 };

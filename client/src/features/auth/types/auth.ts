@@ -1,3 +1,4 @@
+import type { User } from '@/features/user';
 import type { ResponseItem } from '@/types';
 
 export interface LoginPayload {
@@ -21,7 +22,7 @@ type AuthResponse = {
     accessToken: string;
     refreshToken: string;
   };
-  user: object;
+  user: User;
 };
 
 export type ResAuthItem = ResponseItem<AuthResponse>;

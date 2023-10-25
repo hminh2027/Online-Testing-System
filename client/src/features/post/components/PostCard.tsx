@@ -1,18 +1,19 @@
 import { Avatar, Button, Flex, Image, Space, Typography } from 'antd';
 
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
+import { useToggle } from 'react-use';
 import { CustomCard } from '@/components';
 import type { Post } from '../types';
-import 'dayjs/locale/vi';
-
-dayjs.extend(relativeTime);
+import { CommentCreateForm } from '@/features/comment/components/CommentCreateForm';
+import { CommentList } from '@/features/comment/components/CommentList';
+import { formatFromNowTime } from '@/utils';
 
 interface PostCardProps extends Post {}
 export function PostCard(props: PostCardProps) {
-  const { User, createdAt } = props;
+  const { User, Comment, createdAt, id } = props;
 
   const { fullname, imageUrl } = User;
+
+  const [openComment, toggleOpen] = useToggle(true);
 
   return (
     <CustomCard
@@ -28,13 +29,13 @@ export function PostCard(props: PostCardProps) {
             <Avatar size="large">M</Avatar>
             <Flex vertical justify="space-between">
               <Typography.Text strong>{fullname}</Typography.Text>
-              <Typography.Text>{dayjs(createdAt).locale('vi').fromNow()}</Typography.Text>
+              <Typography.Text>{formatFromNowTime(createdAt as Date)}</Typography.Text>
             </Flex>
           </Space>
           ...
         </Flex>
         {/* content */}
-        <Flex vertical>
+        <Flex vertical gap={6}>
           <Typography.Text>smoothe</Typography.Text>
           <Image
             style={{ borderRadius: 8 }}
@@ -43,10 +44,14 @@ export function PostCard(props: PostCardProps) {
           />
         </Flex>
         {/* comment footer */}
-        <Flex justify="space-between">
-          1comment
-          <Button type="text">Ẩn bình luận</Button>
+        <Flex justify="space-between" align="center">
+          <Typography.Text>{Comment.length} bình luận</Typography.Text>
+          <Button onClick={toggleOpen} type="link">
+            Ẩn bình luận
+          </Button>
         </Flex>
+        <CommentCreateForm postId={id as number} />
+        {openComment && <CommentList comments={Comment} />}
       </Flex>
     </CustomCard>
   );

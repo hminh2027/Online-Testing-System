@@ -38,7 +38,7 @@ const getMe = catchAsync(async (req, res) => {
   const { id } = req.user;
   const user = await userService.getOneById(id);
   res.status(httpStatus.OK).json({
-    content: { user },
+    content: user,
   });
 });
 

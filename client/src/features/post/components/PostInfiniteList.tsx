@@ -34,7 +34,7 @@ export function PostInfiniteList({}: PostInfiniteListProps) {
 
   return (
     <List style={{ width: '100%' }}>
-      <VirtualList data={posts} height={HEIGHT} itemHeight={47} itemKey="email" onScroll={onScroll}>
+      <VirtualList data={posts} itemKey="id" onScroll={onScroll}>
         {(item: Post) => (
           <List.Item key={item.id}>
             <PostCard {...item} />

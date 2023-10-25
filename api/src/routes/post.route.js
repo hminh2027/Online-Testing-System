@@ -12,7 +12,6 @@ router
 
 router
   .route("/:id")
-  .get(auth, postController.getOneById)
   .put(auth, postController.updateOneById)
   .delete(auth, postController.deleteOneById);
 

@@ -6,9 +6,12 @@ import { storage } from '@/utils';
 import useLogin from './useLogin';
 import useSignup from './useSignup';
 import useUtcLogin from './useUtcLogin';
+import { axiosInstance } from '@/libs';
+import { endpoints } from '@/config';
+import type { ResUserItem } from '@/features/user';
 
 export const useAuth = () => {
-  const { setIsAuth } = useAuthStore();
+  const { setUser } = useAuthStore();
   const navigator = useNavigate();
 
   const { logIn } = useLogin({
@@ -27,7 +30,7 @@ export const useAuth = () => {
   });
 
   function handleOnSuccess(res: ResAuthItem) {
-    setIsAuth(true);
+    setUser(res.content.user);
     navigator('/class');
     storage.setToken(res.content.tokens.accessToken);
 
@@ -40,13 +43,21 @@ export const useAuth = () => {
 
   const logOut = () => {
     storage.clearToken();
-    setIsAuth(false);
+    setUser(null);
     navigator('/login');
   };
 
   const refresh = () => {};
 
-  const getMe = () => {};
+  const getMe = () => {
+    const token = storage.getToken();
+
+    return axiosInstance<ResUserItem>({
+      url: `${endpoints.apis.auth.path}/me`,
+      method: 'GET',
+      data: { token },
+    });
+  };
 
   return {
     logIn,

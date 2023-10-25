@@ -4,8 +4,8 @@ async function createOne({ content, userId, postId }) {
   return prisma.comment.create({
     data: {
       content,
-      post_id: postId,
-      user_id: userId,
+      postId,
+      userId,
     },
   });
 }

@@ -13,12 +13,6 @@ const createOne = catchAsync(async (req, res) => {
     .json({ message: "Tạo bài viết thành công", content: post });
 });
 
-const getOneById = catchAsync(async (req, res) => {
-  const { id } = req.params;
-  let post = await postService.getOneById(id);
-  res.status(httpStatus.OK).json({ content: post });
-});
-
 const getManyByClassCode = catchAsync(async (req, res) => {
   const { classCode } = req.body;
   let posts = await postService.getManyByClassCode(classCode);
@@ -46,7 +40,6 @@ const deleteOneById = catchAsync(async (req, res) => {
 
 module.exports = {
   createOne,
-  getOneById,
   getManyByClassCode,
   updateOneById,
   deleteOneById,
