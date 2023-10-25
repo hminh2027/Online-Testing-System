@@ -10,7 +10,7 @@ import { axiosInstance } from '@/libs';
 import { endpoints } from '@/config';
 import type { ResUserItem } from '@/features/user';
 
-export const useAuth = () => {
+export const useAuth = async () => {
   const { setUser } = useAuthStore();
   const navigator = useNavigate();
 

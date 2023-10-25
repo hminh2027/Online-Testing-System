@@ -27,7 +27,7 @@ export interface MutationParams<T> {
 }
 
 export interface UpdateParams<T> {
-  id: number;
+  id: number | string;
   payload: Partial<T>;
 }
 

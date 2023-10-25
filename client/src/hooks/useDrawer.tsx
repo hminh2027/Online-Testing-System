@@ -2,7 +2,7 @@ import type { PropsWithChildren, ReactElement } from 'react';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { useToggle } from 'react-use';
 
-import { Button, Space } from 'antd';
+import { Button } from 'antd';
 import { MODE } from '@/constants/status';
 
 type ContentConfig = Record<keyof typeof MODE, ReactElement>;
@@ -17,7 +17,7 @@ interface DrawerProps {
   setDetailId: (id: number | string) => void;
   resetDrawerState: () => void;
   genTitle: () => string | null;
-  genFooter: () => ReactElement | null;
+  genFooter: (submitHandler: () => void) => ReactElement | null;
   genContent: (content: ContentConfig) => ReactElement | null;
 }
 
@@ -60,17 +60,20 @@ export function DrawerContextProvider({ children }: PropsWithChildren) {
     }
   }, [mode]);
 
-  const genFooter = useCallback(() => {
-    if (mode === MODE.ADD || mode === MODE.EDIT) {
-      return (
-        <Button block type="primary">
-          Lưu
-        </Button>
-      );
-    }
+  const genFooter = useCallback(
+    (submitHandler: () => void) => {
+      if (mode === MODE.ADD || mode === MODE.EDIT) {
+        return (
+          <Button onClick={submitHandler} block type="primary">
+            Lưu
+          </Button>
+        );
+      }
 
-    return null;
-  }, [mode]);
+      return null;
+    },
+    [mode],
+  );
 
   const genContent = useCallback(
     (content: ContentConfig) => {

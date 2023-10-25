@@ -31,12 +31,6 @@ function getOneByCode(code) {
   });
 }
 
-function getOneByUsername(username) {
-  return prisma.user.findFirst({
-    where: { username },
-  });
-}
-
 function getManyByTeacherId(teacherId) {
   return prisma.class.findMany({
     where: { teacherId },
@@ -50,7 +44,7 @@ function getManyByStudentId(studentId) {
 }
 
 function updateOneByCode(code, data) {
-  return prisma.class.update({ where: { code } }, data);
+  return prisma.class.update({ where: { code }, data });
 }
 
 function deleteOneByCode(code) {
@@ -61,7 +55,6 @@ module.exports = {
   createOne,
   getOneByCode,
   updateOneByCode,
-  getOneByUsername,
   getManyByTeacherId,
   getManyByStudentId,
   deleteOneByCode,

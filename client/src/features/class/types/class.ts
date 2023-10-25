@@ -9,14 +9,16 @@ export interface ClassRoom extends Resource {
   isActive: boolean;
   createdAt: Date;
   isStudentApprovalLeave: boolean;
+  isStudentPostAllowed: boolean;
   password: string;
 }
 
-export interface ClassCreateDTO {
+export interface ClassCreateDTO extends Resource {
   name: string;
   description: string;
-  imageUrl: string;
+  imageUrl: string | null;
   isStudentApprovalLeave: boolean;
+  isStudentPostAllowed: boolean;
   password: string;
 }
 

@@ -3,6 +3,7 @@ import { useClass } from '../../hooks/useClass';
 import { useDrawer } from '@/hooks/useDrawer';
 import { Status } from '@/components';
 import { STATUS } from '@/constants';
+import { formatTime } from '@/utils';
 
 export default function ClassDetail() {
   const { detailId } = useDrawer();
@@ -34,8 +35,12 @@ export default function ClassDetail() {
       value: <Checkbox checked={classDetails?.isStudentApprovalLeave} disabled />,
     },
     {
+      label: 'Cho phép học sinh đăng bài',
+      value: <Checkbox checked={classDetails?.isStudentPostAllowed} disabled />,
+    },
+    {
       label: 'Ngày tạo',
-      value: <>{classDetails?.createdAt}</>,
+      value: formatTime(classDetails?.createdAt as Date),
     },
     {
       label: 'Trạng thái',

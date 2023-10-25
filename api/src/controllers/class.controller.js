@@ -46,8 +46,8 @@ const getUsersByClassCode = catchAsync(async (req, res) => {
 // TODO: getManyBy? // (so hs lam bai kiem tra)
 
 const updateOneByCode = catchAsync(async (req, res) => {
-  const { id } = req.params;
-  let _class = await classService.updateOneByCode(id, req.body);
+  const { code } = req.params;
+  let _class = await classService.updateOneByCode(code, req.body);
 
   res.status(httpStatus.OK).json({
     message: "Cập nhật lớp học thành công",

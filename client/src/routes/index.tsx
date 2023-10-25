@@ -1,24 +1,31 @@
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { classRoutes } from '@/features/class/routes';
-import { authRoutes } from '@/features/auth/routes';
-import { AuthLayout } from '../features/auth/layouts/AuthLayout';
+import { publicRoutes } from './public';
+import { privateRoutes } from './private';
+import { NotFound } from '@/features/common';
+import { storage } from '@/utils';
 
 export function AppRoutes() {
-  const routes = createBrowserRouter([
+  const token = storage.getToken();
+
+  const routes = token ? privateRoutes : publicRoutes;
+
+  const router = createBrowserRouter([
     {
-      ErrorBoundary: () => <>404</>,
+      ErrorBoundary: NotFound,
       hasErrorBoundary: true,
-      element: <AuthLayout />,
       children: [
-        ...authRoutes,
-        ...classRoutes,
+        ...routes,
+        {
+          index: true,
+          element: <Navigate to="/" replace />,
+        },
         {
           path: '*',
-          element: <>404</>,
+          element: <NotFound />,
         },
       ],
     },
   ]);
 
-  return <RouterProvider router={routes} />;
+  return <RouterProvider router={router} />;
 }
