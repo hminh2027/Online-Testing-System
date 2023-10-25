@@ -1,23 +1,19 @@
+import type { User } from '@/features/user';
 import type { Resource, ResponseItem } from '../../../types/common';
 
 export interface Post extends Resource {
-  code: string;
-  teacherId: number;
-  name: string;
-  description: string;
-  imageUrl: string;
-  isActive: boolean;
-  createdAt: Date;
-  isStudentApprovalLeave: boolean;
-  password: string;
+  userId: number;
+  classCode: string;
+  content: string;
+  imageUrl?: string;
+  Comment: [];
+  User: Pick<User, 'fullname' | 'imageUrl'>;
 }
 
-export interface PostCreateDTO {
-  name: string;
-  description: string;
-  imageUrl: string;
-  isStudentApprovalLeave: boolean;
-  password: string;
+export interface PostCreateDTO extends Resource {
+  classCode: string;
+  content: string;
+  imageUrl?: string;
 }
 
 export type ResPostItem = ResponseItem<Post>;

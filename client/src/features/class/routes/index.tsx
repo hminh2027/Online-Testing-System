@@ -15,7 +15,7 @@ export const classRoutes: RouteObject[] = [
         element: <ClassPage.ClassList />,
       },
       {
-        path: ':id',
+        path: ':code',
         element: <ClassDetailLayout />,
         children: [
           {

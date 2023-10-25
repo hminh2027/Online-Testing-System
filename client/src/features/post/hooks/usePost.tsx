@@ -1,5 +1,5 @@
 import { initialCustomQuery } from '@/hooks/useCustomQuery/useCustomQuery';
-import type { Post, ResPostList, ResPostItem, ResPostModify } from '@/features/post/types';
+import type { ResPostList, ResPostItem, ResPostModify, PostCreateDTO } from '@/features/post/types';
 import { PostService } from '../services/PostService';
 
 export const {
@@ -9,4 +9,4 @@ export const {
   useUpdateItem: useUpdatePost,
   usePatchItem: usePatchPost,
   useDeleteItem: useDeletePost,
-} = initialCustomQuery<Post, ResPostList, ResPostItem, ResPostModify>(PostService);
+} = initialCustomQuery<PostCreateDTO, ResPostList, ResPostItem, ResPostModify>(PostService);

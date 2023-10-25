@@ -1,65 +1,46 @@
-import { Divider, List, Skeleton } from 'antd';
-import { useEffect, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import { List } from 'antd';
+import { useEffect } from 'react';
+import VirtualList from 'rc-virtual-list';
+import { useListPost } from '../hooks/usePost';
+import type { Post } from '../types';
+import { PostCard } from './PostCard';
+
+const HEIGHT = 1000;
 
 interface PostInfiniteListProps {}
 export function PostInfiniteList({}: PostInfiniteListProps) {
-  const [loading, setLoading] = useState(false);
+  const { data, isFetching } = useListPost({});
 
-  const [data, setData] = useState<string[]>([]);
+  const posts = data?.content;
 
-  const loadMoreData = () => {
-    if (loading) return;
-
-    setLoading(true);
-    // fetch('https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo')
+  const appendData = () => {
+    // fetch(fakeDataUrl)
     //   .then((res) => res.json())
     //   .then((body) => {
-    //     setData([...data, ...body.results]);
-    //     setLoading(false);
-    //   })
-    //   .catch(() => {
-    //     setLoading(false);
+    //     setData(data.concat(body.results));
+    //     message.success(`${body.results.length} more items loaded!`);
     //   });
   };
 
   useEffect(() => {
-    loadMoreData();
+    appendData();
   }, []);
 
+  const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
+    if (e.currentTarget.scrollHeight - e.currentTarget.scrollTop === HEIGHT) appendData();
+  };
+
+  if (isFetching || !posts) return <></>;
+
   return (
-    <div
-      id="scrollableDiv"
-      style={{
-        width: '100%',
-        height: 400,
-        overflow: 'auto',
-        padding: '0 16px',
-        margin: '1rem 0',
-      }}
-    >
-      <InfiniteScroll
-        dataLength={data.length}
-        next={loadMoreData}
-        hasMore={data.length < 50}
-        loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
-        endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
-        scrollableTarget="scrollableDiv"
-      >
-        <List
-          dataSource={data}
-          renderItem={(item) => (
-            <List.Item key={item.email}>
-              {/* <List.Item.Meta
-                avatar={<Avatar src={item.picture.large} />}
-                title={<a href="https://ant.design">{item.name.last}</a>}
-                description={item.email}
-              /> */}
-              <div>Content</div>
-            </List.Item>
-          )}
-        />
-      </InfiniteScroll>
-    </div>
+    <List style={{ width: '100%' }}>
+      <VirtualList data={posts} height={HEIGHT} itemHeight={47} itemKey="email" onScroll={onScroll}>
+        {(item: Post) => (
+          <List.Item key={item.id}>
+            <PostCard {...item} />
+          </List.Item>
+        )}
+      </VirtualList>
+    </List>
   );
 }

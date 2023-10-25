@@ -21,6 +21,12 @@ function getOneById(id, classCode) {
 function getManyByClassCode(classCode) {
   return prisma.post.findMany({
     where: { classCode },
+    include: {
+      Comment: true,
+      User: {
+        select: { fullname: true, imageUrl: true },
+      },
+    },
   });
 }
 

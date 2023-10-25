@@ -3,11 +3,9 @@ const { catchAsync } = require("../utils");
 const httpStatus = require("http-status");
 
 const createOne = catchAsync(async (req, res) => {
-  const { code } = req.params;
   const { id } = req.user;
   let post = await postService.createOne({
     userId: id,
-    classCode: code,
     ...req.body,
   });
   res
@@ -16,14 +14,14 @@ const createOne = catchAsync(async (req, res) => {
 });
 
 const getOneById = catchAsync(async (req, res) => {
-  const { code, id } = req.params;
-  let post = await postService.getOneById(id, code);
+  const { id } = req.params;
+  let post = await postService.getOneById(id);
   res.status(httpStatus.OK).json({ content: post });
 });
 
 const getManyByClassCode = catchAsync(async (req, res) => {
-  const { code } = req.params;
-  let posts = await postService.getManyByClassCode(code);
+  const { classCode } = req.body;
+  let posts = await postService.getManyByClassCode(classCode);
   res.status(httpStatus.OK).json({ content: posts });
 });
 

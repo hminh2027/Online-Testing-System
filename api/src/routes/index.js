@@ -7,11 +7,13 @@ const authRoute = require("./auth.route");
 // const attemptRoute = require("./attempt.route");
 // const choiceRoute = require("./choice.route");
 const classRoute = require("./class.route");
+const postRoute = require("./post.route");
 // const notificationRoute = require("./notification.route");
 
 router.use("/auth", authRoute);
 router.use("/user", userRoute);
 router.use("/class", classRoute);
+router.use("/post", postRoute);
 // router.use("/notification", notificationRoute);
 
 // router.use("/exam", examRoute);

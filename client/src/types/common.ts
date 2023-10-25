@@ -1,5 +1,5 @@
 export interface Resource {
-  id: number | string;
+  id?: number | string;
   createdAt?: Date;
 }
 

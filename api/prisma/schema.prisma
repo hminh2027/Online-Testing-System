@@ -58,7 +58,6 @@ model Class {
   description            String?     @db.LongText
   password               String?
   isStudentApprovalLeave Boolean     @default(false)
-  isStudentPostAllowed   Boolean     @default(true)
   isActive               Boolean     @default(true)
   createdAt              DateTime    @default(now())
   // relations

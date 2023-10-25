@@ -1,5 +1,4 @@
 export * from './CustomCard';
-export * from './CustomDrawer';
 export * from './CustomMessage';
 export * from './CustomTable';
 export * from './Head';

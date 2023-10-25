@@ -2,7 +2,8 @@ import type { Resource, ResponseItem } from '../../../types/common';
 
 export interface User extends Resource {
   email: number;
-  username: string;
+  fullname: string;
+  imageUrl: string;
   password: string;
   isTeacher: boolean;
   phone?: string;
