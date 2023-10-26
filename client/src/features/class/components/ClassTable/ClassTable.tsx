@@ -1,4 +1,4 @@
-import { Button, Dropdown, Modal } from 'antd';
+import { Button, Dropdown } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { useToggle } from 'react-use';
 import { columns } from './column';
@@ -8,9 +8,9 @@ import { MODE } from '@/constants';
 import { useDrawer } from '@/hooks/useDrawer';
 import type { ClassRoom } from '../../types';
 import { useAuth } from '@/features/auth';
-import { FindModal } from '../FindModal';
+import { ClassFindModal } from '@/features/class/components/ClassFindModal';
 
-export default function ClassTable() {
+export function ClassTable() {
   const { data: classData } = useListClass({});
   const { toggleMode, setDetailId } = useDrawer();
   const { user } = useAuth();
@@ -34,7 +34,7 @@ export default function ClassTable() {
 
   return (
     <>
-      <FindModal open={isModalOpen} setIsOpen={toggleModal} />
+      <ClassFindModal open={isModalOpen} setIsOpen={toggleModal} />
       <CustomTable
         showActionHeader
         actionHeader={[

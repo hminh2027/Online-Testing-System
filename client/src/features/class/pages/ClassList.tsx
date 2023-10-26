@@ -1,9 +1,7 @@
 import { Drawer, Form } from 'antd';
 import { useDrawer } from '@/hooks/useDrawer';
-import ClassTable from '../components/ClassTable/ClassTable';
 import { Head } from '@/components/Head';
-import ClassAddEdit from '../components/Drawer/ClassAddEdit';
-import ClassDetail from '../components/Drawer/ClassDetail';
+import { ClassAddEdit, ClassDetail, ClassTable } from '../components';
 
 export default function ClassList() {
   const { isDrawerOpen, genTitle, genFooter, genContent, handleClose, detailId } = useDrawer();

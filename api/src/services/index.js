@@ -11,6 +11,5 @@ module.exports.classService = require("./class.service");
 module.exports.userClassService = require("./userClass.service");
 // module.exports.notificationService = require("./notification.service");
 // module.exports.socketService = require("./socket.service");
-// module.exports.requestService = require("./request.service");
 module.exports.postService = require("./post.service");
 module.exports.commentService = require("./comment.service");

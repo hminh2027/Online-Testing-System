@@ -33,9 +33,14 @@ const items2: MenuProps['items'] = sideNavItems.map((item) => ({
   label: <NavLink to={`${item.path}`}>{item.label}</NavLink>,
 }));
 
+// TODO:TACH FILE CSS RA
 export function ClassDetailLayout({ children }: ClassDetailLayoutProps) {
   return (
-    <Layout style={{ height: '100%' }}>
+    <Layout
+      style={{
+        height: '100%',
+      }}
+    >
       <Sider>
         <Menu
           mode="vertical"
@@ -51,6 +56,8 @@ export function ClassDetailLayout({ children }: ClassDetailLayoutProps) {
           padding: 30,
           height: 'calc(100vh - 64px)',
           overflow: 'auto',
+          border: '1px solid #8080800f',
+          boxSizing: 'border-box',
         }}
       >
         {children ?? <Outlet />}

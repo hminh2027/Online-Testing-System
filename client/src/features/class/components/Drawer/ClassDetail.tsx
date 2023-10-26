@@ -5,11 +5,11 @@ import { Status } from '@/components';
 import { STATUS } from '@/constants';
 import { formatTime } from '@/utils';
 
-export default function ClassDetail() {
+export function ClassDetail() {
   const { detailId } = useDrawer();
   const { data, isFetching } = useClass(detailId);
 
-  if (isFetching) return <></>;
+  if (isFetching) return <>Loading</>;
 
   const classDetails = data?.content;
 
@@ -29,6 +29,10 @@ export default function ClassDetail() {
     {
       label: 'Mật khẩu',
       value: <Input.Password value={classDetails?.password} bordered={false} readOnly />,
+    },
+    {
+      label: 'Kiểm duyệt học sinh vào lớp',
+      value: <Checkbox checked={classDetails?.isStudentApprovalEnter} disabled />,
     },
     {
       label: 'Chặn học sinh tự rời lớp học',

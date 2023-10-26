@@ -13,7 +13,7 @@ interface ClassAddEditProps {
   code?: string;
   form: FormInstance;
 }
-export default function ClassAddEdit({ code, form }: ClassAddEditProps) {
+export function ClassAddEdit({ code, form }: ClassAddEditProps) {
   const { data: classData, isFetching } = useClass(code as string, {
     enabled: !!code,
   });
@@ -43,6 +43,7 @@ export default function ClassAddEdit({ code, form }: ClassAddEditProps) {
     name: data.name,
     description: data.description,
     imageUrl: '',
+    isStudentApprovalEnter: data.isStudentApprovalEnter,
     isStudentApprovalLeave: data.isStudentApprovalLeave,
     isStudentPostAllowed: data.isStudentPostAllowed,
     password: data.password,
@@ -119,6 +120,13 @@ export default function ClassAddEdit({ code, form }: ClassAddEditProps) {
         </Form.Item>
         <Form.Item label="Mật khẩu lớp học" name="password">
           <Input.Password />
+        </Form.Item>
+        <Form.Item
+          label="Kiểm duyệt học sinh vào lớp"
+          name="isStudentApprovalEnter"
+          valuePropName="checked"
+        >
+          <Switch checkedChildren="Bật" unCheckedChildren="Tắt" defaultChecked />
         </Form.Item>
         <Form.Item
           label="Chặn học sinh tự rời lớp học"

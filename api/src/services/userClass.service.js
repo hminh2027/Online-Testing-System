@@ -1,12 +1,21 @@
 const { prisma } = require("../database/prisma-client");
 
-async function getManyById(id) {
+async function createOne({ classCode, studentId, status }) {
+  return prisma.userClass.create({
+    data: { status, classCode, studentId },
+  });
+}
+
+async function getManyByStatus({ status, classCode }) {
   return prisma.userClass.findMany({
-    where: { user_class_id: id },
-    select: { User, Class },
+    where: {
+      status,
+      classCode,
+    },
   });
 }
 
 module.exports = {
-  getManyById,
+  createOne,
+  getManyByStatus,
 };

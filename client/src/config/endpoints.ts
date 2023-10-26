@@ -11,6 +11,9 @@ export const endpoints = {
     class: {
       path: '/class',
     },
+    userClass: {
+      path: '/user_class',
+    },
     auth: {
       path: '/auth',
     },

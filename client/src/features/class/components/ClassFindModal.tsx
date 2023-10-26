@@ -1,14 +1,14 @@
-import { Button, Flex, Input, Modal } from 'antd';
+import { Flex, Modal } from 'antd';
 import { useState } from 'react';
 import PinInput from 'react-pin-input';
 import { useClass } from '../hooks/useClass';
-import { ClassCard } from './ClassCard';
+import { ClassFindForm } from './ClassFindForm';
 
-interface FindModalProps {
+interface ClassFindModalProps {
   open: boolean;
   setIsOpen: (value: boolean) => void;
 }
-export function FindModal({ open, setIsOpen }: FindModalProps) {
+export function ClassFindModal({ open, setIsOpen }: ClassFindModalProps) {
   const [classCode, setClassCode] = useState('');
 
   const { data } = useClass(classCode, { enabled: !!classCode });
@@ -37,14 +37,11 @@ export function FindModal({ open, setIsOpen }: FindModalProps) {
             borderBottom: '1px solid black',
             margin: '0 .5rem',
           }}
-          inputFocusStyle={{ borderColor: 'blue' }}
           onComplete={handleOnComplete}
           autoSelect={true}
           focus={true}
         />
-        {classCode.length === 6 && classRoom && <ClassCard classRoom={classRoom} />}
-        <Input.Password />
-        <Button block>Gửi yêu cầu</Button>
+        {classCode.length === 6 && classRoom && <ClassFindForm classRoom={classRoom} />}
       </Flex>
     </Modal>
   );

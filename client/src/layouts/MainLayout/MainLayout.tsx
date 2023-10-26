@@ -34,7 +34,6 @@ export function MainLayout({ children }: MainLayoutProps) {
       </Header>
       <Content
         style={{
-          padding: 30,
           height: 'calc(100vh - 64px)',
           overflow: 'auto',
         }}
