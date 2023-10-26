@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores';
 import { CustomMessage } from '@/components/CustomMessage';
 import type { ResAuthItem } from '..';
@@ -10,9 +9,8 @@ import { axiosInstance } from '@/libs';
 import { endpoints } from '@/config';
 import type { ResUserItem } from '@/features/user';
 
-export const useAuth = async () => {
-  const { setUser } = useAuthStore();
-  const navigator = useNavigate();
+export const useAuth = () => {
+  const { setUser, user } = useAuthStore();
 
   const { logIn } = useLogin({
     handleOnError,
@@ -31,7 +29,7 @@ export const useAuth = async () => {
 
   function handleOnSuccess(res: ResAuthItem) {
     setUser(res.content.user);
-    navigator('/class');
+    window.location.assign('class');
     storage.setToken(res.content.tokens.accessToken);
 
     return CustomMessage.success(res.message);
@@ -44,19 +42,21 @@ export const useAuth = async () => {
   const logOut = () => {
     storage.clearToken();
     setUser(null);
-    navigator('/login');
+    window.location.assign(window.location.origin as unknown as string);
   };
 
   const refresh = () => {};
 
-  const getMe = () => {
+  const getMe = async () => {
     const token = storage.getToken();
 
-    return axiosInstance<ResUserItem>({
+    const res = await axiosInstance<ResUserItem>({
       url: `${endpoints.apis.auth.path}/me`,
       method: 'GET',
       data: { token },
     });
+
+    setUser(res.content);
   };
 
   return {
@@ -66,5 +66,7 @@ export const useAuth = async () => {
     logOut,
     refresh,
     getMe,
+    user,
+    setUser,
   };
 };

@@ -1,5 +1,5 @@
 import type { FormInstance, UploadProps } from 'antd';
-import { Button, Flex, Form, Image, Input, Switch, message } from 'antd';
+import { Button, Flex, Form, Image, Input, Switch } from 'antd';
 import Dragger from 'antd/es/upload/Dragger';
 import { InboxOutlined } from '@ant-design/icons';
 import { useState, useEffect } from 'react';

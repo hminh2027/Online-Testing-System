@@ -5,6 +5,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { HelmetProvider } from 'react-helmet-async';
 import { ErrorPage } from '@/features/error';
 import { themeConfig } from '@/config';
+import { AuthProvider } from './AuthProvider';
 
 const queryClient = new QueryClient();
 
@@ -25,7 +26,9 @@ export default function AppProvider({ children }: PropsWithChildren) {
       <Suspense fallback={<Spin />}>
         <HelmetProvider>
           <ConfigProvider theme={themeConfig}>
-            <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+            <QueryClientProvider client={queryClient}>
+              <AuthProvider>{children}</AuthProvider>
+            </QueryClientProvider>
           </ConfigProvider>
         </HelmetProvider>
       </Suspense>

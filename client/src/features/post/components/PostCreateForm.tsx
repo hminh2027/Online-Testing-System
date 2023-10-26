@@ -1,9 +1,14 @@
-import { Avatar, Button, Divider, Flex, Form, Input, Space, Upload } from 'antd';
+import type { UploadProps } from 'antd';
+import { Button, Divider, Flex, Form, Image, Input, Space, Upload } from 'antd';
 import { FileImageOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
+import { useState } from 'react';
 import { CustomCard } from '@/components';
 import { useAddPost } from '../hooks/usePost';
 import type { PostCreateDTO } from '../types';
+import { upload } from '@/libs/cloudinary';
+import { CustomAvatar } from '@/components/CustomAvatar';
+import { useAuth } from '@/features/auth';
 
 export function PostCreateForm() {
   const [form] = Form.useForm();
@@ -13,16 +18,26 @@ export function PostCreateForm() {
     onError: () => {},
   });
 
+  const [image, setImage] = useState<string | null>();
   const { code } = useParams();
+  const { user } = useAuth();
 
   const handleOnFinish = (value: PostCreateDTO) => {
     const createDto: PostCreateDTO = {
       classCode: code as string,
       content: value.content,
-      imageUrl: '',
+      imageUrl: image,
     };
 
     mutate(createDto);
+  };
+
+  const handleCustomRequest: UploadProps['customRequest'] = (options) => {
+    const { file } = options;
+
+    upload(file)
+      .then((res) => setImage(res))
+      .catch(() => {});
   };
 
   return (
@@ -36,19 +51,20 @@ export function PostCreateForm() {
       <Form name="create-post" form={form} onFinish={handleOnFinish}>
         <Form.Item name="content">
           <Flex justify="space-between" align="center">
-            <Avatar size="large">M</Avatar>
+            <CustomAvatar name={user?.fullname} size="large" />
             <Input
-              style={{ maxWidth: '90%' }}
+              style={{ width: '90%' }}
               placeholder="Nhập nội dung thảo luận với lớp học..."
               bordered={false}
             />
           </Flex>
         </Form.Item>
+        {image && <Image style={{ borderRadius: 8 }} width="100%" src={image} />}
       </Form>
       <Divider />
       <Form.Item>
         <Space>
-          <Upload>
+          <Upload customRequest={handleCustomRequest} maxCount={1} showUploadList={false}>
             <Button icon={<FileImageOutlined />} type="link">
               Thêm hình ảnh
             </Button>

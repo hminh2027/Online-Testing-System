@@ -4,11 +4,10 @@ export const endpoints = {
     default: '/',
     user: {
       path: '/user',
-      detail: (id: string) => `/user/${id}`, // TODO: this way will make the typing more loosely
     },
-    notification: {
-      path: '/notification',
-    },
+    // notification: {
+    //   path: '/notification',
+    // },
     class: {
       path: '/class',
     },

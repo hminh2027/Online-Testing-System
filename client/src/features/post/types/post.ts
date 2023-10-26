@@ -13,7 +13,7 @@ export interface Post extends Resource {
 export interface PostCreateDTO extends Resource {
   classCode: string;
   content: string;
-  imageUrl?: string;
+  imageUrl?: string | null;
 }
 
 export type ResPostItem = ResponseItem<Post>;

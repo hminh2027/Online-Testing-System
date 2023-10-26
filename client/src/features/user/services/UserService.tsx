@@ -1,4 +1,4 @@
-import { endpoints } from '@/config/service';
+import { endpoints } from '@/config/endpoints';
 import type { Service } from '@/types/service';
 
 const UserService: Service = {

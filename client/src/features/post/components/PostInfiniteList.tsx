@@ -1,15 +1,17 @@
 import { List } from 'antd';
 import { useEffect } from 'react';
 import VirtualList from 'rc-virtual-list';
+import { useParams } from 'react-router-dom';
 import { useListPost } from '../hooks/usePost';
 import type { Post } from '../types';
 import { PostCard } from './PostCard';
 
 const HEIGHT = 1000;
 
-interface PostInfiniteListProps {}
-export function PostInfiniteList({}: PostInfiniteListProps) {
-  const { data, isFetching } = useListPost({});
+export function PostInfiniteList() {
+  const { code } = useParams();
+
+  const { data, isFetching } = useListPost({ classCode: code });
 
   const posts = data?.content;
 

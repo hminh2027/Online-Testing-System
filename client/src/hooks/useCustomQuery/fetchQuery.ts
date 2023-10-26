@@ -5,7 +5,7 @@ type ParamsData = {
 };
 
 type ItemData = ParamsData & { id: string | number };
-type ListData = ParamsData;
+type ListData = ParamsData & { params: unknown };
 type AddData<T> = ParamsData & { payload: T };
 type UpdateData<T> = ItemData & AddData<T>;
 
@@ -13,9 +13,10 @@ export function fetchItem<Y>({ id, url = '' }: ItemData): Promise<Y> {
   return axiosInstance<Y>({ url: `${url}/${id}` });
 }
 
-export function fetchList<Y>({ url }: ListData) {
+export function fetchList<Y>({ params, url }: ListData) {
   return axiosInstance<Y>({
     url,
+    params,
   });
 }
 

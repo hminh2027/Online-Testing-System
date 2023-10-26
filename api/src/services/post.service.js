@@ -22,6 +22,7 @@ function getManyByClassCode(classCode) {
         select: { fullname: true, imageUrl: true },
       },
     },
+    orderBy: { createdAt: "desc" },
   });
 }
 

@@ -68,11 +68,12 @@ export const initialCustomQuery = <
       },
     );
 
-  const useList = (options?: UseCustomQueryOptions<Y>) =>
+  const useList = (params: unknown, options?: UseCustomQueryOptions<Y>) =>
     useQuery<Y>(
-      [service.path],
+      [service.path, params],
       () =>
         fetchList<Y>({
+          params,
           url: service.path,
         }),
       {

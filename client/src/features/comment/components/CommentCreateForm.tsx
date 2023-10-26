@@ -2,7 +2,7 @@ import { Flex, Form, Input } from 'antd';
 import { useAddComment } from '../hooks/useComment';
 import type { CommentCreateDTO } from '../types';
 import { CustomAvatar } from '@/components/CustomAvatar';
-import { useAuthStore } from '@/features/auth/stores';
+import { useAuth } from '@/features/auth';
 
 interface CommentCreateFormProps {
   postId: number;
@@ -13,7 +13,7 @@ export function CommentCreateForm({ postId }: CommentCreateFormProps) {
     onError: () => {},
   });
 
-  const { user } = useAuthStore();
+  const { user } = useAuth();
 
   const handleOnFinish = (value: CommentCreateDTO) => {
     mutate({

@@ -1,4 +1,4 @@
-import { Avatar, Button, Flex, Image, Space, Typography } from 'antd';
+import { Button, Flex, Image, Space, Typography } from 'antd';
 
 import { useToggle } from 'react-use';
 import { CustomCard } from '@/components';
@@ -6,12 +6,13 @@ import type { Post } from '../types';
 import { CommentCreateForm } from '@/features/comment/components/CommentCreateForm';
 import { CommentList } from '@/features/comment/components/CommentList';
 import { formatFromNowTime } from '@/utils';
+import { CustomAvatar } from '@/components/CustomAvatar';
 
 interface PostCardProps extends Post {}
 export function PostCard(props: PostCardProps) {
-  const { User, Comment, createdAt, id } = props;
+  const { User, Comment, createdAt, id, content, imageUrl } = props;
 
-  const { fullname, imageUrl } = User;
+  const { fullname } = User;
 
   const [openComment, toggleOpen] = useToggle(true);
 
@@ -26,7 +27,7 @@ export function PostCard(props: PostCardProps) {
         {/* avatar header */}
         <Flex justify="space-between">
           <Space>
-            <Avatar size="large">M</Avatar>
+            <CustomAvatar size="large" name={fullname} />
             <Flex vertical justify="space-between">
               <Typography.Text strong>{fullname}</Typography.Text>
               <Typography.Text>{formatFromNowTime(createdAt as Date)}</Typography.Text>
@@ -36,12 +37,8 @@ export function PostCard(props: PostCardProps) {
         </Flex>
         {/* content */}
         <Flex vertical gap={6}>
-          <Typography.Text>smoothe</Typography.Text>
-          <Image
-            style={{ borderRadius: 8 }}
-            width="100%"
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-          />
+          <Typography.Text>{content}</Typography.Text>
+          {imageUrl && <Image style={{ borderRadius: 8 }} width="100%" src={imageUrl} />}
         </Flex>
         {/* comment footer */}
         <Flex justify="space-between" align="center">

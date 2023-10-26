@@ -14,7 +14,7 @@ const createOne = catchAsync(async (req, res) => {
 });
 
 const getManyByClassCode = catchAsync(async (req, res) => {
-  const { classCode } = req.body;
+  const { classCode } = req.query;
   let posts = await postService.getManyByClassCode(classCode);
   res.status(httpStatus.OK).json({ content: posts });
 });
