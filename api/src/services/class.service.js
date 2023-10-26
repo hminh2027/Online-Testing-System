@@ -31,15 +31,20 @@ function getOneByCode(code) {
   });
 }
 
-function getManyByTeacherId(teacherId) {
+function getManyByTeacherId(teacherId, name) {
   return prisma.class.findMany({
-    where: { teacherId },
+    where: { teacherId, name: { contains: name } },
   });
 }
 
-function getManyByStudentId(studentId) {
+function getManyByStudentId(studentId, name) {
   return prisma.userClass.findMany({
-    where: { student_id: studentId },
+    where: {
+      studentId,
+      Class: {
+        name: { contains: name },
+      },
+    },
   });
 }
 

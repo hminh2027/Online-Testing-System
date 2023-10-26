@@ -49,6 +49,7 @@ export function ClassDetailLayout({ children }: ClassDetailLayoutProps) {
       <Content
         style={{
           padding: 30,
+          height: 'calc(100vh - 64px)',
           overflow: 'auto',
         }}
       >

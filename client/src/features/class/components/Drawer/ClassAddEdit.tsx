@@ -53,7 +53,7 @@ export default function ClassAddEdit({ code, form }: ClassAddEditProps) {
     setImage(classRoom.imageUrl);
   }, [classRoom, isFetching]);
 
-  if (isFetching) return <></>;
+  if (isFetching) return <>Loading</>;
 
   const handleCustomRequest: UploadProps['customRequest'] = (options) => {
     const { file } = options;

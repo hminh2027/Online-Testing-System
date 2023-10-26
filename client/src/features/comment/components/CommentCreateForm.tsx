@@ -25,9 +25,9 @@ export function CommentCreateForm({ postId }: CommentCreateFormProps) {
   return (
     <Form onFinish={handleOnFinish}>
       <Form.Item name="content">
-        <Flex justify="space-between" gap={15}>
+        <Flex gap={12}>
           <CustomAvatar name={user?.fullname} />
-          <Input placeholder="Viết bình luận..." />
+          <Input placeholder="Viết bình luận..." style={{ maxWidth: '92%' }} />
         </Flex>
       </Form.Item>
     </Form>

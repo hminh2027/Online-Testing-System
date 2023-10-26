@@ -1,5 +1,5 @@
 import type { DropDownProps, TableProps } from 'antd';
-import { Button, Flex, Space, Table } from 'antd';
+import { Button, Flex, Input, Space, Table } from 'antd';
 import type { ReactNode } from 'react';
 import { useDrawer } from '@/hooks/useDrawer';
 import { MODE } from '@/constants';
@@ -10,6 +10,7 @@ interface CustomTableProps<T extends object> extends TableProps<T> {
   actionHeader?: Action[];
   showActionHeader?: boolean;
   showActionColumn?: boolean;
+  showSearch?: boolean;
   actionColumnItems?: DropDownProps['menu'];
   hasShadow?: boolean;
 }
@@ -19,6 +20,7 @@ export function CustomTable<T extends object>(props: CustomTableProps<T>) {
     columns,
     actionHeader,
     showActionHeader = false,
+    showSearch = false,
     hasShadow,
     pagination,
     ...rest
@@ -31,19 +33,22 @@ export function CustomTable<T extends object>(props: CustomTableProps<T>) {
   };
 
   return (
-    <Flex vertical>
-      {showActionHeader &&
-        (actionHeader ? (
-          <Flex>
-            {actionHeader.map((action: Action) => (
-              <>{action.element}</>
-            ))}
-          </Flex>
-        ) : (
-          <Space>
-            <Button onClick={handleCreate}>Create</Button>
-          </Space>
-        ))}
+    <Flex vertical gap={16}>
+      <Flex gap={16}>
+        {showActionHeader &&
+          (actionHeader ? (
+            <Flex>
+              {actionHeader.map((action: Action) => (
+                <>{action.element}</>
+              ))}
+            </Flex>
+          ) : (
+            <Space>
+              <Button onClick={handleCreate}>Tạo</Button>
+            </Space>
+          ))}
+        {showSearch && <Input placeholder="Nhập và enter để tìm kiếm..." />}
+      </Flex>
       <Table
         rowKey="id"
         columns={columns}

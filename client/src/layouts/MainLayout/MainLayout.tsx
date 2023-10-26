@@ -1,8 +1,7 @@
 import { Image, Layout, Space } from 'antd';
 import { Content, Header } from 'antd/es/layout/layout';
 import type { ReactNode } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
-import { useEffectOnce } from 'react-use';
+import { Outlet } from 'react-router-dom';
 import Logo from '@/assets/logo.png';
 import styles from './index.module.css';
 import { studentTabs, teacherTabs } from '@/components/TabBar/config';
@@ -14,7 +13,6 @@ import { DrawerContextProvider } from '@/hooks/useDrawer';
 
 interface MainLayoutProps {
   children?: ReactNode;
-  // items: [];
 }
 
 export function MainLayout({ children }: MainLayoutProps) {
@@ -34,7 +32,13 @@ export function MainLayout({ children }: MainLayoutProps) {
           <UserHeader username={user?.fullname} />
         </Space>
       </Header>
-      <Content>
+      <Content
+        style={{
+          padding: 30,
+          height: 'calc(100vh - 64px)',
+          overflow: 'auto',
+        }}
+      >
         <DrawerContextProvider>{children ?? <Outlet />}</DrawerContextProvider>
       </Content>
     </Layout>

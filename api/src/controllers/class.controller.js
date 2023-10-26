@@ -17,10 +17,11 @@ const createOne = catchAsync(async (req, res) => {
 
 const getManyByUserId = catchAsync(async (req, res) => {
   const { id, isTeacher } = req.user;
+  const { name } = req.query;
   let classes = null;
 
-  if (isTeacher) classes = await classService.getManyByTeacherId(+id);
-  else classService.getManyByStudentId(+id);
+  if (isTeacher) classes = await classService.getManyByTeacherId(+id, name);
+  else classes = await classService.getManyByStudentId(+id, name);
   res.status(httpStatus.OK).json({ content: classes });
 });
 

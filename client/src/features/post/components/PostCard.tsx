@@ -1,4 +1,4 @@
-import { Button, Flex, Image, Space, Typography } from 'antd';
+import { Button, Divider, Flex, Image, Space, Typography } from 'antd';
 
 import { useToggle } from 'react-use';
 import { CustomCard } from '@/components';
@@ -38,9 +38,12 @@ export function PostCard(props: PostCardProps) {
         {/* content */}
         <Flex vertical gap={6}>
           <Typography.Text>{content}</Typography.Text>
-          {imageUrl && <Image style={{ borderRadius: 8 }} width="100%" src={imageUrl} />}
+          {imageUrl && (
+            <Image loading="lazy" style={{ borderRadius: 8 }} width="100%" src={imageUrl} />
+          )}
         </Flex>
         {/* comment footer */}
+        <Divider />
         <Flex justify="space-between" align="center">
           <Typography.Text>{Comment.length} bình luận</Typography.Text>
           <Button onClick={toggleOpen} type="link">
