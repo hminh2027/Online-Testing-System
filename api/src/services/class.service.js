@@ -7,6 +7,7 @@ function createOne({
   imageUrl = "",
   description = "",
   password = "",
+  isStudentApprovalEnter,
   isStudentApprovalLeave,
   isStudentPostAllowed,
 }) {
@@ -19,6 +20,7 @@ function createOne({
       teacherId,
       description,
       imageUrl,
+      isStudentApprovalEnter,
       isStudentApprovalLeave,
       isStudentPostAllowed,
     },
@@ -28,6 +30,9 @@ function createOne({
 function getOneByCode(code) {
   return prisma.class.findUnique({
     where: { code },
+    include: {
+      User: { select: { fullname: true } },
+    },
   });
 }
 

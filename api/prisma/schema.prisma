@@ -42,6 +42,7 @@ model UserClass {
 
   studentId Int
   classCode String
+  status    RequestStatus
 
   // relations
   User  User  @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -57,15 +58,16 @@ model Class {
   imageUrl               String?
   description            String?     @db.LongText
   password               String?
+  isStudentApprovalEnter Boolean     @default(false)
   isStudentApprovalLeave Boolean     @default(false)
   isStudentPostAllowed   Boolean     @default(true)
   isActive               Boolean     @default(true)
   createdAt              DateTime    @default(now())
   // relations
-  Users                  User[]
   ClassExam              ClassExam[]
   Post                   Post[]
   UserClass              UserClass[]
+  User                   User        @relation(fields: [teacherId], references: [id])
 }
 
 model Exam {
@@ -186,21 +188,12 @@ model Comment {
 model Notification {
   id                Int                 @id @default(autoincrement())
   userId            Int
-  requestId         Int?                @unique
   content           String
   url               String
   createdAt         DateTime            @default(now())
   // relations
   User              User                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Request           Request?            @relation(fields: [requestId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   User_Notification User_Notification[]
-}
-
-model Request {
-  id           Int           @id @default(autoincrement())
-  status       RequestStatus
-  // relations
-  Notification Notification?
 }
 
 model User_Notification {
