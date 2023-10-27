@@ -87,6 +87,7 @@ export function ClassAddEdit({ code, form }: ClassAddEditProps) {
         style={{ width: '100%' }}
         layout="vertical"
         onFinish={handleOnFinish}
+        preserve={false}
         initialValues={classRoom ? { ...dataAdapter(classRoom) } : {}}
       >
         <Form.Item label="Tên lớp học" required name="name">

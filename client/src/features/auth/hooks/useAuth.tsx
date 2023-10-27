@@ -57,6 +57,8 @@ export const useAuth = () => {
     });
 
     setUser(res.content);
+
+    return res.content;
   };
 
   return {

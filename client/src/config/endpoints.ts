@@ -23,5 +23,14 @@ export const endpoints = {
     comment: {
       path: '/comment',
     },
+    exam: {
+      path: '/exam',
+    },
+    question: {
+      path: '/question',
+    },
+    answer: {
+      path: '/answer',
+    },
   },
 };

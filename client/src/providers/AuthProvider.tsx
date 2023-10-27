@@ -6,7 +6,9 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   useLayoutEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    getMe();
+    (async () => {
+      await getMe();
+    })();
   }, []);
 
   return <div>{children}</div>;

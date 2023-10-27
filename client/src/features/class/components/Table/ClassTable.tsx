@@ -40,7 +40,7 @@ export function ClassTable() {
         actionHeader={[
           {
             element: user?.isTeacher ? (
-              <Button>Tạo lớp học</Button>
+              <Button onClick={() => toggleMode(MODE.ADD)}>Tạo lớp học</Button>
             ) : (
               <Button onClick={() => toggleModal(true)}>Tham gia lớp học</Button>
             ),
