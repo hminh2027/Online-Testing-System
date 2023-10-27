@@ -1,18 +1,15 @@
-import { REQUEST_STATUS } from '@/constants';
 import { useListUserClass } from '../hooks/useUserClass';
 
 export function UserClassList() {
-  const { data: pd } = useListUserClass({
-    classCode: '02FEA7',
-    status: REQUEST_STATUS.PENDING,
-  });
+  const { data } = useListUserClass({});
 
-  const { data: ac } = useListUserClass({
-    classCode: '02FEA7',
-    status: REQUEST_STATUS.ACCEPTED,
-  });
+  const users = data?.content;
 
-  console.log(pd, ac);
+  console.log(data);
+
+  const pendingUsers = users?.filter((user) => user.isPending);
+
+  console.log(pendingUsers);
 
   return <div>UserClassList</div>;
 }

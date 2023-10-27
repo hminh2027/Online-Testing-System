@@ -1,8 +1,8 @@
 import { Layout } from 'antd';
-import Sider from 'antd/es/layout/Sider';
 import { Content } from 'antd/es/layout/layout';
 import type { ReactNode } from 'react';
 import { Outlet } from 'react-router-dom';
+import { RequestList } from '@/features/userClass/components/RequestList';
 
 interface UserClassLayoutProps {
   children?: ReactNode;
@@ -10,7 +10,7 @@ interface UserClassLayoutProps {
 
 export function UserClassLayout({ children }: UserClassLayoutProps) {
   return (
-    <Layout style={{ height: '100%' }}>
+    <Layout hasSider style={{ height: '100%' }}>
       <Content
         style={{
           height: '100%',
@@ -18,7 +18,16 @@ export function UserClassLayout({ children }: UserClassLayoutProps) {
       >
         {children ?? <Outlet />}
       </Content>
-      <Sider style={{ height: '100%' }}>danh sach request</Sider>
+      <Layout.Sider
+        width="20%"
+        style={{
+          height: '100%',
+          backgroundColor: 'inherit',
+          overflow: 'auto',
+        }}
+      >
+        <RequestList />
+      </Layout.Sider>
     </Layout>
   );
 }

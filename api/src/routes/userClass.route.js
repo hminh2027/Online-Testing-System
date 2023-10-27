@@ -7,7 +7,7 @@ const router = express.Router();
 
 router
   .route("/")
-  .get(auth, userClassController.getManyByStatus)
+  .get(auth, userClassController.getManyByClassCode)
   .post(auth, userClassController.createOne);
 
 module.exports = router;

@@ -7,12 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum RequestStatus {
-  pending
-  accepted
-  declined
-}
-
 model User {
   id        Int       @id @default(autoincrement())
   email     String    @unique
@@ -42,11 +36,11 @@ model UserClass {
 
   studentId Int
   classCode String
-  status    RequestStatus
-
+  isPending Boolean
+  createdAt DateTime @default(now())
   // relations
-  User  User  @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Class Class @relation(fields: [classCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
+  User      User     @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Class     Class    @relation(fields: [classCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
 
   @@unique([studentId, classCode])
 }

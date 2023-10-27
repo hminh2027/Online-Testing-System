@@ -16,10 +16,6 @@ export const teacherTabs: TabBarCustomConfig[] = [
     label: 'Bài kiểm tra',
     path: 'exam',
   },
-  {
-    label: 'Lời mời',
-    path: 'request',
-  },
 ];
 
 export const studentTabs: TabBarCustomConfig[] = [
@@ -34,9 +30,5 @@ export const studentTabs: TabBarCustomConfig[] = [
   {
     label: 'Lịch thi',
     path: 'schedule',
-  },
-  {
-    label: 'Lời mời',
-    path: 'request',
   },
 ];

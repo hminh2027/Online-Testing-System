@@ -13,7 +13,7 @@ export const classRoutes: RouteObject[] = [
     element: <MainLayout />,
     children: [
       {
-        path: '',
+        index: true,
         element: <ClassPage.ClassList />,
       },
       {
