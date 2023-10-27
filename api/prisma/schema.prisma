@@ -65,42 +65,31 @@ model Class {
 }
 
 model Exam {
-  id          Int         @id @default(autoincrement())
-  teacherId   Int
-  title       String
-  description String?     @db.LongText
-  duration    Int
-  createdAt   DateTime    @default(now())
+  id                        Int         @id @default(autoincrement())
+  teacherId                 Int
+  title                     String
+  description               String?     @db.LongText
+  duration                  Int
+  numberOfQuestionDisplayed Int         @default(1)
+  createdAt                 DateTime    @default(now())
   // relations
-  User        User        @relation(fields: [teacherId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  ExamIndex   ExamIndex[]
-  ClassExam   ClassExam[]
-}
-
-model ExamIndex {
-  id       Int        @id @default(autoincrement())
-  examId   Int
-  index    Int
-  // relations
-  Exam     Exam       @relation(fields: [examId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Question Question[]
-  Attempt  Attempt[]
-
-  // constraints
-  @@unique([examId, index])
+  User                      User        @relation(fields: [teacherId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  ClassExam                 ClassExam[]
+  Question                  Question[]
+  Attempt                   Attempt[]
 }
 
 model Question {
-  id          Int       @id @default(autoincrement())
-  examIndexId Int
-  index       Int
-  imageUrl    String?   @db.LongText
-  content     String    @db.LongText
-  score       Int
+  id       Int      @id @default(autoincrement())
+  examId   Int
+  index    Int
+  imageUrl String?  @db.LongText
+  content  String   @db.LongText
+  score    Int
   // relations
-  ExamIndex   ExamIndex @relation(fields: [examIndexId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Answer      Answer[]
-  Choice      Choice[]
+  Exam     Exam     @relation(fields: [examId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Answer   Answer[]
+  Choice   Choice[]
 }
 
 model Answer {
@@ -131,17 +120,17 @@ model ClassExam {
 }
 
 model Attempt {
-  id          Int       @id @default(autoincrement())
-  studentId   Int
-  examIndexId Int
-  startedAt   DateTime  @default(now())
-  endedAt     DateTime?
-  score       Float?
-  tabout      Int       @default(0)
+  id                        Int       @id @default(autoincrement())
+  studentId                 Int
+  examId                    Int
+  startedAt                 DateTime  @default(now())
+  endedAt                   DateTime?
+  score                     Float?
+  numberOfQuestionDisplayed Int       @default(0)
   // relations
-  User        User      @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  ExamIndex   ExamIndex @relation(fields: [examIndexId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Choice      Choice[]
+  User                      User      @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Exam                      Exam      @relation(fields: [examId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Choice                    Choice[]
 }
 
 model Choice {

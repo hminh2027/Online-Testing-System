@@ -3,9 +3,9 @@ const { generateDummyData } = require("../utils");
 const { authService, classService } = require("../services");
 const { logger } = require("../config");
 const {
-  postPrototype,
   userPrototype,
   classPrototype,
+  examPrototype,
 } = require("../prototypes");
 
 async function main() {
@@ -47,14 +47,11 @@ async function main() {
 
   logger.info("Class seeded successfully");
 
-  // POST
-  // const posts = generateDummyData(10, postPrototype);
+  // EXAM
+  const exams = generateDummyData(5, examPrototype);
+  await prisma.exam.createMany({ data: exams });
 
-  // // TEST
-  // const tests = generateDummyData(30, testPrototype);
-  // await prisma.test.createMany({ data: tests });
-
-  // logger.info("Test seeded successfully");
+  logger.info("Exam seeded successfully");
 
   // // QUESTION & ANSWER;
   // const testsCode = await (

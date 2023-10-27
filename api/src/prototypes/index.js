@@ -1,5 +1,5 @@
 module.exports.userPrototype = require("./user.prototype");
-// module.exports.exam = require("./exam.prototype");
+module.exports.examPrototype = require("./exam.prototype");
 module.exports.classPrototype = require("./class.prototype");
 // module.exports.choice = require("./choice.prototype");
 // module.exports.attempt = require("./attempt.prototype");

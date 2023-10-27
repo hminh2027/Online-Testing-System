@@ -2,7 +2,7 @@ const { prisma } = require("../database/prisma-client");
 const ApiError = require("../utils/ApiError");
 const httpStatus = require("http-status");
 
-async function createOne(data) {
+function createOne(data) {
   return prisma.exam.create({
     data: {
       title: data.title,
@@ -17,15 +17,15 @@ async function createOne(data) {
   });
 }
 
-async function getOneById(id) {
-  return prisma.class.findUnique({
-    where: { id },
+function getOneById(id, { teacherId }) {
+  return prisma.exam.findUnique({
+    where: { id, teacherId },
   });
 }
 
-async function getManyByTeacherId(teacherId) {
+function getManyByTeacherId(teacherId) {
   return prisma.exam.findMany({
-    where: { teacher_id: teacherId },
+    where: { teacherId },
   });
 }
 
