@@ -10,4 +10,9 @@ router
   .get(auth, userClassController.getManyByClassCode)
   .post(auth, userClassController.createOne);
 
+router
+  .route("/:id")
+  .patch(auth, userClassController.patchStatusById)
+  .delete(auth, userClassController.deleteOneById);
+
 module.exports = router;

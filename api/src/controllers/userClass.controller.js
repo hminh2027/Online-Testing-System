@@ -18,9 +18,12 @@ const createOne = catchAsync(async (req, res) => {
     studentId,
     isPending: classRoom.isStudentApprovalEnter,
   });
-  res
-    .status(httpStatus.OK)
-    .json({ content: userClass, message: "Tạo lớp học thành công!" });
+  res.status(httpStatus.OK).json({
+    content: userClass,
+    message: classRoom.isStudentApprovalEnter
+      ? "Tạo lời mời thành công"
+      : "Tham gia lớp học thành công",
+  });
 });
 
 const getManyByClassCode = catchAsync(async (req, res) => {
@@ -32,7 +35,34 @@ const getManyByClassCode = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json({ content: userClass });
 });
 
+const patchStatusById = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const { id: teacherId } = req.user;
+
+  let userClass = await userClassService.patchStatusById(+id, {
+    isPending: false,
+    teacherId,
+  });
+  res
+    .status(httpStatus.OK)
+    .json({ content: userClass, message: "Đã chấp thuận lời mời" });
+});
+
+const deleteOneById = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const { id: teacherId } = req.user;
+
+  let userClass = await userClassService.deleteOneById(+id, {
+    teacherId,
+  });
+  res
+    .status(httpStatus.OK)
+    .json({ content: userClass, message: "Đã từ chối lời mời" });
+});
+
 module.exports = {
   createOne,
   getManyByClassCode,
+  patchStatusById,
+  deleteOneById,
 };

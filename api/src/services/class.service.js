@@ -42,15 +42,23 @@ function getManyByTeacherId(teacherId, name) {
   });
 }
 
-function getManyByStudentId(studentId, name) {
-  return prisma.userClass.findMany({
+async function getManyByStudentId(studentId, name) {
+  const classRoom = await prisma.userClass.findMany({
     where: {
+      isPending: false,
       studentId,
       Class: {
         name: { contains: name },
       },
     },
+    select: {
+      Class: true,
+    },
   });
+
+  return classRoom.map((item) => ({
+    ...item.Class,
+  }));
 }
 
 function updateOneByCode(code, data) {

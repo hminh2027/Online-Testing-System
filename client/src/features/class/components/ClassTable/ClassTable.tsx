@@ -52,38 +52,40 @@ export function ClassTable() {
         key="class-table"
         columns={[
           ...columns,
-          {
-            render: (value: ClassRoom) => (
-              <Dropdown
-                menu={{
-                  items: [
-                    {
-                      label: 'Sửa',
-                      key: '0',
-                      onClick: () => handleEdit(value.code),
-                    },
-                    {
-                      label: 'Xem',
-                      key: '1',
-                      onClick: () => handleDetail(value.code),
-                    },
-                    {
-                      label: 'Xoá',
-                      key: '3',
-                      onClick: () => handleDelete(value.code),
-                    },
-                  ],
-                }}
-                trigger={['click']}
-              >
-                <Button icon={<DownOutlined />}>Nhấp</Button>
-              </Dropdown>
-            ),
-            key: 'action',
-            title: 'Hành động',
-            fixed: 'right',
-            width: 150,
-          },
+          user?.isTeacher
+            ? {
+                render: (value: ClassRoom) => (
+                  <Dropdown
+                    menu={{
+                      items: [
+                        {
+                          label: 'Sửa',
+                          key: '0',
+                          onClick: () => handleEdit(value.code),
+                        },
+                        {
+                          label: 'Xem',
+                          key: '1',
+                          onClick: () => handleDetail(value.code),
+                        },
+                        {
+                          label: 'Xoá',
+                          key: '3',
+                          onClick: () => handleDelete(value.code),
+                        },
+                      ],
+                    }}
+                    trigger={['click']}
+                  >
+                    <Button icon={<DownOutlined />}>Nhấp</Button>
+                  </Dropdown>
+                ),
+                key: 'action',
+                title: 'Hành động',
+                fixed: 'right',
+                width: 150,
+              }
+            : {},
         ]}
         dataSource={classes}
         scroll={{

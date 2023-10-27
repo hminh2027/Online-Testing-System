@@ -14,7 +14,6 @@ import type { Service } from '@/types/service';
 type ResponseList = ResponseItem<Resource[]> | null;
 type ResponseDetail = ResponseItem<Resource> | null;
 type ResponseModify = ResponseItem<Resource> | null;
-type RequestQuery = undefined | null;
 
 export type UseCustomQueryOptions<T> = Omit<
   UseQueryOptions<T>,
@@ -31,9 +30,8 @@ export interface UpdateParams<T> {
   payload: Partial<T>;
 }
 
-export interface DeleteParams<T> {
+export interface DeleteParams {
   id: number;
-  currentFilter: T;
 }
 
 export function handleSuccess<T>(onSuccess: (data: T) => Promise<void> | void) {
@@ -145,14 +143,14 @@ export const initialCustomQuery = <
     const queryClient = useQueryClient();
 
     return useMutation(
-      ({ id }: DeleteParams<RequestQuery>) =>
+      ({ id }: DeleteParams) =>
         deleteItem<W>({
           id,
           url: service.path,
         }),
       {
-        onSettled: async (_data, _error, variables) => {
-          await queryClient.invalidateQueries([service.path, variables.currentFilter]);
+        onSettled: async () => {
+          await queryClient.invalidateQueries([service.path]);
         },
         onError,
         onSuccess: handleSuccess(onSuccess),
