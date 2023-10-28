@@ -1,5 +1,5 @@
 import { Flex } from 'antd';
-import type { Comment } from '../types';
+import type { Comment } from '../../types';
 import { CommentItem } from './CommentItem';
 
 interface CommentListProps {

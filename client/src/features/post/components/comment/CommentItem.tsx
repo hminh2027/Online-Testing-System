@@ -1,6 +1,6 @@
 import { Flex, Typography } from 'antd';
 import { CustomCard } from '@/components';
-import type { Comment } from '../types';
+import type { Comment } from '../../types';
 import { formatFromNowTime } from '@/utils';
 import { CustomAvatar } from '@/components/CustomAvatar';
 

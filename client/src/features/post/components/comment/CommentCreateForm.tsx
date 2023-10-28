@@ -1,6 +1,6 @@
 import { Flex, Form, Input } from 'antd';
-import { useAddComment } from '../hooks/useComment';
-import type { CommentCreateDTO } from '../types';
+import { useAddComment } from '../../hooks/useComment';
+import type { CommentCreateDTO } from '../../types';
 import { CustomAvatar } from '@/components/CustomAvatar';
 import { useAuth } from '@/features/auth';
 

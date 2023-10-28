@@ -3,8 +3,8 @@ import { Button, Divider, Flex, Image, Space, Typography } from 'antd';
 import { useToggle } from 'react-use';
 import { CustomCard } from '@/components';
 import type { Post } from '../types';
-import { CommentCreateForm } from '@/features/comment/components/CommentCreateForm';
-import { CommentList } from '@/features/comment/components/CommentList';
+import { CommentCreateForm } from '@/features/post/components/comment/CommentCreateForm';
+import { CommentList } from '@/features/post/components/comment/CommentList';
 import { formatFromNowTime } from '@/utils';
 import { CustomAvatar } from '@/components/CustomAvatar';
 
