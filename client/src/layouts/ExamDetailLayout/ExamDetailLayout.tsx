@@ -5,26 +5,18 @@ import type { ReactNode } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import styles from './index.module.css';
 
-interface ClassDetailLayoutProps {
+interface ExamDetailLayoutProps {
   children?: ReactNode;
 }
 
 const sideNavItems = [
   {
-    label: 'Bảng tin',
-    path: 'newsfeed',
+    label: 'Tổng quan',
+    path: 'overview',
   },
   {
-    label: 'Thành viên',
-    path: 'students',
-  },
-  {
-    label: 'Bài kiểm tra',
-    path: 'exams',
-  },
-  {
-    label: 'Lịch thi',
-    path: 'schedule',
+    label: 'Nội dung đề',
+    path: 'edit',
   },
 ];
 
@@ -33,7 +25,7 @@ const items: MenuProps['items'] = sideNavItems.map((item) => ({
   label: <NavLink to={`${item.path}`}>{item.label}</NavLink>,
 }));
 
-export function ClassDetailLayout({ children }: ClassDetailLayoutProps) {
+export function ExamDetailLayout({ children }: ExamDetailLayoutProps) {
   return (
     <Layout
       style={{

@@ -1,0 +1,7 @@
+.content {
+  overflow: auto;
+  height: calc(100vh - 64px);
+  padding: 30px;
+  border: 1px solid #8080800f;
+  box-sizing: border-box;
+}

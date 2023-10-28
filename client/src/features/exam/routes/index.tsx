@@ -1,7 +1,7 @@
 import type { RouteObject } from 'react-router-dom';
-
-import * as ExamPage from '../pages';
 import { MainLayout } from '@/layouts/index';
+import * as ExamPage from '../pages';
+import { ExamDetailLayout } from '@/layouts/ExamDetailLayout';
 
 export const examRoutes: RouteObject[] = [
   {
@@ -11,6 +11,16 @@ export const examRoutes: RouteObject[] = [
       {
         index: true,
         element: <ExamPage.ExamList />,
+      },
+      {
+        path: ':id',
+        element: <ExamDetailLayout />,
+        children: [
+          {
+            index: true,
+            element: <ExamPage.ExamDetail />,
+          },
+        ],
       },
     ],
   },

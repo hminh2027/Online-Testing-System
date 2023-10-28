@@ -29,8 +29,5 @@ export const endpoints = {
     question: {
       path: '/question',
     },
-    answer: {
-      path: '/answer',
-    },
   },
 };
