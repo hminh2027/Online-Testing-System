@@ -1,5 +1,4 @@
-import { Col, Row } from 'antd';
-import { ExamQuestion, ExamStepForm } from '../components';
+import { ExamStepForm } from '../components';
 import { useExam } from '../hooks/useExam';
 
 interface ExamEditContentProps {}
@@ -10,20 +9,5 @@ export default function ExamEditContent({}: ExamEditContentProps) {
 
   if (isFetching) return <>Loading</>;
 
-  return (
-    <Row
-      style={{
-        width: '90%',
-        margin: 'auto',
-      }}
-      gutter={24}
-    >
-      <Col span={12}>
-        <ExamQuestion />
-      </Col>
-      <Col span={12}>
-        <ExamStepForm exam={exam} />
-      </Col>
-    </Row>
-  );
+  return <ExamStepForm exam={exam} />;
 }

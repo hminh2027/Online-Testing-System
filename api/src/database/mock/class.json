@@ -1,0 +1,68 @@
+[
+  {
+    "code": "BA0980",
+    "teacherId": 1,
+    "name": "Lớp ôn tập Ngữ Văn 12",
+    "imageUrl": "",
+    "description": "Đây là lớp học và ôn thi cho các học sinh lớp 12A3",
+    "password": "",
+    "isStudentApprovalEnter": false,
+    "isStudentApprovalLeave": false,
+    "isStudentPostAllowed": true
+  },
+  {
+    "code": "362734",
+    "teacherId": 1,
+    "name": "Lớp luyện thi lập trình nâng cao",
+    "imageUrl": "",
+    "description": "Lập trình nâng cao dành cho người trái ngành",
+    "password": "",
+    "isStudentApprovalEnter": true,
+    "isStudentApprovalLeave": false,
+    "isStudentPostAllowed": false
+  },
+  {
+    "code": "3977BF",
+    "teacherId": 1,
+    "name": "Lớp ôn thi kĩ năng mềm",
+    "imageUrl": "",
+    "description": "",
+    "password": "",
+    "isStudentApprovalEnter": false,
+    "isStudentApprovalLeave": false,
+    "isStudentPostAllowed": true
+  },
+  {
+    "code": "7B2F0F",
+    "teacherId": 1,
+    "name": "Lớp luyện tập Toán lớp 8 - Ca Tối",
+    "imageUrl": "",
+    "description": "Mô tả lớp học siêu dài Eos vero ullam libero itaque inventore quisquam. Aperiam necessitatibus soluta officia quod impedit excepturi nisi rerum. Neque est expedita et.",
+    "password": "123123",
+    "isStudentApprovalEnter": true,
+    "isStudentApprovalLeave": false,
+    "isStudentPostAllowed": true
+  },
+  {
+    "code": "80FDAE",
+    "teacherId": 1,
+    "name": "Lớp học tiếng anh British",
+    "imageUrl": "",
+    "description": "Mô tả lớp học siêu dài Ipsum qui laboriosam maiores minima illo voluptatum iusto perspiciatis. Sit sapiente ullam voluptate magni voluptatem. Iusto accusamus quasi quae beatae sed modi voluptatem.",
+    "password": "123123",
+    "isStudentApprovalEnter": false,
+    "isStudentApprovalLeave": true,
+    "isStudentPostAllowed": false
+  },
+  {
+    "code": "BA84E1",
+    "teacherId": 1,
+    "name": "Lớp ôn thi giữa kì II",
+    "imageUrl": "",
+    "description": "Mô tả lớp học siêu dài Rem et laborum tenetur sapiente dolorem repellendus possimus magni et. Ex quasi aperiam provident dolore numquam. Deserunt soluta placeat quo aperiam totam ipsa nulla.",
+    "password": "123123",
+    "isStudentApprovalEnter": true,
+    "isStudentApprovalLeave": true,
+    "isStudentPostAllowed": true
+  }
+]

@@ -1,6 +1,6 @@
 import type { DragEndEvent } from '@dnd-kit/core';
 import { DndContext } from '@dnd-kit/core';
-import { SortableContext, arrayMove } from '@dnd-kit/sortable';
+import { SortableContext, arraySwap, rectSwappingStrategy } from '@dnd-kit/sortable';
 import { Button, Flex } from 'antd';
 import { useState } from 'react';
 import { PlusSquareOutlined } from '@ant-design/icons';
@@ -23,7 +23,7 @@ export function ExamQuestionDnd({ questions }: ExamQuestionDndProps) {
       const oldIndex = oldPos.indexOf(active.id);
       const newIndex = oldPos.indexOf(over.id);
 
-      const newItems = arrayMove(items, oldIndex, newIndex);
+      const newItems = arraySwap(items, oldIndex, newIndex);
 
       setItems(newItems);
     }
@@ -32,7 +32,7 @@ export function ExamQuestionDnd({ questions }: ExamQuestionDndProps) {
   return (
     <div>
       <DndContext onDragEnd={handleDragEnd}>
-        <SortableContext items={items.map((i) => i.index)}>
+        <SortableContext items={items.map((i) => i.index)} strategy={rectSwappingStrategy}>
           <Flex gap={16} wrap="wrap" justify="start">
             {items.map((item, index) => (
               <QuestionDnd question={item} key={item.index} index={index} />

@@ -1,0 +1,38 @@
+[
+  {
+    "email": "teacher@gmail.com",
+    "fullname": "Thầy Minh",
+    "password": "123123",
+    "isTeacher": true,
+    "phone": "0976877621",
+    "school": "Đại học GTVT",
+    "imageUrl": ""
+  },
+  {
+    "email": "student1@gmail.com",
+    "fullname": "Ngô Phảng Phất",
+    "password": "123123",
+    "isTeacher": false,
+    "phone": "0192337271",
+    "school": "",
+    "imageUrl": ""
+  },
+  {
+    "email": "student2@gmail.com",
+    "fullname": "Đỗ Thanh Thản",
+    "password": "123123",
+    "isTeacher": false,
+    "phone": "0299382712",
+    "school": "Đại học GTVT",
+    "imageUrl": ""
+  },
+  {
+    "email": "student3gmail.com",
+    "fullname": "Phạm Ngọc Ngà",
+    "password": "123123",
+    "isTeacher": false,
+    "phone": "",
+    "school": "",
+    "imageUrl": ""
+  }
+]

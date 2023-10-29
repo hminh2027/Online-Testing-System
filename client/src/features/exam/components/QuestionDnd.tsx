@@ -1,7 +1,9 @@
-import { Button, Flex, Form, Typography } from 'antd';
+import { Button, Checkbox, Flex, Form, Input, Select, Typography } from 'antd';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { CloseOutlined } from '@ant-design/icons';
+import FormList from 'antd/es/form/FormList';
+import TextArea from 'antd/es/input/TextArea';
 import { CustomCard } from '@/components';
 import type { Question } from '../types';
 
@@ -39,11 +41,34 @@ export function QuestionDnd({ question, index }: QuestionDndProps) {
         extra={<Button type="text" icon={<CloseOutlined />} />}
         hasShadow
       >
-        <Form>
+        <Form
+          layout="vertical"
+          initialValues={{
+            content: question.content,
+            answers: question.Answer.map((answer) => answer.content),
+          }}
+        >
           <Flex vertical>
-            <div>{question.content}</div>
+            <Form.Item label="Câu hỏi">
+              <TextArea />
+            </Form.Item>
             <div>{question.score}</div>
+
             <div>tinh diem theo so dap an</div>
+            <FormList name="answers">
+              {(fields) => (
+                <div>
+                  {fields.map((field) => (
+                    <Form.Item {...field} key={field.key} name={field.name}>
+                      <Flex gap={14}>
+                        <Checkbox />
+                        <Input />
+                      </Flex>
+                    </Form.Item>
+                  ))}
+                </div>
+              )}
+            </FormList>
           </Flex>
         </Form>
       </CustomCard>

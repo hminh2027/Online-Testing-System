@@ -80,16 +80,18 @@ model Exam {
 }
 
 model Question {
-  id       Int      @id @default(autoincrement())
-  examId   Int
-  index    Int
-  imageUrl String?  @db.LongText
-  content  String   @db.LongText
-  score    Int
+  id           Int      @id @default(autoincrement())
+  examId       Int
+  index        Int
+  imageUrl     String?  @db.LongText
+  explaination String?  @db.LongText
+  content      String   @db.LongText
+  score        Int
+  isMultiple   Boolean  @default(false)
   // relations
-  Exam     Exam     @relation(fields: [examId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Answer   Answer[]
-  Choice   Choice[]
+  Exam         Exam     @relation(fields: [examId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Answer       Answer[]
+  Choice       Choice[]
 }
 
 model Answer {
