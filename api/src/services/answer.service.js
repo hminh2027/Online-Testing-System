@@ -7,7 +7,7 @@ async function createOne(data) {
     data: {
       index: data.index,
       content: data.content,
-      is_correct: data.isCorrect,
+      isCorrect: data.isCorrect,
       Question: {
         connect: {
           id: data.questionId,
@@ -18,17 +18,9 @@ async function createOne(data) {
 }
 
 async function createMany(data) {
-  // return prisma.question.createMany({
-  //   data: {
-  //     index: data.index,
-  //     content: data.content,
-  //     image_url: data.imageUrl,
-  //     score: data.score,
-  //     Exam: {
-  //       connect: { id: data.examId },
-  //     },
-  //   },
-  // });
+  return prisma.question.createMany({
+    data,
+  });
 }
 
 async function getOneById(id) {

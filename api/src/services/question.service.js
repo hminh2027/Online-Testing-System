@@ -5,8 +5,9 @@ async function createOne(data) {
     data: {
       index: data.index,
       content: data.content,
-      image_url: data.imageUrl,
+      imageUrl: data.imageUrl,
       score: data.score,
+      // examId: data.examId,
       Exam: {
         connect: { id: data.examId },
       },
@@ -36,7 +37,7 @@ async function getOneById(id) {
 
 async function getManyByExamId(examId) {
   return prisma.question.findFirst({
-    where: { exam_id: examId },
+    where: { examId },
   });
 }
 

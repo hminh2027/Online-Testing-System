@@ -1,9 +1,9 @@
 module.exports.authService = require("./auth.service");
 module.exports.tokenService = require("./token.service");
 module.exports.userService = require("./user.service");
-// module.exports.questionService = require("./question.service");
+module.exports.questionService = require("./question.service");
 module.exports.examService = require("./exam.service");
-// module.exports.answerService = require("./answer.service");
+module.exports.answerService = require("./answer.service");
 // module.exports.attemptService = require("./attempt.service");
 // module.exports.choiceService = require("./choice.service");
 module.exports.classService = require("./class.service");

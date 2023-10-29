@@ -1,11 +1,18 @@
 const { prisma } = require("./prisma-client");
 const { generateDummyData } = require("../utils");
-const { authService, classService } = require("../services");
+const {
+  authService,
+  classService,
+  questionService,
+  answerService,
+} = require("../services");
 const { logger } = require("../config");
 const {
   userPrototype,
   classPrototype,
   examPrototype,
+  questionPrototype,
+  answerPrototype,
 } = require("../prototypes");
 
 async function main() {
@@ -53,25 +60,21 @@ async function main() {
 
   logger.info("Exam seeded successfully");
 
-  // // QUESTION & ANSWER;
-  // const testsCode = await (
-  //   await prisma.test.findMany()
-  // ).map((test) => test.code);
-  // for (const code of testsCode) {
-  //   const qns = generateDummyData(10, questionPrototype);
+  // QUESTION & ANSWER
+  const questions = generateDummyData(10, questionPrototype);
+  const answers = generateDummyData(4, answerPrototype);
 
-  //   for (const q of qns) {
-  //     const question = await questionService.createOne({
-  //       ...q,
-  //       testCode: code,
-  //     });
-  //     q.answers.forEach(async (answer) => {
-  //       await answerService.createOne({ ...answer, questionId: question.id });
-  //     });
-  //   }
-  // }
+  questions.forEach(async (q) => {
+    const { id: questionId } = await questionService.createOne(q);
+    // const mappedAnswer = answers.map((answer) => ({
+    //   ...answer,
+    //   questionId,
+    // }));
 
-  // logger.info("Question seeded successfully");
+    // await answerService.createMany(mappedAnswer);
+  });
+
+  logger.info("Question seeded successfully");
   logger.info("Data seeding finished!");
 }
 main()

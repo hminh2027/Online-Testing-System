@@ -1,5 +1,6 @@
 import type { User } from '@/features/user';
 import type { Resource, ResponseItem } from '../../../types/common';
+import type { Question } from '.';
 
 export interface Exam extends Resource {
   teacherId: number;
@@ -8,6 +9,7 @@ export interface Exam extends Resource {
   duration: number;
   numberOfQuestionDisplayed: number;
   User?: User;
+  Question?: Question[];
 }
 
 export interface ExamCreateDTO extends Resource {

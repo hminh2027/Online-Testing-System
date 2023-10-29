@@ -14,12 +14,22 @@ function createOne(data) {
         },
       },
     },
+    include: {
+      Question: {
+        include: { Answer: true },
+      },
+    },
   });
 }
 
 function getOneById(id, { teacherId }) {
   return prisma.exam.findUnique({
     where: { id, teacherId },
+    include: {
+      Question: {
+        include: { Answer: true },
+      },
+    },
   });
 }
 

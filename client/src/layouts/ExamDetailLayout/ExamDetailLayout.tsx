@@ -12,10 +12,14 @@ interface ExamDetailLayoutProps {
 const sideNavItems = [
   {
     label: 'Tổng quan',
-    path: 'overview',
+    path: '',
   },
   {
     label: 'Nội dung đề',
+    path: 'content',
+  },
+  {
+    label: 'Thông tin ???',
     path: 'edit',
   },
 ];

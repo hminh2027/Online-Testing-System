@@ -1,3 +1,4 @@
+import type { Answer } from '.';
 import type { Resource, ResponseItem } from '../../../types/common';
 
 export interface Question extends Resource {
@@ -6,6 +7,7 @@ export interface Question extends Resource {
   imageUrl?: string;
   content: string;
   score: number;
+  Answer: Answer[];
 }
 
 export interface QuestionCreateDTO extends Resource {

@@ -10,6 +10,7 @@ const classRoute = require("./class.route");
 const postRoute = require("./post.route");
 const commentRoute = require("./comment.route");
 const userClassRoute = require("./userClass.route");
+const questionRoute = require("./question.route");
 
 // const notificationRoute = require("./notification.route");
 
@@ -20,6 +21,8 @@ router.use("/comment", commentRoute);
 router.use("/post", postRoute);
 router.use("/user_class", userClassRoute);
 router.use("/exam", examRoute);
+router.use("/exam", examRoute);
+router.use("/question", questionRoute);
 
 // router.use("/notification", notificationRoute);
 
