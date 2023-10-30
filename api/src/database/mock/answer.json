@@ -1,0 +1,110 @@
+[
+  {
+    "index": 1,
+    "content": "1",
+    "questionId": 1,
+    "isCorrect": true
+  },
+  {
+    "index": 2,
+    "content": "0",
+    "questionId": 1,
+    "isCorrect": false
+  },
+  {
+    "index": 3,
+    "content": "Vô nghiệm",
+    "questionId": 1,
+    "isCorrect": false
+  },
+  {
+    "index": 4,
+    "content": "Đa số nghiệm",
+    "questionId": 1,
+    "isCorrect": false
+  },
+  {
+    "index": 1,
+    "content": "1",
+    "questionId": 2,
+    "isCorrect": false
+  },
+  {
+    "index": 2,
+    "content": "0",
+    "questionId": 2,
+    "isCorrect": false
+  },
+  {
+    "index": 3,
+    "content": "2",
+    "questionId": 2,
+    "isCorrect": false
+  },
+  {
+    "index": 4,
+    "content": "3",
+    "questionId": 2,
+    "isCorrect": true
+  },
+  {
+    "index": 1,
+    "content": "1",
+    "questionId": 3,
+    "isCorrect": false
+  },
+  {
+    "index": 2,
+    "content": "4",
+    "questionId": 3,
+    "isCorrect": true
+  },
+  {
+    "index": 3,
+    "content": "2",
+    "questionId": 3,
+    "isCorrect": false
+  },
+  {
+    "index": 4,
+    "content": "3",
+    "questionId": 3,
+    "isCorrect": false
+  },
+  {
+    "index": 1,
+    "content": "5",
+    "questionId": 4,
+    "isCorrect": true
+  },
+  {
+    "index": 2,
+    "content": "0",
+    "questionId": 4,
+    "isCorrect": false
+  },
+  {
+    "index": 3,
+    "content": "2",
+    "questionId": 4,
+    "isCorrect": false
+  },
+  {
+    "index": 4,
+    "content": "3",
+    "questionId": 4,
+    "isCorrect": false
+  },
+  {
+    "index": 1,
+    "content": "Đoạn thẳng nối trung điểm hai cạnh của tam giác",
+    "questionId": 5,
+    "isCorrect": true
+  },
+  {
+    "index": 2,
+    "content": "Đoạn là tiếp tuyến của cạnh huyền của tam giác",
+    "questionId": 5,
+    "isCorrect": false
+  }
+]

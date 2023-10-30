@@ -3,6 +3,9 @@ const { logger } = require("../config");
 
 const user = require("./mock/user.json");
 const classRoom = require("./mock/class.json");
+const exam = require("./mock/exam.json");
+const question = require("./mock/question.json");
+const answer = require("./mock/answer.json");
 
 async function main() {
   logger.info("Seeding...");
@@ -19,24 +22,16 @@ async function main() {
   logger.info("Class seeded successfully");
 
   // EXAM
-  // const exams = generateDummyData(5, examPrototype);
-  // await prisma.exam.createMany({ data: exams });
+  await prisma.exam.deleteMany();
+  await prisma.exam.createMany({ data: exam });
 
   logger.info("Exam seeded successfully");
 
   // QUESTION & ANSWER
-  // const questions = generateDummyData(10, questionPrototype);
-  // const answers = generateDummyData(4, answerPrototype);
-
-  // questions.forEach(async (q) => {
-  //   const { id: questionId } = await questionService.createOne(q);
-  //   // const mappedAnswer = answers.map((answer) => ({
-  //   //   ...answer,
-  //   //   questionId,
-  //   // }));
-
-  //   // await answerService.createMany(mappedAnswer);
-  // });
+  await prisma.question.deleteMany();
+  await prisma.question.createMany({ data: question });
+  await prisma.answer.deleteMany();
+  await prisma.answer.createMany({ data: answer });
 
   logger.info("Question seeded successfully");
   logger.info("Data seeding finished!");

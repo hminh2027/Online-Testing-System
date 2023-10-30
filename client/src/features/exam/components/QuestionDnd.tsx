@@ -1,11 +1,10 @@
-import { Button, Checkbox, Flex, Form, Input, Select, Typography } from 'antd';
+import { Button, Collapse, Modal, Space, Typography } from 'antd';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { CloseOutlined } from '@ant-design/icons';
-import FormList from 'antd/es/form/FormList';
-import TextArea from 'antd/es/input/TextArea';
-import { CustomCard } from '@/components';
+import { CloseOutlined, EditOutlined, HolderOutlined } from '@ant-design/icons';
 import type { Question } from '../types';
+import { QuestionContent } from './QuestionContent';
+import { CustomCard } from '@/components';
 
 interface QuestionDndProps {
   question: Question;
@@ -19,7 +18,15 @@ export function QuestionDnd({ question, index }: QuestionDndProps) {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    width: '30%',
+    width: '15%',
+  };
+
+  const handleEdit = () => {
+    Modal.confirm({
+      title: `Câu hỏi thứ ${index + 1}`,
+      content: <QuestionContent question={question} />,
+      icon: null,
+    });
   };
 
   return (
@@ -28,49 +35,23 @@ export function QuestionDnd({ question, index }: QuestionDndProps) {
         title={
           <Typography.Text
             strong
-            {...attributes}
-            {...listeners}
             style={{
               fontSize: '1rem',
               cursor: 'pointer',
             }}
           >
-            Câu hỏi thứ {index + 1}
+            Câu {index + 1}
           </Typography.Text>
         }
-        extra={<Button type="text" icon={<CloseOutlined />} />}
-        hasShadow
+        extra={
+          <Space>
+            <Button icon={<EditOutlined />} onClick={handleEdit} type="text" />
+            <Button icon={<HolderOutlined />} type="text" {...attributes} {...listeners} />
+            <Button icon={<CloseOutlined />} type="text" />
+          </Space>
+        }
       >
-        <Form
-          layout="vertical"
-          initialValues={{
-            content: question.content,
-            answers: question.Answer.map((answer) => answer.content),
-          }}
-        >
-          <Flex vertical>
-            <Form.Item label="Câu hỏi">
-              <TextArea />
-            </Form.Item>
-            <div>{question.score}</div>
-
-            <div>tinh diem theo so dap an</div>
-            <FormList name="answers">
-              {(fields) => (
-                <div>
-                  {fields.map((field) => (
-                    <Form.Item {...field} key={field.key} name={field.name}>
-                      <Flex gap={14}>
-                        <Checkbox />
-                        <Input />
-                      </Flex>
-                    </Form.Item>
-                  ))}
-                </div>
-              )}
-            </FormList>
-          </Flex>
-        </Form>
+        {question.content}
       </CustomCard>
     </div>
   );

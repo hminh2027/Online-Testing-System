@@ -1,0 +1,37 @@
+[
+  {
+    "index": 1,
+    "content": "Cho 2x + 3 = 5. Vậy x = ?",
+    "imageUrl": "",
+    "score": 1,
+    "examId": 1
+  },
+  {
+    "index": 2,
+    "content": "Hình tam giác có mấy đỉnh?",
+    "imageUrl": "",
+    "score": 1,
+    "examId": 1
+  },
+  {
+    "index": 3,
+    "content": "Hình tứ giác có mấy đỉnh?",
+    "imageUrl": "",
+    "score": 1,
+    "examId": 1
+  },
+  {
+    "index": 4,
+    "content": "Hình ngũ giác có mấy cạnh?",
+    "imageUrl": "",
+    "score": 1,
+    "examId": 1
+  },
+  {
+    "index": 5,
+    "content": "Định nghĩa đường trung bình là gì?",
+    "imageUrl": "",
+    "score": 1,
+    "examId": 1
+  }
+]

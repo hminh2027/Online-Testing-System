@@ -13,5 +13,8 @@ export const themeConfig: ThemeConfig = {
     Form: {
       marginLG: 16,
     },
+    Layout: {
+      bodyBg: '#FFFFFF',
+    },
   },
 };

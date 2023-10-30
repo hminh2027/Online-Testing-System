@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Bài test khảo sát giữa kì II",
+    "description": "",
+    "duration": 30,
+    "numberOfQuestionDisplayed": 5,
+    "teacherId": 1
+  },
+  {
+    "title": "Bài kiểm tra Toán - 15p",
+    "description": "",
+    "duration": 15,
+    "numberOfQuestionDisplayed": 20,
+    "teacherId": 1
+  },
+  {
+    "title": "Bài test ứng xử",
+    "description": "",
+    "duration": 10,
+    "numberOfQuestionDisplayed": 10,
+    "teacherId": 1
+  },
+  {
+    "title": "Bài thi trắc nghiêm Lịch Sử",
+    "description": "",
+    "duration": 30,
+    "numberOfQuestionDisplayed": 10,
+    "teacherId": 1
+  },
+  {
+    "title": "Bài thi trắc nghiệm lập trình",
+    "description": "",
+    "duration": 60,
+    "numberOfQuestionDisplayed": 10,
+    "teacherId": 1
+  },
+  {
+    "title": "Bài kiểm tra lớp học thêm",
+    "description": "",
+    "duration": 15,
+    "numberOfQuestionDisplayed": 10,
+    "teacherId": 1
+  }
+]
