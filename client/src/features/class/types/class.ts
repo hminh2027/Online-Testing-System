@@ -7,7 +7,6 @@ export interface ClassRoom extends Resource {
   name: string;
   description: string;
   imageUrl: string;
-  isActive: boolean;
   createdAt: Date;
   isStudentApprovalEnter: boolean;
   isStudentApprovalLeave: boolean;

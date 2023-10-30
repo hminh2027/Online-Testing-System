@@ -7,6 +7,8 @@ export interface Question extends Resource {
   imageUrl?: string;
   content: string;
   score: number;
+  explaination?: string;
+  isPointPerCorrection: boolean;
   Answer: Answer[];
 }
 
@@ -16,6 +18,8 @@ export interface QuestionCreateDTO extends Resource {
   imageUrl?: string;
   content: string;
   score: number;
+  explaination?: string;
+  isPointPerCorrection: boolean;
 }
 
 export type ResQuestionItem = ResponseItem<Question>;

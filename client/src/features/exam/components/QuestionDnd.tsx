@@ -2,6 +2,7 @@ import { Button, Collapse, Modal, Space, Typography } from 'antd';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { CloseOutlined, EditOutlined, HolderOutlined } from '@ant-design/icons';
+import { useToggle } from 'react-use';
 import type { Question } from '../types';
 import { QuestionContent } from './QuestionContent';
 import { CustomCard } from '@/components';
@@ -15,18 +16,25 @@ export function QuestionDnd({ question, index }: QuestionDndProps) {
     id: question.index,
   });
 
+  const [isModalOpen, setIsModalOpen] = useToggle(false);
+
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    width: '15%',
+    width: '20rem',
   };
 
   const handleEdit = () => {
-    Modal.confirm({
-      title: `Câu hỏi thứ ${index + 1}`,
-      content: <QuestionContent question={question} />,
-      icon: null,
-    });
+    // Modal.confirm({
+    //   title: `Câu hỏi thứ ${index + 1}`,
+    //   content: <QuestionContent question={question} />,
+    //   icon: null,
+    //   footer: null,
+    //   centered: true,
+    //   maskClosable: true,
+    // });
+
+    setIsModalOpen(true);
   };
 
   return (
@@ -51,8 +59,11 @@ export function QuestionDnd({ question, index }: QuestionDndProps) {
           </Space>
         }
       >
-        {question.content}
+        <Typography.Text ellipsis>{question.content}</Typography.Text>
       </CustomCard>
+      <Modal title="Basic Modal" open={isModalOpen}>
+        <QuestionContent question={question} />
+      </Modal>
     </div>
   );
 }

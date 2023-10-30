@@ -6,10 +6,9 @@ const router = express.Router();
 
 router.route("/").post(auth, questionController.createOne);
 
-// router
-//   .route("/:id")
-//   .get(auth, questionController.getOneById)
-//   .put(auth, questionController.updateOneById)
-//   .delete(auth, questionController.deleteOneById);
+router
+  .route("/:id")
+  .put(auth, questionController.updateOneById)
+  .delete(auth, questionController.deleteOneById);
 
 module.exports = router;

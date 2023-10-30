@@ -1,13 +1,11 @@
-import type { FormInstance, UploadProps } from 'antd';
-import { Button, Flex, Form, Image, Input, Switch } from 'antd';
-import Dragger from 'antd/es/upload/Dragger';
-import { InboxOutlined } from '@ant-design/icons';
+import type { FormInstance } from 'antd';
+import { Flex, Form, Input, Switch } from 'antd';
 import { useState, useEffect } from 'react';
 import { useAddClass, useClass, useUpdateClass } from '@/features/class/hooks/useClass';
 import type { ClassCreateDTO, ClassRoom, ResClassModify } from '../../types';
-import { upload } from '@/libs/cloudinary';
 import { useDrawer } from '@/hooks/useDrawer';
 import { CustomMessage } from '@/components';
+import { Uploader } from '@/components/Uploader';
 
 interface ClassAddEditProps {
   code?: string;
@@ -56,14 +54,6 @@ export function ClassAddEdit({ code, form }: ClassAddEditProps) {
 
   if (isFetching) return <>Loading</>;
 
-  const handleCustomRequest: UploadProps['customRequest'] = (options) => {
-    const { file } = options;
-
-    upload(file)
-      .then((res) => setImage(res))
-      .catch(() => {});
-  };
-
   const handleOnFinish = (values: ClassCreateDTO) => {
     const payload: ClassCreateDTO = {
       ...values,
@@ -97,27 +87,7 @@ export function ClassAddEdit({ code, form }: ClassAddEditProps) {
           <Input.TextArea rows={8} />
         </Form.Item>
         <Form.Item label="Ảnh bìa lớp" name="imageUrl">
-          {image ? (
-            <Flex vertical gap={10}>
-              <Image src={image} width="100%" />
-              <Button danger block onClick={() => setImage(null)}>
-                Xóa ảnh
-              </Button>
-            </Flex>
-          ) : (
-            <Dragger
-              maxCount={1}
-              showUploadList={false}
-              customRequest={handleCustomRequest}
-              style={{ width: '100%' }}
-              fileList={[]}
-            >
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p>Nhấn để đăng ảnh</p>
-            </Dragger>
-          )}
+          <Uploader image={image} setImage={setImage} />
         </Form.Item>
         <Form.Item label="Mật khẩu lớp học" name="password">
           <Input.Password />

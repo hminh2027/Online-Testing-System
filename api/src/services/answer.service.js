@@ -1,8 +1,6 @@
-const httpStatus = require("http-status");
 const { prisma } = require("../database/prisma-client");
-const { ApiError } = require("../utils");
 
-async function createOne(data) {
+function createOne(data) {
   return prisma.answer.create({
     data: {
       index: data.index,
@@ -17,46 +15,20 @@ async function createOne(data) {
   });
 }
 
-async function createMany(data) {
-  return prisma.question.createMany({
+function createMany(data) {
+  return prisma.answer.createMany({
     data,
   });
 }
 
-async function getOneById(id) {
-  return prisma.answer.findFirst({
-    where: { id },
+function updateMany(data) {
+  return prisma.answer.upsert({
+    data,
+    where,
   });
 }
 
-async function getManyByQuestionId(questionId) {
-  return prisma.answer.findFirst({
-    where: { question_id: questionId },
-  });
-}
-
-async function updateOneById(id, data) {
-  const answer = await getOneById(id);
-
-  if (!answer)
-    throw new ApiError(httpStatus.NOT_FOUND, "Không tìm thấy đáp án này!");
-
-  return prisma.answer.update({
-    data: {
-      content: data.content,
-      is_correct: data.isCorrect,
-      index: data.index,
-    },
-    where: { id },
-  });
-}
-
-async function deleteOneById(id) {
-  const answer = await getOneById(id);
-
-  if (!answer)
-    throw new ApiError(httpStatus.NOT_FOUND, "Không tìm thấy đáp án này!");
-
+function deleteOneById(id) {
   return prisma.answer.delete({
     where: { id },
   });
@@ -65,7 +37,6 @@ async function deleteOneById(id) {
 module.exports = {
   createOne,
   createMany,
-  getManyByQuestionId,
-  updateOneById,
+  updateMany,
   deleteOneById,
 };

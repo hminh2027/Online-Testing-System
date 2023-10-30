@@ -55,7 +55,6 @@ model Class {
   isStudentApprovalEnter Boolean     @default(false)
   isStudentApprovalLeave Boolean     @default(false)
   isStudentPostAllowed   Boolean     @default(true)
-  isActive               Boolean     @default(true)
   createdAt              DateTime    @default(now())
   // relations
   ClassExam              ClassExam[]
@@ -80,18 +79,18 @@ model Exam {
 }
 
 model Question {
-  id           Int      @id @default(autoincrement())
-  examId       Int
-  index        Int
-  imageUrl     String?  @db.LongText
-  explaination String?  @db.LongText
-  content      String   @db.LongText
-  score        Int
-  isMultiple   Boolean  @default(false)
+  id                   Int      @id @default(autoincrement())
+  examId               Int
+  index                Int
+  imageUrl             String?  @db.LongText
+  explanation          String?  @db.LongText
+  content              String   @db.LongText
+  score                Int
+  isPointPerCorrection Boolean  @default(false)
   // relations
-  Exam         Exam     @relation(fields: [examId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Answer       Answer[]
-  Choice       Choice[]
+  Exam                 Exam     @relation(fields: [examId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Answer               Answer[]
+  Choice               Choice[]
 }
 
 model Answer {
@@ -106,19 +105,23 @@ model Answer {
 }
 
 model ClassExam {
-  id           Int       @id @default(autoincrement())
-  classCode    String
-  examId       Int
-  startTime    DateTime  @default(now())
-  deadlineAt   DateTime?
-  attemptLimit Int?      @default(0)
-  isSubmitLate Boolean?  @default(true)
-  isShuffle    Boolean?  @default(false)
-  isShowAnswer Boolean?  @default(true)
-  createdAt    DateTime  @default(now())
+  id                  Int       @id @default(autoincrement())
+  classCode           String
+  examId              Int
+  startAt             DateTime  @default(now())
+  deadlineAt          DateTime?
+  attemptLimit        Int?      @default(0)
+  isProcting          Boolean?  @default(false)
+  isSubmitLateAllowed Boolean?  @default(true)
+  isShuffleQuestion   Boolean?  @default(false)
+  isShuffleAnswer     Boolean?  @default(false)
+  isShowAnswer        Boolean?  @default(true)
+  isShowExplaination  Boolean?  @default(true)
+  isResumeAllowed     Boolean?  @default(true)
+  createdAt           DateTime  @default(now())
   // relations
-  Class        Class     @relation(fields: [classCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
-  Exam         Exam      @relation(fields: [examId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Class               Class     @relation(fields: [classCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
+  Exam                Exam      @relation(fields: [examId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Attempt {
