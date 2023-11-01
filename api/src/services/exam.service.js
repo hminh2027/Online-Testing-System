@@ -28,6 +28,7 @@ function getOneById(id, { teacherId }) {
     include: {
       Question: {
         include: { Answer: true },
+        orderBy: { index: "asc" },
       },
     },
   });

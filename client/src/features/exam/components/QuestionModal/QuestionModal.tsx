@@ -21,18 +21,19 @@ import { questionSchema } from './schema';
 import { useQuestionMutation } from '../../hooks/useQuestionMutation';
 import { useQuestion } from '../../hooks/useQuestion';
 
-interface QuestionContentProps {
-  questionId: number;
+interface QuestionModalProps {
+  examId: number;
+  questionId?: number;
   form: FormInstance;
 }
-export function QuestionContent({ questionId, form }: QuestionContentProps) {
+export function QuestionModal({ questionId, form, examId }: QuestionModalProps) {
   const [image, setImage] = useState<string | null>(null);
 
-  const { data, isFetching } = useQuestion(questionId);
+  const { data, isFetching } = useQuestion(questionId as number, { enabled: !!questionId });
 
   const question = data?.content;
 
-  const { updateFn, deleteAnsFn } = useQuestionMutation();
+  const { addFn, updateFn, deleteAnsFn } = useQuestionMutation(examId);
 
   useEffect(() => {
     setImage(question?.imageUrl as string);
@@ -57,7 +58,12 @@ export function QuestionContent({ questionId, form }: QuestionContentProps) {
 
     const error = validateAnswer(answers);
 
-    if (error) return CustomMessage.error(error);
+    if (error) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      CustomMessage.error(error);
+
+      return;
+    }
 
     const payload: QuestionCreateDTO = {
       ...values,
@@ -69,10 +75,17 @@ export function QuestionContent({ questionId, form }: QuestionContentProps) {
       })),
     };
 
-    return updateFn({
-      payload,
-      id: question?.id as number,
-    });
+    if (questionId) {
+      updateFn({
+        payload,
+        id: question?.id as number,
+      });
+    } else {
+      addFn({
+        ...payload,
+        examId,
+      });
+    }
   };
 
   const handleDelete = (id: number, localDeleteFn: (index: number | number[]) => void) => {
@@ -101,8 +114,8 @@ export function QuestionContent({ questionId, form }: QuestionContentProps) {
     >
       <Row gutter={24}>
         <Col span={12}>
-          <Form.Item label="Số điểm" name="score" rules={[yupSync]}>
-            <InputNumber />
+          <Form.Item label="Số điểm" name="score" rules={[yupSync]} required>
+            <InputNumber controls={false} min={1} addonAfter="điểm" />
           </Form.Item>
         </Col>
         <Col span={12}>

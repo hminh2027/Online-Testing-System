@@ -16,6 +16,10 @@ async function createOne(data) {
   });
 }
 
+function count() {
+  return prisma.question.count();
+}
+
 function getOneById(id) {
   return prisma.question.findUnique({
     where: { id },
@@ -38,6 +42,15 @@ function updateOneById(id, data) {
   });
 }
 
+function patchIndexById(id, index) {
+  return prisma.question.update({
+    data: {
+      index,
+    },
+    where: { id },
+  });
+}
+
 function deleteOneById(id) {
   return prisma.question.delete({
     where: { id },
@@ -47,6 +60,8 @@ function deleteOneById(id) {
 module.exports = {
   createOne,
   getOneById,
+  count,
   updateOneById,
+  patchIndexById,
   deleteOneById,
 };

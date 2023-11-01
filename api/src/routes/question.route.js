@@ -12,4 +12,6 @@ router
   .put(auth, questionController.updateOneById)
   .delete(auth, questionController.deleteOneById);
 
+router.route("/index").post(auth, questionController.updateIndex);
+
 module.exports = router;

@@ -4,20 +4,23 @@ import { CSS } from '@dnd-kit/utilities';
 import { CloseOutlined, EditOutlined, HolderOutlined } from '@ant-design/icons';
 import { useToggle } from 'react-use';
 import type { Question } from '../types';
-import { QuestionContent } from './QuestionContent/QuestionContent';
 import { CustomCard } from '@/components';
-import { useQuestionMutation } from '../hooks/useQuestionMutation';
+import { useDeleteQuestion } from '../hooks/useQuestion';
+import { QuestionModal } from './QuestionModal';
 
 interface QuestionDndProps {
   question: Question;
   index: number;
+  refetch: () => void;
 }
-export function QuestionDnd({ question, index }: QuestionDndProps) {
+export function QuestionDnd({ question, index, refetch }: QuestionDndProps) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: question.index,
   });
   const [form] = Form.useForm();
-  const { deleteFn } = useQuestionMutation();
+  const { mutate: deleteFn } = useDeleteQuestion({
+    onSuccess: () => refetch(),
+  });
 
   const [isModalOpen, setIsModalOpen] = useToggle(false);
 
@@ -50,10 +53,9 @@ export function QuestionDnd({ question, index }: QuestionDndProps) {
             strong
             style={{
               fontSize: '1rem',
-              cursor: 'pointer',
             }}
           >
-            Câu {index}
+            Câu {index} _ {question.score} điểm
           </Typography.Text>
         }
         extra={
@@ -77,7 +79,7 @@ export function QuestionDnd({ question, index }: QuestionDndProps) {
         title={`Cập nhật câu hỏi ${index}`}
         open={isModalOpen}
       >
-        <QuestionContent form={form} questionId={question.id as number} />
+        <QuestionModal examId={question.examId} form={form} questionId={question.id as number} />
       </Modal>
     </div>
   );

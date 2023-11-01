@@ -1,8 +1,11 @@
 import { Flex, Form } from 'antd';
+import { useParams } from 'react-router-dom';
 import { ExamAddEdit, ExamQuestionDnd } from '../components';
 
 export default function ExamDetail() {
   const [form] = Form.useForm();
+
+  const { id } = useParams();
 
   return (
     <div
@@ -12,7 +15,7 @@ export default function ExamDetail() {
       }}
     >
       {/* <ExamAddEdit id={1} form={form} /> */}
-      <ExamQuestionDnd id={1} />
+      {id && <ExamQuestionDnd id={+id} />}
     </div>
   );
 }

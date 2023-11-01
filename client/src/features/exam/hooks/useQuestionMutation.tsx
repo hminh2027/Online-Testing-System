@@ -1,20 +1,34 @@
 import { CustomMessage } from '@/components';
-import { useDeleteQuestion, useUpdateQuestion } from './useQuestion';
+import { useAddQuestion, useDeleteQuestion, useUpdateQuestion } from './useQuestion';
 import { useDeleteAnswer } from './useAnswer';
+import { useExam } from './useExam';
+import { axiosInstance } from '@/libs';
+import { endpoints } from '@/config';
 
-export function useQuestionMutation() {
-  const { mutate: updateFn } = useUpdateQuestion({
-    onSuccess: (res) => {
+export function useQuestionMutation(examId: number) {
+  const { refetch } = useExam(examId, { enabled: false });
+  const { mutate: addFn } = useAddQuestion({
+    onSuccess: async (res) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       CustomMessage.success(res.message);
+      await refetch();
+    },
+    onError: () => {},
+  });
+  const { mutate: updateFn } = useUpdateQuestion({
+    onSuccess: async (res) => {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      CustomMessage.success(res.message);
+      await refetch();
     },
     onError: () => {},
   });
 
   const { mutate: deleteFn } = useDeleteQuestion({
-    onSuccess: (res) => {
+    onSuccess: async (res) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       CustomMessage.success(res.message);
+      await refetch();
     },
     onError: () => {},
   });
@@ -27,9 +41,23 @@ export function useQuestionMutation() {
     onError: () => {},
   });
 
+  interface UpdateIndexPayload {
+    indexArray: [];
+  }
+
+  const updateIndex = async (payload: UpdateIndexPayload) => {
+    await axiosInstance({
+      url: `${endpoints.apis.question.path}/index`,
+      method: 'POST',
+      data: payload,
+    });
+  };
+
   return {
+    addFn,
     updateFn,
     deleteFn,
     deleteAnsFn,
+    updateIndex,
   };
 }

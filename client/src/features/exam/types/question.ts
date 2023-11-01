@@ -14,7 +14,7 @@ export interface Question extends Resource {
 
 export interface QuestionCreateDTO extends Resource {
   examId: number;
-  index: number;
+  index?: number;
   imageUrl?: string;
   content: string;
   score: number;
