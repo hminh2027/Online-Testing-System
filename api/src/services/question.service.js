@@ -16,18 +16,13 @@ async function createOne(data) {
   });
 }
 
-async function createMany(data) {
-  // return prisma.question.createMany({
-  //   data: {
-  //     index: data.index,
-  //     content: data.content,
-  //     image_url: data.imageUrl,
-  //     score: data.score,
-  //     Exam: {
-  //       connect: { id: data.examId },
-  //     },
-  //   },
-  // });
+function getOneById(id) {
+  return prisma.question.findUnique({
+    where: { id },
+    include: {
+      Answer: true,
+    },
+  });
 }
 
 function updateOneById(id, data) {
@@ -51,7 +46,7 @@ function deleteOneById(id) {
 
 module.exports = {
   createOne,
-  createMany,
+  getOneById,
   updateOneById,
   deleteOneById,
 };

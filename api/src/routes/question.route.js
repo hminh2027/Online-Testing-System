@@ -8,6 +8,7 @@ router.route("/").post(auth, questionController.createOne);
 
 router
   .route("/:id")
+  .get(auth, questionController.getOneById)
   .put(auth, questionController.updateOneById)
   .delete(auth, questionController.deleteOneById);
 

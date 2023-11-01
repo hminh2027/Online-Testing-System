@@ -10,27 +10,22 @@ const answer = require("./mock/answer.json");
 async function main() {
   logger.info("Seeding...");
   // USER
-  await prisma.user.deleteMany();
   await prisma.user.createMany({ data: user });
 
   logger.info("User seeded successfully");
 
   // CLASS
-  await prisma.class.deleteMany();
   await prisma.class.createMany({ data: classRoom });
 
   logger.info("Class seeded successfully");
 
   // EXAM
-  await prisma.exam.deleteMany();
   await prisma.exam.createMany({ data: exam });
 
   logger.info("Exam seeded successfully");
 
   // QUESTION & ANSWER
-  await prisma.question.deleteMany();
   await prisma.question.createMany({ data: question });
-  await prisma.answer.deleteMany();
   await prisma.answer.createMany({ data: answer });
 
   logger.info("Question seeded successfully");

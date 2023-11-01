@@ -8,6 +8,7 @@ import type {
 import { QuestionService } from '../services/QuestionService';
 
 export const {
+  useItem: useQuestion,
   useAddItem: useAddQuestion,
   useUpdateItem: useUpdateQuestion,
   useDeleteItem: useDeleteQuestion,

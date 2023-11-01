@@ -32,8 +32,7 @@ model User {
 }
 
 model UserClass {
-  id Int @id @default(autoincrement())
-
+  id        Int      @id @default(autoincrement())
   studentId Int
   classCode String
   isPending Boolean
@@ -96,7 +95,6 @@ model Question {
 model Answer {
   id         Int      @id @default(autoincrement())
   questionId Int
-  index      Int
   content    String   @db.LongText
   isCorrect  Boolean  @default(false)
   // relations
@@ -139,14 +137,14 @@ model Attempt {
 }
 
 model Choice {
-  id            Int      @id @default(autoincrement())
-  attemptId     Int
-  questionIndex Int
-  answerIndex   Int
+  id         Int      @id @default(autoincrement())
+  attemptId  Int
+  questionId Int
+  answerId   Int
   // relations
-  Attempt       Attempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Question      Question @relation(fields: [questionIndex], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Answer        Answer   @relation(fields: [answerIndex], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Attempt    Attempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Answer     Answer   @relation(fields: [answerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Post {

@@ -11,6 +11,7 @@ const postRoute = require("./post.route");
 const commentRoute = require("./comment.route");
 const userClassRoute = require("./userClass.route");
 const questionRoute = require("./question.route");
+const answerRoute = require("./answer.route");
 
 // const notificationRoute = require("./notification.route");
 
@@ -23,6 +24,7 @@ router.use("/user_class", userClassRoute);
 router.use("/exam", examRoute);
 router.use("/exam", examRoute);
 router.use("/question", questionRoute);
+router.use("/answer", answerRoute);
 
 // router.use("/notification", notificationRoute);
 

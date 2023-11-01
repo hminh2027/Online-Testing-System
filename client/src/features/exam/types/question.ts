@@ -1,4 +1,4 @@
-import type { Answer } from '.';
+import type { Answer, AnswerCreateDTO } from '.';
 import type { Resource, ResponseItem } from '../../../types/common';
 
 export interface Question extends Resource {
@@ -7,7 +7,7 @@ export interface Question extends Resource {
   imageUrl?: string;
   content: string;
   score: number;
-  explaination?: string;
+  explanation?: string;
   isPointPerCorrection: boolean;
   Answer: Answer[];
 }
@@ -18,8 +18,9 @@ export interface QuestionCreateDTO extends Resource {
   imageUrl?: string;
   content: string;
   score: number;
-  explaination?: string;
+  explanation?: string;
   isPointPerCorrection: boolean;
+  answers: AnswerCreateDTO[];
 }
 
 export type ResQuestionItem = ResponseItem<Question>;

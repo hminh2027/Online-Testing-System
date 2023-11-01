@@ -9,3 +9,4 @@ module.exports.userClassController = require("./userClass.controller");
 module.exports.postController = require("./post.controller");
 module.exports.commentController = require("./comment.controller");
 module.exports.questionController = require("./question.controller");
+module.exports.answerController = require("./answer.controller");

@@ -4,7 +4,6 @@ import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import { Button, Flex } from 'antd';
 import { useEffect, useState } from 'react';
 import { PlusSquareOutlined } from '@ant-design/icons';
-import { useToggle } from 'react-use';
 import { QuestionDnd } from '@/features/exam/components';
 import type { Question } from '../types';
 import { useExam } from '../hooks/useExam';
@@ -27,7 +26,7 @@ export function ExamQuestionDnd({ id }: ExamQuestionDndProps) {
     setItems(questions);
   }, [questions]);
 
-  if (isFetching) return <></>;
+  if (isFetching) return <>Loading</>;
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -44,15 +43,13 @@ export function ExamQuestionDnd({ id }: ExamQuestionDndProps) {
     }
   };
 
-  const handleDragStart = (event) => {};
-
   return (
     <div>
-      <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
+      <DndContext onDragEnd={handleDragEnd}>
         <SortableContext items={items.map((i) => i.index)}>
           <Flex gap={16} wrap="wrap" justify="start">
             {items.map((item, index) => (
-              <QuestionDnd question={item} key={item.index} index={index} />
+              <QuestionDnd question={item} key={item.index} index={index + 1} />
             ))}
             <Button block icon={<PlusSquareOutlined />} />
           </Flex>

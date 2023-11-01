@@ -3,7 +3,6 @@ const { prisma } = require("../database/prisma-client");
 function createOne(data) {
   return prisma.answer.create({
     data: {
-      index: data.index,
       content: data.content,
       isCorrect: data.isCorrect,
       Question: {
@@ -21,11 +20,17 @@ function createMany(data) {
   });
 }
 
-function updateMany(data) {
-  return prisma.answer.upsert({
-    data,
-    where,
+function updateOneById(id, data) {
+  return prisma.answer.update({ where: { id }, data });
+}
+
+function updateMany(questionId, data) {
+  data.forEach(async (ans) => {
+    if (ans.id) await updateOneById(ans.id, { ...ans, questionId });
+    else await createOne({ ...ans, questionId });
   });
+
+  return true;
 }
 
 function deleteOneById(id) {

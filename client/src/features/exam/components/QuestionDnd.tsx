@@ -1,11 +1,12 @@
-import { Button, Collapse, Modal, Space, Typography } from 'antd';
+import { Button, Form, Modal, Space, Typography } from 'antd';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { CloseOutlined, EditOutlined, HolderOutlined } from '@ant-design/icons';
 import { useToggle } from 'react-use';
 import type { Question } from '../types';
-import { QuestionContent } from './QuestionContent';
+import { QuestionContent } from './QuestionContent/QuestionContent';
 import { CustomCard } from '@/components';
+import { useQuestionMutation } from '../hooks/useQuestionMutation';
 
 interface QuestionDndProps {
   question: Question;
@@ -15,6 +16,8 @@ export function QuestionDnd({ question, index }: QuestionDndProps) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: question.index,
   });
+  const [form] = Form.useForm();
+  const { deleteFn } = useQuestionMutation();
 
   const [isModalOpen, setIsModalOpen] = useToggle(false);
 
@@ -25,16 +28,18 @@ export function QuestionDnd({ question, index }: QuestionDndProps) {
   };
 
   const handleEdit = () => {
-    // Modal.confirm({
-    //   title: `Câu hỏi thứ ${index + 1}`,
-    //   content: <QuestionContent question={question} />,
-    //   icon: null,
-    //   footer: null,
-    //   centered: true,
-    //   maskClosable: true,
-    // });
-
     setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    form.submit();
+  };
+
+  const handleDelete = () => {
+    Modal.confirm({
+      onOk: () => deleteFn({ id: question.id as number }),
+      title: 'Câu hỏi này sẽ bị xoá?',
+    });
   };
 
   return (
@@ -48,21 +53,31 @@ export function QuestionDnd({ question, index }: QuestionDndProps) {
               cursor: 'pointer',
             }}
           >
-            Câu {index + 1}
+            Câu {index}
           </Typography.Text>
         }
         extra={
           <Space>
             <Button icon={<EditOutlined />} onClick={handleEdit} type="text" />
             <Button icon={<HolderOutlined />} type="text" {...attributes} {...listeners} />
-            <Button icon={<CloseOutlined />} type="text" />
+            <Button icon={<CloseOutlined />} onClick={handleDelete} type="text" />
           </Space>
         }
       >
         <Typography.Text ellipsis>{question.content}</Typography.Text>
       </CustomCard>
-      <Modal title="Basic Modal" open={isModalOpen}>
-        <QuestionContent question={question} />
+      <Modal
+        centered
+        closable
+        destroyOnClose
+        onCancel={setIsModalOpen}
+        onOk={handleOk}
+        okText="Cập nhật"
+        cancelText="Huỷ"
+        title={`Cập nhật câu hỏi ${index}`}
+        open={isModalOpen}
+      >
+        <QuestionContent form={form} questionId={question.id as number} />
       </Modal>
     </div>
   );

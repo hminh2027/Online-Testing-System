@@ -19,10 +19,17 @@ const createOne = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).json();
 });
 
+const getOneById = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  let question = await questionService.getOneById(+id);
+  res.status(httpStatus.OK).json({ content: question });
+});
+
 const updateOneById = catchAsync(async (req, res) => {
   const { id } = req.params;
   let question = await questionService.updateOneById(+id, req.body);
-  const answers = await answerService.res
+  await answerService.updateMany(question.id, req.body.answers);
+  res
     .status(httpStatus.OK)
     .json({ message: "Cập nhật câu hỏi thành công", content: question });
 });
@@ -35,6 +42,7 @@ const deleteOneById = catchAsync(async (req, res) => {
 
 module.exports = {
   createOne,
+  getOneById,
   updateOneById,
   deleteOneById,
 };
