@@ -1,9 +1,8 @@
 import type { FormInstance } from 'antd';
-import { Col, Flex, Form, Input, InputNumber, Row } from 'antd';
-import { useDrawer } from '@/hooks/useDrawer';
-import { CustomMessage } from '@/components';
-import type { Exam, ExamCreateDTO, ResExamModify } from '../../types';
-import { useAddExam, useExam, useUpdateExam } from '../../hooks/useExam';
+import { Flex, Form, Input, InputNumber } from 'antd';
+import type { Exam, ExamCreateDTO } from '../../types';
+import { useExam } from '../../hooks/useExam';
+import { useExamMutation } from '../../hooks/useExamMutation';
 
 interface ExamAddEditProps {
   id?: number;
@@ -15,30 +14,12 @@ export function ExamAddEdit({ id, form }: ExamAddEditProps) {
   });
   const exam = examData?.content;
 
-  const { resetDrawerState } = useDrawer();
-
-  const handleOnSuccess = (res: ResExamModify) => {
-    resetDrawerState();
-
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    CustomMessage.success(res.message);
-  };
-
-  const { mutate: addFn } = useAddExam({
-    onSuccess: handleOnSuccess,
-    onError: () => {},
-  });
-
-  const { mutate: updateFn } = useUpdateExam({
-    onSuccess: handleOnSuccess,
-    onError: () => {},
-  });
+  const { addFn, updateFn } = useExamMutation();
 
   const dataAdapter = (data: Exam): ExamCreateDTO => ({
     title: data.title,
     description: data.description,
     duration: data.duration,
-    numberOfQuestionDisplayed: data.numberOfQuestionDisplayed,
   });
 
   if (isFetching) return <>Loading</>;
@@ -74,28 +55,15 @@ export function ExamAddEdit({ id, form }: ExamAddEditProps) {
         <Form.Item label="Mô tả" required name="description">
           <Input.TextArea rows={8} />
         </Form.Item>
-        <Row gutter={24}>
-          <Col span={12}>
-            <Form.Item label="Thời lượng bài kiểm tra" name="duration">
-              <InputNumber<number>
-                addonAfter="phút"
-                min={1}
-                style={{ width: '100%' }}
-                controls={false}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item label="Số câu hỏi hiển thị	" name="numberOfQuestionDisplayed">
-              <InputNumber<number>
-                addonAfter="câu hỏi"
-                min={1}
-                style={{ width: '100%' }}
-                controls={false}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
+
+        <Form.Item label="Thời lượng bài kiểm tra" name="duration">
+          <InputNumber<number>
+            addonAfter="phút"
+            min={1}
+            style={{ width: '100%' }}
+            controls={false}
+          />
+        </Form.Item>
       </Form>
     </Flex>
   );

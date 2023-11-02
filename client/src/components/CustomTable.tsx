@@ -50,7 +50,6 @@ export function CustomTable<T extends object>(props: CustomTableProps<T>) {
         {showSearch && <Input placeholder="Nhập và enter để tìm kiếm..." />}
       </Flex>
       <Table
-        rowKey="id"
         columns={columns}
         dataSource={dataSource}
         style={{

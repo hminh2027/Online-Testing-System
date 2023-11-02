@@ -13,20 +13,20 @@ import {
 } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
-import type { AnswerCreateDTO, QuestionCreateDTO } from '../../types';
 import { Uploader } from '@/components/Uploader';
 import { CustomMessage } from '@/components';
 import { createValidator } from '@/utils';
 import { questionSchema } from './schema';
-import { useQuestionMutation } from '../../hooks/useQuestionMutation';
-import { useQuestion } from '../../hooks/useQuestion';
+import { useQuestion } from '@/features/exam/hooks/useQuestion';
+import { useQuestionMutation } from '@/features/exam/hooks/useQuestionMutation';
+import type { AnswerCreateDTO, QuestionCreateDTO } from '@/features/exam/types';
 
-interface QuestionModalProps {
+interface QuestionFormProps {
   examId: number;
   questionId?: number;
   form: FormInstance;
 }
-export function QuestionModal({ questionId, form, examId }: QuestionModalProps) {
+export function QuestionForm({ questionId, form, examId }: QuestionFormProps) {
   const [image, setImage] = useState<string | null>(null);
 
   const { data, isFetching } = useQuestion(questionId as number, { enabled: !!questionId });

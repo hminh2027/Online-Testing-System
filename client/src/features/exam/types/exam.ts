@@ -7,7 +7,6 @@ export interface Exam extends Resource {
   title: string;
   description?: string;
   duration: number;
-  numberOfQuestionDisplayed: number;
   User?: User;
   Question?: Question[];
 }
@@ -16,7 +15,6 @@ export interface ExamCreateDTO extends Resource {
   title: string;
   description?: string;
   duration: number;
-  numberOfQuestionDisplayed: number;
 }
 
 export type ResExamItem = ResponseItem<Exam>;

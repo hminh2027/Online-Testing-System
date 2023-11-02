@@ -1,9 +1,6 @@
 import type { ColumnsType } from 'antd/es/table';
-
 import { Link } from 'react-router-dom';
 import type { Exam } from '../../types';
-import { Status } from '@/components';
-import { STATUS } from '@/constants';
 import { formatTime } from '@/utils';
 
 export const columns: ColumnsType<Exam> = [
@@ -24,13 +21,6 @@ export const columns: ColumnsType<Exam> = [
     key: 'duration',
     title: 'Thời lượng (phút)',
     dataIndex: 'duration',
-    ellipsis: true,
-    align: 'center',
-  },
-  {
-    key: 'numberOfQuestionDisplayed',
-    title: 'Số câu hỏi hiển thị',
-    dataIndex: 'numberOfQuestionDisplayed',
     ellipsis: true,
     align: 'center',
   },

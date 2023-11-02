@@ -26,10 +26,6 @@ export function ExamDetail() {
       value: examDetails?.duration,
     },
     {
-      label: 'Số câu hỏi hiển thị	',
-      value: examDetails?.numberOfQuestionDisplayed,
-    },
-    {
       label: 'Ngày tạo',
       value: formatTime(examDetails?.createdAt as Date),
     },
@@ -46,6 +42,11 @@ export function ExamDetail() {
           {detail.value}
         </Descriptions.Item>
       ))}
+      {/* Tong so cau hoi
+      --
+      Tong so diem
+      --
+      -> link chinh sua noi dung de thi  */}
     </Descriptions>
   );
 }

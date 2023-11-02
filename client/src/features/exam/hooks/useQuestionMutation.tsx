@@ -42,7 +42,7 @@ export function useQuestionMutation(examId: number) {
   });
 
   interface UpdateIndexPayload {
-    indexArray: [];
+    indexArray: number[];
   }
 
   const updateIndex = async (payload: UpdateIndexPayload) => {

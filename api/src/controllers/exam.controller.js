@@ -25,40 +25,11 @@ const getManyByTeacherId = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json({ content: exam });
 });
 
-// const updateOneQuestion = catchAsync(async (req, res) => {
-//   const { answers } = req.body;
-//   const { id } = req.params;
-
-//   const question = await questionService.updateOneById(id, req.body);
-//   answers.forEach(async (answer) => {
-//     await answerService.updateOne(question.id, answer.index, {
-//       text: answer.text,
-//       is_correct: answer.isCorrect,
-//       index: answer.index,
-//     });
-//   });
-
-//   res.status(httpStatus.OK).json({ message: "Cập nhật câu hỏi thành công" });
-// });
-// xem answer update ntn
-// const updateOneAnswer = catchAsync(async (req, res) => {
-//   const { answers } = req.body;
-//   const { testCode, questionIndex } = req.params;
-
-//   const answer = await answerService.updateOne(
-//     testCode,
-//     questionIndex,
-//     req.body
-//   );
-
-//   res.status(httpStatus.OK).json({ message: "Cập nhật đáp án thành công" });
-// });
-
 const updateOneById = catchAsync(async (req, res) => {
   const { testCode } = req.params;
   const { id } = req.user;
   const data = { ...req.user, userId: id };
-  const test = await examService.updateOneBy(testCode, data);
+  const test = await examService.updateOneById(testCode, data);
 
   res
     .status(httpStatus.OK)
@@ -72,13 +43,6 @@ const deleteOneById = catchAsync(async (req, res) => {
 
   res.status(httpStatus.OK).json({ message: "Xóa bài kiểm tra thành công" });
 });
-
-// const deleteOneQuestion = catchAsync(async (req, res) => {
-//   const { testCode, questionIndex } = req.params;
-//   await questionService.deleteOne(testCode, questionIndex);
-
-//   res.status(httpStatus.OK).json({ message: "Xóa bài kiểm tra thành công" });
-// });
 
 module.exports = {
   createOne,

@@ -1,33 +1,29 @@
 import { Button, Form, Modal, Space, Typography } from 'antd';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { CloseOutlined, EditOutlined, HolderOutlined } from '@ant-design/icons';
+import { CloseOutlined, EditOutlined } from '@ant-design/icons';
 import { useToggle } from 'react-use';
-import type { Question } from '../types';
+import type { Question } from '../../types';
 import { CustomCard } from '@/components';
-import { useDeleteQuestion } from '../hooks/useQuestion';
-import { QuestionModal } from './QuestionModal';
+import { useQuestionMutation } from '../../hooks/useQuestionMutation';
+import { QuestionForm } from '../Form';
 
-interface QuestionDndProps {
+interface QuestionCardProps {
   question: Question;
   index: number;
-  refetch: () => void;
 }
-export function QuestionDnd({ question, index, refetch }: QuestionDndProps) {
+export function QuestionCard({ question, index }: QuestionCardProps) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: question.index,
   });
   const [form] = Form.useForm();
-  const { mutate: deleteFn } = useDeleteQuestion({
-    onSuccess: () => refetch(),
-  });
+  const { deleteFn } = useQuestionMutation(question.examId);
 
   const [isModalOpen, setIsModalOpen] = useToggle(false);
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    width: '20rem',
   };
 
   const handleEdit = () => {
@@ -49,19 +45,13 @@ export function QuestionDnd({ question, index, refetch }: QuestionDndProps) {
     <div style={style} ref={setNodeRef}>
       <CustomCard
         title={
-          <Typography.Text
-            strong
-            style={{
-              fontSize: '1rem',
-            }}
-          >
+          <Typography.Text {...attributes} {...listeners} strong style={{ cursor: 'pointer' }}>
             Câu {index} _ {question.score} điểm
           </Typography.Text>
         }
         extra={
           <Space>
             <Button icon={<EditOutlined />} onClick={handleEdit} type="text" />
-            <Button icon={<HolderOutlined />} type="text" {...attributes} {...listeners} />
             <Button icon={<CloseOutlined />} onClick={handleDelete} type="text" />
           </Space>
         }
@@ -79,7 +69,7 @@ export function QuestionDnd({ question, index, refetch }: QuestionDndProps) {
         title={`Cập nhật câu hỏi ${index}`}
         open={isModalOpen}
       >
-        <QuestionModal examId={question.examId} form={form} questionId={question.id as number} />
+        <QuestionForm examId={question.examId} form={form} questionId={question.id as number} />
       </Modal>
     </div>
   );

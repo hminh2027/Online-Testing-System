@@ -9,7 +9,7 @@ import { useListExam } from '../../hooks/useExam';
 import type { Exam } from '../../types';
 
 export function ExamTable() {
-  const { data: examData } = useListExam({});
+  const { data: examData, isLoading } = useListExam({});
   const { toggleMode, setDetailId } = useDrawer();
   const { user } = useAuth();
 
@@ -27,10 +27,13 @@ export function ExamTable() {
     setDetailId(code);
   };
 
-  const handleDelete = (code: string) => {};
+  const handleDelete = (code: string) => {
+    console.log(code);
+  };
 
   return (
     <CustomTable
+      loading={isLoading}
       showActionHeader={user?.isTeacher}
       actionHeader={[
         {
@@ -71,7 +74,6 @@ export function ExamTable() {
                   <Button icon={<DownOutlined />}>Nhấp</Button>
                 </Dropdown>
               ),
-              key: 'action',
               title: 'Hành động',
               fixed: 'right',
               width: 150,

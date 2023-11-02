@@ -63,18 +63,17 @@ model Class {
 }
 
 model Exam {
-  id                        Int         @id @default(autoincrement())
-  teacherId                 Int
-  title                     String
-  description               String?     @db.LongText
-  duration                  Int
-  numberOfQuestionDisplayed Int         @default(1)
-  createdAt                 DateTime    @default(now())
+  id          Int         @id @default(autoincrement())
+  teacherId   Int
+  title       String
+  description String?     @db.LongText
+  duration    Int
+  createdAt   DateTime    @default(now())
   // relations
-  User                      User        @relation(fields: [teacherId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  ClassExam                 ClassExam[]
-  Question                  Question[]
-  Attempt                   Attempt[]
+  User        User        @relation(fields: [teacherId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  ClassExam   ClassExam[]
+  Question    Question[]
+  Attempt     Attempt[]
 }
 
 model Question {
