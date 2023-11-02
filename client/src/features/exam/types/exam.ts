@@ -7,6 +7,8 @@ export interface Exam extends Resource {
   title: string;
   description?: string;
   duration: number;
+  numberOfQuestions: number;
+  totalPoint: number;
   User?: User;
   Question?: Question[];
 }

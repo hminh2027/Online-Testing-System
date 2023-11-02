@@ -83,7 +83,7 @@ model Question {
   imageUrl             String?  @db.LongText
   explanation          String?  @db.LongText
   content              String   @db.LongText
-  score                Int
+  point                Int
   isPointPerCorrection Boolean  @default(false)
   // relations
   Exam                 Exam     @relation(fields: [examId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -127,7 +127,7 @@ model Attempt {
   examId                    Int
   startedAt                 DateTime  @default(now())
   endedAt                   DateTime?
-  score                     Float?
+  point                     Float?
   numberOfQuestionDisplayed Int       @default(0)
   // relations
   User                      User      @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)

@@ -7,7 +7,7 @@ export const errorMessages = {
 export const questionSchema = yup.object().shape({
   imageUrl: yup.string().required(errorMessages.required),
   content: yup.string().required(errorMessages.required),
-  score: yup.number().required(errorMessages.required),
+  point: yup.number().required(errorMessages.required),
   explanation: yup.string().notRequired(),
   isPointPerCorrection: yup.boolean(),
 });

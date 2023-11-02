@@ -26,20 +26,17 @@ const getManyByTeacherId = catchAsync(async (req, res) => {
 });
 
 const updateOneById = catchAsync(async (req, res) => {
-  const { testCode } = req.params;
-  const { id } = req.user;
-  const data = { ...req.user, userId: id };
-  const test = await examService.updateOneById(testCode, data);
+  const { id } = req.params;
+  const exam = await examService.updateOneById(+id, req.body);
 
   res
     .status(httpStatus.OK)
-    .json({ message: "Cập nhật bài kiểm tra thành công", data: { test } });
+    .json({ message: "Cập nhật bài kiểm tra thành công", data: exam });
 });
 
 const deleteOneById = catchAsync(async (req, res) => {
-  const { testCode } = req.params;
-  const { id } = req.user;
-  await examService.deleteOneById(testCode, id);
+  const { id } = req.params;
+  await examService.deleteOneById(id);
 
   res.status(httpStatus.OK).json({ message: "Xóa bài kiểm tra thành công" });
 });

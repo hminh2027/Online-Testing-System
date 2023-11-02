@@ -3,7 +3,7 @@
     "index": 1,
     "content": "Cho 2x + 3 = 5. Vậy x = ?",
     "imageUrl": "",
-    "score": 1,
+    "point": 1,
     "examId": 1,
     "explanation": "Vì x = (5 - 3)/2 = 1",
     "isPointPerCorrection": false
@@ -12,7 +12,7 @@
     "index": 2,
     "content": "Hình tam giác có mấy đỉnh?",
     "imageUrl": "",
-    "score": 1,
+    "point": 1,
     "examId": 1,
     "explanation": "",
     "isPointPerCorrection": false
@@ -21,7 +21,7 @@
     "index": 3,
     "content": "Hình tứ giác có mấy đỉnh?",
     "imageUrl": "",
-    "score": 1,
+    "point": 1,
     "examId": 1,
     "explanation": "",
     "isPointPerCorrection": false
@@ -30,7 +30,7 @@
     "index": 4,
     "content": "Hình ngũ giác có mấy cạnh?",
     "imageUrl": "",
-    "score": 1,
+    "point": 1,
     "examId": 1,
     "explanation": "",
     "isPointPerCorrection": false
@@ -39,7 +39,7 @@
     "index": 5,
     "content": "Định nghĩa đường trung bình là gì?",
     "imageUrl": "",
-    "score": 1,
+    "point": 1,
     "examId": 1,
     "explanation": "",
     "isPointPerCorrection": false

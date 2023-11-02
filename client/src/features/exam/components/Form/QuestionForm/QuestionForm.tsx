@@ -107,14 +107,14 @@ export function QuestionForm({ questionId, form, examId }: QuestionFormProps) {
         question && {
           content: question.content,
           answers: question.Answer,
-          score: question.score,
+          point: question.point,
           explanation: question.explanation,
         }
       }
     >
       <Row gutter={24}>
         <Col span={12}>
-          <Form.Item label="Số điểm" name="score" rules={[yupSync]} required>
+          <Form.Item label="Số điểm" name="point" rules={[yupSync]} required>
             <InputNumber controls={false} min={1} addonAfter="điểm" />
           </Form.Item>
         </Col>

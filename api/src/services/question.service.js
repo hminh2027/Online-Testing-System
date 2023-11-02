@@ -6,7 +6,7 @@ async function createOne(data) {
       index: data.index,
       content: data.content,
       imageUrl: data.imageUrl,
-      score: data.score,
+      point: data.point,
       explaination: data.explaination,
       isPointPerCorrection: data.isPointPerCorrection,
       Exam: {
@@ -35,8 +35,8 @@ function updateOneById(id, data) {
       index: data.index,
       content: data.content,
       imageUrl: data.imageUrl,
-      score: data.score,
-      explaination: data.explaination,
+      point: data.point,
+      explanation: data.explanation,
     },
     where: { id },
   });

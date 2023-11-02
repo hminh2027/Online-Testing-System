@@ -1,6 +1,4 @@
 const { prisma } = require("../database/prisma-client");
-const ApiError = require("../utils/ApiError");
-const httpStatus = require("http-status");
 
 function createOne(data) {
   return prisma.exam.create({
@@ -22,8 +20,8 @@ function createOne(data) {
   });
 }
 
-function getOneById(id, { teacherId }) {
-  return prisma.exam.findUnique({
+async function getOneById(id, { teacherId }) {
+  const exam = await prisma.exam.findUnique({
     where: { id, teacherId },
     include: {
       Question: {
@@ -32,6 +30,12 @@ function getOneById(id, { teacherId }) {
       },
     },
   });
+
+  return {
+    ...exam,
+    numberOfQuestions: exam.Question.length,
+    totalPoint: exam.Question.reduce((acc, value) => acc + value.point, 0),
+  };
 }
 
 function getManyByTeacherId(teacherId) {
@@ -41,13 +45,6 @@ function getManyByTeacherId(teacherId) {
 }
 
 async function updateOneById(id, data) {
-  const exam = await prisma.exam.findFirst({
-    where: { id, teacher_id: data.usteacherIdrId },
-  });
-
-  if (!exam)
-    throw new ApiError(httpStatus.NOT_FOUND, "Không tìm thấy bài kiểm tra");
-
   return prisma.exam.update({
     where: { id },
     data: {
@@ -58,14 +55,7 @@ async function updateOneById(id, data) {
   });
 }
 
-async function deleteOneById(id, teacherId) {
-  const test = await prisma.exam.findFirst({
-    where: { id, teacherId: teacherId },
-  });
-
-  if (!test)
-    throw new ApiError(httpStatus.NOT_FOUND, "Không tìm thấy bài kiểm tra");
-
+async function deleteOneById(id) {
   return prisma.test.delete({ where: { id } });
 }
 

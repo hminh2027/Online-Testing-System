@@ -46,7 +46,7 @@ export function QuestionCard({ question, index }: QuestionCardProps) {
       <CustomCard
         title={
           <Typography.Text {...attributes} {...listeners} strong style={{ cursor: 'pointer' }}>
-            Câu {index} _ {question.score} điểm
+            Câu {index} _ {question.point} điểm
           </Typography.Text>
         }
         extra={

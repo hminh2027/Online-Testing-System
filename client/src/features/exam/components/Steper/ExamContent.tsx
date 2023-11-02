@@ -71,7 +71,7 @@ export function ExamContent({ exam }: ExamContentProps) {
             readOnly
             addonBefore="Tổng số điểm"
             addonAfter="điểm"
-            value={items.reduce((acc, item) => acc + item.score, 0)}
+            value={items.reduce((acc, item) => acc + item.point, 0)}
           />
         </Space>
         <Space>

@@ -6,7 +6,7 @@ export interface Question extends Resource {
   index: number;
   imageUrl?: string;
   content: string;
-  score: number;
+  point: number;
   explanation?: string;
   isPointPerCorrection: boolean;
   Answer: Answer[];
@@ -17,7 +17,7 @@ export interface QuestionCreateDTO extends Resource {
   index?: number;
   imageUrl?: string;
   content: string;
-  score: number;
+  point: number;
   explanation?: string;
   isPointPerCorrection: boolean;
   answers: AnswerCreateDTO[];
