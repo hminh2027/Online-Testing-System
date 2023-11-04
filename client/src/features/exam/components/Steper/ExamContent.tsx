@@ -76,9 +76,6 @@ export function ExamContent({ exam }: ExamContentProps) {
         </Space>
         <Space>
           <Button onClick={handleAdd} type="primary" icon={<PlusOutlined />}>
-            Import đề
-          </Button>
-          <Button onClick={handleAdd} type="primary" icon={<PlusOutlined />}>
             Tạo câu hỏi mới
           </Button>
         </Space>

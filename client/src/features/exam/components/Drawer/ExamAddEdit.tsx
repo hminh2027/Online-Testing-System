@@ -1,8 +1,11 @@
 import type { FormInstance } from 'antd';
-import { Flex, Form, Input, InputNumber } from 'antd';
+import { Button, Flex, Form, Input, InputNumber } from 'antd';
+import { useToggle } from 'react-use';
+import { useState } from 'react';
 import type { Exam, ExamCreateDTO } from '../../types';
 import { useExam } from '../../hooks/useExam';
 import { useExamMutation } from '../../hooks/useExamMutation';
+import Excel, { ExcelUploader } from '@/components/Excel';
 
 interface ExamAddEditProps {
   id?: number;
@@ -15,6 +18,7 @@ export function ExamAddEdit({ id, form }: ExamAddEditProps) {
   const exam = examData?.content;
 
   const { addFn, updateFn } = useExamMutation();
+  const [questions, setQuestions] = useState();
 
   const dataAdapter = (data: Exam): ExamCreateDTO => ({
     title: data.title,
@@ -37,6 +41,10 @@ export function ExamAddEdit({ id, form }: ExamAddEditProps) {
     }
 
     return addFn(payload);
+  };
+
+  const handleModalOk = () => {
+    console.log('first');
   };
 
   return (
@@ -64,6 +72,10 @@ export function ExamAddEdit({ id, form }: ExamAddEditProps) {
             controls={false}
           />
         </Form.Item>
+        <Flex gap={24}>
+          <Excel.Exporter fileName="online-testing-sample-excel.xlsx" />
+          <Excel.Uploader data={questions} setData={setQuestions} />
+        </Flex>
       </Form>
     </Flex>
   );
