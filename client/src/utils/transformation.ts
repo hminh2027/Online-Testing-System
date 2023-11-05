@@ -3,8 +3,9 @@ interface Answer {
   isCorrect: boolean;
 }
 
-export const transformExcelQuestions = (rawData: []) => {
-  const rows = rawData.splice(1);
+export const transformExcelQuestions = (rawData: string[][]) => {
+  const endIndex = rawData.findIndex((r) => r[0]?.toLowerCase() === '!end');
+  const rows = rawData.slice(1, endIndex);
 
   const map = new Map<string, Answer[]>();
 
@@ -19,8 +20,19 @@ export const transformExcelQuestions = (rawData: []) => {
   mappedObject.forEach((obj) => {
     if (obj.question) {
       tempQuestion = obj.question;
-      map.set(tempQuestion, []);
+      map.set(
+        tempQuestion,
+        obj.answer
+          ? [
+              {
+                content: obj.answer,
+                isCorrect: !!obj.isCorrect,
+              },
+            ]
+          : [],
+      );
     } else {
+      if (!obj.answer) return;
       const answers = map.get(tempQuestion) as Answer[];
 
       answers.push({
@@ -32,8 +44,13 @@ export const transformExcelQuestions = (rawData: []) => {
     }
   });
 
-  return Array.from(map).map((ques) => ({
-    content: ques[0],
-    answers: ques[1],
-  }));
+  return Array.from(map)
+    .map((ques) => ({
+      content: ques[0],
+      answers: ques[1],
+    }))
+    .filter(
+      (ques) =>
+        !!ques.content && ques.answers.length >= 2 && ques.answers.some((ans) => ans.isCorrect),
+    );
 };

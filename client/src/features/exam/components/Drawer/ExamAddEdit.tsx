@@ -1,5 +1,5 @@
 import type { FormInstance } from 'antd';
-import { Button, Flex, Form, Input, InputNumber } from 'antd';
+import { Button, Flex, Form, Input, InputNumber, Table } from 'antd';
 import { useToggle } from 'react-use';
 import { useState } from 'react';
 import type { Exam, ExamCreateDTO } from '../../types';
@@ -74,7 +74,27 @@ export function ExamAddEdit({ id, form }: ExamAddEditProps) {
         </Form.Item>
         <Flex gap={24}>
           <Excel.Exporter fileName="online-testing-sample-excel.xlsx" />
-          <Excel.Uploader data={questions} setData={setQuestions} />
+          <Excel.Uploader
+            table={
+              <Table
+                scroll={{
+                  y: 300,
+                }}
+                pagination={false}
+                rowKey="content"
+                dataSource={questions}
+                columns={[
+                  {
+                    key: 'content',
+                    dataIndex: 'content',
+                    title: 'Câu hỏi',
+                  },
+                ]}
+              />
+            }
+            data={questions}
+            setData={setQuestions}
+          />
         </Flex>
       </Form>
     </Flex>
