@@ -78,23 +78,12 @@ export function ExcelUploader({ data, setData, table }: ExcelUploaderProps) {
 
 interface ExcelExporterProps {
   fileName: string;
+  data: [];
 }
 
-export function ExcelExporter({ fileName }: ExcelExporterProps) {
-  const handleExport = async () => {
-    // // Create a Blob from the fileData
-    // const blob = new Blob([]);
-    // // Create a URL for the Blob
-    // const url = window.URL.createObjectURL(blob);
-    // // Create an anchor element to trigger the download
-    // const a = document.createElement('a');
-    // a.href = url;
-    // a.download = fileName;
-    // a.click();
-    // // Clean up by revoking the URL
-    // window.URL.revokeObjectURL(url);
-    //---------------
-    exportExcel([]);
+export function ExcelExporter({ fileName, data }: ExcelExporterProps) {
+  const handleExport = () => {
+    exportExcel(fileName, data);
   };
 
   return (
@@ -104,9 +93,9 @@ export function ExcelExporter({ fileName }: ExcelExporterProps) {
   );
 }
 
-const Excel = function () {};
+export default function Excel() {
+  return <div>Excel</div>;
+}
 
 Excel.Uploader = ExcelUploader;
 Excel.Exporter = ExcelExporter;
-
-export default Excel;

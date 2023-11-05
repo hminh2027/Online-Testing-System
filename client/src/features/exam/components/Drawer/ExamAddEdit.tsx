@@ -2,10 +2,12 @@ import type { FormInstance } from 'antd';
 import { Button, Flex, Form, Input, InputNumber, Table } from 'antd';
 import { useToggle } from 'react-use';
 import { useState } from 'react';
+import slugify from 'slugify';
 import type { Exam, ExamCreateDTO } from '../../types';
 import { useExam } from '../../hooks/useExam';
 import { useExamMutation } from '../../hooks/useExamMutation';
-import Excel, { ExcelUploader } from '@/components/Excel';
+import Excel from '@/components/FileIO/Excel';
+import FileIO from '@/components/FileIO/FileIO';
 
 interface ExamAddEditProps {
   id?: number;
@@ -73,13 +75,11 @@ export function ExamAddEdit({ id, form }: ExamAddEditProps) {
           />
         </Form.Item>
         <Flex gap={24}>
-          <Excel.Exporter fileName="online-testing-sample-excel.xlsx" />
-          <Excel.Uploader
+          <FileIO.PDF.Exporter />
+          <FileIO.Excel.Uploader
             table={
               <Table
-                scroll={{
-                  y: 300,
-                }}
+                scroll={{ y: 300 }}
                 pagination={false}
                 rowKey="content"
                 dataSource={questions}
