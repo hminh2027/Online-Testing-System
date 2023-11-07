@@ -4,7 +4,7 @@ const httpStatus = require("http-status");
 
 const createOne = catchAsync(async (req, res) => {
   const { id } = req.user;
-  let exam = await examService.createOne({ ...req.body, userId: id });
+  let exam = await examService.createOne({ ...req.body, teacherId: id });
   res
     .status(httpStatus.CREATED)
     .json({ message: "Tạo bài kiểm tra thành công", content: exam });

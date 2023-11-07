@@ -19,7 +19,7 @@ export interface QuestionCreateDTO extends Resource {
   content: string;
   point: number;
   explanation?: string;
-  isPointPerCorrection: boolean;
+  isPointPerCorrection?: boolean;
   answers: AnswerCreateDTO[];
 }
 

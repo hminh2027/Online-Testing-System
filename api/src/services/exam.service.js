@@ -41,6 +41,7 @@ async function getOneById(id, { teacherId }) {
 function getManyByTeacherId(teacherId) {
   return prisma.exam.findMany({
     where: { teacherId },
+    orderBy: { createdAt: "desc" },
   });
 }
 

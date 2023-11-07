@@ -99,6 +99,25 @@ export const initialCustomQuery = <
     );
   };
 
+  const useAddItems = ({ onError, onSuccess }: MutationParams<W>) => {
+    const queryClient = useQueryClient();
+
+    return useMutation(
+      (payload: X[]) =>
+        addItem<X[], W>({
+          payload,
+          url: `${service.path}/many`,
+        }),
+      {
+        onError,
+        onSuccess: handleSuccess(onSuccess),
+        onSettled: async () => {
+          await queryClient.invalidateQueries([service.path]);
+        },
+      },
+    );
+  };
+
   const useUpdateItem = ({ onError, onSuccess }: MutationParams<W>) => {
     const queryClient = useQueryClient();
 
@@ -160,6 +179,7 @@ export const initialCustomQuery = <
 
   return {
     useItem,
+    useAddItems,
     useList,
     useAddItem,
     useUpdateItem,

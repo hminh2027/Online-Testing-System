@@ -1,6 +1,6 @@
 const { prisma } = require("../database/prisma-client");
 
-async function createOne(data) {
+function createOne(data) {
   return prisma.question.create({
     data: {
       index: data.index,
@@ -57,6 +57,10 @@ function deleteOneById(id) {
   });
 }
 
+function deleteMany() {
+  return prisma.question.deleteMany();
+}
+
 module.exports = {
   createOne,
   getOneById,
@@ -64,4 +68,5 @@ module.exports = {
   updateOneById,
   patchIndexById,
   deleteOneById,
+  deleteMany,
 };

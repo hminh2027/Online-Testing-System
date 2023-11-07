@@ -1,6 +1,4 @@
-import { Button, Typography } from 'antd';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import { Button } from 'antd';
 import { useRef } from 'react';
 import { MyDocument } from './Document';
 
@@ -15,17 +13,7 @@ interface PDFExporterProps {
 
 export function PDFExporter({ fileName, data }: PDFExporterProps) {
   const ref = useRef(null);
-  const handleExport = () => {
-    const input = ref.current;
-
-    html2canvas(input).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('landscape', 'px');
-
-      pdf.addImage(imgData, 'PNG', 0, 0);
-      pdf.save('test.pdf');
-    });
-  };
+  const handleExport = () => {};
 
   return (
     <>

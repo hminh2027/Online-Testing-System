@@ -10,6 +10,7 @@ import { QuestionService } from '../services/QuestionService';
 export const {
   useItem: useQuestion,
   useAddItem: useAddQuestion,
+  useAddItems: useAddQuestions,
   useUpdateItem: useUpdateQuestion,
   useDeleteItem: useDeleteQuestion,
 } = initialCustomQuery<QuestionCreateDTO, ResQuestionList, ResQuestionItem, ResQuestionModify>(

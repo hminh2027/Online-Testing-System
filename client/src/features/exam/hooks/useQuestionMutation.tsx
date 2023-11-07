@@ -1,5 +1,10 @@
 import { CustomMessage } from '@/components';
-import { useAddQuestion, useDeleteQuestion, useUpdateQuestion } from './useQuestion';
+import {
+  useAddQuestion,
+  useAddQuestions,
+  useDeleteQuestion,
+  useUpdateQuestion,
+} from './useQuestion';
 import { useDeleteAnswer } from './useAnswer';
 import { useExam } from './useExam';
 import { axiosInstance } from '@/libs';
@@ -15,6 +20,16 @@ export function useQuestionMutation(examId: number) {
     },
     onError: () => {},
   });
+
+  const { mutate: addManyFn } = useAddQuestions({
+    onSuccess: async (res) => {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      CustomMessage.success(res.message);
+      await refetch();
+    },
+    onError: () => {},
+  });
+
   const { mutate: updateFn } = useUpdateQuestion({
     onSuccess: async (res) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -55,6 +70,7 @@ export function useQuestionMutation(examId: number) {
 
   return {
     addFn,
+    addManyFn,
     updateFn,
     deleteFn,
     deleteAnsFn,

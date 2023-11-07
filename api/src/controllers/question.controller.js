@@ -7,7 +7,7 @@ const createOne = catchAsync(async (req, res) => {
 
   let question = await questionService.createOne({
     ...req.body,
-    index,
+    index: req.body.index || index,
   });
 
   const answers = req.body.answers.map((answer) => ({
@@ -19,6 +19,33 @@ const createOne = catchAsync(async (req, res) => {
   res
     .status(httpStatus.CREATED)
     .json({ message: "Tạo câu hỏi thành công", content: question });
+});
+
+const createMany = catchAsync(async (req, res) => {
+  const curIndex = (await questionService.count()) + 1;
+  const questions = req.body;
+
+  await questionService.deleteMany();
+
+  const newQuestions = questions.map(async (q, index) => {
+    let question = await questionService.createOne({
+      ...q,
+      index: curIndex + index + 1,
+    });
+
+    const answers = q.answers.map((answer) => ({
+      ...answer,
+      questionId: question.id,
+    }));
+
+    await answerService.createMany(answers);
+
+    return { ...question, answers };
+  });
+
+  res
+    .status(httpStatus.CREATED)
+    .json({ message: "Tạo câu hỏi thành công", content: newQuestions });
 });
 
 const getOneById = catchAsync(async (req, res) => {
@@ -54,6 +81,7 @@ const deleteOneById = catchAsync(async (req, res) => {
 
 module.exports = {
   createOne,
+  createMany,
   getOneById,
   updateIndex,
   updateOneById,
