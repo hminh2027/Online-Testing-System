@@ -1,6 +1,6 @@
 import Form from 'antd/es/form';
 import { Button, Divider, Flex } from 'antd';
-import { ExamAddEdit } from '../Drawer';
+import { ExamModifier } from '../Drawer';
 import type { Exam } from '../../types';
 
 interface ExamMetaProps {
@@ -14,7 +14,7 @@ export function ExamMeta({ exam }: ExamMetaProps) {
 
   return (
     <Flex vertical justify="space-between">
-      <ExamAddEdit id={exam.id as number} form={form} />
+      <ExamModifier id={exam.id as number} form={form} />
       <Divider />
       <Button type="default" onClick={handleSave}>
         Lưu

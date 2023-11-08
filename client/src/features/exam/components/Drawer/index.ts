@@ -1,2 +1,2 @@
-export * from './ExamAddEdit';
+export * from './ExamModifier';
 export * from './ExamDetail';

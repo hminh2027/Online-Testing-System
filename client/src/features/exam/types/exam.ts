@@ -9,6 +9,15 @@ export interface Exam extends Resource {
   duration: number;
   numberOfQuestions: number;
   totalPoint: number;
+  startAt: Date;
+  deadlineAt: Date;
+  attemptLimit: number;
+  isProcting: boolean;
+  isSubmitLateAllowed: boolean;
+  isShuffleQuestion: boolean;
+  isShowAnswer: boolean;
+  isShowExplaination: boolean;
+  isResumeAllowed: boolean;
   User?: User;
   Question?: Question[];
 }
@@ -17,6 +26,15 @@ export interface ExamCreateDTO extends Resource {
   title: string;
   description?: string;
   duration: number;
+  startAt: Date;
+  deadlineAt?: Date;
+  attemptLimit: number;
+  isProcting: boolean;
+  isSubmitLateAllowed: boolean;
+  isShuffleQuestion: boolean;
+  isShowAnswer: boolean;
+  isShowExplaination: boolean;
+  isResumeAllowed: boolean;
 }
 
 export type ResExamItem = ResponseItem<Exam>;

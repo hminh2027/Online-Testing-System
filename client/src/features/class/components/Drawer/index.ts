@@ -1,2 +1,2 @@
-export * from './ClassAddEdit';
+export * from './ClassModifier';
 export * from './ClassDetail';

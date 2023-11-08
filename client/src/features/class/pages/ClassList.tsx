@@ -1,7 +1,7 @@
 import { Drawer, Form } from 'antd';
 import { useDrawer } from '@/hooks/useDrawer';
 import { Head } from '@/components/Head';
-import { ClassAddEdit, ClassDetail, ClassTable } from '../components';
+import { ClassModifier, ClassDetail, ClassTable } from '../components';
 
 export default function ClassList() {
   const { isDrawerOpen, genTitle, genFooter, genContent, handleClose, detailId } = useDrawer();
@@ -22,8 +22,8 @@ export default function ClassList() {
         footer={genFooter(handleSubmit)}
       >
         {genContent({
-          ADD: <ClassAddEdit form={form} />,
-          EDIT: <ClassAddEdit form={form} code={detailId as string} />,
+          ADD: <ClassModifier form={form} />,
+          EDIT: <ClassModifier form={form} code={detailId as string} />,
           DETAIL: <ClassDetail />,
         })}
       </Drawer>

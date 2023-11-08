@@ -9,7 +9,6 @@
     "isProcting": true,
     "isSubmitLateAllowed": false,
     "isShuffleQuestion": false,
-    "isShuffleAnswer": false,
     "isShowAnswer": true,
     "isShowExplaination": false,
     "isResumeAllowed": true
@@ -24,7 +23,6 @@
     "isProcting": false,
     "isSubmitLateAllowed": false,
     "isShuffleQuestion": false,
-    "isShuffleAnswer": false,
     "isShowAnswer": false,
     "isShowExplaination": false,
     "isResumeAllowed": false
@@ -39,7 +37,6 @@
     "isProcting": true,
     "isSubmitLateAllowed": true,
     "isShuffleQuestion": true,
-    "isShuffleAnswer": true,
     "isShowAnswer": true,
     "isShowExplaination": true,
     "isResumeAllowed": true
@@ -54,7 +51,6 @@
     "isProcting": false,
     "isSubmitLateAllowed": true,
     "isShuffleQuestion": false,
-    "isShuffleAnswer": false,
     "isShowAnswer": true,
     "isShowExplaination": true,
     "isResumeAllowed": false
@@ -69,7 +65,6 @@
     "isProcting": false,
     "isSubmitLateAllowed": true,
     "isShuffleQuestion": false,
-    "isShuffleAnswer": false,
     "isShowAnswer": true,
     "isShowExplaination": false,
     "isResumeAllowed": true
@@ -84,7 +79,6 @@
     "isProcting": true,
     "isSubmitLateAllowed": false,
     "isShuffleQuestion": true,
-    "isShuffleAnswer": true,
     "isShowAnswer": false,
     "isShowExplaination": false,
     "isResumeAllowed": true

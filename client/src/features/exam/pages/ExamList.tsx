@@ -1,6 +1,6 @@
 import { Drawer, Form } from 'antd';
 import { Head } from '@/components';
-import { ExamAddEdit, ExamDetail } from '../components/Drawer';
+import { ExamModifier, ExamDetail } from '../components/Drawer';
 import { useDrawer } from '@/hooks/useDrawer';
 import { ExamTable } from '../components/Table';
 
@@ -23,8 +23,8 @@ export default function ExamList() {
         footer={genFooter(handleSubmit)}
       >
         {genContent({
-          ADD: <ExamAddEdit form={form} />,
-          EDIT: <ExamAddEdit hasImportBtn form={form} id={detailId as number} />,
+          ADD: <ExamModifier form={form} />,
+          EDIT: <ExamModifier hasImportBtn form={form} id={detailId as number} />,
           DETAIL: <ExamDetail />,
         })}
       </Drawer>

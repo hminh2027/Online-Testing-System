@@ -7,11 +7,11 @@ import { useDrawer } from '@/hooks/useDrawer';
 import { CustomMessage } from '@/components';
 import { Uploader } from '@/components/Uploader';
 
-interface ClassAddEditProps {
+interface ClassModifierProps {
   code?: string;
   form: FormInstance;
 }
-export function ClassAddEdit({ code, form }: ClassAddEditProps) {
+export function ClassModifier({ code, form }: ClassModifierProps) {
   const { data: classData, isFetching } = useClass(code as string, {
     enabled: !!code,
   });
