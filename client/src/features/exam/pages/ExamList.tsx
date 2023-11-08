@@ -24,7 +24,7 @@ export default function ExamList() {
       >
         {genContent({
           ADD: <ExamAddEdit form={form} />,
-          EDIT: <ExamAddEdit form={form} id={detailId as number} />,
+          EDIT: <ExamAddEdit hasImportBtn form={form} id={detailId as number} />,
           DETAIL: <ExamDetail />,
         })}
       </Drawer>

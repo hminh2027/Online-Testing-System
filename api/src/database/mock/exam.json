@@ -2,37 +2,91 @@
   {
     "title": "Bài test khảo sát giữa kì II",
     "description": "",
+    "classCode": "BA0980",
     "duration": 30,
-    "teacherId": 1
+    "teacherId": 1,
+    "attemptLimit": 1,
+    "isProcting": true,
+    "isSubmitLateAllowed": false,
+    "isShuffleQuestion": false,
+    "isShuffleAnswer": false,
+    "isShowAnswer": true,
+    "isShowExplaination": false,
+    "isResumeAllowed": true
   },
   {
     "title": "Bài kiểm tra Toán - 15p",
     "description": "",
+    "classCode": "BA84E1",
     "duration": 15,
-    "teacherId": 1
+    "teacherId": 1,
+    "attemptLimit": 2,
+    "isProcting": false,
+    "isSubmitLateAllowed": false,
+    "isShuffleQuestion": false,
+    "isShuffleAnswer": false,
+    "isShowAnswer": false,
+    "isShowExplaination": false,
+    "isResumeAllowed": false
   },
   {
     "title": "Bài test ứng xử",
     "description": "",
+    "classCode": "BA0980",
     "duration": 10,
-    "teacherId": 1
+    "teacherId": 1,
+    "attemptLimit": 3,
+    "isProcting": true,
+    "isSubmitLateAllowed": true,
+    "isShuffleQuestion": true,
+    "isShuffleAnswer": true,
+    "isShowAnswer": true,
+    "isShowExplaination": true,
+    "isResumeAllowed": true
   },
   {
     "title": "Bài thi trắc nghiêm Lịch Sử",
     "description": "",
+    "classCode": "BA0980",
     "duration": 30,
-    "teacherId": 1
+    "teacherId": 1,
+    "attemptLimit": 1,
+    "isProcting": false,
+    "isSubmitLateAllowed": true,
+    "isShuffleQuestion": false,
+    "isShuffleAnswer": false,
+    "isShowAnswer": true,
+    "isShowExplaination": true,
+    "isResumeAllowed": false
   },
   {
     "title": "Bài thi trắc nghiệm lập trình",
     "description": "",
+    "classCode": "3977BF",
     "duration": 60,
-    "teacherId": 1
+    "teacherId": 1,
+    "attemptLimit": 1,
+    "isProcting": false,
+    "isSubmitLateAllowed": true,
+    "isShuffleQuestion": false,
+    "isShuffleAnswer": false,
+    "isShowAnswer": true,
+    "isShowExplaination": false,
+    "isResumeAllowed": true
   },
   {
     "title": "Bài kiểm tra lớp học thêm",
     "description": "",
+    "classCode": "362734",
     "duration": 15,
-    "teacherId": 1
+    "teacherId": 1,
+    "attemptLimit": 2,
+    "isProcting": true,
+    "isSubmitLateAllowed": false,
+    "isShuffleQuestion": true,
+    "isShuffleAnswer": true,
+    "isShowAnswer": false,
+    "isShowExplaination": false,
+    "isResumeAllowed": true
   }
 ]

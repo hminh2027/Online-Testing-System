@@ -11,9 +11,6 @@ export default function ExamDetail() {
   const { data } = useExam(id || '', { enabled: !!id });
   const exam = data?.content;
 
-  // SU DUNG ZUSTAND CONTEXT LUU THOI
-  console.log('refetch');
-
   const steps = [
     {
       title: 'Thông tin bài kiểm tra',

@@ -10,8 +10,9 @@ import { useQuestionMutation } from '../../hooks/useQuestionMutation';
 interface ExamAddEditProps {
   id?: number;
   form: FormInstance;
+  hasImportBtn?: boolean;
 }
-export function ExamAddEdit({ id, form }: ExamAddEditProps) {
+export function ExamAddEdit({ id, form, hasImportBtn = false }: ExamAddEditProps) {
   const { data: examData, isFetching } = useExam(id as number, {
     enabled: !!id,
   });
@@ -98,7 +99,7 @@ export function ExamAddEdit({ id, form }: ExamAddEditProps) {
             controls={false}
           />
         </Form.Item>
-        {id && (
+        {id && hasImportBtn && (
           <Flex gap={24}>
             <FileIO.Excel.Uploader
               table={

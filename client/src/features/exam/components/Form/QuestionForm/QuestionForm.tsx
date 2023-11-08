@@ -45,10 +45,12 @@ export function QuestionForm({ questionId, form, examId }: QuestionFormProps) {
     const hasCorrectAnswer = answers.some((answer) => answer.isCorrect);
     const hasInvalidAnswer = answers.some((answer) => answer.isCorrect && !answer.content);
     const hasRedundantAnswer = answers.some((answer) => !answer.content && !answer.isCorrect);
+    const hasAtLeastTwoAnswers = answers.length >= 2;
 
     if (!hasCorrectAnswer) return 'Vui lòng chọn đáp án đúng';
     if (hasInvalidAnswer) return 'Vui lòng không bỏ trống đáp án đúng';
     if (hasRedundantAnswer) return 'Vui lòng xoá đáp án dư thừa';
+    if (!hasAtLeastTwoAnswers) return 'Tối thiểu 2 đáp án trong 1 câu';
 
     return '';
   };
