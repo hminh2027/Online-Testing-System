@@ -16,8 +16,8 @@ function createOne(data) {
   });
 }
 
-function count() {
-  return prisma.question.count();
+function count(examId) {
+  return prisma.question.count({ where: { examId } });
 }
 
 function getOneById(id) {
@@ -57,8 +57,8 @@ function deleteOneById(id) {
   });
 }
 
-function deleteMany() {
-  return prisma.question.deleteMany();
+function deleteMany(examId) {
+  return prisma.question.deleteMany({ where: { examId } });
 }
 
 module.exports = {

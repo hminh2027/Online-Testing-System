@@ -15,4 +15,5 @@ router
   .put(auth, examController.updateOneById)
   .delete(auth, examController.deleteOneById);
 
+router.route("/:id/copy").post(auth, examController.copyOneById);
 module.exports = router;

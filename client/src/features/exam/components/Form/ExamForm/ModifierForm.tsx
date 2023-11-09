@@ -131,7 +131,7 @@ export default function ModifierForm({ exam, form }: ModifierFormProps) {
           </Form.Item>
         </Col>
         <Col span={8}>
-          <Form.Item label="Cho phép làm tiếp" name="isResumeAllowed" valuePropName="checked">
+          <Form.Item label="Cho phép kết nối lại" name="isResumeAllowed" valuePropName="checked">
             <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
           </Form.Item>
         </Col>

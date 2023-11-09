@@ -1,4 +1,4 @@
-const { examService } = require("../services");
+const { examService, questionService } = require("../services");
 const { catchAsync } = require("../utils");
 const httpStatus = require("http-status");
 
@@ -15,6 +15,38 @@ const getOneById = catchAsync(async (req, res) => {
   const { id } = req.params;
   const exam = await examService.getOneById(+id, { teacherId });
 
+  res.status(httpStatus.OK).json({ content: exam });
+});
+
+const copyOneById = catchAsync(async (req, res) => {
+  const { id: teacherId } = req.user;
+  const { id } = req.params;
+  const exam = await examService.getOneById(+id, { teacherId });
+  // console.log(exam);
+
+  // let newExam = await examService.createOne({ ...exam, teacherId: id });
+
+  // //
+  // const curIndex = (await questionService.count()) + 1;
+  // const questions = exam.Question;
+
+  // await questionService.deleteMany(exam.id);
+
+  // questions.map(async (q, index) => {
+  //   let question = await questionService.createOne({
+  //     ...q,
+  //     index: curIndex + index + 1,
+  //   });
+
+  //   const answers = q.answers.map((answer) => ({
+  //     ...answer,
+  //     questionId: question.id,
+  //   }));
+
+  //   await answerService.createMany(answers);
+  // });
+
+  //
   res.status(httpStatus.OK).json({ content: exam });
 });
 
@@ -44,6 +76,7 @@ const deleteOneById = catchAsync(async (req, res) => {
 module.exports = {
   createOne,
   getOneById,
+  copyOneById,
   getManyByTeacherId,
   updateOneById,
   deleteOneById,

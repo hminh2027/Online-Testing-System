@@ -23,8 +23,8 @@ export default function ExamList() {
         footer={genFooter(handleSubmit)}
       >
         {genContent({
-          ADD: <ExamModifier form={form} />,
-          EDIT: <ExamModifier hasImportBtn form={form} id={detailId as number} />,
+          ADD: <ExamModifier hasImportExam form={form} />,
+          EDIT: <ExamModifier hasImportExcel form={form} id={detailId as number} />,
           DETAIL: <ExamDetail />,
         })}
       </Drawer>

@@ -6,13 +6,20 @@ import { useExam } from '../../hooks/useExam';
 import FileIO from '@/components/FileIO/FileIO';
 import { useQuestionMutation } from '../../hooks/useQuestionMutation';
 import ModifierForm from '../Form/ExamForm/ModifierForm';
+import { ExamImportButton } from '../Button/ExamImportButton';
 
 interface ExamModifierProps {
   id?: number;
   form: FormInstance;
-  hasImportBtn?: boolean;
+  hasImportExcel?: boolean;
+  hasImportExam?: boolean;
 }
-export function ExamModifier({ id, form, hasImportBtn = false }: ExamModifierProps) {
+export function ExamModifier({
+  id,
+  form,
+  hasImportExcel = false,
+  hasImportExam = false,
+}: ExamModifierProps) {
   const { data: examData, isFetching } = useExam(id as number, {
     enabled: !!id,
   });
@@ -56,7 +63,7 @@ export function ExamModifier({ id, form, hasImportBtn = false }: ExamModifierPro
   return (
     <Flex vertical>
       <ModifierForm exam={exam} form={form} />
-      {id && hasImportBtn && (
+      {id && hasImportExcel && (
         <Flex gap={24}>
           <FileIO.Excel.Uploader
             table={
@@ -80,6 +87,7 @@ export function ExamModifier({ id, form, hasImportBtn = false }: ExamModifierPro
           />
         </Flex>
       )}
+      {hasImportExam && <ExamImportButton />}
     </Flex>
   );
 }

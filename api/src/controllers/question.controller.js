@@ -22,10 +22,10 @@ const createOne = catchAsync(async (req, res) => {
 });
 
 const createMany = catchAsync(async (req, res) => {
-  const curIndex = (await questionService.count()) + 1;
   const questions = req.body;
+  const curIndex = (await questionService.count(questions[0].examId)) + 1;
 
-  await questionService.deleteMany();
+  await questionService.deleteMany(questions[0].examId);
 
   const newQuestions = questions.map(async (q, index) => {
     let question = await questionService.createOne({
