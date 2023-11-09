@@ -1,7 +1,7 @@
 import type { ColumnsType } from 'antd/es/table';
 import { Link } from 'react-router-dom';
 import type { Exam } from '../../types';
-import { formatTime } from '@/utils';
+import { formatISOToVi } from '@/utils';
 
 export const columns: ColumnsType<Exam> = [
   {
@@ -29,6 +29,6 @@ export const columns: ColumnsType<Exam> = [
     title: 'Ngày tạo',
     dataIndex: 'createdAt',
     ellipsis: true,
-    render: (date: Date) => <>{formatTime(date)}</>,
+    render: (date: Date) => <>{formatISOToVi(date)}</>,
   },
 ];

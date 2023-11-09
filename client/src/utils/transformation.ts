@@ -1,3 +1,5 @@
+type Option<T> = { label: T | string | number; value: T | string | number };
+
 interface Answer {
   content: string;
   isCorrect: boolean;
@@ -54,3 +56,14 @@ export const transformExcelQuestions = (rawData: string[][]) => {
         !!ques.content && ques.answers.length >= 2 && ques.answers.some((ans) => ans.isCorrect),
     );
 };
+
+export function transformToAntdSelectOptions<T, K extends keyof T>(
+  rawData: T[],
+  label: K,
+  value: K,
+): Option<T[K]>[] {
+  return rawData.map((item) => ({
+    label: item[label],
+    value: item[value],
+  }));
+}
