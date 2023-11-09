@@ -5,7 +5,7 @@ import { CustomCard } from '@/components';
 import type { Post } from '../types';
 import { CommentCreateForm } from '@/features/post/components/comment/CommentCreateForm';
 import { CommentList } from '@/features/post/components/comment/CommentList';
-import { formatFromNowTime } from '@/utils';
+import { formatISOFromNowTime } from '@/utils';
 import { CustomAvatar } from '@/components/CustomAvatar';
 
 interface PostCardProps extends Post {}
@@ -30,7 +30,7 @@ export function PostCard(props: PostCardProps) {
             <CustomAvatar size="large" name={fullname} />
             <Flex vertical justify="space-between">
               <Typography.Text strong>{fullname}</Typography.Text>
-              <Typography.Text>{formatFromNowTime(createdAt as Date)}</Typography.Text>
+              <Typography.Text>{formatISOFromNowTime(createdAt as Date)}</Typography.Text>
             </Flex>
           </Space>
           ...

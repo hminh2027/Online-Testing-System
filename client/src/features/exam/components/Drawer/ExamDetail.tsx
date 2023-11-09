@@ -1,6 +1,6 @@
-import { Descriptions } from 'antd';
+import { Checkbox, Descriptions, Typography } from 'antd';
 import { useDrawer } from '@/hooks/useDrawer';
-import { formatTime } from '@/utils';
+import { formatISOToVi } from '@/utils';
 import { useExam } from '../../hooks/useExam';
 
 export function ExamDetail() {
@@ -30,12 +30,53 @@ export function ExamDetail() {
       value: examDetails?.numberOfQuestions,
     },
     {
-      label: 'Tổng điểm',
-      value: examDetails?.totalPoint,
+      label: 'Giới hạn làm bài',
+      value: examDetails?.attemptLimit,
+    },
+    {
+      label: 'Thời gian bắt đầu',
+      value: formatISOToVi(examDetails?.startAt as Date),
+    },
+    {
+      label: 'Thời gian kết thúc',
+      value: examDetails?.deadlineAt ? formatISOToVi(examDetails?.deadlineAt) : 'Không hạn nộp',
+    },
+
+    {
+      label: 'Hiển thị đáp án sau thi',
+      value: <Checkbox disabled checked={!!examDetails?.isShowAnswer} />,
+    },
+    {
+      label: 'Hiển thị lời giải sau thi',
+      value: <Checkbox disabled checked={!!examDetails?.isShowExplaination} />,
+    },
+    {
+      label: 'Cho phép nộp muộn',
+      value: <Checkbox disabled checked={!!examDetails?.isSubmitLateAllowed} />,
+    },
+    {
+      label: 'Cho phép kết nối lại',
+      value: <Checkbox disabled checked={!!examDetails?.isResumeAllowed} />,
+    },
+    {
+      label: 'Bật chống gian lận',
+      value: <Checkbox disabled checked={!!examDetails?.isProcting} />,
+    },
+    {
+      label: 'Bật đảo đề',
+      value: <Checkbox disabled checked={!!examDetails?.isShuffleQuestion} />,
+    },
+    {
+      label: 'Lớp được giao',
+      value: (
+        <Typography.Link href={`class/${examDetails?.classCode}`}>
+          {examDetails?.Class.name}
+        </Typography.Link>
+      ),
     },
     {
       label: 'Ngày tạo',
-      value: formatTime(examDetails?.createdAt as Date),
+      value: formatISOToVi(examDetails?.createdAt as Date),
     },
   ];
 

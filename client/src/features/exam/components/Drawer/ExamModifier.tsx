@@ -54,7 +54,7 @@ export function ExamModifier({ id, form, hasImportBtn = false }: ExamModifierPro
   };
 
   return (
-    <Flex>
+    <Flex vertical>
       <ModifierForm exam={exam} form={form} />
       {id && hasImportBtn && (
         <Flex gap={24}>

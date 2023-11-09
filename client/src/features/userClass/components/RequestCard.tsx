@@ -3,7 +3,7 @@ import { CheckOutlined, StopOutlined } from '@ant-design/icons';
 import { CustomCard } from '@/components';
 import { CustomAvatar } from '@/components/CustomAvatar';
 import type { UserClass } from '../types';
-import { formatFromNowTime } from '@/utils';
+import { formatISOFromNowTime } from '@/utils';
 import { useDeleteUserClass, usePatchUserClass } from '../hooks/useUserClass';
 
 interface RequestCardProps {
@@ -40,7 +40,7 @@ export function RequestCard({ request }: RequestCardProps) {
             <Typography.Text strong ellipsis={true}>
               {request.User.fullname}
             </Typography.Text>
-            <Typography.Text>{formatFromNowTime(request.createdAt as Date)}</Typography.Text>
+            <Typography.Text>{formatISOFromNowTime(request.createdAt as Date)}</Typography.Text>
           </Flex>
         </Space>
 

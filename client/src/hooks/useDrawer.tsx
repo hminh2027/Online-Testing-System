@@ -2,7 +2,7 @@ import type { PropsWithChildren, ReactElement } from 'react';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { useToggle } from 'react-use';
 
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import { MODE } from '@/constants/status';
 
 type ContentConfig = Record<keyof typeof MODE, ReactElement>;
@@ -10,7 +10,6 @@ type ContentConfig = Record<keyof typeof MODE, ReactElement>;
 interface DrawerProps {
   isDrawerOpen: boolean;
   mode: MODE;
-  handleCancel: () => void;
   handleClose: () => void;
   toggleMode: (targetMode: MODE) => void;
   detailId: number | string;
@@ -34,7 +33,18 @@ export function DrawerContextProvider({ children }: PropsWithChildren) {
     setMode(null);
   }, [toggleDrawer]);
 
-  const handleClose = useCallback(() => resetDrawerState(), [resetDrawerState]);
+  const handleClose = useCallback(() => {
+    if (mode === MODE.DETAIL) return resetDrawerState();
+
+    return Modal.confirm({
+      onOk: () => resetDrawerState(),
+      centered: true,
+      okText: 'Đóng',
+      cancelText: 'Quay lại',
+      title: 'Bạn có chắc muốn đóng?',
+      content: 'Nội dung bạn đã chỉnh sửa sẽ không được lưu lại, bạn có tiếp tục muốn đóng?',
+    });
+  }, [mode, resetDrawerState]);
 
   const toggleMode = useCallback(
     (targetMode: MODE) => {

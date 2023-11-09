@@ -1,42 +1,64 @@
 import type { FormInstance } from 'antd';
-import { Col, DatePicker, Form, Input, InputNumber, Row, Switch } from 'antd';
+import { Col, DatePicker, Form, Input, InputNumber, Row, Select, Switch } from 'antd';
+import { useEffect, useState } from 'react';
+import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import { useExamMutation } from '@/features/exam/hooks/useExamMutation';
 import type { Exam, ExamCreateDTO } from '@/features/exam/types';
-import { formatTime, formatTimeToDateTime } from '@/utils';
+import {
+  formatDatePicketToISO,
+  formatISOToDatePicker,
+  transformToAntdSelectOptions,
+} from '@/utils';
+import { useListClass } from '@/features/class/hooks/useClass';
 
 interface ModifierFormProps {
   exam?: Exam;
   form: FormInstance;
 }
-export default function ModifierForm({ exam, form }: ModifierFormProps) {
-  console.log(exam);
 
+type RangeProps = [Dayjs | null, Dayjs | null] | null;
+
+export default function ModifierForm({ exam, form }: ModifierFormProps) {
   const { addFn, updateFn } = useExamMutation();
+  const [range, setRange] = useState<RangeProps>([dayjs(), null]);
+  const { data: classData, isFetching } = useListClass({});
+
+  const classes = classData?.content;
+
+  useEffect(() => {
+    if (!exam) return;
+
+    const startAt = formatISOToDatePicker(exam.startAt);
+    const deadlineAt = exam.deadlineAt && formatISOToDatePicker(exam.deadlineAt);
+
+    setRange([startAt, deadlineAt]);
+  }, [exam]);
 
   const handleOnFinish = (values: ExamCreateDTO) => {
+    if (!range) return null;
     const payload: ExamCreateDTO = {
       ...values,
+      startAt: new Date(formatDatePicketToISO(range[0] as Dayjs)),
+      deadlineAt: range[1] && new Date(formatDatePicketToISO(range[1])),
     };
 
-    console.log(payload);
+    if (exam?.id) {
+      return updateFn({
+        id: exam.id,
+        payload,
+      });
+    }
 
-    // if (id) {
-    //   return updateFn({
-    //     id,
-    //     payload,
-    //   });
-    // }
-
-    // return addFn(payload);
+    return addFn(payload);
   };
 
-  const dataAdapter = (data: Exam): ExamCreateDTO => ({
+  const handleOnDatePickerOk = (dates: RangeProps) => setRange(dates);
+
+  const dataAdapter = (data: Exam): Omit<ExamCreateDTO, 'startAt' | 'deadlineAt'> => ({
     title: data.title,
     description: data.description,
     duration: data.duration,
-    startAt: exam?.startAt && formatTimeToDateTime(exam.startAt),
-    deadlineAt: exam?.deadlineAt && formatTimeToDateTime(exam.deadlineAt),
     attemptLimit: data.attemptLimit,
     isProcting: data.isProcting,
     isSubmitLateAllowed: data.isSubmitLateAllowed,
@@ -44,7 +66,10 @@ export default function ModifierForm({ exam, form }: ModifierFormProps) {
     isShowAnswer: data.isShowAnswer,
     isShowExplaination: data.isShowExplaination,
     isResumeAllowed: data.isResumeAllowed,
+    classCode: data.classCode,
   });
+
+  if (isFetching || !classes) return <>Loading</>;
 
   return (
     <Form
@@ -84,47 +109,51 @@ export default function ModifierForm({ exam, form }: ModifierFormProps) {
         </Col>
       </Row>
       <Row gutter={16}>
-        <Col span={12}>
-          <Form.Item label="Thời gian bắt đầu" name="startAt" required>
-            <DatePicker showTime placeholder="Nhấp chọn ngày giờ" />
+        <Col span={24}>
+          <Form.Item label="Thời gian bài thi" required>
+            <DatePicker.RangePicker
+              showTime
+              allowEmpty={[false, true]}
+              value={range}
+              style={{ width: '100%' }}
+              onOk={handleOnDatePickerOk}
+            />
           </Form.Item>
         </Col>
-        <Col span={12}>
-          <Form.Item label="Thời gian kết thúc" name="deadlineAt">
-            <DatePicker showTime />
+      </Row>
+      <Form.Item name="classCode" label="Lớp được giao" required>
+        <Select options={transformToAntdSelectOptions(classes, 'name', 'code')} />
+      </Form.Item>
+      <Row gutter={16}>
+        <Col span={8}>
+          <Form.Item label="Cho phép nộp muộn" name="isSubmitLateAllowed" valuePropName="checked">
+            <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
+          </Form.Item>
+        </Col>
+        <Col span={8}>
+          <Form.Item label="Cho phép làm tiếp" name="isResumeAllowed" valuePropName="checked">
+            <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
+          </Form.Item>
+        </Col>
+        <Col span={8}>
+          <Form.Item label="Chống gian lận" name="isProcting" valuePropName="checked">
+            <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
           </Form.Item>
         </Col>
       </Row>
       <Row gutter={16}>
         <Col span={8}>
-          <Form.Item label="Cho phép nộp muộn" name="isSubmitLateAllowed">
+          <Form.Item label="Đảo đề" name="isShuffleQuestion" valuePropName="checked">
             <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
           </Form.Item>
         </Col>
         <Col span={8}>
-          <Form.Item label="Cho phép làm tiếp" name="isResumeAllowed">
+          <Form.Item label="Hiển thị đáp án" name="isShowAnswer" valuePropName="checked">
             <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
           </Form.Item>
         </Col>
         <Col span={8}>
-          <Form.Item label="Chống gian lận" name="isProcting">
-            <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
-          </Form.Item>
-        </Col>
-      </Row>
-      <Row gutter={16}>
-        <Col span={8}>
-          <Form.Item label="Đảo đề" name="isShuffleQuestion">
-            <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
-          </Form.Item>
-        </Col>
-        <Col span={8}>
-          <Form.Item label="Hiển thị đáp án" name="isShowAnswer">
-            <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
-          </Form.Item>
-        </Col>
-        <Col span={8}>
-          <Form.Item label="Hiển thị giải thích" name="isShowExplaination">
+          <Form.Item label="Hiển thị giải thích" name="isShowExplaination" valuePropName="checked">
             <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
           </Form.Item>
         </Col>

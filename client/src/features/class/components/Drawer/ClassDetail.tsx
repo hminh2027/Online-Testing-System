@@ -3,7 +3,7 @@ import { useClass } from '../../hooks/useClass';
 import { useDrawer } from '@/hooks/useDrawer';
 import { Status } from '@/components';
 import { STATUS } from '@/constants';
-import { formatTime } from '@/utils';
+import { formatISOToVi } from '@/utils';
 
 export function ClassDetail() {
   const { detailId } = useDrawer();
@@ -44,7 +44,7 @@ export function ClassDetail() {
     },
     {
       label: 'Ngày tạo',
-      value: formatTime(classDetails?.createdAt as Date),
+      value: formatISOToVi(classDetails?.createdAt as Date),
     },
     {
       label: 'Trạng thái',
