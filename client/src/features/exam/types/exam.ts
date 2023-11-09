@@ -1,6 +1,7 @@
 import type { User } from '@/features/user';
 import type { Resource, ResponseItem } from '../../../types/common';
 import type { Question } from '.';
+import type { ClassRoom } from '@/features/class/types';
 
 export interface Exam extends Resource {
   teacherId: number;
@@ -18,8 +19,10 @@ export interface Exam extends Resource {
   isShowAnswer: boolean;
   isShowExplaination: boolean;
   isResumeAllowed: boolean;
+  classCode: string;
   User?: User;
   Question?: Question[];
+  Class: ClassRoom;
 }
 
 export interface ExamCreateDTO extends Resource {
@@ -27,7 +30,7 @@ export interface ExamCreateDTO extends Resource {
   description?: string;
   duration: number;
   startAt: Date;
-  deadlineAt?: Date;
+  deadlineAt?: Date | null;
   attemptLimit: number;
   isProcting: boolean;
   isSubmitLateAllowed: boolean;
@@ -35,6 +38,7 @@ export interface ExamCreateDTO extends Resource {
   isShowAnswer: boolean;
   isShowExplaination: boolean;
   isResumeAllowed: boolean;
+  classCode: string;
 }
 
 export type ResExamItem = ResponseItem<Exam>;

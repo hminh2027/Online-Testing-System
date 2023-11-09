@@ -6,6 +6,18 @@ function createOne(data) {
       title: data.title,
       description: data.description,
       duration: +data.duration,
+      attemptLimit: +data.attemptLimit,
+      deadlineAt: data.deadlineAt,
+      isProcting: data.isProcting,
+      isResumeAllowed: data.isResumeAllowed,
+      isShowAnswer: data.isShowAnswer,
+      isShowExplaination: data.isShowExplaination,
+      isShuffleQuestion: data.isShuffleQuestion,
+      isSubmitLateAllowed: data.isSubmitLateAllowed,
+      startAt: data.startAt,
+      Class: {
+        connect: { code: data.classCode },
+      },
       User: {
         connect: {
           id: data.teacherId,
@@ -28,6 +40,7 @@ async function getOneById(id, { teacherId }) {
         include: { Answer: true },
         orderBy: { index: "asc" },
       },
+      Class: true,
     },
   });
 
@@ -46,12 +59,25 @@ function getManyByTeacherId(teacherId) {
 }
 
 async function updateOneById(id, data) {
+  console.log(data);
   return prisma.exam.update({
     where: { id },
     data: {
       title: data.title,
       description: data.description,
       duration: +data.duration,
+      attemptLimit: +data.attemptLimit,
+      deadlineAt: data.deadlineAt,
+      isProcting: data.isProcting,
+      isResumeAllowed: data.isResumeAllowed,
+      isShowAnswer: data.isShowAnswer,
+      isShowExplaination: data.isShowExplaination,
+      isShuffleQuestion: data.isShuffleQuestion,
+      isSubmitLateAllowed: data.isSubmitLateAllowed,
+      startAt: data.startAt,
+      Class: {
+        connect: { code: data.classCode },
+      },
     },
   });
 }
