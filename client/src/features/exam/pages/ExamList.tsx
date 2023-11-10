@@ -3,6 +3,7 @@ import { Head } from '@/components';
 import { ExamModifier, ExamDetail } from '../components/Drawer';
 import { useDrawer } from '@/hooks/useDrawer';
 import { ExamTable } from '../components/Table';
+import FileIO from '@/components/FileIO/FileIO';
 
 export default function ExamList() {
   const { isDrawerOpen, genTitle, genFooter, genContent, handleClose, detailId } = useDrawer();
@@ -29,6 +30,7 @@ export default function ExamList() {
         })}
       </Drawer>
       <ExamTable />
+      <FileIO.Excel.Exporter />
     </>
   );
 }

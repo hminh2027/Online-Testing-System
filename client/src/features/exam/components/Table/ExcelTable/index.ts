@@ -1,2 +1,2 @@
-export * from './ExamTable';
 export * from './ExcelTable';
+export * from './column';

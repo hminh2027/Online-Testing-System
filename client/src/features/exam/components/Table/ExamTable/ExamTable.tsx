@@ -5,8 +5,8 @@ import { CustomTable } from '@/components';
 import { MODE } from '@/constants';
 import { useDrawer } from '@/hooks/useDrawer';
 import { useAuth } from '@/features/auth';
-import { useListExam } from '../../hooks/useExam';
-import type { Exam } from '../../types';
+import { useListExam } from '../../../hooks/useExam';
+import type { Exam } from '../../../types';
 
 export function ExamTable() {
   const { data: examData, isLoading } = useListExam({});

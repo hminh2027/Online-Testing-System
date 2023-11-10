@@ -2,14 +2,14 @@ import { InboxOutlined } from '@ant-design/icons';
 import type { DraggerProps } from 'antd/es/upload/Dragger';
 import { Button, Modal, Typography, Upload } from 'antd';
 import { useToggle } from 'react-use';
-import type { ReactNode } from 'react';
-import { exportExcel, importExcel } from '@/libs';
-import { transformExcelQuestions } from '@/utils';
+import { useCallback, type ReactNode } from 'react';
+import { utils, writeFile } from 'xlsx';
+import { importExcel } from '@/libs';
 
 interface ExcelUploaderProps<T> {
   data: T[];
   setData: (data: T[]) => void;
-  table: ReactNode;
+  table?: ReactNode;
   handleOk: () => void;
 }
 export function ExcelUploader<T>({ data, setData, table, handleOk }: ExcelUploaderProps<T>) {
@@ -22,10 +22,13 @@ export function ExcelUploader<T>({ data, setData, table, handleOk }: ExcelUpload
     if (info.file) {
       const rawData = (await importExcel(file)) as [];
 
-      const finalData = transformExcelQuestions(rawData) as [];
-
-      setData(finalData);
+      setData(rawData);
     }
+  };
+
+  const handleCancel = () => {
+    setData([]);
+    toggleModal(false);
   };
 
   return (
@@ -38,13 +41,14 @@ export function ExcelUploader<T>({ data, setData, table, handleOk }: ExcelUpload
         closable
         destroyOnClose
         open={isModalOpen}
-        onCancel={toggleModal}
+        onCancel={handleCancel}
         onOk={handleOk}
         okText="Nhập"
         cancelText="Huỷ"
         title="Import Excel"
+        width={1500}
       >
-        {data.length > 0 ? (
+        {data.length > 0 && table ? (
           table
         ) : (
           <>
@@ -77,19 +81,42 @@ export function ExcelUploader<T>({ data, setData, table, handleOk }: ExcelUpload
 }
 
 interface ExcelExporterProps {
-  fileName: string;
-  data: [];
+  fileName?: string;
 }
 
-export function ExcelExporter({ fileName, data }: ExcelExporterProps) {
-  const handleExport = () => {
-    exportExcel(fileName, data);
-  };
+export function ExcelExporter({ fileName }: ExcelExporterProps) {
+  const xport = useCallback(() => {
+    const table = document.getElementById('Table2XLSX');
+    const wb = utils.table_to_book(table);
+
+    writeFile(wb, 'SheetJSTable.xlsx');
+  });
 
   return (
-    <Button onClick={handleExport} block>
-      Export Excel
-    </Button>
+    <>
+      <table id="Table2XLSX" style={{ border: '1px solid black' }}>
+        <tbody>
+          <tr>
+            <td style={{ border: '1px solid black' }} rowSpan={3}>
+              SheetJS Table Export
+            </td>
+          </tr>
+          <tr>
+            <td style={{ border: '1px solid black' }}>Author</td>
+            <td>ID</td>
+            <td>你好!</td>
+          </tr>
+          <tr>
+            <td>SheetJS</td>
+            <td>7262</td>
+            <td>வணக்கம்!</td>
+          </tr>
+        </tbody>
+      </table>
+      <button onClick={xport}>
+        <b>Export XLSX!</b>
+      </button>
+    </>
   );
 }
 

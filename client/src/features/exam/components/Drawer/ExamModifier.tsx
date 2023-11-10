@@ -1,5 +1,5 @@
 import type { FormInstance } from 'antd';
-import { Flex, Modal, Table } from 'antd';
+import { Flex, Modal } from 'antd';
 import { useState } from 'react';
 import type { QuestionCreateDTO } from '../../types';
 import { useExam } from '../../hooks/useExam';
@@ -7,6 +7,8 @@ import FileIO from '@/components/FileIO/FileIO';
 import { useQuestionMutation } from '../../hooks/useQuestionMutation';
 import ModifierForm from '../Form/ExamForm/ModifierForm';
 import { ExamImportButton } from '../Button/ExamImportButton';
+import { ExcelTable } from '..';
+import { useExcelTranformation } from '../../hooks/useExcelTranformation';
 
 interface ExamModifierProps {
   id?: number;
@@ -26,9 +28,11 @@ export function ExamModifier({
   const exam = examData?.content;
 
   const { addManyFn: addQuestionsFn } = useQuestionMutation(id as number);
+  const [rawData, setRawData] = useState([]);
   const [questions, setQuestions] = useState<QuestionCreateDTO[]>([]);
+  const [tableData, setTableData] = useState([]);
 
-  if (isFetching) return <>Loading</>;
+  const { transformToApiFormat, transformToTableFormat } = useExcelTranformation();
 
   const handleModalOk = () => {
     if (!exam) return;
@@ -60,29 +64,21 @@ export function ExamModifier({
     }
   };
 
+  const apiFormatData = transformToApiFormat(rawData);
+  const tableFormatData = transformToTableFormat(apiFormatData);
+  const dataSource = tableFormatData;
+
+  if (isFetching) return <>Loading</>;
+
   return (
     <Flex vertical>
       <ModifierForm exam={exam} form={form} />
       {id && hasImportExcel && (
         <Flex gap={24}>
           <FileIO.Excel.Uploader
-            table={
-              <Table
-                scroll={{ y: 300 }}
-                pagination={false}
-                rowKey="content"
-                dataSource={questions}
-                columns={[
-                  {
-                    key: 'content',
-                    dataIndex: 'content',
-                    title: 'Câu hỏi',
-                  },
-                ]}
-              />
-            }
-            data={questions}
-            setData={setQuestions}
+            table={<ExcelTable dataSource={dataSource} />}
+            data={rawData}
+            setData={setRawData}
             handleOk={handleModalOk}
           />
         </Flex>

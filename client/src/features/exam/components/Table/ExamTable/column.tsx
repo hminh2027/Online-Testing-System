@@ -1,6 +1,6 @@
 import type { ColumnsType } from 'antd/es/table';
 import { Link } from 'react-router-dom';
-import type { Exam } from '../../types';
+import type { Exam } from '../../../types';
 import { formatISOToVi } from '@/utils';
 
 export const columns: ColumnsType<Exam> = [
