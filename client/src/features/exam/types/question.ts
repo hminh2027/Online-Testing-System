@@ -23,6 +23,18 @@ export interface QuestionCreateDTO extends Resource {
   answers: AnswerCreateDTO[];
 }
 
+export interface TableFormatData {
+  question: string;
+  explanation?: string;
+  point: number;
+  answer: string;
+  isCorrect: number;
+  rowSpan: number;
+  key: string;
+}
+
+export type ApiFormatData = Omit<QuestionCreateDTO, 'examId'>;
+
 export type ResQuestionItem = ResponseItem<Question>;
 export type ResQuestionList = ResponseItem<Question[]>;
 export type ResQuestionModify = ResponseItem<Question>;

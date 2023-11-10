@@ -1,4 +1,4 @@
-export default function PDF() {
+export function PDF() {
   return <div>PDF</div>;
 }
 

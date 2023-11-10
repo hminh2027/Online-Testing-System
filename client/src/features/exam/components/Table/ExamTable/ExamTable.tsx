@@ -5,13 +5,16 @@ import { CustomTable } from '@/components';
 import { MODE } from '@/constants';
 import { useDrawer } from '@/hooks/useDrawer';
 import { useAuth } from '@/features/auth';
-import { useListExam } from '../../../hooks/useExam';
-import type { Exam } from '../../../types';
+import { showConfirmation } from '@/utils';
+import { useExamMutation } from '@/features/exam/hooks/useExamMutation';
+import type { Exam } from '@/features/exam/types';
+import { useListExam } from '@/features/exam/hooks/useExam';
 
 export function ExamTable() {
   const { data: examData, isLoading } = useListExam({});
   const { toggleMode, setDetailId } = useDrawer();
   const { user } = useAuth();
+  const { deleteFn } = useExamMutation();
 
   const exams = examData?.content;
 
@@ -27,9 +30,7 @@ export function ExamTable() {
     setDetailId(code);
   };
 
-  const handleDelete = (code: string) => {
-    console.log(code);
-  };
+  const handleDelete = (code: string) => showConfirmation(() => deleteFn({ id: code }));
 
   return (
     <CustomTable
@@ -54,17 +55,17 @@ export function ExamTable() {
                     items: [
                       {
                         label: 'Sửa',
-                        key: '0',
+                        key: 'Sửa',
                         onClick: () => handleEdit(value?.id as string),
                       },
                       {
                         label: 'Xem',
-                        key: '1',
+                        key: 'Xem',
                         onClick: () => handleDetail(value?.id as string),
                       },
                       {
                         label: 'Xoá',
-                        key: '3',
+                        key: 'Xoá',
                         onClick: () => handleDelete(value?.id as string),
                       },
                     ],

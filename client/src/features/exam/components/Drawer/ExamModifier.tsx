@@ -1,25 +1,26 @@
 import type { FormInstance } from 'antd';
-import { Flex, Modal } from 'antd';
-import { useState } from 'react';
-import type { QuestionCreateDTO } from '../../types';
+import { Flex, Modal, Typography } from 'antd';
+import { useEffect, useState } from 'react';
+import type { Question, TableFormatData } from '../../types';
+import { type ApiFormatData } from '../../types';
 import { useExam } from '../../hooks/useExam';
-import FileIO from '@/components/FileIO/FileIO';
 import { useQuestionMutation } from '../../hooks/useQuestionMutation';
 import ModifierForm from '../Form/ExamForm/ModifierForm';
 import { ExamImportButton } from '../Button/ExamImportButton';
-import { ExcelTable } from '..';
 import { useExcelTranformation } from '../../hooks/useExcelTranformation';
+import { ExcelTable } from '../Table/ExcelTable';
+import { CustomMessage, FileIO } from '@/components';
 
 interface ExamModifierProps {
   id?: number;
   form: FormInstance;
-  hasImportExcel?: boolean;
+  hasExcelBtn?: boolean;
   hasImportExam?: boolean;
 }
 export function ExamModifier({
   id,
   form,
-  hasImportExcel = false,
+  hasExcelBtn = false,
   hasImportExam = false,
 }: ExamModifierProps) {
   const { data: examData, isFetching } = useExam(id as number, {
@@ -29,10 +30,10 @@ export function ExamModifier({
 
   const { addManyFn: addQuestionsFn } = useQuestionMutation(id as number);
   const [rawData, setRawData] = useState([]);
-  const [questions, setQuestions] = useState<QuestionCreateDTO[]>([]);
-  const [tableData, setTableData] = useState([]);
+  const [questions, setQuestions] = useState<ApiFormatData[]>([]);
+  const [dataSource, setDataSource] = useState<TableFormatData[]>([]);
 
-  const { transformToApiFormat, transformToTableFormat } = useExcelTranformation();
+  const { transformToApiFormat, transformToTableFormat, validateData } = useExcelTranformation();
 
   const handleModalOk = () => {
     if (!exam) return;
@@ -45,7 +46,8 @@ export function ExamModifier({
               content: q.content,
               answers: q.answers,
               examId: id as number,
-              point: 1,
+              point: q.point,
+              explanation: q.explanation,
             })),
           );
         },
@@ -58,28 +60,60 @@ export function ExamModifier({
           content: q.content,
           answers: q.answers,
           examId: id as number,
-          point: 1,
+          point: q.point,
+          explanation: q.explanation,
         })),
       );
     }
   };
 
-  const apiFormatData = transformToApiFormat(rawData);
-  const tableFormatData = transformToTableFormat(apiFormatData);
-  const dataSource = tableFormatData;
+  useEffect(() => {
+    const apiFormatData = transformToApiFormat(rawData);
+    const error = validateData(apiFormatData);
+
+    if (error) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      CustomMessage.error(<Typography.Text strong>{error}</Typography.Text>);
+      setRawData([]);
+
+      return;
+    }
+
+    setQuestions(apiFormatData);
+
+    const tableFormatData = transformToTableFormat(apiFormatData);
+
+    setDataSource(tableFormatData);
+  }, [rawData]);
+
+  const mappingDataProps = (data: Question[]): ApiFormatData[] =>
+    data.map((item) => ({
+      content: item.content,
+      answers: item.Answer,
+      point: item.point,
+      explanation: item.explanation,
+    }));
 
   if (isFetching) return <>Loading</>;
 
   return (
     <Flex vertical>
       <ModifierForm exam={exam} form={form} />
-      {id && hasImportExcel && (
+      {id && hasExcelBtn && (
         <Flex gap={24}>
           <FileIO.Excel.Uploader
-            table={<ExcelTable dataSource={dataSource} />}
+            table={<ExcelTable dataSource={dataSource as []} />}
             data={rawData}
             setData={setRawData}
             handleOk={handleModalOk}
+          />
+          <FileIO.Excel.Exporter
+            fileName={`${exam?.title}-excel`}
+            table={
+              <ExcelTable
+                dataSource={transformToTableFormat(mappingDataProps(exam?.Question as [])) as []}
+              />
+            }
           />
         </Flex>
       )}

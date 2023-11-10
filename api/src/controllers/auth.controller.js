@@ -1,12 +1,12 @@
 const { authService, tokenService, userService } = require("../services");
 const { catchAsync } = require("../utils");
-const _ = require("lodash");
+const omit = require("lodash/omit");
 const httpStatus = require("http-status");
 
 const signup = catchAsync(async (req, res) => {
   let user = await authService.signup(req.body);
   const tokens = tokenService.generateAuthTokens(user);
-  user = _.omit(user, ["password"]);
+  user = omit(user, ["password"]);
   res
     .status(httpStatus.OK)
     .cookie("accessToken", tokens.accessToken, {

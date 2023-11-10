@@ -31,7 +31,7 @@ export interface UpdateParams<T> {
 }
 
 export interface DeleteParams {
-  id: number;
+  id: number | string;
 }
 
 export function handleSuccess<T>(onSuccess: (data: T) => Promise<void> | void) {

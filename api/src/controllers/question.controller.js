@@ -35,7 +35,8 @@ const createMany = catchAsync(async (req, res) => {
 
     const answers = q.answers.map((answer) => ({
       ...answer,
-      questionId: question.id,
+      questionId: +question.id,
+      isCorrect: !!answer.isCorrect,
     }));
 
     await answerService.createMany(answers);

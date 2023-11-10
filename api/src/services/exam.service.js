@@ -20,7 +20,7 @@ function createOne(data) {
       },
       User: {
         connect: {
-          id: data.teacherId,
+          id: +data.teacherId,
         },
       },
     },
@@ -58,8 +58,7 @@ function getManyByTeacherId(teacherId) {
   });
 }
 
-async function updateOneById(id, data) {
-  console.log(data);
+function updateOneById(id, data) {
   return prisma.exam.update({
     where: { id },
     data: {
@@ -82,8 +81,8 @@ async function updateOneById(id, data) {
   });
 }
 
-async function deleteOneById(id) {
-  return prisma.test.delete({ where: { id } });
+function deleteOneById(id) {
+  return prisma.exam.delete({ where: { id: +id } });
 }
 
 module.exports = {

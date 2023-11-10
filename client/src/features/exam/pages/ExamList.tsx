@@ -1,9 +1,8 @@
 import { Drawer, Form } from 'antd';
-import { Head } from '@/components';
+import { FileIO, Head } from '@/components';
 import { ExamModifier, ExamDetail } from '../components/Drawer';
 import { useDrawer } from '@/hooks/useDrawer';
 import { ExamTable } from '../components/Table';
-import FileIO from '@/components/FileIO/FileIO';
 
 export default function ExamList() {
   const { isDrawerOpen, genTitle, genFooter, genContent, handleClose, detailId } = useDrawer();
@@ -25,7 +24,7 @@ export default function ExamList() {
       >
         {genContent({
           ADD: <ExamModifier hasImportExam form={form} />,
-          EDIT: <ExamModifier hasImportExcel form={form} id={detailId as number} />,
+          EDIT: <ExamModifier hasExcelBtn form={form} id={detailId as number} />,
           DETAIL: <ExamDetail />,
         })}
       </Drawer>

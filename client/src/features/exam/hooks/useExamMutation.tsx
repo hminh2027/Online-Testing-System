@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { CustomMessage } from '@/components';
-import { useAddExam, useUpdateExam } from './useExam';
+import { useAddExam, useDeleteExam, useListExam, useUpdateExam } from './useExam';
 import { useDrawer } from '@/hooks/useDrawer';
 import { addItem } from '@/hooks/useCustomQuery';
 import type { ExamCreateDTO, ResExamItem } from '../types';
@@ -8,6 +8,7 @@ import { endpoints } from '@/config';
 
 export function useExamMutation() {
   const { resetDrawerState } = useDrawer();
+  const { refetch } = useListExam({}, { enabled: false });
 
   const { mutate: addFn } = useAddExam({
     onSuccess: (res) => {
@@ -19,6 +20,7 @@ export function useExamMutation() {
   });
   const { mutate: updateFn } = useUpdateExam({
     onSuccess: (res) => {
+      resetDrawerState();
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       CustomMessage.success(res.message);
     },
@@ -32,7 +34,8 @@ export function useExamMutation() {
         url: `${endpoints.apis.exam.path}/${payload.id}/copy`,
       }),
     {
-      onSuccess: (res) => {
+      onSuccess: async (res) => {
+        await refetch();
         resetDrawerState();
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         CustomMessage.success(res.message);
@@ -41,9 +44,19 @@ export function useExamMutation() {
     },
   );
 
+  const { mutate: deleteFn } = useDeleteExam({
+    onSuccess: (res) => {
+      resetDrawerState();
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      CustomMessage.success(res.message);
+    },
+    onError: () => {},
+  });
+
   return {
     addFn,
     updateFn,
+    deleteFn,
     copyFn,
   };
 }

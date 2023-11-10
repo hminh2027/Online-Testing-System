@@ -2,7 +2,7 @@ import { InboxOutlined } from '@ant-design/icons';
 import type { DraggerProps } from 'antd/es/upload/Dragger';
 import { Button, Modal, Typography, Upload } from 'antd';
 import { useToggle } from 'react-use';
-import { useCallback, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { utils, writeFile } from 'xlsx';
 import { importExcel } from '@/libs';
 
@@ -66,7 +66,7 @@ export function ExcelUploader<T>({ data, setData, table, handleOk }: ExcelUpload
             <Typography.Text>
               Tải file mẫu{' '}
               <Typography.Link
-                href="https://res.cloudinary.com/minh2027/raw/upload/v1699172441/Testing%20Folder/ols-question-sample-excel_jkdek8.xlsx"
+                href="https://res.cloudinary.com/minh2027/raw/upload/v1699628359/Testing%20Folder/ols-question-sample-excel_xaaf2r.xlsx"
                 download
               >
                 Excel
@@ -82,45 +82,43 @@ export function ExcelUploader<T>({ data, setData, table, handleOk }: ExcelUpload
 
 interface ExcelExporterProps {
   fileName?: string;
+  table?: ReactNode;
 }
 
-export function ExcelExporter({ fileName }: ExcelExporterProps) {
-  const xport = useCallback(() => {
-    const table = document.getElementById('Table2XLSX');
-    const wb = utils.table_to_book(table);
+export function ExcelExporter({ fileName, table }: ExcelExporterProps) {
+  const [isModalOpen, toggleModal] = useToggle(false);
 
-    writeFile(wb, 'SheetJSTable.xlsx');
-  });
+  const handleOk = () => {
+    const exportTable = document.getElementById('excel-table');
+    const wb = utils.table_to_book(exportTable);
+
+    writeFile(wb, `${fileName}.xlsx`);
+  };
 
   return (
     <>
-      <table id="Table2XLSX" style={{ border: '1px solid black' }}>
-        <tbody>
-          <tr>
-            <td style={{ border: '1px solid black' }} rowSpan={3}>
-              SheetJS Table Export
-            </td>
-          </tr>
-          <tr>
-            <td style={{ border: '1px solid black' }}>Author</td>
-            <td>ID</td>
-            <td>你好!</td>
-          </tr>
-          <tr>
-            <td>SheetJS</td>
-            <td>7262</td>
-            <td>வணக்கம்!</td>
-          </tr>
-        </tbody>
-      </table>
-      <button onClick={xport}>
-        <b>Export XLSX!</b>
-      </button>
+      {table && (
+        <Modal
+          centered
+          closable
+          destroyOnClose
+          open={isModalOpen}
+          onCancel={toggleModal}
+          onOk={handleOk}
+          okText="Xuất"
+          cancelText="Huỷ"
+          title="Export Excel"
+          width={1500}
+        >
+          {table}
+        </Modal>
+      )}
+      <Button onClick={toggleModal}>Export Excel</Button>
     </>
   );
 }
 
-export default function Excel() {
+export function Excel() {
   return <div>Excel</div>;
 }
 

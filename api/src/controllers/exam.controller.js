@@ -1,6 +1,7 @@
-const { examService, questionService } = require("../services");
+const { examService, questionService, answerService } = require("../services");
 const { catchAsync } = require("../utils");
 const httpStatus = require("http-status");
+const omit = require("lodash/omit");
 
 const createOne = catchAsync(async (req, res) => {
   const { id } = req.user;
@@ -22,32 +23,38 @@ const copyOneById = catchAsync(async (req, res) => {
   const { id: teacherId } = req.user;
   const { id } = req.params;
   const exam = await examService.getOneById(+id, { teacherId });
-  // console.log(exam);
 
-  // let newExam = await examService.createOne({ ...exam, teacherId: id });
+  if (!exam)
+    res
+      .status(httpStatus.NOT_FOUND)
+      .json({ message: "Không tìm thấy bài kiểm tra" });
 
-  // //
-  // const curIndex = (await questionService.count()) + 1;
-  // const questions = exam.Question;
+  let newExam = await examService.createOne({
+    ...exam,
+    title: `${exam.title} (copy)`,
+    teacherId,
+  });
 
-  // await questionService.deleteMany(exam.id);
+  const questions = exam.Question;
 
-  // questions.map(async (q, index) => {
-  //   let question = await questionService.createOne({
-  //     ...q,
-  //     index: curIndex + index + 1,
-  //   });
+  questions.map(async (q) => {
+    let question = await questionService.createOne({
+      ...q,
+      examId: +newExam.id,
+    });
 
-  //   const answers = q.answers.map((answer) => ({
-  //     ...answer,
-  //     questionId: question.id,
-  //   }));
+    const answers = q.Answer.map((answer) => ({
+      ...omit(answer, ["id"]),
+      questionId: +question.id,
+    }));
 
-  //   await answerService.createMany(answers);
-  // });
+    await answerService.createMany(answers);
+  });
 
-  //
-  res.status(httpStatus.OK).json({ content: exam });
+  res.status(httpStatus.OK).json({
+    content: newExam,
+    message: `Tạo bản sao từ đề thi "${exam.title}" thành công`,
+  });
 });
 
 const getManyByTeacherId = catchAsync(async (req, res) => {

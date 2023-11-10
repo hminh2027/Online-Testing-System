@@ -1,22 +1,27 @@
 import { Checkbox } from 'antd';
+import type { ColumnType } from 'antd/es/table';
+import type { TableFormatData } from '@/features/exam/types';
 
-export const columns = [
+const handleOnCell = (value: TableFormatData) =>
+  value.rowSpan > 0 ? { rowSpan: value.rowSpan } : { rowSpan: 0 };
+
+export const columns: ColumnType<TableFormatData>[] = [
   {
     dataIndex: 'question',
     title: 'Câu hỏi',
-    onCell: (record) => (record.rowSpan > 0 ? { rowSpan: record.rowSpan } : { rowSpan: 0 }),
+    onCell: handleOnCell,
   },
   {
     dataIndex: 'explanation',
     title: 'Giải thích',
-    onCell: (record) => (record.rowSpan > 0 ? { rowSpan: record.rowSpan } : { rowSpan: 0 }),
+    onCell: handleOnCell,
   },
   {
     dataIndex: 'point',
     title: 'Số điểm',
     align: 'center',
 
-    onCell: (record) => (record.rowSpan > 0 ? { rowSpan: record.rowSpan } : { rowSpan: 0 }),
+    onCell: handleOnCell,
   },
   {
     dataIndex: 'answer',

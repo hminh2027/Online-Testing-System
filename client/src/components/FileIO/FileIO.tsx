@@ -1,7 +1,7 @@
-import Excel from './Excel';
-import PDF from './PDF';
+import { Excel } from './Excel';
+import { PDF } from './PDF';
 
-export default function FileIO() {
+export function FileIO() {
   return <div>FileIO</div>;
 }
 
