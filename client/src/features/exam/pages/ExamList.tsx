@@ -1,5 +1,5 @@
 import { Drawer, Form } from 'antd';
-import { FileIO, Head } from '@/components';
+import { Head } from '@/components';
 import { ExamModifier, ExamDetail } from '../components/Drawer';
 import { useDrawer } from '@/hooks/useDrawer';
 import { ExamTable } from '../components/Table';
@@ -29,7 +29,6 @@ export default function ExamList() {
         })}
       </Drawer>
       <ExamTable />
-      <FileIO.Excel.Exporter />
     </>
   );
 }

@@ -50,6 +50,8 @@ export const useAuth = () => {
   const getMe = async () => {
     const token = storage.getToken();
 
+    if (!token) return null;
+
     const res = await axiosInstance<ResUserItem>({
       url: `${endpoints.apis.auth.path}/me`,
       method: 'GET',

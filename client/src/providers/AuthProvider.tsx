@@ -1,5 +1,6 @@
 import { useLayoutEffect, type PropsWithChildren } from 'react';
 import { useAuth } from '@/features/auth';
+import { storage } from '@/utils';
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const { getMe } = useAuth();
@@ -7,7 +8,12 @@ export function AuthProvider({ children }: PropsWithChildren) {
   useLayoutEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     (async () => {
-      await getMe();
+      try {
+        await getMe();
+      } catch (err) {
+        storage.clearToken();
+        window.location.href = 'login';
+      }
     })();
   }, []);
 

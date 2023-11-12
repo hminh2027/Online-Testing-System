@@ -22,7 +22,7 @@ const login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
   let user = await authService.login({ email, password });
   const tokens = tokenService.generateAuthTokens(user);
-  user = _.omit(user, ["password"]);
+  user = omit(user, ["password"]);
   res
     .status(httpStatus.OK)
     .cookie("accessToken", tokens.accessToken, {
