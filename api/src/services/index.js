@@ -13,3 +13,4 @@ module.exports.userClassService = require("./userClass.service");
 // module.exports.socketService = require("./socket.service");
 module.exports.postService = require("./post.service");
 module.exports.commentService = require("./comment.service");
+module.exports.passwordService = require("./password.service");
