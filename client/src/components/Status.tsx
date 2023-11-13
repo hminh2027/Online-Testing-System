@@ -12,6 +12,7 @@ export function Status({ status }: StatusProps) {
     if (status === EXAM_STATUS.NOT_AVAILABLE) return 'error';
     if (status === EXAM_STATUS.OUT_OF_ATTEMPT) return 'error';
     if (status === EXAM_STATUS.ATTEMPTED) return 'warning';
+    if (status === EXAM_STATUS.NOT_ATTEMPTED) return 'warning';
 
     return 'default';
   };

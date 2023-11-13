@@ -5,6 +5,7 @@ export * from './CustomTable';
 export * from './FileIO';
 export * from './Head';
 export * from './LoadingModal';
+export * from './Logo';
 export * from './Notification';
 export * from './Status';
 export * from './TabBar/config';

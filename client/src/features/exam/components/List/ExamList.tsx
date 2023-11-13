@@ -25,17 +25,20 @@ export function ExamList({ dataSource }: ExamListProps) {
           delete: () => {},
         })
       : genDropdownItems({
-          launch: () => {},
+          launch: () => navigation(`${id}/taking`),
           view: () => {},
         });
 
   const checkExamStatus = (exam: Exam) => {
-    if ((exam.deadlineAt && isAfterNow(exam.deadlineAt)) || isBeforeNow(exam.startAt))
+    if ((exam.deadlineAt && isBeforeNow(exam.deadlineAt)) || isAfterNow(exam.startAt))
       return EXAM_STATUS.NOT_AVAILABLE;
 
     if (!user?.isTeacher && exam.Attempt?.length === exam.attemptLimit)
       return EXAM_STATUS.OUT_OF_ATTEMPT;
     if (!user?.isTeacher && (exam.Attempt?.length as number) > 0) return EXAM_STATUS.ATTEMPTED;
+
+    if (!user?.isTeacher && (exam.Attempt?.length as number) === 0)
+      return EXAM_STATUS.NOT_ATTEMPTED;
 
     return EXAM_STATUS.AVAILABLE;
   };

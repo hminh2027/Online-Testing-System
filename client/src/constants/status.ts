@@ -13,6 +13,7 @@ export enum MODE {
 export enum EXAM_STATUS {
   NOT_AVAILABLE = 'không khả dụng',
   OUT_OF_ATTEMPT = 'hết lượt làm bài',
-  AVAILABLE = 'chưa làm',
+  AVAILABLE = 'có thể làm',
+  NOT_ATTEMPTED = 'chưa làm',
   ATTEMPTED = 'đã làm',
 }
