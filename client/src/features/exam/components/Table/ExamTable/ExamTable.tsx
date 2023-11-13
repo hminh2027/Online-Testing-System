@@ -5,20 +5,18 @@ import { CustomTable } from '@/components';
 import { MODE } from '@/constants';
 import { useDrawer } from '@/hooks/useDrawer';
 import { useAuth } from '@/features/auth';
-import { showConfirmation } from '@/utils';
+import { genDropdownItems, showConfirmation } from '@/utils';
 import { useExamMutation } from '@/features/exam/hooks/useExamMutation';
 import type { Exam } from '@/features/exam/types';
-import { useListExam } from '@/features/exam/hooks/useExam';
 
-export function ExamTable() {
-  const { data: examData, isLoading } = useListExam({});
+interface ExamTableProps {
+  dataSource?: Exam[];
+}
+export function ExamTable({ dataSource }: ExamTableProps) {
+  // const { data: examData, isLoading } = useListExam({});
   const { toggleMode, setDetailId } = useDrawer();
   const { user } = useAuth();
   const { deleteFn } = useExamMutation();
-
-  const exams = examData?.content;
-
-  if (!exams) return <>Loading</>;
 
   const handleEdit = (code: string) => {
     toggleMode(MODE.EDIT);
@@ -34,7 +32,6 @@ export function ExamTable() {
 
   return (
     <CustomTable
-      loading={isLoading}
       showActionHeader={user?.isTeacher}
       actionHeader={[
         {
@@ -52,23 +49,11 @@ export function ExamTable() {
               render: (value: Exam) => (
                 <Dropdown
                   menu={{
-                    items: [
-                      {
-                        label: 'Sửa',
-                        key: 'Sửa',
-                        onClick: () => handleEdit(value?.id as string),
-                      },
-                      {
-                        label: 'Xem',
-                        key: 'Xem',
-                        onClick: () => handleDetail(value?.id as string),
-                      },
-                      {
-                        label: 'Xoá',
-                        key: 'Xoá',
-                        onClick: () => handleDelete(value?.id as string),
-                      },
-                    ],
+                    items: genDropdownItems({
+                      modify: () => handleEdit(value?.id as string),
+                      view: () => handleDetail(value?.id as string),
+                      delete: () => handleDelete(value?.id as string),
+                    }),
                   }}
                   trigger={['click']}
                 >
@@ -81,11 +66,11 @@ export function ExamTable() {
             }
           : {},
       ]}
-      dataSource={exams}
+      dataSource={dataSource}
       scroll={{
         x: 1500,
       }}
-      pagination={{ total: exams.length }}
+      pagination={{ total: dataSource?.length }}
     />
   );
 }

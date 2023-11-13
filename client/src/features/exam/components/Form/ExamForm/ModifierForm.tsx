@@ -19,7 +19,7 @@ interface ModifierFormProps {
 
 type RangeProps = [Dayjs | null, Dayjs | null] | null;
 
-export default function ModifierForm({ exam, form }: ModifierFormProps) {
+export function ModifierForm({ exam, form }: ModifierFormProps) {
   const { addFn, updateFn } = useExamMutation();
   const [range, setRange] = useState<RangeProps>([dayjs(), null]);
   const { data: classData, isFetching } = useListClass({});

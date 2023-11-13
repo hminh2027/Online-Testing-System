@@ -1,52 +1,32 @@
-import type { MenuProps } from 'antd';
-import { Layout, Menu } from 'antd';
+import { Layout } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import type { ReactNode } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
-import styles from './index.module.css';
+import { Outlet } from 'react-router-dom';
 
-interface ExamDetailLayoutProps {
+interface ExamClassLayoutProps {
   children?: ReactNode;
 }
 
-const sideNavItems = [
-  {
-    label: 'Tổng quan',
-    path: '',
-  },
-  {
-    label: 'Nội dung đề',
-    path: 'content',
-  },
-  {
-    label: 'Thông tin ???',
-    path: 'edit',
-  },
-];
-
-const items: MenuProps['items'] = sideNavItems.map((item) => ({
-  key: item.path,
-  label: <NavLink to={`${item.path}`}>{item.label}</NavLink>,
-}));
-
-export function ExamDetailLayout({ children }: ExamDetailLayoutProps) {
+export function ExamClassLayout({ children }: ExamClassLayoutProps) {
   return (
-    <Layout
-      style={{
-        height: '100%',
-      }}
-    >
-      <Layout.Sider>
-        <Menu
-          mode="vertical"
-          items={items}
-          style={{
-            width: '100%',
-            height: '100%',
-          }}
-        />
+    <Layout hasSider style={{ height: '100%' }}>
+      <Content
+        style={{
+          height: '100%',
+        }}
+      >
+        {children ?? <Outlet />}
+      </Content>
+      <Layout.Sider
+        width="20%"
+        style={{
+          height: '100%',
+          backgroundColor: 'inherit',
+          overflow: 'auto',
+        }}
+      >
+        temp
       </Layout.Sider>
-      <Content className={styles.content}>{children ?? <Outlet />}</Content>
     </Layout>
   );
 }

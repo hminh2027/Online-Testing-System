@@ -1,11 +1,10 @@
 import type { FormInstance } from 'antd';
 import { Flex, Form, Input, Switch } from 'antd';
 import { useState, useEffect } from 'react';
-import { useAddClass, useClass, useUpdateClass } from '@/features/class/hooks/useClass';
-import type { ClassCreateDTO, ClassRoom, ResClassModify } from '../../types';
-import { useDrawer } from '@/hooks/useDrawer';
-import { CustomMessage } from '@/components';
+import { useClass } from '@/features/class/hooks/useClass';
+import type { ClassCreateDTO, ClassRoom } from '../../types';
 import { Uploader } from '@/components/Uploader';
+import { useClassMutation } from '../../hooks/useClassMutation';
 
 interface ClassModifierProps {
   code?: string;
@@ -18,24 +17,8 @@ export function ClassModifier({ code, form }: ClassModifierProps) {
   const classRoom = classData?.content;
 
   const [image, setImage] = useState<string | null>(null);
-  const { resetDrawerState } = useDrawer();
 
-  const handleOnSuccess = (res: ResClassModify) => {
-    resetDrawerState();
-
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    CustomMessage.success(res.message);
-  };
-
-  const { mutate: addFn } = useAddClass({
-    onSuccess: handleOnSuccess,
-    onError: () => {},
-  });
-
-  const { mutate: updateFn } = useUpdateClass({
-    onSuccess: handleOnSuccess,
-    onError: () => {},
-  });
+  const { addFn, updateFn } = useClassMutation();
 
   const dataAdapter = (data: ClassRoom): ClassCreateDTO => ({
     name: data.name,

@@ -6,6 +6,7 @@ import { MainLayout } from '@/layouts/index';
 import { userClassRoutes } from '@/features/userClass/routes';
 import { ClassDetailLayout } from '@/layouts/ClassDetailLayout/ClassDetailLayout';
 import { UserClassLayout } from '@/layouts/UserClassLayout';
+import { examClassRoutes } from '@/features/exam/routes';
 
 export const classRoutes: RouteObject[] = [
   {
@@ -35,7 +36,7 @@ export const classRoutes: RouteObject[] = [
           },
           {
             path: 'exams',
-            children: [],
+            children: examClassRoutes,
           },
           {
             path: 'schedule',

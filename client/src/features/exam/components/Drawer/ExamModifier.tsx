@@ -5,7 +5,7 @@ import type { Question, TableFormatData } from '../../types';
 import { type ApiFormatData } from '../../types';
 import { useExam } from '../../hooks/useExam';
 import { useQuestionMutation } from '../../hooks/useQuestionMutation';
-import ModifierForm from '../Form/ExamForm/ModifierForm';
+import { ModifierForm } from '../Form';
 import { ExamImportButton } from '../Button/ExamImportButton';
 import { useExcelTranformation } from '../../hooks/useExcelTranformation';
 import { ExcelTable } from '../Table/ExcelTable';

@@ -59,7 +59,7 @@ model Class {
   Exam                   Exam[]
   Post                   Post[]
   UserClass              UserClass[]
-  User                   User        @relation(fields: [teacherId], references: [id])
+  User                   User        @relation(fields: [teacherId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Exam {
@@ -83,7 +83,7 @@ model Exam {
   User                User       @relation(fields: [teacherId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   Question            Question[]
   Attempt             Attempt[]
-  Class               Class      @relation(fields: [classCode], references: [code])
+  Class               Class      @relation(fields: [classCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Question {

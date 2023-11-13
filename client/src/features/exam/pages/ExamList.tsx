@@ -3,11 +3,16 @@ import { Head } from '@/components';
 import { ExamModifier, ExamDetail } from '../components/Drawer';
 import { useDrawer } from '@/hooks/useDrawer';
 import { ExamTable } from '../components/Table';
+import { useListExam } from '../hooks/useExam';
 
 export default function ExamList() {
   const { isDrawerOpen, genTitle, genFooter, genContent, handleClose, detailId } = useDrawer();
   const [form] = Form.useForm();
   const handleSubmit = () => form.submit();
+  const { data: examData, isLoading } = useListExam({});
+  const exams = examData?.content;
+
+  if (isLoading) return <>Loading</>;
 
   return (
     <>
@@ -28,7 +33,7 @@ export default function ExamList() {
           DETAIL: <ExamDetail />,
         })}
       </Drawer>
-      <ExamTable />
+      <ExamTable dataSource={exams} />
     </>
   );
 }

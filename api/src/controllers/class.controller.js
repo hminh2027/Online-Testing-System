@@ -57,8 +57,8 @@ const updateOneByCode = catchAsync(async (req, res) => {
 });
 
 const patchStatusByCode = catchAsync(async (req, res) => {
-  const { id } = req.params;
-  let _class = await classService.updateOneByCode(id, {
+  const { code } = req.params;
+  let _class = await classService.updateOneByCode(code, {
     isActive: req.body.isActive,
   });
 
@@ -69,8 +69,8 @@ const patchStatusByCode = catchAsync(async (req, res) => {
 });
 
 const deleteOneByCode = catchAsync(async (req, res) => {
-  const { id } = req.params;
-  await classService.deleteOneByCode(id);
+  const { code } = req.params;
+  await classService.deleteOneByCode(code);
 
   res.status(httpStatus.OK).json({
     message: "Xóa lớp học thành công",

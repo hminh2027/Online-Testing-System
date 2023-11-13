@@ -9,9 +9,12 @@ import { useDrawer } from '@/hooks/useDrawer';
 import type { ClassRoom } from '../../types';
 import { useAuth } from '@/features/auth';
 import { ClassFindModal } from '@/features/class/components/ClassFindModal';
+import { genDropdownItems } from '@/utils';
+import { useClassMutation } from '../../hooks/useClassMutation';
 
 export function ClassTable() {
   const { data: classData } = useListClass({});
+  const { deleteFn } = useClassMutation();
   const { toggleMode, setDetailId } = useDrawer();
   const { user } = useAuth();
   const [isModalOpen, toggleModal] = useToggle(false);
@@ -30,7 +33,7 @@ export function ClassTable() {
     setDetailId(code);
   };
 
-  const handleDelete = (code: string) => {};
+  const handleDelete = (code: string) => deleteFn({ id: code });
 
   return (
     <>
@@ -57,23 +60,11 @@ export function ClassTable() {
                 render: (value: ClassRoom) => (
                   <Dropdown
                     menu={{
-                      items: [
-                        {
-                          label: 'Sửa',
-                          key: '0',
-                          onClick: () => handleEdit(value.code),
-                        },
-                        {
-                          label: 'Xem',
-                          key: '1',
-                          onClick: () => handleDetail(value.code),
-                        },
-                        {
-                          label: 'Xoá',
-                          key: '3',
-                          onClick: () => handleDelete(value.code),
-                        },
-                      ],
+                      items: genDropdownItems({
+                        modify: () => handleEdit(value.code),
+                        view: () => handleDetail(value.code),
+                        delete: () => handleDelete(value.code),
+                      }),
                     }}
                     trigger={['click']}
                   >
