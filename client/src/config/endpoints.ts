@@ -32,5 +32,8 @@ export const endpoints = {
     answer: {
       path: '/answer',
     },
+    attempt: {
+      path: '/attempt',
+    },
   },
 };

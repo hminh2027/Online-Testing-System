@@ -1,24 +1,20 @@
 import type { BadgeProps } from 'antd';
 import { Badge } from 'antd';
-import { STATUS } from '@/constants';
+import { EXAM_STATUS } from '@/constants';
+import type { REQUEST_STATUS } from '@/constants';
 
 interface StatusProps {
-  status: STATUS;
+  status: REQUEST_STATUS | EXAM_STATUS;
 }
 export function Status({ status }: StatusProps) {
-  const getText = (): string => {
-    if (status === STATUS.ACTIVE) return 'Hoạt động';
-    if (status === STATUS.INACTIVE) return 'Ngừng hoạt động';
-
-    return '';
-  };
-
   const getColor = (): BadgeProps['status'] => {
-    if (status === STATUS.ACTIVE) return 'success';
-    if (status === STATUS.INACTIVE) return 'error';
+    if (status === EXAM_STATUS.AVAILABLE) return 'success';
+    if (status === EXAM_STATUS.NOT_AVAILABLE) return 'error';
+    if (status === EXAM_STATUS.OUT_OF_ATTEMPT) return 'error';
+    if (status === EXAM_STATUS.ATTEMPTED) return 'warning';
 
     return 'default';
   };
 
-  return <Badge status={getColor()} text={getText()} />;
+  return <Badge status={getColor()} text={status} />;
 }

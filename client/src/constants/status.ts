@@ -10,7 +10,9 @@ export enum MODE {
   DETAIL,
 }
 
-export enum STATUS {
-  ACTIVE,
-  INACTIVE,
+export enum EXAM_STATUS {
+  NOT_AVAILABLE = 'không khả dụng',
+  OUT_OF_ATTEMPT = 'hết lượt làm bài',
+  AVAILABLE = 'chưa làm',
+  ATTEMPTED = 'đã làm',
 }

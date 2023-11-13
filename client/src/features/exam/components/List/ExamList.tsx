@@ -1,11 +1,12 @@
-import { DeleteOutlined, DownOutlined, FileTextOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Button, DropDownProps, Dropdown, List, Modal } from 'antd';
+import { DownOutlined, FileTextOutlined } from '@ant-design/icons';
+import { Button, Dropdown, List, Modal } from 'antd';
 import { useToggle } from 'react-use';
-import type { ListItemProps } from 'antd/es/list';
+import { useNavigate } from 'react-router-dom';
 import type { Exam } from '../../types';
-import { formatISOToTime, genDropdownItems } from '@/utils';
+import { formatISOToTime, genDropdownItems, isAfterNow, isBeforeNow } from '@/utils';
 import { useAuth } from '@/features/auth';
+import { EXAM_STATUS } from '@/constants';
+import { Status } from '@/components';
 
 interface ExamListProps {
   dataSource?: Exam[];
@@ -13,20 +14,31 @@ interface ExamListProps {
 export function ExamList({ dataSource }: ExamListProps) {
   const [open, toggleOpen] = useToggle(false);
   const { user } = useAuth();
+  const navigation = useNavigate();
 
-  const teacherMenuItems = genDropdownItems({
-    modify: () => {
-      console.log('first');
-    },
-    view: () => {},
-    download: () => {},
-    unassign: () => {},
-  });
+  const genItemsWithParams = (id: number) =>
+    user?.isTeacher
+      ? genDropdownItems({
+          modify: () => navigation(`/exam/${id}`),
+          view: () => {},
+          download: () => {},
+          delete: () => {},
+        })
+      : genDropdownItems({
+          launch: () => {},
+          view: () => {},
+        });
 
-  const studentMenuItems = genDropdownItems({
-    launch: () => {},
-    view: () => {},
-  });
+  const checkExamStatus = (exam: Exam) => {
+    if ((exam.deadlineAt && isAfterNow(exam.deadlineAt)) || isBeforeNow(exam.startAt))
+      return EXAM_STATUS.NOT_AVAILABLE;
+
+    if (!user?.isTeacher && exam.Attempt?.length === exam.attemptLimit)
+      return EXAM_STATUS.OUT_OF_ATTEMPT;
+    if (!user?.isTeacher && (exam.Attempt?.length as number) > 0) return EXAM_STATUS.ATTEMPTED;
+
+    return EXAM_STATUS.AVAILABLE;
+  };
 
   return (
     <>
@@ -34,13 +46,15 @@ export function ExamList({ dataSource }: ExamListProps) {
         itemLayout="horizontal"
         dataSource={dataSource}
         bordered
-        renderItem={(item, index) => (
+        renderItem={(item) => (
           <List.Item
             actions={[
+              !user?.isTeacher && `${item.Attempt?.length}/${item.attemptLimit} đã làm`,
+              <Status key="status" status={checkExamStatus(item)} />,
               <Dropdown
-                key={1}
+                key="menu"
                 menu={{
-                  items: user?.isTeacher ? teacherMenuItems : studentMenuItems,
+                  items: genItemsWithParams(item.id as number),
                 }}
                 trigger={['click']}
               >

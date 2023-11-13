@@ -58,6 +58,20 @@ function getManyByTeacherId(teacherId) {
   });
 }
 
+function getManyByClassCode(classCode, studentId) {
+  return prisma.exam.findMany({
+    where: {
+      classCode,
+    },
+    ...(studentId && {
+      include: {
+        Attempt: { where: { studentId } },
+      },
+    }),
+    orderBy: { createdAt: "desc" },
+  });
+}
+
 function updateOneById(id, data) {
   return prisma.exam.update({
     where: { id },
@@ -89,6 +103,7 @@ module.exports = {
   createOne,
   getOneById,
   getManyByTeacherId,
+  getManyByClassCode,
   updateOneById,
   deleteOneById,
 };

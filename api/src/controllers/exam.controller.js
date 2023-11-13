@@ -58,8 +58,14 @@ const copyOneById = catchAsync(async (req, res) => {
 });
 
 const getManyByTeacherId = catchAsync(async (req, res) => {
-  const { id } = req.user;
-  const exam = await examService.getManyByTeacherId(+id);
+  const { id, isTeacher } = req.user;
+  const { classCode } = req.query;
+
+  let exam = null;
+
+  if (classCode)
+    exam = await examService.getManyByClassCode(classCode, !isTeacher && +id);
+  else exam = await examService.getManyByTeacherId(+id);
 
   res.status(httpStatus.OK).json({ content: exam });
 });

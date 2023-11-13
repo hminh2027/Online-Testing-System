@@ -2,6 +2,7 @@ import type { User } from '@/features/user';
 import type { Resource, ResponseItem } from '../../../types/common';
 import type { Question } from '.';
 import type { ClassRoom } from '@/features/class/types';
+import type { Attempt } from '@/features/attempt/types';
 
 export interface Exam extends Resource {
   teacherId: number;
@@ -21,6 +22,7 @@ export interface Exam extends Resource {
   isResumeAllowed: boolean;
   classCode: string;
   User?: User;
+  Attempt?: Attempt[];
   Question?: Question[];
   Class: ClassRoom;
 }

@@ -112,17 +112,16 @@ model Answer {
 }
 
 model Attempt {
-  id                        Int       @id @default(autoincrement())
-  studentId                 Int
-  examId                    Int
-  startedAt                 DateTime  @default(now())
-  endedAt                   DateTime?
-  point                     Float?
-  numberOfQuestionDisplayed Int       @default(0)
+  id        Int       @id @default(autoincrement())
+  studentId Int
+  examId    Int
+  startedAt DateTime  @default(now())
+  endedAt   DateTime?
+  point     Float?
   // relations
-  User                      User      @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Exam                      Exam      @relation(fields: [examId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Choice                    Choice[]
+  User      User      @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Exam      Exam      @relation(fields: [examId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Choice    Choice[]
 }
 
 model Choice {

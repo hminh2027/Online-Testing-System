@@ -2,7 +2,6 @@ import { Checkbox, Descriptions, Input } from 'antd';
 import { useClass } from '../../hooks/useClass';
 import { useDrawer } from '@/hooks/useDrawer';
 import { Status } from '@/components';
-import { STATUS } from '@/constants';
 import { formatISOToVi } from '@/utils';
 
 export function ClassDetail() {
@@ -45,10 +44,6 @@ export function ClassDetail() {
     {
       label: 'Ngày tạo',
       value: formatISOToVi(classDetails?.createdAt as Date),
-    },
-    {
-      label: 'Trạng thái',
-      value: <Status status={classDetails?.isActive ? STATUS.ACTIVE : STATUS.INACTIVE} />,
     },
   ];
 
