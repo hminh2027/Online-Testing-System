@@ -32,9 +32,9 @@ function createOne(data) {
   });
 }
 
-async function getOneById(id, { teacherId }) {
+async function getOneById(id) {
   const exam = await prisma.exam.findUnique({
-    where: { id, teacherId },
+    where: { id },
     include: {
       Question: {
         include: { Answer: true },
