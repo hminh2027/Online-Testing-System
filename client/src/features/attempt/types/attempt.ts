@@ -1,3 +1,4 @@
+import type { Exam } from '@/features/exam/types';
 import type { Resource, ResponseItem } from '../../../types/common';
 
 export interface Attempt extends Resource {
@@ -6,14 +7,12 @@ export interface Attempt extends Resource {
   startedAt: Date;
   endedAt: Date;
   point?: number;
+  numberOfMouseLeave?: number;
+  Exam: Exam;
 }
 
 export interface AttemptCreateDTO extends Resource {
-  studentId: number;
   examId: number;
-  startedAt: Date;
-  endedAt: Date;
-  point?: number;
 }
 
 export type ResAttemptItem = ResponseItem<Attempt>;

@@ -13,7 +13,7 @@ export interface Exam extends Resource {
   totalPoint: number;
   startAt: Date;
   deadlineAt: Date;
-  attemptLimit: number;
+  attemptLimit?: number;
   isProcting: boolean;
   isSubmitLateAllowed: boolean;
   isShuffleQuestion: boolean;
@@ -33,7 +33,7 @@ export interface ExamCreateDTO extends Resource {
   duration: number;
   startAt: Date;
   deadlineAt?: Date | null;
-  attemptLimit: number;
+  attemptLimit?: number;
   isProcting: boolean;
   isSubmitLateAllowed: boolean;
   isShuffleQuestion: boolean;

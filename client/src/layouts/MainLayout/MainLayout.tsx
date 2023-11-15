@@ -1,7 +1,8 @@
 import { Layout, Space } from 'antd';
 import { Content, Header } from 'antd/es/layout/layout';
 import type { ReactNode } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { useEffectOnce } from 'react-use';
 import styles from './index.module.css';
 import { studentTabs, teacherTabs } from '@/components/TabBar/config';
 import { TabBar } from '@/components/TabBar';
@@ -10,6 +11,7 @@ import { UserHeader } from '@/components/UserHeader';
 import { useAuthStore } from '@/features/auth/stores';
 import { DrawerContextProvider } from '@/hooks/useDrawer';
 import { Logo } from '@/components';
+import useOngoingAttempt from '@/features/attempt/hooks/useOnGoingAttempt';
 
 interface MainLayoutProps {
   children?: ReactNode;
@@ -17,6 +19,19 @@ interface MainLayoutProps {
 
 export function MainLayout({ children }: MainLayoutProps) {
   const { user } = useAuthStore();
+  const navigation = useNavigate();
+
+  const { fetchOnGoingAttempt } = useOngoingAttempt();
+
+  useEffectOnce(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    (async () => {
+      const exam = await fetchOnGoingAttempt();
+
+      if (exam.content)
+        navigation(`/class/${exam.content.Exam.Class.code}/exams/${exam.content.examId}/taking`);
+    })();
+  });
 
   return (
     <Layout

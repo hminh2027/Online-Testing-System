@@ -7,12 +7,14 @@ import { formatISOToTime, genDropdownItems, isAfterNow, isBeforeNow } from '@/ut
 import { useAuth } from '@/features/auth';
 import { EXAM_STATUS } from '@/constants';
 import { Status } from '@/components';
+import { useAttemptMutation } from '@/features/attempt/hooks/useAttemptMutation';
 
 interface ExamListProps {
   dataSource?: Exam[];
 }
 export function ExamList({ dataSource }: ExamListProps) {
   const [open, toggleOpen] = useToggle(false);
+  const { addFn } = useAttemptMutation();
   const { user } = useAuth();
   const navigation = useNavigate();
 
@@ -25,7 +27,10 @@ export function ExamList({ dataSource }: ExamListProps) {
           delete: () => {},
         })
       : genDropdownItems({
-          launch: () => navigation(`${id}/taking`),
+          launch: () => {
+            addFn({ examId: id });
+            navigation(`${id}/taking`);
+          },
           view: () => {},
         });
 
@@ -52,7 +57,8 @@ export function ExamList({ dataSource }: ExamListProps) {
         renderItem={(item) => (
           <List.Item
             actions={[
-              !user?.isTeacher && `${item.Attempt?.length}/${item.attemptLimit} đã làm`,
+              !user?.isTeacher &&
+                `${item.Attempt?.length}/${item.attemptLimit ? item.attemptLimit : '∞'} đã làm`,
               <Status key="status" status={checkExamStatus(item)} />,
               <Dropdown
                 key="menu"

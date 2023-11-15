@@ -88,10 +88,10 @@ export function ModifierForm({ exam, form }: ModifierFormProps) {
       </Form.Item>
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label="Giới hạn làm bài" required name="attemptLimit">
-            <InputNumber<number>
+          <Form.Item label="Giới hạn làm bài" name="attemptLimit">
+            <InputNumber<string>
               addonAfter="lần"
-              min={1}
+              type="number"
               style={{ width: '100%' }}
               controls={false}
             />

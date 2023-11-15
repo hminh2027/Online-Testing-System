@@ -31,7 +31,7 @@ export function ExamDetail() {
     },
     {
       label: 'Giới hạn làm bài',
-      value: examDetails?.attemptLimit,
+      value: examDetails?.attemptLimit ? examDetails?.attemptLimit : 'Không giới hạn',
     },
     {
       label: 'Thời gian bắt đầu',
