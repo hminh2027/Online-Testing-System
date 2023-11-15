@@ -4,29 +4,26 @@ const httpStatus = require("http-status");
 
 const createOne = catchAsync(async (req, res) => {
   const { id } = req.user;
+  const { examId } = req.body;
   let attempt = await attemptService.createOne({
-    userId: id,
-    testCode: req.body.testCode,
+    studentId: id,
+    examId: examId,
   });
   res
     .status(httpStatus.CREATED)
-    .json({ message: "Bắt đầu làm bài thi!", data: { attempt } });
+    .json({ message: "Bắt đầu làm bài thi!", content: { attempt } });
 });
 
 const getOneOngoing = catchAsync(async (req, res) => {
   const { id } = req.user;
-  const { testCode } = req.params;
-  let attempt = await attemptService.getOneOngoing({
-    userId: id,
-    testCode,
-  });
-  res.status(httpStatus.OK).json({ data: { attempt } });
+  let attempt = await attemptService.getOneOngoing(id);
+  res.status(httpStatus.OK).json({ content: attempt });
 });
 
 const getManyByTestCode = catchAsync(async (req, res) => {
   const { testCode } = req.params;
   let attempts = await attemptService.getManyByTestCode({ testCode });
-  res.status(httpStatus.OK).json({ data: { attempts } });
+  res.status(httpStatus.OK).json({ content: { attempts } });
 });
 
 const getManyByTestCodeAndUserId = catchAsync(async (req, res) => {
@@ -36,7 +33,7 @@ const getManyByTestCodeAndUserId = catchAsync(async (req, res) => {
     testCode,
     userId: id,
   });
-  res.status(httpStatus.OK).json({ data: { attempts } });
+  res.status(httpStatus.OK).json({ content: { attempts } });
 });
 
 const updateOneOngoing = catchAsync(async (req, res) => {
@@ -46,7 +43,7 @@ const updateOneOngoing = catchAsync(async (req, res) => {
     userId: id,
     attemptId,
   });
-  res.status(httpStatus.OK).json({ data: { attempt } });
+  res.status(httpStatus.OK).json({ content: { attempt } });
 });
 
 module.exports = {

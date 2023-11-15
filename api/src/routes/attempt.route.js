@@ -6,10 +6,9 @@ const router = express.Router();
 
 router
   .route("/")
+  .get(auth, attemptController.getOneOngoing)
   .put(auth, attemptController.updateOneOngoing)
   .post(auth, attemptController.createOne);
-
-router.route("/:testCode").get(auth, attemptController.getOneOngoing);
 
 router
   .route("/:testCode/result")

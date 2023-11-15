@@ -1,47 +1,44 @@
 const httpStatus = require("http-status");
-const { testService } = require(".");
 const { prisma } = require("../database/prisma-client");
 const { ApiError } = require("../utils");
+const { examService } = require(".");
 
-async function createOne({ userId, testCode }) {
-  const test = await testService.getOneByCode(testCode);
-  if (!test)
+async function createOne({ studentId, examId }) {
+  const exam = await examService.getOneById(examId);
+  if (!exam)
     throw new ApiError(httpStatus.NOT_FOUND, "Bài kiểm tra không tồn tại");
-  if (test.attempts.length >= test.attempt_limit)
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      "Đã đạt giới hạn làm bài kiểm tra"
-    );
+
   return prisma.attempt.create({
     data: {
-      start_time: new Date(Date.now()),
       User: {
-        connect: { id: userId },
+        connect: { id: studentId },
       },
-      Test: {
-        connect: { code: testCode },
+      Exam: {
+        connect: { id: examId },
       },
-    },
-    include: {
-      choices: true,
     },
   });
 }
 
-async function getOneOngoing({ userId }) {
+function getOneOngoing(studentId) {
   return prisma.attempt.findFirst({
     where: {
-      end_time: null,
-      score: null,
-      userId,
+      endedAt: null,
+      point: null,
+      studentId,
     },
     include: {
-      choices: true,
+      Choice: {
+        include: { Question: true, Answer: true },
+      },
+      Exam: {
+        select: { Class: { select: { code: true } } },
+      },
     },
   });
 }
 
-async function getManyByClassExamId(classExamId) {
+function getManyByClassExamId(classExamId) {
   return prisma.attempt.findMany({
     where: {
       class_exam_id: classExamId,
@@ -54,7 +51,7 @@ async function getManyByClassExamId(classExamId) {
   });
 }
 
-async function getManyByClassExamIdAndUserId(classExamId, userId) {
+function getManyByClassExamIdAndUserId(classExamId, userId) {
   return prisma.attempt.findMany({
     where: {
       userId,
@@ -103,13 +100,13 @@ async function updateOneOnGoing(userId) {
   });
 }
 
-async function updateTaboutOnGoing(userId) {
-  const attempt = await getOneOngoing(userId);
+async function patchTabout(studentId) {
+  const attempt = await getOneOngoing(studentId);
   if (!attempt)
     throw new ApiError(httpStatus.NOT_FOUND, "Không có bài kiểm tra đang làm");
   return prisma.attempt.update({
     where: { id: attempt.id },
-    data: { tabouts: attempt.tabouts + 1 },
+    data: { numberOfMouseLeave: attempt.numberOfMouseLeave + 1 },
   });
 }
 module.exports = {
@@ -118,5 +115,5 @@ module.exports = {
   getManyByClassExamId,
   getManyByClassExamIdAndUserId,
   updateOneOnGoing,
-  updateTaboutOnGoing,
+  patchTabout,
 };

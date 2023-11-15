@@ -71,7 +71,7 @@ model Exam {
   duration            Int
   startAt             DateTime?  @default(now())
   deadlineAt          DateTime?
-  attemptLimit        Int?       @default(0)
+  attemptLimit        Int?
   isProcting          Boolean?   @default(false)
   isSubmitLateAllowed Boolean?   @default(false)
   isShuffleQuestion   Boolean?   @default(false)
@@ -112,16 +112,17 @@ model Answer {
 }
 
 model Attempt {
-  id        Int       @id @default(autoincrement())
-  studentId Int
-  examId    Int
-  startedAt DateTime  @default(now())
-  endedAt   DateTime?
-  point     Float?
+  id                 Int       @id @default(autoincrement())
+  studentId          Int
+  examId             Int
+  startedAt          DateTime  @default(now())
+  endedAt            DateTime?
+  point              Float?
+  numberOfMouseLeave Int?      @default(0)
   // relations
-  User      User      @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Exam      Exam      @relation(fields: [examId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Choice    Choice[]
+  User               User      @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Exam               Exam      @relation(fields: [examId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Choice             Choice[]
 }
 
 model Choice {
