@@ -5,3 +5,4 @@ export * from './Form';
 export * from './List';
 export * from './Steper';
 export * from './Table';
+export * from './Taking';
