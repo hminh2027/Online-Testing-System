@@ -11,7 +11,7 @@ const commentRoute = require("./comment.route");
 const userClassRoute = require("./userClass.route");
 const questionRoute = require("./question.route");
 const answerRoute = require("./answer.route");
-// const choiceRoute = require("./choice.route");
+const choiceRoute = require("./choice.route");
 
 // const notificationRoute = require("./notification.route");
 
@@ -26,9 +26,8 @@ router.use("/exam", examRoute);
 router.use("/question", questionRoute);
 router.use("/answer", answerRoute);
 router.use("/attempt", attemptRoute);
+router.use("/choice", choiceRoute);
 
 // router.use("/notification", notificationRoute);
-
-// router.use("/choice", choiceRoute);
 
 module.exports = router;

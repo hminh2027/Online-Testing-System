@@ -35,5 +35,8 @@ export const endpoints = {
     attempt: {
       path: '/attempt',
     },
+    choice: {
+      path: '/choice',
+    },
   },
 };

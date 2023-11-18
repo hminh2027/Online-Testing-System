@@ -1,5 +1,6 @@
 import type { Exam } from '@/features/exam/types';
 import type { Resource, ResponseItem } from '../../../types/common';
+import type { Choice } from './choice';
 
 export interface Attempt extends Resource {
   studentId: number;
@@ -9,6 +10,7 @@ export interface Attempt extends Resource {
   point?: number;
   numberOfMouseLeave?: number;
   Exam: Exam;
+  Choice: Choice[];
 }
 
 export interface AttemptCreateDTO extends Resource {

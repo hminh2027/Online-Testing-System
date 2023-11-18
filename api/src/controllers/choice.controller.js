@@ -3,14 +3,22 @@ const { catchAsync } = require("../utils");
 const httpStatus = require("http-status");
 
 const createOne = catchAsync(async (req, res) => {
-  let choice = await choiceService.createOne({
-    answerIndex: req.body.answerIndex,
-    questionIndex: req.body.questionIndex,
-    attemptId: req.body.attemptId,
+  const { answerId, attemptId, questionId } = req.body;
+  await choiceService.upsertOne({
+    answerId: +answerId,
+    questionId: +questionId,
+    attemptId: +attemptId,
   });
-  res.status(httpStatus.OK).json({ data: { choice } });
+  res.status(httpStatus.OK).json();
+});
+
+const updateMany = catchAsync(async (req, res) => {
+  const choices = req.body;
+  await choiceService.upsertMany(choices);
+  res.status(httpStatus.OK).json();
 });
 
 module.exports = {
   createOne,
+  updateMany,
 };

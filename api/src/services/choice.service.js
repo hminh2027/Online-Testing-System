@@ -1,33 +1,33 @@
 const { prisma } = require("../database/prisma-client");
 
-async function createOne({ answerIndex, attemptId, questionIndex }) {
-  const choice = await getOne({
-    questionIndex,
-    answerIndex,
-    attemptId,
+async function upsertOne({ answerId, attemptId, questionId }) {
+  const choice = await prisma.choice.findFirst({
+    where: { attemptId, questionId },
   });
 
-  if (choice) return updateOne({ id: choice.id, answerIndex });
-
-  return prisma.choice.create({
-    data: {
-      answerIndex,
-      attemptId,
-      questionIndex,
-    },
+  return prisma.choice.upsert({
+    where: { id: choice ? choice.id : 0 },
+    create: { answerId, attemptId, questionId },
+    update: { answerId },
   });
 }
 
-async function getOne({ attemptId, questionIndex, answerIndex }) {
-  return prisma.choice.findFirst({
-    where: { attemptId, questionIndex, answerIndex },
+async function upsertMany(choices) {
+  const { attemptId, questionId } = choices[0];
+  await prisma.choice.deleteMany({
+    where: { attemptId, questionId },
   });
-}
 
-async function updateOne({ id, answerIndex }) {
-  return prisma.choice.update({ where: { id }, data: { answerIndex } });
+  return prisma.choice.createMany({
+    data: choices.map((choice) => ({
+      answerId: +choice.answerId,
+      questionId: +choice.questionId,
+      attemptId: +choice.attemptId,
+    })),
+  });
 }
 
 module.exports = {
-  createOne,
+  upsertOne,
+  upsertMany,
 };

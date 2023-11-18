@@ -2,7 +2,7 @@ import { Layout, Space } from 'antd';
 import { Content, Header } from 'antd/es/layout/layout';
 import type { ReactNode } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useEffectOnce } from 'react-use';
+import { useAsync, useEffectOnce } from 'react-use';
 import styles from './index.module.css';
 import { studentTabs, teacherTabs } from '@/components/TabBar/config';
 import { TabBar } from '@/components/TabBar';
@@ -12,6 +12,7 @@ import { useAuthStore } from '@/features/auth/stores';
 import { DrawerContextProvider } from '@/hooks/useDrawer';
 import { Logo } from '@/components';
 import useOngoingAttempt from '@/features/attempt/hooks/useOnGoingAttempt';
+import { useAttemptStore } from '@/features/attempt/stores';
 
 interface MainLayoutProps {
   children?: ReactNode;
@@ -19,19 +20,19 @@ interface MainLayoutProps {
 
 export function MainLayout({ children }: MainLayoutProps) {
   const { user } = useAuthStore();
+  const { setAttempt } = useAttemptStore();
   const navigation = useNavigate();
 
   const { fetchOnGoingAttempt } = useOngoingAttempt();
 
-  useEffectOnce(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    (async () => {
-      const exam = await fetchOnGoingAttempt();
+  useAsync(async () => {
+    const { content } = await fetchOnGoingAttempt();
 
-      if (exam.content)
-        navigation(`/class/${exam.content.Exam.Class.code}/exams/${exam.content.examId}/taking`);
-    })();
-  });
+    if (content) {
+      setAttempt(content);
+      navigation(`/class/${content.Exam.Class.code}/exams/${content.examId}/taking`);
+    }
+  }, []);
 
   return (
     <Layout

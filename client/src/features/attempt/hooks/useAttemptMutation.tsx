@@ -27,10 +27,7 @@ export function useAttemptMutation() {
   });
 
   const { mutate: patchFn } = usePatchAttempt({
-    onSuccess: (res) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.success(res.message);
-    },
+    onSuccess: () => {},
     onError: () => {},
   });
 
@@ -38,6 +35,6 @@ export function useAttemptMutation() {
     addFn,
     updateFn,
     deleteFn,
-    patchFn,
+    increaseTaboutFn: patchFn,
   };
 }

@@ -14,7 +14,7 @@ export const formatISOToDatePicker = (time: Date) => dayjs(time, 'YYYY-MM-DD HH:
 export const formatDatePicketToISO = (time: Dayjs) => dayjs(time).toISOString();
 export const isAfterNow = (time: Date) => dayjs(time).isAfter(dayjs());
 export const isBeforeNow = (time: Date) => dayjs(time).isBefore(dayjs());
-
+export const isAfterTime = (time: Date, time2: Date) => dayjs(time).isAfter(time2);
 export const formatSecondsToHHMMSS = (seconds: number): string => {
   const durationTime = dayjs.duration(seconds, 'seconds');
   const hours = durationTime.hours().toString().padStart(2, '0');

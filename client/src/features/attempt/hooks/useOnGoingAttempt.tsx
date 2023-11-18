@@ -9,8 +9,7 @@ export default function useOngoingAttempt() {
       params: {},
     });
 
-  // Should consider whether place in useAttemptMutation or useOngoing one
-  const patchTabout = () => {};
-
-  return { fetchOnGoingAttempt };
+  return {
+    fetchOnGoingAttempt,
+  };
 }

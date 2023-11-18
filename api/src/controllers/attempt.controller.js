@@ -37,13 +37,17 @@ const getManyByTestCodeAndUserId = catchAsync(async (req, res) => {
 });
 
 const updateOneOngoing = catchAsync(async (req, res) => {
-  const { id } = req.user;
-  const { attemptId } = req.body;
-  let attempt = await attemptService.updateOneById({
-    userId: id,
-    attemptId,
-  });
-  res.status(httpStatus.OK).json({ content: { attempt } });
+  const { id } = req.params;
+  let attempt = await attemptService.updateOneById(+id);
+  res
+    .status(httpStatus.OK)
+    .json({ content: attempt, message: "Nộp bài thành công!" });
+});
+
+const patchOneOnGoing = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  await attemptService.patchTaboutById(+id);
+  res.status(httpStatus.OK).json();
 });
 
 module.exports = {
@@ -52,4 +56,5 @@ module.exports = {
   getManyByTestCode,
   getManyByTestCodeAndUserId,
   updateOneOngoing,
+  patchOneOnGoing,
 };

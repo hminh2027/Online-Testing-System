@@ -16,6 +16,7 @@ async function createOne({ studentId, examId }) {
       Exam: {
         connect: { id: examId },
       },
+      startedAt: new Date().toISOString(),
     },
   });
 }
@@ -32,7 +33,13 @@ function getOneOngoing(studentId) {
         include: { Question: true, Answer: true },
       },
       Exam: {
-        select: { Class: { select: { code: true } } },
+        include: {
+          Question: {
+            include: { Answer: true },
+            orderBy: { index: "asc" },
+          },
+          Class: true,
+        },
       },
     },
   });
@@ -65,47 +72,44 @@ function getManyByClassExamIdAndUserId(classExamId, userId) {
   });
 }
 
-async function updateOneOnGoing(userId) {
+async function updateOneById(id) {
   const attempt = await prisma.attempt.findFirst({
-    where: { end_time: null, score: null, userId },
+    where: { id },
     include: {
-      choices: {
+      Choice: {
         include: {
-          Answer: {
-            include: {
-              Question: true,
-            },
-          },
+          Answer: true,
+          Question: true,
         },
       },
     },
   });
 
   if (!attempt) return;
-  let score = 0;
-  attempt.choices.map((choice) => {
-    if (choice.Answer.is_correct) {
-      score += choice.Answer.Question.score;
+  let point = 0;
+  attempt.Choice.map((choice) => {
+    if (choice.Answer.isCorrect) {
+      point += choice.Question.point;
     }
   });
 
   return prisma.attempt.update({
     where: {
-      id: attemptId,
+      id,
     },
     data: {
-      end_time: new Date(Date.now()),
-      score,
+      endedAt: new Date(),
+      point,
     },
   });
 }
 
-async function patchTabout(studentId) {
-  const attempt = await getOneOngoing(studentId);
+async function patchTaboutById(id) {
+  const attempt = await prisma.attempt.findFirst({ where: { id } });
   if (!attempt)
-    throw new ApiError(httpStatus.NOT_FOUND, "Không có bài kiểm tra đang làm");
+    throw new ApiError(httpStatus.NOT_FOUND, "Không tìm thấy bài kiểm tra");
   return prisma.attempt.update({
-    where: { id: attempt.id },
+    where: { id },
     data: { numberOfMouseLeave: attempt.numberOfMouseLeave + 1 },
   });
 }
@@ -114,6 +118,6 @@ module.exports = {
   getOneOngoing,
   getManyByClassExamId,
   getManyByClassExamIdAndUserId,
-  updateOneOnGoing,
-  patchTabout,
+  updateOneById,
+  patchTaboutById,
 };

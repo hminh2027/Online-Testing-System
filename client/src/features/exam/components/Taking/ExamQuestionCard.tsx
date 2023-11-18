@@ -18,7 +18,7 @@ export function ExamQuestionCard({ question, index }: ExamQuestionCardProps) {
     >
       <Flex vertical gap={24}>
         <Typography.Text>{question.content}</Typography.Text>
-        <ExamAnswerList answers={question.Answer} />
+        <ExamAnswerList questionId={question.id as number} answers={question.Answer} />
       </Flex>
     </CustomCard>
   );
