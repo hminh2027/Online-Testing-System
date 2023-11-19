@@ -57,7 +57,9 @@ function getManyByExamId(examId, studentId) {
       },
       Exam: {
         include: {
-          Question: true,
+          Question: {
+            include: { Answer: true },
+          },
         },
       },
     },

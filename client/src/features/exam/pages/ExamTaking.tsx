@@ -72,7 +72,7 @@ export default function ExamTaking() {
 
     const isTimeInvalid =
       isBeforeNow(new Date(timeSpent)) ||
-      (attempt.Exam.deadlineAt && isAfterTime(new Date(timeSpent), attempt.Exam.deadlineAt));
+      (attempt.Exam.deadlineAt ? isAfterTime(new Date(timeSpent), attempt.Exam.deadlineAt) : false);
 
     if (isTimeInvalid) {
       updateFn({

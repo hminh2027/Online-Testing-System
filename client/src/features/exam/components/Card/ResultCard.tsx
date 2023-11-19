@@ -1,15 +1,15 @@
 import { Badge, Flex, Select, Typography } from 'antd';
-import dayjs from 'dayjs';
 import { CustomCard } from '@/components';
 import type { Attempt } from '@/features/attempt/types';
 import { transformToAntdSelectOptions } from '@/utils';
+import type { Result } from '../../hooks/useResult';
 
 interface ResultCardProps {
-  value: Attempt;
+  meta?: Result['meta'];
   setValue: (attempt: Attempt) => void;
   attempts: Attempt[];
 }
-export function ResultCard({ value, setValue, attempts }: ResultCardProps) {
+export function ResultCard({ meta, setValue, attempts }: ResultCardProps) {
   const handleSelect = (attemptId: number) => {
     const selectedAtt = attempts.find((att) => att.id === attemptId);
 
@@ -32,28 +32,45 @@ export function ResultCard({ value, setValue, attempts }: ResultCardProps) {
         />
       }
     >
-      {value ? (
+      {meta ? (
         <Flex vertical gap={12}>
           <Flex justify="space-between">
-            Tổng điểm: <span>{value.point}</span>
+            <Typography.Text strong>Tổng điểm:</Typography.Text>
+            <span>{meta.totalPoint}</span>
           </Flex>
           <Flex justify="space-between">
-            Thời gian (phút): <span> {dayjs(value.endedAt).diff(value.startedAt, 'minutes')}</span>
+            <Typography.Text strong>Bắt đầu lúc:</Typography.Text>
+            <span>{meta.startedAt}</span>
           </Flex>
           <Flex justify="space-between">
-            Số lần nhấp ra ngoài màn hình: <span>{value.numberOfMouseLeave}</span>
+            <Typography.Text strong>Hoàn thành lúc:</Typography.Text>
+            <span>{meta.endedAt}</span>
           </Flex>
           <Flex justify="space-between">
-            <Badge text="Số câu đúng:" color="green" />
-            <span>{value.numberOfMouseLeave}</span>
+            <Typography.Text strong>Thời gian (phút):</Typography.Text>
+            <span>{meta.timeSpent}</span>
           </Flex>
           <Flex justify="space-between">
-            <Badge text="Số câu sai:" color="red" />
-            <span>{value.numberOfMouseLeave}</span>
+            <Typography.Text strong>Số lần nhấp ra ngoài màn hình:</Typography.Text>
+            <span>{meta.numberOfMouseLeave}</span>
           </Flex>
           <Flex justify="space-between">
-            <Badge text="Chưa làm:" color="gold" />
-            <span>{value.numberOfMouseLeave}</span>
+            <Typography.Text strong>
+              <Badge text="Số câu đúng:" color="green" />
+            </Typography.Text>
+            <span>{meta.correct}</span>
+          </Flex>
+          <Flex justify="space-between">
+            <Typography.Text strong>
+              <Badge text="Số câu sai:" color="red" />
+            </Typography.Text>
+            <span>{meta.inCorrect}</span>
+          </Flex>
+          <Flex justify="space-between">
+            <Typography.Text strong>
+              <Badge text="Chưa làm:" color="gold" />
+            </Typography.Text>
+            <span>{meta.blank}</span>
           </Flex>
         </Flex>
       ) : (

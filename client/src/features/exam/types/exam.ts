@@ -21,7 +21,7 @@ export interface Exam extends Resource {
   classCode: string;
   User?: User;
   Attempt?: Attempt[];
-  Question?: Question[];
+  Question: Question[];
   Class: ClassRoom;
 }
 
