@@ -37,37 +37,20 @@ module.exports.socketServer = (io) => {
           clearInterval(heartbeatInterval);
           users.delete(userId);
           // TODO: Update test database to lock test
-          console.log("well me go lock the test!!!");
-          // await attemptService.updateOneById({ userId, attemptId });
+          const attempt = await attemptService.getOneOngoing(userId);
+          if (attempt && !attempt.Exam.isResumeAllowed) {
+            console.log("Lock the test!!!");
+            await attemptService.updateOneById(attemptId);
+          }
           return;
         }
       }, config.socket.heartbeat);
     });
-
-    socket.on("tabout", async (userId) => {
-      let tab = await redis.get(userId);
-      if (!tab) tab = 0;
-      await redis.set(userId, +tab + 1);
-    });
-
-    socket.on(
-      "changeAnswer",
-      async ({ attemptId, questionIndex, answerIndex }) => {
-        let attempt = await redis.hget("attempt", attemptId);
-        if (!attempt) attempt = "{}";
-        const object = JSON.parse(qns);
-
-        object[questionIndex] = answerIndex;
-
-        const json = JSON.stringify(object);
-        await redis.hset("attempt", attemptId, json);
-      }
-    );
   });
 };
 
 const addUser = (userId, socketId) => {
-  users.set(userId, { userId, socketId, lastHeartbeat: Date.now(), tabout: 0 });
+  users.set(userId, { userId, socketId, lastHeartbeat: Date.now() });
 };
 
 const removeUser = (socketId) => {

@@ -63,27 +63,25 @@ model Class {
 }
 
 model Exam {
-  id                  Int        @id @default(autoincrement())
-  classCode           String
-  teacherId           Int
-  title               String
-  description         String?    @db.LongText
-  duration            Int
-  startAt             DateTime?  @default(now())
-  deadlineAt          DateTime?
-  attemptLimit        Int?
-  isProcting          Boolean?   @default(false)
-  isSubmitLateAllowed Boolean?   @default(false)
-  isShuffleQuestion   Boolean?   @default(false)
-  isShowAnswer        Boolean?   @default(false)
-  isShowExplaination  Boolean?   @default(false)
-  isResumeAllowed     Boolean?   @default(false)
-  createdAt           DateTime   @default(now())
+  id                Int        @id @default(autoincrement())
+  classCode         String
+  teacherId         Int
+  title             String
+  description       String?    @db.LongText
+  duration          Int
+  startAt           DateTime?  @default(now())
+  deadlineAt        DateTime?
+  attemptLimit      Int?
+  isProcting        Boolean?   @default(false)
+  isShuffleQuestion Boolean?   @default(false)
+  isShowAnswer      Boolean?   @default(false)
+  isResumeAllowed   Boolean?   @default(false)
+  createdAt         DateTime   @default(now())
   // relations
-  User                User       @relation(fields: [teacherId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Question            Question[]
-  Attempt             Attempt[]
-  Class               Class      @relation(fields: [classCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
+  User              User       @relation(fields: [teacherId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Question          Question[]
+  Attempt           Attempt[]
+  Class             Class      @relation(fields: [classCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Question {

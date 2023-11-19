@@ -5,11 +5,12 @@ import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { CustomCard, CustomMessage } from '@/components';
 import { ExamAnswerSheet, ExamTimer, ExamQuestionCard } from '../components';
-import type { Question } from '../types';
 import useOngoingAttempt from '@/features/attempt/hooks/useOnGoingAttempt';
 import { useAttemptStore } from '@/features/attempt/stores';
-import { isBeforeNow } from '@/utils';
+import { isAfterTime, isBeforeNow } from '@/utils';
 import { useAttemptMutation } from '@/features/attempt/hooks/useAttemptMutation';
+import { useAuth } from '@/features/auth';
+import { socket } from '@/libs/socket';
 
 export default function ExamTaking() {
   useBeforeUnload(true, 'You have unsaved changes, are you sure?');
@@ -20,11 +21,10 @@ export default function ExamTaking() {
   const { attempt, setAttempt } = useAttemptStore();
   const { increaseTaboutFn, updateFn } = useAttemptMutation();
   const navigation = useNavigate();
-
-  // TODO: check các điều kiện của exam: cho làm tiếp, đảo đề, chống cheat, ...
+  const { user } = useAuth();
 
   usePageLeave(() => {
-    if (!attempt) return;
+    if (!attempt || !attempt.Exam.isProcting) return;
     increaseTaboutFn({
       id: attempt?.id as number,
       payload: {},
@@ -41,8 +41,22 @@ export default function ExamTaking() {
   }, []);
 
   useEffect(() => {
-    toggleOpen(height + 50 < window.screen.height && height < window.screen.height);
-  }, [toggleOpen, height]);
+    if (attempt?.Exam.isProcting)
+      toggleOpen(height + 50 < window.screen.height && height < window.screen.height);
+  }, [toggleOpen, height, attempt]);
+
+  useEffect(() => {
+    if (!user || !attempt) return () => {};
+
+    let timer: NodeJS.Timeout | null = null;
+
+    socket.emit('reconnect', user.id, attempt.id);
+    timer = setInterval(() => {
+      socket.emit('heartbeat', user.id);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, [user, attempt]);
 
   useEffect(() => {
     if (!attempt) return;
@@ -56,7 +70,9 @@ export default function ExamTaking() {
       )
       .toISOString();
 
-    const isTimeInvalid = isBeforeNow(new Date(timeSpent));
+    const isTimeInvalid =
+      isBeforeNow(new Date(timeSpent)) ||
+      (attempt.Exam.deadlineAt && isAfterTime(new Date(timeSpent), attempt.Exam.deadlineAt));
 
     if (isTimeInvalid) {
       updateFn({
@@ -64,18 +80,27 @@ export default function ExamTaking() {
         payload: {},
       });
       Modal.error({
+        centered: true,
+        title: 'Hết giờ làm bài',
         content: 'Đã hết giờ làm bài. Nhấn ok đề thoát',
         onOk: () => navigation(`/class/${attempt.Exam.Class.code}/exams/${attempt.Exam.id}/result`),
       });
     }
   }, [attempt, navigation, updateFn]);
 
+  function handleShuffle<T>(array: T[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+
+    return array;
+  }
+
   if (!attempt) return <>Loading</>;
 
   const { Exam } = attempt;
-
-  // TODO: check start rồi thì check cả end deadline
-  // (Exam.deadlineAt && isAfterTime(new Date(timeSpent), Exam.deadlineAt));
 
   const handleSubmit = () =>
     Modal.confirm({
@@ -108,7 +133,13 @@ export default function ExamTaking() {
               <Flex justify="center" align="center" vertical gap={20}>
                 <Typography.Title level={2}>Thời gian</Typography.Title>
                 <ExamTimer duration={Exam.duration * 60} />
-                <ExamAnswerSheet questions={Exam.Question as Question[]} />
+                {Exam.Question && (
+                  <ExamAnswerSheet
+                    questions={
+                      Exam.isShuffleQuestion ? handleShuffle(Exam.Question) : Exam.Question
+                    }
+                  />
+                )}
               </Flex>
               <Button block danger type="primary" onClick={handleSubmit}>
                 Nộp bài

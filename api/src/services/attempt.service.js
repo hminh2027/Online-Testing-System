@@ -45,28 +45,20 @@ function getOneOngoing(studentId) {
   });
 }
 
-function getManyByClassExamId(classExamId) {
+function getManyByExamId(examId, studentId) {
   return prisma.attempt.findMany({
     where: {
-      class_exam_id: classExamId,
+      examId,
+      studentId,
     },
     include: {
-      choices: {
+      Choice: {
         include: { Answer: true, Question: true },
       },
-    },
-  });
-}
-
-function getManyByClassExamIdAndUserId(classExamId, userId) {
-  return prisma.attempt.findMany({
-    where: {
-      userId,
-      class_exam_id: classExamId,
-    },
-    include: {
-      choices: {
-        include: { Answer: true, Question: true },
+      Exam: {
+        include: {
+          Question: true,
+        },
       },
     },
   });
@@ -116,8 +108,7 @@ async function patchTaboutById(id) {
 module.exports = {
   createOne,
   getOneOngoing,
-  getManyByClassExamId,
-  getManyByClassExamIdAndUserId,
+  getManyByExamId,
   updateOneById,
   patchTaboutById,
 };

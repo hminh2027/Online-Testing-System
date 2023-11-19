@@ -11,7 +11,7 @@ const createOne = catchAsync(async (req, res) => {
   });
   res
     .status(httpStatus.CREATED)
-    .json({ message: "Bắt đầu làm bài thi!", content: { attempt } });
+    .json({ message: "Bắt đầu làm bài thi!", content: attempt });
 });
 
 const getOneOngoing = catchAsync(async (req, res) => {
@@ -20,20 +20,11 @@ const getOneOngoing = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json({ content: attempt });
 });
 
-const getManyByTestCode = catchAsync(async (req, res) => {
-  const { testCode } = req.params;
-  let attempts = await attemptService.getManyByTestCode({ testCode });
-  res.status(httpStatus.OK).json({ content: { attempts } });
-});
-
-const getManyByTestCodeAndUserId = catchAsync(async (req, res) => {
-  const { testCode } = req.params;
+const getManyByExamId = catchAsync(async (req, res) => {
+  const { examId } = req.query;
   const { id } = req.user;
-  let attempts = await attemptService.getManyByTestCodeAndUserId({
-    testCode,
-    userId: id,
-  });
-  res.status(httpStatus.OK).json({ content: { attempts } });
+  let attempts = await attemptService.getManyByExamId(+examId, id);
+  res.status(httpStatus.OK).json({ content: attempts });
 });
 
 const updateOneOngoing = catchAsync(async (req, res) => {
@@ -53,8 +44,7 @@ const patchOneOnGoing = catchAsync(async (req, res) => {
 module.exports = {
   createOne,
   getOneOngoing,
-  getManyByTestCode,
-  getManyByTestCodeAndUserId,
+  getManyByExamId,
   updateOneOngoing,
   patchOneOnGoing,
 };

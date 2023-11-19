@@ -11,9 +11,7 @@ function createOne(data) {
       isProcting: data.isProcting,
       isResumeAllowed: data.isResumeAllowed,
       isShowAnswer: data.isShowAnswer,
-      isShowExplaination: data.isShowExplaination,
       isShuffleQuestion: data.isShuffleQuestion,
-      isSubmitLateAllowed: data.isSubmitLateAllowed,
       startAt: data.startAt,
       Class: {
         connect: { code: data.classCode },
@@ -84,9 +82,7 @@ function updateOneById(id, data) {
       isProcting: data.isProcting,
       isResumeAllowed: data.isResumeAllowed,
       isShowAnswer: data.isShowAnswer,
-      isShowExplaination: data.isShowExplaination,
       isShuffleQuestion: data.isShuffleQuestion,
-      isSubmitLateAllowed: data.isSubmitLateAllowed,
       startAt: data.startAt,
       Class: {
         connect: { code: data.classCode },

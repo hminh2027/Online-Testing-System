@@ -15,10 +15,8 @@ export interface Exam extends Resource {
   deadlineAt: Date;
   attemptLimit?: number;
   isProcting: boolean;
-  isSubmitLateAllowed: boolean;
   isShuffleQuestion: boolean;
   isShowAnswer: boolean;
-  isShowExplaination: boolean;
   isResumeAllowed: boolean;
   classCode: string;
   User?: User;
@@ -35,10 +33,8 @@ export interface ExamCreateDTO extends Resource {
   deadlineAt?: Date | null;
   attemptLimit?: number;
   isProcting: boolean;
-  isSubmitLateAllowed: boolean;
   isShuffleQuestion: boolean;
   isShowAnswer: boolean;
-  isShowExplaination: boolean;
   isResumeAllowed: boolean;
   classCode: string;
 }

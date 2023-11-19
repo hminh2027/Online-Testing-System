@@ -7,10 +7,8 @@
     "teacherId": 1,
     "attemptLimit": 1,
     "isProcting": true,
-    "isSubmitLateAllowed": false,
     "isShuffleQuestion": false,
     "isShowAnswer": true,
-    "isShowExplaination": false,
     "isResumeAllowed": true
   },
   {
@@ -21,10 +19,8 @@
     "teacherId": 1,
     "attemptLimit": 2,
     "isProcting": false,
-    "isSubmitLateAllowed": false,
     "isShuffleQuestion": false,
     "isShowAnswer": false,
-    "isShowExplaination": false,
     "isResumeAllowed": false
   },
   {
@@ -35,10 +31,8 @@
     "teacherId": 1,
     "attemptLimit": 3,
     "isProcting": true,
-    "isSubmitLateAllowed": true,
     "isShuffleQuestion": true,
     "isShowAnswer": true,
-    "isShowExplaination": true,
     "isResumeAllowed": true
   },
   {
@@ -49,10 +43,8 @@
     "teacherId": 1,
     "attemptLimit": null,
     "isProcting": false,
-    "isSubmitLateAllowed": true,
     "isShuffleQuestion": false,
     "isShowAnswer": true,
-    "isShowExplaination": true,
     "isResumeAllowed": false
   },
   {
@@ -63,10 +55,8 @@
     "teacherId": 1,
     "attemptLimit": null,
     "isProcting": false,
-    "isSubmitLateAllowed": true,
     "isShuffleQuestion": false,
     "isShowAnswer": true,
-    "isShowExplaination": false,
     "isResumeAllowed": true
   },
   {
@@ -77,10 +67,8 @@
     "teacherId": 1,
     "attemptLimit": 2,
     "isProcting": true,
-    "isSubmitLateAllowed": false,
     "isShuffleQuestion": true,
     "isShowAnswer": false,
-    "isShowExplaination": false,
     "isResumeAllowed": true
   }
 ]

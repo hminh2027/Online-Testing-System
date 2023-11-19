@@ -7,7 +7,6 @@ const router = express.Router();
 router
   .route("/")
   .get(auth, attemptController.getOneOngoing)
-
   .post(auth, attemptController.createOne);
 
 router
@@ -15,12 +14,6 @@ router
   .put(auth, attemptController.updateOneOngoing)
   .patch(auth, attemptController.patchOneOnGoing);
 
-// router
-//   .route("/:testCode/result")
-//   .get(auth, attemptController.getManyByTestCode);
-
-// router
-//   .route("/:testCode/result/me")
-//   .get(auth, attemptController.getManyByTestCodeAndUserId);
+router.route("/result").get(auth, attemptController.getManyByExamId);
 
 module.exports = router;

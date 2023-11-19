@@ -31,7 +31,7 @@ export function ExamList({ dataSource }: ExamListProps) {
             addFn({ examId: id });
             navigation(`${id}/taking`);
           },
-          view: () => {},
+          view: () => navigation(`${id}/result`),
         });
 
   const checkExamStatus = (exam: Exam) => {

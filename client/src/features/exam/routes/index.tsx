@@ -28,4 +28,8 @@ export const examClassRoutes: RouteObject[] = [
     path: ':id/taking',
     element: <ExamPage.ExamTaking />,
   },
+  {
+    path: ':id/result',
+    element: <ExamPage.ExamResult />,
+  },
 ];

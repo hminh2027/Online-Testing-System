@@ -47,14 +47,6 @@ export function ExamDetail() {
       value: <Checkbox disabled checked={!!examDetails?.isShowAnswer} />,
     },
     {
-      label: 'Hiển thị lời giải sau thi',
-      value: <Checkbox disabled checked={!!examDetails?.isShowExplaination} />,
-    },
-    {
-      label: 'Cho phép nộp muộn',
-      value: <Checkbox disabled checked={!!examDetails?.isSubmitLateAllowed} />,
-    },
-    {
       label: 'Cho phép kết nối lại',
       value: <Checkbox disabled checked={!!examDetails?.isResumeAllowed} />,
     },

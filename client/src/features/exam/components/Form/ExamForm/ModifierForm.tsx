@@ -61,10 +61,8 @@ export function ModifierForm({ exam, form }: ModifierFormProps) {
     duration: data.duration,
     attemptLimit: data.attemptLimit,
     isProcting: data.isProcting,
-    isSubmitLateAllowed: data.isSubmitLateAllowed,
     isShuffleQuestion: data.isShuffleQuestion,
     isShowAnswer: data.isShowAnswer,
-    isShowExplaination: data.isShowExplaination,
     isResumeAllowed: data.isResumeAllowed,
     classCode: data.classCode,
   });
@@ -126,11 +124,6 @@ export function ModifierForm({ exam, form }: ModifierFormProps) {
       </Form.Item>
       <Row gutter={16}>
         <Col span={8}>
-          <Form.Item label="Cho phép nộp muộn" name="isSubmitLateAllowed" valuePropName="checked">
-            <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
-          </Form.Item>
-        </Col>
-        <Col span={8}>
           <Form.Item label="Cho phép kết nối lại" name="isResumeAllowed" valuePropName="checked">
             <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
           </Form.Item>
@@ -140,20 +133,15 @@ export function ModifierForm({ exam, form }: ModifierFormProps) {
             <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
           </Form.Item>
         </Col>
-      </Row>
-      <Row gutter={16}>
         <Col span={8}>
           <Form.Item label="Đảo đề" name="isShuffleQuestion" valuePropName="checked">
             <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
           </Form.Item>
         </Col>
+      </Row>
+      <Row gutter={16}>
         <Col span={8}>
           <Form.Item label="Hiển thị đáp án" name="isShowAnswer" valuePropName="checked">
-            <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
-          </Form.Item>
-        </Col>
-        <Col span={8}>
-          <Form.Item label="Hiển thị giải thích" name="isShowExplaination" valuePropName="checked">
             <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
           </Form.Item>
         </Col>
