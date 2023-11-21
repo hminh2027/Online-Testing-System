@@ -21,6 +21,8 @@ const getOneById = catchAsync(async (req, res) => {
 
 const copyOneById = catchAsync(async (req, res) => {
   const { id } = req.params;
+  const { id: teacherId } = req.user;
+
   const exam = await examService.getOneById(+id);
 
   if (!exam)

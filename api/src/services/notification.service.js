@@ -1,16 +1,25 @@
 const { prisma } = require("../database/prisma-client");
 
-async function createOne({ content, url = "", userId }) {
-  return prisma.notification.create({
+async function createOne({ content, url = "", userId, recipents }) {
+  const noti = await prisma.notification.create({
     data: {
       content,
       url,
-      user_id: userId,
       User: {
         connect: { id: userId },
       },
     },
   });
+
+  await prisma.user_Notification.createMany({
+    data: recipents.map((userId) => ({
+      notiId: noti.id,
+      userId,
+      isRead: false,
+    })),
+  });
+
+  return noti;
 }
 
 async function getManyByUserId({ userId }) {

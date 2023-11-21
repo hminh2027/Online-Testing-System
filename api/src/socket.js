@@ -1,11 +1,22 @@
 const config = require("./config/config");
-const { testService, attemptService } = require("./services");
+const { attemptService } = require("./services");
 
 let users = new Map();
 
 module.exports.socketServer = (io) => {
   io.on("connection", (socket) => {
     console.log("client connected: ", socket.id);
+
+    // ADD USER VAO DE
+    addUser(userId, socket.id);
+
+    socket.on("createNoti", ({ recipentIds, message }) => {
+      recipentIds.forEach((id) => {
+        const user = getUser(id);
+        console.log(users, recipentIds);
+        if (user) socket.to(user.socketId).emit("createNoti", message);
+      });
+    });
 
     // Receive heartbeat from client
     socket.on("heartbeat", (userId) => {

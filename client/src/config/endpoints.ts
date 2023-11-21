@@ -5,9 +5,9 @@ export const endpoints = {
     user: {
       path: '/user',
     },
-    // notification: {
-    //   path: '/notification',
-    // },
+    notification: {
+      path: '/notification',
+    },
     class: {
       path: '/class',
     },

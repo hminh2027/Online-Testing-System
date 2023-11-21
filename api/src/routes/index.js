@@ -12,8 +12,7 @@ const userClassRoute = require("./userClass.route");
 const questionRoute = require("./question.route");
 const answerRoute = require("./answer.route");
 const choiceRoute = require("./choice.route");
-
-// const notificationRoute = require("./notification.route");
+const notificationRoute = require("./notification.route");
 
 router.use("/auth", authRoute);
 router.use("/user", userRoute);
@@ -27,7 +26,6 @@ router.use("/question", questionRoute);
 router.use("/answer", answerRoute);
 router.use("/attempt", attemptRoute);
 router.use("/choice", choiceRoute);
-
-// router.use("/notification", notificationRoute);
+router.use("/notification", notificationRoute);
 
 module.exports = router;

@@ -5,7 +5,12 @@ export interface Notification extends Resource {
   isRead: boolean;
   content: string;
   url: string;
-  createdAt: Date;
+}
+
+export interface CommentNotificationDTO extends Resource {
+  content: string;
+  url: string;
+  recipents: number[];
 }
 
 export type ResNotificationList = ResponseItem<Notification[]>;
