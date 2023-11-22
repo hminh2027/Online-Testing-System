@@ -56,6 +56,13 @@ function getManyByTeacherId(teacherId) {
   });
 }
 
+function getManyByStudentId(studentId) {
+  return prisma.userClass.findMany({
+    where: { studentId },
+    select: { Class: { select: { Exam: true } } },
+  });
+}
+
 function getManyByClassCode(classCode, studentId) {
   return prisma.exam.findMany({
     where: {
@@ -99,6 +106,7 @@ module.exports = {
   createOne,
   getOneById,
   getManyByTeacherId,
+  getManyByStudentId,
   getManyByClassCode,
   updateOneById,
   deleteOneById,

@@ -66,7 +66,10 @@ const getManyByTeacherId = catchAsync(async (req, res) => {
 
   if (classCode)
     exam = await examService.getManyByClassCode(classCode, !isTeacher && +id);
-  else exam = await examService.getManyByTeacherId(+id);
+  else {
+    if (isTeacher) exam = await examService.getManyByTeacherId(+id);
+    else exam = await examService.getManyByStudentId(+id);
+  }
 
   res.status(httpStatus.OK).json({ content: exam });
 });

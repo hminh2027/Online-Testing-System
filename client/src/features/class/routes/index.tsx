@@ -40,7 +40,7 @@ export const classRoutes: RouteObject[] = [
           },
           {
             path: 'schedule',
-            children: [],
+            element: <ClassPage.ClassSchedule />,
           },
         ],
       },

@@ -8,7 +8,7 @@ module.exports.socketServer = (io) => {
     console.log("client connected: ", socket.id);
 
     // ADD USER VAO DE
-    addUser(userId, socket.id);
+    // addUser(userId, socket.id);
 
     socket.on("createNoti", ({ recipentIds, message }) => {
       recipentIds.forEach((id) => {
