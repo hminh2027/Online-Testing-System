@@ -75,7 +75,7 @@ export const initialCustomQuery = <
           url: service.path,
         }),
       {
-        refetchOnWindowFocus: false,
+        refetchOnWindowFocus: true,
         ...options,
       },
     );

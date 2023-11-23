@@ -4,21 +4,13 @@ import { CustomCard } from '@/components';
 import { CustomAvatar } from '@/components/CustomAvatar';
 import type { UserClass } from '../types';
 import { formatISOFromNowTime } from '@/utils';
-import { useDeleteUserClass, usePatchUserClass } from '../hooks/useUserClass';
+import { useUserClassMutation } from '../hooks/useUserClassMutation';
 
 interface RequestCardProps {
   request: UserClass;
 }
 export function RequestCard({ request }: RequestCardProps) {
-  const { mutate: patchFn } = usePatchUserClass({
-    onSuccess: () => {},
-    onError: () => {},
-  });
-
-  const { mutate: deleteFn } = useDeleteUserClass({
-    onSuccess: () => {},
-    onError: () => {},
-  });
+  const { patchFn, deleteFn } = useUserClassMutation();
 
   const handleApprove = () => {
     patchFn({

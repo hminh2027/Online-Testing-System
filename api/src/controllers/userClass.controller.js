@@ -55,9 +55,7 @@ const deleteOneById = catchAsync(async (req, res) => {
   let userClass = await userClassService.deleteOneById(+id, {
     teacherId,
   });
-  res
-    .status(httpStatus.OK)
-    .json({ content: userClass, message: "Đã từ chối lời mời" });
+  res.status(httpStatus.OK).json({ content: userClass, message: "Đã từ chối" });
 });
 
 module.exports = {

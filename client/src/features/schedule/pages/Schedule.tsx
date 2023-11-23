@@ -6,12 +6,16 @@ import dayjs from 'dayjs';
 import { useListExam } from '@/features/exam/hooks/useExam';
 import { formatISOToVi } from '@/utils';
 
-// TODO: hoàn thiện nốt Schedule cho sinh viên
 export default function Schedule() {
   const { data: examData, isLoading } = useListExam({});
   const exams = examData?.content;
 
-  const examDates = exams?.map((exam) => exam.startAt);
+  // Forget those typing things :( Need to meet the deadline
+  const examList = [];
+
+  exams?.forEach((exam) => examList.push(...exam.Class.Exam));
+
+  const examDates = examList?.map((exam) => exam.startAt);
 
   const handleCellRender: CalendarProps<Dayjs>['cellRender'] = (current) => {
     let count = 0;

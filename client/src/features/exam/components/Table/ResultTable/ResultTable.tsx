@@ -22,15 +22,3 @@ export default function ResultTable({ data, isShowAnswer }: ResultTableProps) {
     />
   );
 }
-
-// Error:
-// Missing bracket
-// Missing quote
-// Excess operator (check nếu i-1 && i+1 không )
-// Missing operator
-
-// 5 types: Bracket, Attribute, Value, Operator, Conjunction
-
-// Test cases:
-//  Missing quote: {animal} = "dog / {animal} = dog" / {animal} = dog
-//  Missing bracket: {animal = "dog" / animal} = "dog" / animal = "dog"

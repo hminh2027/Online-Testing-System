@@ -1,8 +1,10 @@
-import { Flex, Modal } from 'antd';
-import { useState } from 'react';
+import { Flex, Modal, Typography } from 'antd';
+import { useState, useEffect } from 'react';
 import PinInput from 'react-pin-input';
+import { useBoolean } from 'react-use';
 import { useClass } from '../hooks/useClass';
 import { ClassFindForm } from './ClassFindForm';
+import { useListUserClass } from '@/features/userClass/hooks/useUserClass';
 
 interface ClassFindModalProps {
   open: boolean;
@@ -10,12 +12,24 @@ interface ClassFindModalProps {
 }
 export function ClassFindModal({ open, setIsOpen }: ClassFindModalProps) {
   const [classCode, setClassCode] = useState('');
+  const [isRequested, setIsRequested] = useBoolean(false);
 
-  const { data } = useClass(classCode, { enabled: !!classCode });
+  const { data, error, isError } = useClass(classCode, {
+    enabled: !!classCode,
+    retry: false,
+  });
 
+  const { data: requestData } = useListUserClass({ classCode }, { enabled: !!classCode });
+
+  const requests = requestData?.content;
   const classRoom = data?.content;
 
   const handleOnComplete = (value: string) => setClassCode(value);
+
+  useEffect(() => {
+    if (!requests) return;
+    if (requests?.length > 0) setIsRequested(true);
+  }, [requests, setIsRequested]);
 
   return (
     <Modal
@@ -41,7 +55,16 @@ export function ClassFindModal({ open, setIsOpen }: ClassFindModalProps) {
           autoSelect={true}
           focus={true}
         />
-        {classCode.length === 6 && classRoom && <ClassFindForm classRoom={classRoom} />}
+        {isError && <Typography.Title level={4}>{error as string}</Typography.Title>}
+        {classCode.length === 6 &&
+          classRoom &&
+          (isRequested ? (
+            <Typography.Title level={5}>
+              Bạn đã gửi yêu cầu tham gia lớp học này. Vui lòng chờ duyệt
+            </Typography.Title>
+          ) : (
+            <ClassFindForm toggleModal={setIsOpen} classRoom={classRoom} />
+          ))}
       </Flex>
     </Modal>
   );

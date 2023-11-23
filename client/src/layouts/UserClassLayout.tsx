@@ -14,6 +14,7 @@ export function UserClassLayout({ children }: UserClassLayoutProps) {
       <Content
         style={{
           height: '100%',
+          padding: '0 2rem',
         }}
       >
         {children ?? <Outlet />}

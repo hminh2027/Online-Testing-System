@@ -17,3 +17,8 @@ export enum EXAM_STATUS {
   NOT_ATTEMPTED = 'chưa làm',
   ATTEMPTED = 'đã làm',
 }
+
+export enum CLASS_STATUS {
+  PENDING = 'chờ duyệt',
+  ACTIVE = 'hoạt động',
+}

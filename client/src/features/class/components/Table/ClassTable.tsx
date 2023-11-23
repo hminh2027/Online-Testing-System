@@ -3,25 +3,31 @@ import { DownOutlined } from '@ant-design/icons';
 import { useToggle } from 'react-use';
 import { columns } from './column';
 import { useListClass } from '../../hooks/useClass';
-import { CustomTable } from '@/components';
-import { MODE } from '@/constants';
+import { CustomTable, Status } from '@/components';
+import { CLASS_STATUS, MODE } from '@/constants';
 import { useDrawer } from '@/hooks/useDrawer';
 import type { ClassRoom } from '../../types';
 import { useAuth } from '@/features/auth';
 import { ClassFindModal } from '@/features/class/components/ClassFindModal';
 import { genDropdownItems } from '@/utils';
 import { useClassMutation } from '../../hooks/useClassMutation';
+import { useListUserClass } from '@/features/userClass/hooks/useUserClass';
 
 export function ClassTable() {
-  const { data: classData } = useListClass({});
   const { deleteFn } = useClassMutation();
   const { toggleMode, setDetailId } = useDrawer();
   const { user } = useAuth();
   const [isModalOpen, toggleModal] = useToggle(false);
 
-  const classes = classData?.content;
+  const { data: classData, isLoading: isTeacherClassLoading } = useListClass({});
+  const { data: requestData, isLoading: isStudentClassLoading } = useListUserClass({});
 
-  if (!classes) return <>Loading</>;
+  const requests = requestData?.content;
+
+  const studentClasses = requests?.map((req) => req.Class);
+  const teacherClasses = classData?.content;
+
+  if (isTeacherClassLoading || isStudentClassLoading) return <>Loading</>;
 
   const handleEdit = (code: string) => {
     toggleMode(MODE.EDIT);
@@ -76,13 +82,25 @@ export function ClassTable() {
                 fixed: 'right',
                 width: 150,
               }
-            : {},
+            : {
+                render: (value: ClassRoom) => {
+                  const isPending = requests?.find(
+                    (req) => req.isPending && req.classCode === value.code,
+                  );
+
+                  return <Status status={isPending ? CLASS_STATUS.PENDING : CLASS_STATUS.ACTIVE} />;
+                },
+                key: 'status',
+                title: 'Trạng thái',
+                fixed: 'right',
+                width: 150,
+              },
         ]}
-        dataSource={classes}
+        dataSource={user?.isTeacher ? teacherClasses : studentClasses}
         scroll={{
           x: 1500,
         }}
-        pagination={{ total: classes.length }}
+        pagination={{ total: user?.isTeacher ? teacherClasses?.length : studentClasses?.length }}
       />
     </>
   );

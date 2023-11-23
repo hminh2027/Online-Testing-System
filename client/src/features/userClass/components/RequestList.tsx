@@ -1,9 +1,11 @@
 import { Button, Flex, Typography } from 'antd';
+import { useParams } from 'react-router-dom';
 import { useListUserClass } from '../hooks/useUserClass';
 import { RequestCard } from './RequestCard';
 
 export function RequestList() {
-  const { data } = useListUserClass({});
+  const { code } = useParams();
+  const { data } = useListUserClass({ classCode: code });
 
   const users = data?.content;
 
