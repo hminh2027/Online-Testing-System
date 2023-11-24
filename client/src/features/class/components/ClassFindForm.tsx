@@ -15,7 +15,7 @@ export function ClassFindForm({ classRoom, toggleModal }: ClassFindFormProps) {
   const { addFn } = useUserClassMutation();
 
   const handleOnFinish = (value: UserClassCreateDTO) => {
-    if (value.password !== classRoom.password) {
+    if (classRoom.password && value.password !== classRoom.password) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       CustomMessage.error('Sai mật khẩu lớp học');
 

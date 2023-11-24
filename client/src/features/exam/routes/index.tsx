@@ -25,6 +25,10 @@ export const examClassRoutes: RouteObject[] = [
     element: <ExamPage.ExamClass />,
   },
   {
+    path: ':id',
+    element: <ExamPage.ExamStatistic />,
+  },
+  {
     path: ':id/taking',
     element: <ExamPage.ExamTaking />,
   },

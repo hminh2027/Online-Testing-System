@@ -39,13 +39,10 @@ function patchStatusById(id, { teacherId, isPending }) {
   });
 }
 
-function deleteOneById(id, { teacherId }) {
+function deleteOneById(id) {
   return prisma.userClass.delete({
     where: {
       id,
-      Class: {
-        teacherId,
-      },
     },
   });
 }

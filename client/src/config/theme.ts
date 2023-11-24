@@ -15,6 +15,7 @@ export const themeConfig: ThemeConfig = {
     },
     Layout: {
       bodyBg: '#FFFFFF',
+      siderBg: '#FFFFFF',
     },
   },
 };

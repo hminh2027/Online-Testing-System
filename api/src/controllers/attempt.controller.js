@@ -22,8 +22,11 @@ const getOneOngoing = catchAsync(async (req, res) => {
 
 const getManyByExamId = catchAsync(async (req, res) => {
   const { examId } = req.query;
-  const { id } = req.user;
-  let attempts = await attemptService.getManyByExamId(+examId, id);
+  const { id, isTeacher } = req.user;
+  let attempts = await attemptService.getManyByExamId(
+    +examId,
+    !isTeacher && id
+  );
   res.status(httpStatus.OK).json({ content: attempts });
 });
 

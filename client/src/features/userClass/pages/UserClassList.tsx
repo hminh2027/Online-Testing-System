@@ -14,7 +14,7 @@ export function UserClassList() {
   const { deleteFn } = useUserClassMutation();
   const { user } = useAuth();
 
-  const requests = data?.content;
+  const requests = data?.content.filter((req) => !req.isPending);
 
   const concatInfo = (info: User): string => {
     const { email, phone } = info;

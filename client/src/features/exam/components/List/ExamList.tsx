@@ -1,30 +1,33 @@
 import { DownOutlined, FileTextOutlined } from '@ant-design/icons';
 import { Button, Dropdown, List, Modal } from 'antd';
 import { useToggle } from 'react-use';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import type { Exam } from '../../types';
 import { formatISOToTime, genDropdownItems, isAfterNow, isBeforeNow } from '@/utils';
 import { useAuth } from '@/features/auth';
 import { EXAM_STATUS } from '@/constants';
 import { Status } from '@/components';
 import { useAttemptMutation } from '@/features/attempt/hooks/useAttemptMutation';
+import { useExamMutation } from '../../hooks/useExamMutation';
 
 interface ExamListProps {
   dataSource?: Exam[];
 }
 export function ExamList({ dataSource }: ExamListProps) {
+  const { code } = useParams();
   const [open, toggleOpen] = useToggle(false);
   const { addFn } = useAttemptMutation();
   const { user } = useAuth();
   const navigation = useNavigate();
+  const { deleteFn } = useExamMutation();
 
   const genItemsWithParams = (id: number) =>
     user?.isTeacher
       ? genDropdownItems({
           modify: () => navigation(`/exam/${id}`),
-          view: () => {},
+          view: () => navigation(`/class/${code}/exams/${id}`),
           download: () => {},
-          delete: () => {},
+          delete: () => deleteFn({ id }),
         })
       : genDropdownItems({
           launch: () => {

@@ -1,4 +1,4 @@
 interface ClassDetailProps {}
 export default function ClassDetail({}: ClassDetailProps) {
-  return <>ClassDetail</>;
+  return <>Chào mừng tới với lớp học</>;
 }

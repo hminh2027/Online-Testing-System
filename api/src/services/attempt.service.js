@@ -49,7 +49,7 @@ function getManyByExamId(examId, studentId) {
   return prisma.attempt.findMany({
     where: {
       examId,
-      studentId,
+      ...(studentId ? { studentId } : {}),
     },
     include: {
       Choice: {
