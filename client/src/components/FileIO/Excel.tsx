@@ -83,9 +83,10 @@ export function ExcelUploader<T>({ data, setData, table, handleOk }: ExcelUpload
 interface ExcelExporterProps {
   fileName?: string;
   table?: ReactNode;
+  content?: string;
 }
 
-export function ExcelExporter({ fileName, table }: ExcelExporterProps) {
+export function ExcelExporter({ fileName, table, content }: ExcelExporterProps) {
   const [isModalOpen, toggleModal] = useToggle(false);
 
   const handleOk = () => {
@@ -113,7 +114,7 @@ export function ExcelExporter({ fileName, table }: ExcelExporterProps) {
           {table}
         </Modal>
       )}
-      <Button onClick={toggleModal}>Export Excel</Button>
+      <Button onClick={toggleModal}>{content ?? 'Export Excel'}</Button>
     </>
   );
 }

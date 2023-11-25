@@ -27,6 +27,7 @@ const getManyByExamId = catchAsync(async (req, res) => {
     +examId,
     !isTeacher && id
   );
+
   res.status(httpStatus.OK).json({ content: attempts });
 });
 

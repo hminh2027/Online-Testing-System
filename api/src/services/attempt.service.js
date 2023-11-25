@@ -62,6 +62,7 @@ function getManyByExamId(examId, studentId) {
           },
         },
       },
+      User: true,
     },
   });
 }

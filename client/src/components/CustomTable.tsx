@@ -1,20 +1,25 @@
-import type { DropDownProps, TableProps } from 'antd';
+import type { TableProps } from 'antd';
 import { Button, Flex, Input, Space, Table } from 'antd';
 import type { ReactNode } from 'react';
 import { useDrawer } from '@/hooks/useDrawer';
 import { MODE } from '@/constants';
+import type { Either } from '@/types';
 
 export type Action = { element: ReactNode };
 
 interface CustomTableProps<T extends object> extends TableProps<T> {
-  actionHeader?: Action[];
-  showActionHeader?: boolean;
-  showActionColumn?: boolean;
   showSearch?: boolean;
-  actionColumnItems?: DropDownProps['menu'];
   hasShadow?: boolean;
 }
-export function CustomTable<T extends object>(props: CustomTableProps<T>) {
+
+interface TableWithActionHeader<T> extends CustomTableProps<T> {
+  actionHeader?: Action[];
+  showActionHeader?: boolean;
+}
+
+type TableProp<T> = Either<TableWithActionHeader<T>, CustomTableProps<T>>;
+
+export function CustomTable<T extends object>(props: TableProp<T>) {
   const {
     dataSource,
     columns,

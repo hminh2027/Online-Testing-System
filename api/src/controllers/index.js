@@ -10,3 +10,4 @@ module.exports.postController = require("./post.controller");
 module.exports.commentController = require("./comment.controller");
 module.exports.questionController = require("./question.controller");
 module.exports.answerController = require("./answer.controller");
+module.exports.statisticController = require("./statistic.controller");

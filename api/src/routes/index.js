@@ -13,6 +13,7 @@ const questionRoute = require("./question.route");
 const answerRoute = require("./answer.route");
 const choiceRoute = require("./choice.route");
 const notificationRoute = require("./notification.route");
+const statisticRoute = require("./statistic.route");
 
 router.use("/auth", authRoute);
 router.use("/user", userRoute);
@@ -27,5 +28,6 @@ router.use("/answer", answerRoute);
 router.use("/attempt", attemptRoute);
 router.use("/choice", choiceRoute);
 router.use("/notification", notificationRoute);
+router.use("/statistic", statisticRoute);
 
 module.exports = router;

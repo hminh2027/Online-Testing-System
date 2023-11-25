@@ -38,5 +38,10 @@ export const endpoints = {
     choice: {
       path: '/choice',
     },
+    statistic: {
+      exam: {
+        path: '/statistic/exam',
+      },
+    },
   },
 };
