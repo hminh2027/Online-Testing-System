@@ -1,14 +1,18 @@
 import { Button, Flex, Steps } from 'antd';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { ExamAssignment, ExamContent, ExamMeta } from '../components';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ExamContent, ExamMeta } from '../components';
 import { useExam } from '../hooks/useExam';
 
 export default function ExamDetail() {
   const { id } = useParams();
   const [curStep, setCurStep] = useState(0);
+  const navigation = useNavigate();
 
-  const { data } = useExam(id || '', { enabled: !!id });
+  const { data } = useExam(id || '');
+
+  console.log('first');
+
   const exam = data?.content;
 
   const steps = [
@@ -18,12 +22,12 @@ export default function ExamDetail() {
     },
     {
       title: 'Nội dung bài kiểm tra',
-      content: exam && <ExamContent exam={exam} />,
+      content: exam && id && <ExamContent examId={+id} questions={exam.Question} />,
     },
-    {
-      title: 'Giao bài kiểm tra',
-      content: <ExamAssignment />,
-    },
+    // {
+    //   title: 'Giao bài kiểm tra',
+    //   content: <ExamAssignment />,
+    // },
   ];
 
   const items = steps.map((item) => ({
@@ -33,6 +37,7 @@ export default function ExamDetail() {
 
   const handlePrev = () => curStep > 0 && setCurStep(curStep - 1);
   const handleNext = () => curStep < steps.length - 1 && setCurStep(curStep + 1);
+  const handleFinish = () => navigation('/class');
 
   return (
     <Flex
@@ -49,9 +54,15 @@ export default function ExamDetail() {
       {steps[curStep].content}
       <Flex gap={24}>
         {curStep > 0 && <Button onClick={handlePrev}>Quay lại</Button>}
-        <Button onClick={handleNext} type="primary" block>
-          {curStep < steps.length - 1 ? 'Tiếp tục' : 'Hoàn tất'}
-        </Button>
+        {curStep < steps.length - 1 ? (
+          <Button onClick={handleNext} type="primary" block>
+            Tiếp tục
+          </Button>
+        ) : (
+          <Button onClick={handleFinish} type="primary" block>
+            Hoàn tất
+          </Button>
+        )}
       </Flex>
     </Flex>
   );

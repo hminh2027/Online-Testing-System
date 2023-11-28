@@ -5,21 +5,21 @@ import { Button, Divider, Flex, Form, Input, List, Modal, Space } from 'antd';
 import { useEffect, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { useToggle } from 'react-use';
-import type { Exam, Question } from '../../types';
+import type { Question } from '../../types';
 import { useQuestionMutation } from '../../hooks/useQuestionMutation';
 import { QuestionForm } from '../Form';
 import { QuestionCard } from '../Card';
 
 interface ExamContentProps {
-  exam: Exam;
+  examId: number;
+  questions: Question[];
 }
-export function ExamContent({ exam }: ExamContentProps) {
-  const questions = exam?.Question;
+export function ExamContent({ examId, questions }: ExamContentProps) {
   const [form] = Form.useForm();
 
   const [items, setItems] = useState<Question[]>([]);
-  const [isModalOpen, setIsModalOpen] = useToggle(false);
-  const { updateIndex } = useQuestionMutation(exam.id as number);
+  const [isModalOpen, toggleModal] = useToggle(false);
+  const { updateIndex } = useQuestionMutation(examId);
 
   useEffect(() => {
     if (!questions) return;
@@ -49,7 +49,7 @@ export function ExamContent({ exam }: ExamContentProps) {
   };
 
   const handleAdd = () => {
-    setIsModalOpen(true);
+    toggleModal(true);
   };
 
   const handleOk = () => {
@@ -103,14 +103,14 @@ export function ExamContent({ exam }: ExamContentProps) {
         centered
         closable
         destroyOnClose
-        onCancel={setIsModalOpen}
+        onCancel={toggleModal}
         onOk={handleOk}
         okText="Tạo"
         cancelText="Huỷ"
         title="Tạo câu hỏi"
         open={isModalOpen}
       >
-        <QuestionForm examId={exam.id as number} form={form} />
+        <QuestionForm toggleModal={toggleModal} examId={examId} form={form} />
       </Modal>
     </div>
   );

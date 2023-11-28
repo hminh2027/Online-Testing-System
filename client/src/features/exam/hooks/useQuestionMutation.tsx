@@ -11,7 +11,9 @@ import { axiosInstance } from '@/libs';
 import { endpoints } from '@/config';
 
 export function useQuestionMutation(examId: number) {
-  const { refetch } = useExam(examId, { enabled: false });
+  const { refetch } = useExam(examId, {
+    enabled: false,
+  });
   const { mutate: addFn } = useAddQuestion({
     onSuccess: async (res) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises

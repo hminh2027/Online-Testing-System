@@ -25,6 +25,11 @@ export function ClassFindModal({ open, setIsOpen }: ClassFindModalProps) {
   const classRoom = data?.content;
 
   const handleOnComplete = (value: string) => setClassCode(value);
+  const handleCancel = () => {
+    setIsOpen(false);
+    setIsRequested(false);
+    setClassCode('');
+  };
 
   useEffect(() => {
     if (!requests) return;
@@ -36,7 +41,7 @@ export function ClassFindModal({ open, setIsOpen }: ClassFindModalProps) {
       destroyOnClose
       closable
       maskClosable
-      onCancel={() => setIsOpen(false)}
+      onCancel={handleCancel}
       title="Nhập mã lớp học"
       open={open}
       footer={false}
@@ -60,7 +65,7 @@ export function ClassFindModal({ open, setIsOpen }: ClassFindModalProps) {
           classRoom &&
           (isRequested ? (
             <Typography.Title level={5}>
-              Bạn đã gửi yêu cầu tham gia lớp học này. Vui lòng chờ duyệt
+              Bạn đã gửi tham gia lớp học này hoặc đã gửi yêu cầu. Vui lòng chờ duyệt
             </Typography.Title>
           ) : (
             <ClassFindForm toggleModal={setIsOpen} classRoom={classRoom} />

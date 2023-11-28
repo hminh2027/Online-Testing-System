@@ -39,6 +39,7 @@ async function getOneById(id) {
         orderBy: { index: "asc" },
       },
       Class: true,
+      Attempt: true,
     },
   });
 

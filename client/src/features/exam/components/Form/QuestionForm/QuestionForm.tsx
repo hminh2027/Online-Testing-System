@@ -25,8 +25,9 @@ interface QuestionFormProps {
   examId: number;
   questionId?: number;
   form: FormInstance;
+  toggleModal: (value?: boolean) => void;
 }
-export function QuestionForm({ questionId, form, examId }: QuestionFormProps) {
+export function QuestionForm({ questionId, form, examId, toggleModal }: QuestionFormProps) {
   const [image, setImage] = useState<string | null>(null);
 
   const { data, isFetching } = useQuestion(questionId as number, { enabled: !!questionId });
@@ -88,6 +89,8 @@ export function QuestionForm({ questionId, form, examId }: QuestionFormProps) {
         examId,
       });
     }
+
+    toggleModal(false);
   };
 
   const handleDelete = (id: number, localDeleteFn: (index: number | number[]) => void) => {

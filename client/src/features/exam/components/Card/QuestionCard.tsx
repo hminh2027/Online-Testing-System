@@ -19,7 +19,7 @@ export function QuestionCard({ question, index }: QuestionCardProps) {
   const [form] = Form.useForm();
   const { deleteFn } = useQuestionMutation(question.examId);
 
-  const [isModalOpen, setIsModalOpen] = useToggle(false);
+  const [isModalOpen, toggleModal] = useToggle(false);
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -27,7 +27,7 @@ export function QuestionCard({ question, index }: QuestionCardProps) {
   };
 
   const handleEdit = () => {
-    setIsModalOpen(true);
+    toggleModal(true);
   };
 
   const handleOk = () => {
@@ -62,14 +62,19 @@ export function QuestionCard({ question, index }: QuestionCardProps) {
         centered
         closable
         destroyOnClose
-        onCancel={setIsModalOpen}
+        onCancel={toggleModal}
         onOk={handleOk}
         okText="Cập nhật"
         cancelText="Huỷ"
         title={`Cập nhật câu hỏi ${index}`}
         open={isModalOpen}
       >
-        <QuestionForm examId={question.examId} form={form} questionId={question.id as number} />
+        <QuestionForm
+          toggleModal={toggleModal}
+          examId={question.examId}
+          form={form}
+          questionId={question.id as number}
+        />
       </Modal>
     </div>
   );

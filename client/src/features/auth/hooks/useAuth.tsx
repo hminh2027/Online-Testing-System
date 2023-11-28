@@ -42,7 +42,7 @@ export const useAuth = () => {
   const logOut = () => {
     storage.clearToken();
     setUser(null);
-    window.location.assign(window.location.origin as unknown as string);
+    window.location.assign(`${window.location.origin}/login`);
   };
 
   const refresh = () => {};

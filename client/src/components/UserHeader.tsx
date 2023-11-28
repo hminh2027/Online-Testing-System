@@ -1,27 +1,10 @@
 import type { MenuProps } from 'antd';
 import { Avatar, Dropdown } from 'antd';
+import { useAuth } from '@/features/auth';
 
 interface UserHeaderProps {
   username?: string;
 }
-
-const items: MenuProps['items'] = [
-  {
-    label: 'Thông tin cá nhân',
-    key: '0',
-  },
-  {
-    label: 'Đổi mật khẩu',
-    key: '1',
-  },
-  {
-    type: 'divider',
-  },
-  {
-    label: 'Đăng xuất',
-    key: '2',
-  },
-];
 
 export function UserHeader({ username }: UserHeaderProps) {
   const initials = (): string | null => {
@@ -32,13 +15,31 @@ export function UserHeader({ username }: UserHeaderProps) {
 
     if (nameArray.length === 1) return nameArray[0].charAt(0).toUpperCase();
 
-    const [firstChar, lastChar] = [
-      nameArray[0].charAt(0),
-      nameArray[1].charAt(0),
-    ];
+    const [firstChar, lastChar] = [nameArray[0].charAt(0), nameArray[1].charAt(0)];
 
     return (firstChar + lastChar).toUpperCase();
   };
+
+  const { logOut } = useAuth();
+
+  const items: MenuProps['items'] = [
+    {
+      label: 'Thông tin cá nhân',
+      key: '0',
+    },
+    {
+      label: 'Đổi mật khẩu',
+      key: '1',
+    },
+    {
+      type: 'divider',
+    },
+    {
+      label: 'Đăng xuất',
+      key: '2',
+      onClick: logOut,
+    },
+  ];
 
   return (
     <Dropdown menu={{ items }} trigger={['click']}>

@@ -20,7 +20,7 @@ export interface Exam extends Resource {
   isResumeAllowed: boolean;
   classCode: string;
   User?: User;
-  Attempt?: Attempt[];
+  Attempt: Attempt[];
   Question: Question[];
   Class: ClassRoom;
 }

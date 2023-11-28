@@ -1,6 +1,8 @@
 import type { FormInstance } from 'antd';
 import { Flex, Modal, Typography } from 'antd';
 import { useEffect, useState } from 'react';
+import { useBoolean } from 'react-use';
+import { useNavigate, useParams } from 'react-router-dom';
 import type { Question, TableFormatData } from '../../types';
 import { type ApiFormatData } from '../../types';
 import { useExam } from '../../hooks/useExam';
@@ -23,6 +25,8 @@ export function ExamModifier({
   hasExcelBtn = false,
   hasImportExam = false,
 }: ExamModifierProps) {
+  const { id: paramId } = useParams();
+  const navigation = useNavigate();
   const { data: examData, isFetching } = useExam(id as number, {
     enabled: !!id,
   });
@@ -32,8 +36,14 @@ export function ExamModifier({
   const [rawData, setRawData] = useState([]);
   const [questions, setQuestions] = useState<ApiFormatData[]>([]);
   const [dataSource, setDataSource] = useState<TableFormatData[]>([]);
+  const [updatable, setUpdatable] = useBoolean(true);
 
   const { transformToApiFormat, transformToTableFormat, validateData } = useExcelTranformation();
+
+  useEffect(() => {
+    if (!exam) return;
+    setUpdatable(exam.Attempt.length === 0);
+  }, [exam, setUpdatable]);
 
   const handleModalOk = () => {
     if (!exam) return;
@@ -94,19 +104,34 @@ export function ExamModifier({
       explanation: item.explanation,
     }));
 
+  useEffect(() => {
+    if (paramId && !updatable) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      CustomMessage.error('Không thể cập nhật bài kiểm tra đã có người làm');
+      navigation('/exam');
+    }
+  }, [navigation, paramId, updatable]);
+
   if (isFetching) return <>Loading</>;
 
   return (
     <Flex vertical>
-      <ModifierForm exam={exam} form={form} />
+      {!updatable && (
+        <Typography.Text type="danger" style={{ textAlign: 'center' }} strong>
+          Chú ý: không thể cập nhật bài kiểm tra đã có người làm
+        </Typography.Text>
+      )}
+      <ModifierForm updatable={updatable} exam={exam} form={form} />
       {id && hasExcelBtn && (
         <Flex gap={24}>
-          <FileIO.Excel.Uploader
-            table={<ExcelTable dataSource={dataSource as []} />}
-            data={rawData}
-            setData={setRawData}
-            handleOk={handleModalOk}
-          />
+          {updatable && (
+            <FileIO.Excel.Uploader
+              table={<ExcelTable dataSource={dataSource as []} />}
+              data={rawData}
+              setData={setRawData}
+              handleOk={handleModalOk}
+            />
+          )}
           <FileIO.Excel.Exporter
             fileName={`${exam?.title}-excel`}
             table={

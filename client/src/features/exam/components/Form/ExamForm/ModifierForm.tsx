@@ -1,5 +1,5 @@
 import type { FormInstance } from 'antd';
-import { Col, DatePicker, Form, Input, InputNumber, Row, Select, Switch } from 'antd';
+import { Col, DatePicker, Form, Input, InputNumber, Row, Select, Switch, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
@@ -11,15 +11,17 @@ import {
   transformToAntdSelectOptions,
 } from '@/utils';
 import { useListClass } from '@/features/class/hooks/useClass';
+import { CustomMessage } from '@/components';
 
 interface ModifierFormProps {
   exam?: Exam;
   form: FormInstance;
+  updatable: boolean;
 }
 
 type RangeProps = [Dayjs | null, Dayjs | null] | null;
 
-export function ModifierForm({ exam, form }: ModifierFormProps) {
+export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
   const { addFn, updateFn } = useExamMutation();
   const [range, setRange] = useState<RangeProps>([dayjs(), null]);
   const { data: classData, isFetching } = useListClass({});
@@ -37,6 +39,14 @@ export function ModifierForm({ exam, form }: ModifierFormProps) {
 
   const handleOnFinish = (values: ExamCreateDTO) => {
     if (!range) return null;
+
+    if (!updatable) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      CustomMessage.error('Không thể cập nhật bài kiểm tra đã có người làm');
+
+      return null;
+    }
+
     const payload: ExamCreateDTO = {
       ...values,
       startAt: new Date(formatDatePicketToISO(range[0] as Dayjs)),

@@ -4,7 +4,6 @@ import { axiosInstance } from '@/libs';
 interface AttemptInfo {
   done: number;
   todo: number;
-  doing: number;
 }
 
 interface RankInfo {
