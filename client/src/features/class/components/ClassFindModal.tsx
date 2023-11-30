@@ -5,6 +5,7 @@ import { useBoolean } from 'react-use';
 import { useClass } from '../hooks/useClass';
 import { ClassFindForm } from './ClassFindForm';
 import { useListUserClass } from '@/features/userClass/hooks/useUserClass';
+import { useAuth } from '@/features/auth';
 
 interface ClassFindModalProps {
   open: boolean;
@@ -14,6 +15,7 @@ export function ClassFindModal({ open, setIsOpen }: ClassFindModalProps) {
   const [classCode, setClassCode] = useState('');
   const [isRequested, setIsRequested] = useBoolean(false);
 
+  const { user } = useAuth();
   const { data, error, isError } = useClass(classCode, {
     enabled: !!classCode,
     retry: false,
@@ -33,8 +35,10 @@ export function ClassFindModal({ open, setIsOpen }: ClassFindModalProps) {
 
   useEffect(() => {
     if (!requests) return;
-    if (requests?.length > 0) setIsRequested(true);
-  }, [requests, setIsRequested]);
+    const validRequests = requests.find((req) => req.isPending && req.studentId === user?.id);
+
+    if (validRequests) setIsRequested(true);
+  }, [requests, setIsRequested, user?.id]);
 
   return (
     <Modal

@@ -43,6 +43,8 @@ export function useResult() {
     });
 
   const extractResult = (attempt: Attempt): Result => {
+    console.log(attempt);
+
     const meta = {
       correct: 0,
       inCorrect: 0,

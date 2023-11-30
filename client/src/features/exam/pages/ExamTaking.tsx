@@ -7,7 +7,7 @@ import { CustomCard, CustomMessage } from '@/components';
 import { ExamAnswerSheet, ExamTimer, ExamQuestionCard } from '../components';
 import useOngoingAttempt from '@/features/attempt/hooks/useOnGoingAttempt';
 import { useAttemptStore } from '@/features/attempt/stores';
-import { isAfterTime, isBeforeNow } from '@/utils';
+import { isAfterTime, isBeforeNow, storage } from '@/utils';
 import { useAttemptMutation } from '@/features/attempt/hooks/useAttemptMutation';
 import { useAuth } from '@/features/auth';
 import { socket } from '@/libs/socket';
@@ -24,6 +24,7 @@ export default function ExamTaking() {
   const { user } = useAuth();
 
   usePageLeave(() => {
+    console.log('first');
     if (!attempt || !attempt.Exam.isProcting) return;
     increaseTaboutFn({
       id: attempt?.id as number,
@@ -89,11 +90,16 @@ export default function ExamTaking() {
   }, [attempt, navigation, updateFn]);
 
   function handleShuffle<T>(array: T[]) {
+    const examQuestionOrder = storage.get('ExamQuestionOrder') as string;
+
+    if (examQuestionOrder) return JSON.parse(examQuestionOrder) as T;
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
 
       [array[i], array[j]] = [array[j], array[i]];
     }
+
+    storage.set('ExamQuestionOrder', JSON.stringify(array));
 
     return array;
   }
@@ -132,7 +138,7 @@ export default function ExamTaking() {
             <Flex style={{ height: '100%' }} vertical justify="space-between">
               <Flex justify="center" align="center" vertical gap={20}>
                 <Typography.Title level={2}>Thời gian</Typography.Title>
-                <ExamTimer duration={Exam.duration * 60} />
+                <ExamTimer duration={Exam.duration} />
                 {Exam.Question && (
                   <ExamAnswerSheet
                     questions={

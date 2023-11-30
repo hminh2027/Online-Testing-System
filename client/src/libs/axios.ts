@@ -2,6 +2,7 @@ import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 import Axios from 'axios';
 
 import { endpoints } from '@/config';
+import { storage } from '@/utils';
 
 export type ResponseData<T> = AxiosResponse<T> | T | null;
 
@@ -16,7 +17,7 @@ export const defaultOptions: AxiosRequestConfig = {
 };
 
 function authRequestInterceptor(config: AxiosRequestConfig) {
-  const token = localStorage.getItem('TOKEN');
+  const token = storage.get('Token');
 
   if (token) config.headers.authorization = `${token}`;
 

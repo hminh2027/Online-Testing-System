@@ -30,7 +30,7 @@ export const useAuth = () => {
   function handleOnSuccess(res: ResAuthItem) {
     setUser(res.content.user);
     window.location.assign('class');
-    storage.setToken(res.content.tokens.accessToken);
+    storage.set('Token', res.content.tokens.accessToken);
 
     return CustomMessage.success(res.message);
   }
@@ -40,7 +40,7 @@ export const useAuth = () => {
   }
 
   const logOut = () => {
-    storage.clearToken();
+    storage.clear('Token');
     setUser(null);
     window.location.assign(`${window.location.origin}/login`);
   };
@@ -48,7 +48,7 @@ export const useAuth = () => {
   const refresh = () => {};
 
   const getMe = async () => {
-    const token = storage.getToken();
+    const token = storage.get('Token');
 
     if (!token) return null;
 

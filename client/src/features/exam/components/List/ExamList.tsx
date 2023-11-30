@@ -21,22 +21,6 @@ export function ExamList({ dataSource }: ExamListProps) {
   const navigation = useNavigate();
   const { deleteFn } = useExamMutation();
 
-  const genItemsWithParams = (id: number) =>
-    user?.isTeacher
-      ? genDropdownItems({
-          modify: () => navigation(`/exam/${id}`),
-          view: () => navigation(`/class/${code}/exams/${id}`),
-          download: () => {},
-          delete: () => deleteFn({ id }),
-        })
-      : genDropdownItems({
-          launch: () => {
-            addFn({ examId: id });
-            navigation(`${id}/taking`);
-          },
-          view: () => navigation(`${id}/result`),
-        });
-
   const checkExamStatus = (exam: Exam) => {
     if ((exam.deadlineAt && isBeforeNow(exam.deadlineAt)) || isAfterNow(exam.startAt))
       return EXAM_STATUS.NOT_AVAILABLE;
@@ -49,6 +33,30 @@ export function ExamList({ dataSource }: ExamListProps) {
       return EXAM_STATUS.NOT_ATTEMPTED;
 
     return EXAM_STATUS.AVAILABLE;
+  };
+
+  const genItemsWithParams = (item: Exam) => {
+    const { id } = item as { id: number };
+
+    return user?.isTeacher
+      ? genDropdownItems({
+          modify: () => navigation(`/exam/${id}`),
+          view: () => navigation(`/class/${code}/exams/${id}`),
+          download: () => {},
+          delete: () => deleteFn({ id }),
+        })
+      : genDropdownItems({
+          launch: () => {
+            if (
+              checkExamStatus(item) === EXAM_STATUS.OUT_OF_ATTEMPT ||
+              checkExamStatus(item) === EXAM_STATUS.NOT_AVAILABLE
+            )
+              return;
+            addFn({ examId: id });
+            navigation(`${id}/taking`);
+          },
+          view: () => navigation(`${id}/result`),
+        });
   };
 
   return (
@@ -66,7 +74,7 @@ export function ExamList({ dataSource }: ExamListProps) {
               <Dropdown
                 key="menu"
                 menu={{
-                  items: genItemsWithParams(item.id as number),
+                  items: genItemsWithParams(item),
                 }}
                 trigger={['click']}
               >

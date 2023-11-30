@@ -10,7 +10,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     try {
       await getMe();
     } catch (err) {
-      storage.clearToken();
+      storage.clear('Token');
       window.location.href = 'login';
     }
   }, []);

@@ -6,18 +6,24 @@ import { InsertRowRightOutlined, PieChartOutlined } from '@ant-design/icons';
 import { useResult } from '../hooks/useResult';
 import { StatisticChart, StatisticTable } from '../components';
 import type { Attempt } from '@/features/attempt/types';
+import type { Statistic } from '../hooks/useExamStatistic';
+import { useExamStatistic } from '../hooks/useExamStatistic';
 
 export default function ExamStatistic() {
   const { id } = useParams();
   const { fetchResultByExamId } = useResult();
+  const { fetchStatisticByExamId } = useExamStatistic();
 
-  const [data, setData] = useState<Attempt[]>();
+  const [resultData, setResultData] = useState<Attempt[]>();
+  const [statisticData, setStatisticData] = useState<Statistic>();
 
   useAsync(async () => {
     if (!id) return;
-    const { content } = await fetchResultByExamId(id);
+    const { content: rs } = await fetchResultByExamId(id);
+    const { content: stt } = await fetchStatisticByExamId(id);
 
-    setData(content);
+    setResultData(rs);
+    setStatisticData(stt);
   }, [id]);
 
   return (
@@ -33,7 +39,7 @@ export default function ExamStatistic() {
               </Typography.Text>
             ),
             key: '1',
-            children: <StatisticTable data={data} />,
+            children: <StatisticTable data={resultData} />,
           },
           {
             label: (
@@ -43,7 +49,7 @@ export default function ExamStatistic() {
               </Typography.Text>
             ),
             key: '2',
-            children: <StatisticChart />,
+            children: <StatisticChart data={statisticData} />,
           },
         ]}
       />

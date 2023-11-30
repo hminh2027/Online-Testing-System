@@ -1,5 +1,6 @@
 import { endpoints } from '@/config';
 import { axiosInstance } from '@/libs';
+import type { ResponseItem } from '@/types';
 
 interface AttemptInfo {
   done: number;
@@ -12,14 +13,16 @@ interface RankInfo {
   ordinary: number;
 }
 
-interface StatisticProps {
+export interface Statistic {
   rank: RankInfo;
   attempt: AttemptInfo;
 }
 
+export type ResStatistic = ResponseItem<Statistic>;
+
 export function useExamStatistic() {
   const fetchStatisticByExamId = (id: string) =>
-    axiosInstance<StatisticProps>({
+    axiosInstance<ResStatistic>({
       url: `${endpoints.apis.statistic.exam.path}/${id}`,
       params: {},
     });

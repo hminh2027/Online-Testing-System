@@ -12,7 +12,7 @@ import { useAuth } from '@/features/auth';
 import { useAddNotification } from '@/features/notification';
 import { useListUserClass } from '@/features/userClass/hooks/useUserClass';
 import { socket } from '@/libs/socket';
-import { Events } from '@/SocketCLient';
+import { Events } from '@/SocketClient';
 
 export function PostCreateForm() {
   const [form] = Form.useForm();

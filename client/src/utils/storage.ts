@@ -1,11 +1,16 @@
-const STORAGE_KEY = 'TOKEN';
+enum StorageKey {
+  Token,
+  ExamQuestionOrder,
+}
+
+type StorageKeyProps = keyof typeof StorageKey;
 
 export const storage = {
-  getToken: () => localStorage.getItem(STORAGE_KEY),
-  setToken: (token: string) => {
-    localStorage.setItem(STORAGE_KEY, token);
+  get: (type: StorageKeyProps) => localStorage.getItem(type),
+  set: (type: StorageKeyProps, value: string) => {
+    localStorage.setItem(type, value);
   },
-  clearToken: () => {
-    localStorage.removeItem(STORAGE_KEY);
+  clear: (type: StorageKeyProps) => {
+    localStorage.removeItem(type);
   },
 };

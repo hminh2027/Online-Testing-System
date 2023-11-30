@@ -24,7 +24,9 @@ export function ClassTable() {
 
   const requests = requestData?.content;
 
-  const studentClasses = requests?.map((req) => req.Class);
+  const studentClasses = requests
+    ?.filter((req) => req.studentId === user?.id)
+    .map((req) => req.Class);
   const teacherClasses = classData?.content;
 
   if (isTeacherClassLoading || isStudentClassLoading) return <>Loading</>;
