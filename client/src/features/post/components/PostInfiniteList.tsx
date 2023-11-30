@@ -11,7 +11,7 @@ const HEIGHT = 1000;
 export function PostInfiniteList() {
   const { code } = useParams();
 
-  const { data, isFetching } = useListPost({ classCode: code });
+  const { data, isFetching } = useListPost({ classCode: code }, { refetchOnWindowFocus: false });
 
   const posts = data?.content;
 
@@ -32,7 +32,7 @@ export function PostInfiniteList() {
     if (e.currentTarget.scrollHeight - e.currentTarget.scrollTop === HEIGHT) appendData();
   };
 
-  if (isFetching || !posts) return <></>;
+  if (isFetching || !posts) return <>Loading</>;
 
   return (
     <List style={{ width: '100%' }}>

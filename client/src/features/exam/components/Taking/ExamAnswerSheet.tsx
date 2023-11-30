@@ -25,7 +25,7 @@ export function ExamAnswerSheet({ questions }: ExamAnswerSheetProps) {
         dataSource={questions}
         renderItem={(item, index) => (
           <List.Item>
-            <Button href={`#question-${item.id}`} key={item.id}>
+            <Button href={`#question-${index + 1}`} key={item.id}>
               {index + 1}
             </Button>
           </List.Item>

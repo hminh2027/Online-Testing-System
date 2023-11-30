@@ -2,16 +2,20 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { formatSecondsToHHMMSS } from '@/utils';
 
 interface ExamTimerProps {
-  duration: number;
+  total: number;
+  remain: number;
+  onComplete: () => void;
 }
-export function ExamTimer({ duration }: ExamTimerProps) {
+export function ExamTimer({ total, remain, onComplete }: ExamTimerProps) {
   return (
     <CountdownCircleTimer
       size={150}
       isPlaying
-      duration={duration * 60}
+      duration={total * 60}
+      initialRemainingTime={remain * 60}
       colors={['#008000', '#0000FF', '#FF0000', '#FF0000']}
       colorsTime={[7, 5, 2, 0]}
+      onComplete={onComplete}
     >
       {({ remainingTime }) => formatSecondsToHHMMSS(remainingTime)}
     </CountdownCircleTimer>

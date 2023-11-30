@@ -22,7 +22,7 @@ const getManyByClassCode = catchAsync(async (req, res) => {
 const updateOneById = catchAsync(async (req, res) => {
   const { id: userId } = req.user;
   const { id: postId } = req.params;
-  let post = await postService.updateOneById(postId, {
+  let post = await postService.updateOneById(+postId, {
     userId,
     ...req.body,
   });
@@ -34,7 +34,7 @@ const updateOneById = catchAsync(async (req, res) => {
 const deleteOneById = catchAsync(async (req, res) => {
   const { id: userId } = req.user;
   const { id: postId } = req.params;
-  await postService.deleteOneById(postId, userId);
+  await postService.deleteOneById(+postId, userId);
   res.status(httpStatus.OK).json({ message: "Xoá bài viết thành công" });
 });
 

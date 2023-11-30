@@ -93,7 +93,17 @@ export function PostCreateForm() {
       <Divider />
       <Form.Item>
         <Space>
-          <Upload customRequest={handleCustomRequest} maxCount={1} showUploadList={false}>
+          {image && (
+            <Button type="dashed" onClick={() => setImage(null)}>
+              Xóa ảnh
+            </Button>
+          )}
+          <Upload
+            accept=".jpg,.png"
+            customRequest={handleCustomRequest}
+            maxCount={1}
+            showUploadList={false}
+          >
             <Button icon={<FileImageOutlined />} type="link">
               Thêm hình ảnh
             </Button>

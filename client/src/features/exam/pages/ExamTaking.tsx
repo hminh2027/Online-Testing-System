@@ -24,7 +24,6 @@ export default function ExamTaking() {
   const { user } = useAuth();
 
   usePageLeave(() => {
-    console.log('first');
     if (!attempt || !attempt.Exam.isProcting) return;
     increaseTaboutFn({
       id: attempt?.id as number,
@@ -92,7 +91,7 @@ export default function ExamTaking() {
   function handleShuffle<T>(array: T[]) {
     const examQuestionOrder = storage.get('ExamQuestionOrder') as string;
 
-    if (examQuestionOrder) return JSON.parse(examQuestionOrder) as T;
+    if (examQuestionOrder) return JSON.parse(examQuestionOrder) as T[];
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
 
@@ -108,20 +107,24 @@ export default function ExamTaking() {
 
   const { Exam } = attempt;
 
+  const submit = () => {
+    updateFn({
+      id: attempt.id as number,
+      payload: {},
+    });
+
+    navigation(`/class/${attempt.Exam.Class.code}/exams/${attempt.Exam.id}/result`);
+  };
+
   const handleSubmit = () =>
     Modal.confirm({
       centered: true,
       title: 'Chú ý nộp bài sớm',
       content: 'Vẫn còn thời gian để soát lại bài, bạn đã chắc muốn nộp bài sớm?',
-      onOk: () => {
-        updateFn({
-          id: attempt.id as number,
-          payload: {},
-        });
-
-        navigation(`/class/${attempt.Exam.Class.code}/exams/${attempt.Exam.id}/result`);
-      },
+      onOk: submit,
     });
+
+  const examTimer = dayjs(attempt.startedAt).add(Exam.duration, 'minutes').diff(dayjs(), 'minutes');
 
   return (
     <>
@@ -138,7 +141,7 @@ export default function ExamTaking() {
             <Flex style={{ height: '100%' }} vertical justify="space-between">
               <Flex justify="center" align="center" vertical gap={20}>
                 <Typography.Title level={2}>Thời gian</Typography.Title>
-                <ExamTimer duration={Exam.duration} />
+                <ExamTimer onComplete={submit} total={Exam.duration} remain={examTimer} />
                 {Exam.Question && (
                   <ExamAnswerSheet
                     questions={

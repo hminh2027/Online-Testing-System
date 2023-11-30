@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { useEffectOnce } from 'react-use';
 import { socket } from './libs/socket';
 
-enum Events {
+export enum Events {
   Test = 'test',
   CreatePost = 'createPost',
   CreateNoti = 'createNoti',
