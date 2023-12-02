@@ -1,6 +1,6 @@
 const { prisma } = require("../database/prisma-client");
 
-async function createOne({
+function createOne({
   fullname,
   password,
   email,
@@ -26,25 +26,30 @@ async function createOne({
   });
 }
 
-async function getOneByEmail({ email }) {
+function getOneByEmail({ email }) {
   return prisma.user.findUnique({
     where: { email },
   });
 }
 
-async function getOneById(id) {
+function getManyStudent() {
+  return prisma.user.findMany({ where: { isTeacher: false } });
+}
+
+function getOneById(id) {
   return prisma.user.findUnique({
     where: { id },
   });
 }
 
-async function patchOneById(id, data) {
+function patchOneById(id, data) {
   return prisma.user.update({ where: { id }, data });
 }
 
 module.exports = {
   createOne,
   getOneById,
+  getManyStudent,
   patchOneById,
   getOneByEmail,
 };

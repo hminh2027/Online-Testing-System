@@ -3,13 +3,18 @@ import { useAddComment } from '../../hooks/useComment';
 import type { CommentCreateDTO } from '../../types';
 import { CustomAvatar } from '@/components/CustomAvatar';
 import { useAuth } from '@/features/auth';
+import { useListPost } from '../../hooks/usePost';
 
 interface CommentCreateFormProps {
   postId: number;
 }
 export function CommentCreateForm({ postId }: CommentCreateFormProps) {
+  const { refetch } = useListPost({}, { enabled: false });
+
   const { mutate } = useAddComment({
-    onSuccess: () => {},
+    onSuccess: async () => {
+      await refetch();
+    },
     onError: () => {},
   });
 

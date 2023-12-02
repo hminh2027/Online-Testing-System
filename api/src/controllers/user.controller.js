@@ -10,6 +10,11 @@ const getOneById = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json({ content: { user } });
 });
 
+const getStudents = catchAsync(async (req, res) => {
+  let users = await userService.getManyStudent();
+  res.status(httpStatus.OK).json({ content: users });
+});
+
 const getOneByEmail = catchAsync(async (req, res) => {
   const { email } = req.body;
   let user = await userService.getOneByEmail(email);
@@ -29,6 +34,7 @@ const patchOneById = catchAsync(async (req, res) => {
 
 module.exports = {
   getOneByEmail,
+  getStudents,
   getOneById,
   patchOneById,
 };

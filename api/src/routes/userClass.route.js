@@ -10,7 +10,7 @@ router
   .get(auth, userClassController.getMany)
   .post(auth, userClassController.createOne);
 
-router.route("/many").post(auth, userClassController.createManyByEmail);
+router.route("/many").post(auth, userClassController.createManyByStudentId);
 
 router
   .route("/:id")

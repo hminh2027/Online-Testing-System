@@ -30,7 +30,6 @@ function getManyByClassCode(classCode) {
     include,
     where: {
       classCode,
-      isStudentRequested: true,
     },
   });
 }
@@ -39,19 +38,16 @@ function getManyByStudentId(studentId) {
   return prisma.userClass.findMany({
     where: {
       studentId,
-      isStudentRequested: false,
     },
     include: { Class: { include: { User: true } } },
   });
 }
 
-function patchStatusById(id, { teacherId, isPending }) {
+function patchStatusById(id, { isPending }) {
+  console.log(id);
   return prisma.userClass.update({
     where: {
       id,
-      Class: {
-        teacherId,
-      },
     },
     data: {
       isPending,

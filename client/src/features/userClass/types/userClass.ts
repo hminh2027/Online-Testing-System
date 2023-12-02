@@ -18,6 +18,5 @@ export interface UserClassCreateDTO extends Resource {
   isStudentRequested: boolean;
 }
 
-export type ResUserClassItem = ResponseItem<UserClass>;
 export type ResUserClassList = ResponseItem<UserClass[]>;
 export type ResUserClassModify = ResponseItem<UserClass>;

@@ -1,11 +1,6 @@
 import { initialCustomQuery } from '@/hooks/useCustomQuery/useCustomQuery';
 import { UserClassService } from '../services/UserClassService';
-import type {
-  ResUserClassItem,
-  ResUserClassList,
-  ResUserClassModify,
-  UserClassCreateDTO,
-} from '../types/userClass';
+import type { ResUserClassList, ResUserClassModify, UserClassCreateDTO } from '../types/userClass';
 
 export const {
   useList: useListUserClass,
@@ -13,6 +8,6 @@ export const {
   useAddItems: useAddUserClasses,
   usePatchItem: usePatchUserClass,
   useDeleteItem: useDeleteUserClass,
-} = initialCustomQuery<UserClassCreateDTO, ResUserClassList, ResUserClassItem, ResUserClassModify>(
+} = initialCustomQuery<UserClassCreateDTO, ResUserClassList, null, ResUserClassModify>(
   UserClassService,
 );

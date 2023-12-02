@@ -37,10 +37,20 @@ const createOne = catchAsync(async (req, res) => {
   });
 });
 
-const createManyByEmail = catchAsync(async (req, res) => {
+const createManyByStudentId = catchAsync(async (req, res) => {
+  const requests = req.body;
+  requests.map(async (request) => {
+    const { classCode, isStudentRequested, studentId } = request;
+
+    await userClassService.createOne({
+      classCode,
+      studentId,
+      isPending: true,
+      isStudentRequested,
+    });
+  });
   res.status(httpStatus.OK).json({
-    content: "",
-    message: "",
+    message: "Đã gửi yêu cầu tới các học sinh",
   });
 });
 
@@ -55,11 +65,9 @@ const getMany = catchAsync(async (req, res) => {
 
 const patchStatusById = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const { id: teacherId } = req.user;
 
   let userClass = await userClassService.patchStatusById(+id, {
     isPending: false,
-    teacherId,
   });
   res
     .status(httpStatus.OK)
@@ -78,7 +86,7 @@ const deleteOneById = catchAsync(async (req, res) => {
 
 module.exports = {
   createOne,
-  createManyByEmail,
+  createManyByStudentId,
   getMany,
   patchStatusById,
   deleteOneById,

@@ -1,6 +1,6 @@
 import { Button, Col, Flex, Modal, Row, Typography } from 'antd';
 import { useAsync, useBeforeUnload, usePageLeave, useToggle, useWindowSize } from 'react-use';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { CustomCard, CustomMessage } from '@/components';
@@ -11,6 +11,7 @@ import { isAfterTime, isBeforeNow, storage } from '@/utils';
 import { useAttemptMutation } from '@/features/attempt/hooks/useAttemptMutation';
 import { useAuth } from '@/features/auth';
 import { socket } from '@/libs/socket';
+import type { Attempt } from '@/features/attempt/types';
 
 export default function ExamTaking() {
   useBeforeUnload(true, 'You have unsaved changes, are you sure?');
@@ -18,15 +19,16 @@ export default function ExamTaking() {
   const { height } = useWindowSize();
   const [openWanring, toggleOpen] = useToggle(false);
   const { fetchOnGoingAttempt } = useOngoingAttempt();
-  const { attempt, setAttempt } = useAttemptStore();
+  const { setAttempt } = useAttemptStore();
+  const [localAttempt, setLocalAttempt] = useState<Attempt>();
   const { increaseTaboutFn, updateFn } = useAttemptMutation();
   const navigation = useNavigate();
   const { user } = useAuth();
 
   usePageLeave(() => {
-    if (!attempt || !attempt.Exam.isProcting) return;
+    if (!localAttempt || !localAttempt.Exam.isProcting) return;
     increaseTaboutFn({
-      id: attempt?.id as number,
+      id: localAttempt?.id as number,
       payload: {},
     });
 
@@ -38,33 +40,34 @@ export default function ExamTaking() {
     const { content } = await fetchOnGoingAttempt();
 
     setAttempt(content);
+    setLocalAttempt(content);
   }, []);
 
   useEffect(() => {
-    if (attempt?.Exam.isProcting)
+    if (localAttempt?.Exam.isProcting)
       toggleOpen(height + 50 < window.screen.height && height < window.screen.height);
-  }, [toggleOpen, height, attempt]);
+  }, [toggleOpen, height, localAttempt]);
 
   useEffect(() => {
-    if (!user || !attempt) return () => {};
+    if (!user || !localAttempt) return () => {};
 
     let timer: NodeJS.Timeout | null = null;
 
-    socket.emit('reconnect', user.id, attempt.id);
+    socket.emit('reconnect', user.id, localAttempt.id);
     timer = setInterval(() => {
       socket.emit('heartbeat', user.id);
     }, 5000);
 
     return () => clearInterval(timer);
-  }, [user, attempt]);
+  }, [user, localAttempt]);
 
   useEffect(() => {
-    if (!attempt) return;
+    if (!localAttempt) return;
 
-    const timeSpent = dayjs(attempt?.startedAt)
+    const timeSpent = dayjs(localAttempt?.startedAt)
       .add(
         dayjs.duration({
-          minutes: attempt?.Exam.duration,
+          minutes: localAttempt?.Exam.duration,
           hours: 7,
         }),
       )
@@ -72,21 +75,24 @@ export default function ExamTaking() {
 
     const isTimeInvalid =
       isBeforeNow(new Date(timeSpent)) ||
-      (attempt.Exam.deadlineAt ? isAfterTime(new Date(timeSpent), attempt.Exam.deadlineAt) : false);
+      (localAttempt.Exam.deadlineAt
+        ? isAfterTime(new Date(timeSpent), localAttempt.Exam.deadlineAt)
+        : false);
 
     if (isTimeInvalid) {
       updateFn({
-        id: attempt?.id as number,
+        id: localAttempt?.id as number,
         payload: {},
       });
       Modal.error({
         centered: true,
         title: 'Hết giờ làm bài',
         content: 'Đã hết giờ làm bài. Nhấn ok đề thoát',
-        onOk: () => navigation(`/class/${attempt.Exam.Class.code}/exams/${attempt.Exam.id}/result`),
+        onOk: () =>
+          navigation(`/class/${localAttempt.Exam.Class.code}/exams/${localAttempt.Exam.id}/result`),
       });
     }
-  }, [attempt, navigation, updateFn]);
+  }, [localAttempt, navigation, updateFn]);
 
   function handleShuffle<T>(array: T[]) {
     const examQuestionOrder = storage.get('ExamQuestionOrder') as string;
@@ -103,17 +109,17 @@ export default function ExamTaking() {
     return array;
   }
 
-  if (!attempt) return <>Loading</>;
+  if (!localAttempt) return <>Loading</>;
 
-  const { Exam } = attempt;
+  const { Exam } = localAttempt;
 
   const submit = () => {
     updateFn({
-      id: attempt.id as number,
+      id: localAttempt.id as number,
       payload: {},
     });
 
-    navigation(`/class/${attempt.Exam.Class.code}/exams/${attempt.Exam.id}/result`);
+    navigation(`/class/${localAttempt.Exam.Class.code}/exams/${localAttempt.Exam.id}/result`);
   };
 
   const handleSubmit = () =>
@@ -124,7 +130,9 @@ export default function ExamTaking() {
       onOk: submit,
     });
 
-  const examTimer = dayjs(attempt.startedAt).add(Exam.duration, 'minutes').diff(dayjs(), 'minutes');
+  const examTimer = dayjs(localAttempt.startedAt)
+    .add(Exam.duration, 'minutes')
+    .diff(dayjs(), 'minutes');
 
   return (
     <>
@@ -170,7 +178,7 @@ export default function ExamTaking() {
             </Flex>
           </CustomCard>
         </Col>
-        <Modal centered open={!openWanring} title="Cảnh báo!" footer={false} closeIcon={false}>
+        <Modal centered open={openWanring} title="Cảnh báo!" footer={false} closeIcon={false}>
           <Typography.Text>
             Vui lòng <Typography.Text strong>bật F11</Typography.Text> và làm bài ở chế độ{' '}
             <Typography.Text strong>toàn màn hình.</Typography.Text>

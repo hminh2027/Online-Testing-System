@@ -1,6 +1,7 @@
 import { CustomMessage } from '@/components';
 import {
   useAddUserClass,
+  useAddUserClasses,
   useDeleteUserClass,
   useListUserClass,
   usePatchUserClass,
@@ -17,7 +18,7 @@ export function useUserClassMutation() {
     onError: () => {},
   });
 
-  const { mutate: addManyFn } = useAddUserClass({
+  const { mutate: addManyFn } = useAddUserClasses({
     onSuccess: async (res) => {
       await refetch();
       // eslint-disable-next-line @typescript-eslint/no-floating-promises

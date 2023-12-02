@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import { CustomMessage } from '@/components';
 import { useAddAttempt, useDeleteAttempt, usePatchAttempt, useUpdateAttempt } from './useAttempt';
 
 export function useAttemptMutation() {
+  const navigate = useNavigate();
   const { mutate: addFn } = useAddAttempt({
     onSuccess: (res) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -15,7 +17,11 @@ export function useAttemptMutation() {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       CustomMessage.success(res.message);
     },
-    onError: () => {},
+    onError: (error) => {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      CustomMessage.error(error);
+      navigate('/class');
+    },
   });
 
   const { mutate: deleteFn } = useDeleteAttempt({

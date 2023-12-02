@@ -9,7 +9,7 @@ import { useDrawer } from '@/hooks/useDrawer';
 import type { ClassRoom } from '../../types';
 import { useAuth } from '@/features/auth';
 import { ClassFindModal } from '@/features/class/components/ClassFindModal';
-import { genDropdownItems } from '@/utils';
+import { genDropdownItems, showConfirmation } from '@/utils';
 import { useClassMutation } from '../../hooks/useClassMutation';
 import { useListUserClass } from '@/features/userClass/hooks/useUserClass';
 
@@ -20,13 +20,16 @@ export function ClassTable() {
   const [isModalOpen, toggleModal] = useToggle(false);
 
   const { data: classData, isLoading: isTeacherClassLoading } = useListClass({});
-  const { data: requestData, isLoading: isStudentClassLoading } = useListUserClass({});
+  const { data: requestData, isLoading: isStudentClassLoading } = useListUserClass(
+    {
+      studentId: user?.id,
+    },
+    { enabled: !!user?.id },
+  );
 
   const requests = requestData?.content;
 
-  const studentClasses = requests
-    ?.filter((req) => req.studentId === user?.id)
-    .map((req) => req.Class);
+  const studentClasses = requests?.map((req) => req.Class);
   const teacherClasses = classData?.content;
 
   if (isTeacherClassLoading || isStudentClassLoading) return <>Loading</>;
@@ -41,7 +44,7 @@ export function ClassTable() {
     setDetailId(code);
   };
 
-  const handleDelete = (code: string) => deleteFn({ id: code });
+  const handleDelete = (code: string) => showConfirmation(() => deleteFn({ id: code }));
 
   return (
     <>

@@ -12,6 +12,12 @@ async function upsertOne({ answerId, attemptId, questionId }) {
   });
 }
 
+function getOne({ attemptId, questionId, answerId }) {
+  return prisma.choice.findFirst({
+    where: { attemptId, questionId },
+  });
+}
+
 async function upsertMany(choices) {
   const { attemptId, questionId } = choices[0];
   await prisma.choice.deleteMany({
@@ -29,5 +35,6 @@ async function upsertMany(choices) {
 
 module.exports = {
   upsertOne,
+  getOne,
   upsertMany,
 };

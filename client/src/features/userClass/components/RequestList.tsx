@@ -9,7 +9,7 @@ export function RequestList() {
 
   const users = data?.content;
 
-  const requests = users?.filter((user) => user.isPending);
+  const requests = users?.filter((user) => user.isPending && user.isStudentRequested);
 
   return (
     <Flex gap={12} vertical>

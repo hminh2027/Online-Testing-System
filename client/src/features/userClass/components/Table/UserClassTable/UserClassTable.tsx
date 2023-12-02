@@ -1,89 +1,145 @@
-import { Button, Dropdown, List, Table } from 'antd';
+import { Button, Dropdown, Modal, Select, Table } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+import { useParams } from 'react-router-dom';
+import { useToggle } from 'react-use';
 import { useState } from 'react';
 import { CustomTable } from '@/components';
 import { useUserClassMutation } from '@/features/userClass/hooks/useUserClassMutation';
 import type { UserClass } from '@/features/userClass/types';
-import { genDropdownItems } from '@/utils';
+import { genDropdownItems, transformToAntdSelectOptions } from '@/utils';
 import { columns } from './columns';
 import { useAuth } from '@/features/auth';
 import { Excel } from '@/components/FileIO/Excel';
-import { excelUrls } from '@/constants/excel';
+import type { User } from '@/features/user';
+import { useListUser } from '@/features/user';
+import { useListUserClass } from '@/features/userClass/hooks/useUserClass';
 
 interface UserClassTableProps {
   dataSource?: UserClass[];
 }
 export function UserClassTable({ dataSource }: UserClassTableProps) {
-  const { deleteFn, addManyFn } = useUserClassMutation();
   const { user } = useAuth();
+  const { code } = useParams();
+  const { deleteFn, addManyFn } = useUserClassMutation();
+  const [selectedStudentList, setSelectedStudentList] = useState<number[]>([]);
 
-  const [data, setData] = useState([]);
+  const [open, toggleOpen] = useToggle(false);
+  const { data, isFetching } = useListUser(
+    {},
+    {
+      enabled: open,
+      refetchOnWindowFocus: false,
+    },
+  );
 
-  console.log(data);
+  const { data: requestData, isFetching: isFetchingUserClass } = useListUserClass(
+    { classCode: code },
+    {
+      enabled: open,
+      refetchOnWindowFocus: false,
+    },
+  );
 
-  const handleOk = () => {};
+  const users = data?.content;
+  const requests = requestData?.content;
+
+  const validUsers: User[] = users
+    ? users?.filter((u) => !requests?.find((req) => req.studentId === u.id))
+    : [];
+
+  const handleOnOk = () =>
+    addManyFn(
+      selectedStudentList.map((id) => ({
+        classCode: code as string,
+        isStudentRequested: false,
+        studentId: id,
+      })),
+    );
 
   return (
-    <CustomTable
-      searchBy="User.fullname"
-      showActionHeader
-      actionHeader={[
-        {
-          element: <Button>Thêm học sinh</Button>,
-        },
-        {
-          element: (
-            <Excel.Uploader
-              templateUrl={excelUrls.template.studentList}
-              content="Nhập từ danh sách Excel"
-              data={data}
-              setData={setData}
-              handleOk={handleOk}
-              table={
-                <List
-                  itemLayout="horizontal"
-                  dataSource={data.slice(1, data.length)}
-                  bordered
-                  renderItem={(item) => <List.Item>{item}</List.Item>}
-                />
+    <>
+      <CustomTable
+        searchBy="User.fullname"
+        showActionHeader
+        actionHeader={[
+          {
+            element: <Button onClick={toggleOpen}>Thêm học sinh</Button>,
+          },
+          {
+            element: (
+              <Excel.Exporter
+                fileName={`danh sách học sinh - mã lớp ${code}`}
+                content="Xuất file Excel"
+                table={
+                  <Table id="excel-table" rowKey="id" columns={columns} dataSource={dataSource} />
+                }
+              />
+            ),
+          },
+        ]}
+        showSearch
+        hasShadow
+        rowKey="id"
+        key="exam-table"
+        columns={[
+          ...columns,
+          user?.isTeacher
+            ? {
+                render: (value: UserClass) => (
+                  <Dropdown
+                    menu={{
+                      items: genDropdownItems({
+                        delete: () => {
+                          deleteFn({ id: value.id as number });
+                        },
+                      }),
+                    }}
+                    trigger={['click']}
+                  >
+                    <Button icon={<DownOutlined />}>Nhấp</Button>
+                  </Dropdown>
+                ),
+                title: 'Hành động',
+                fixed: 'right',
+                width: 150,
               }
-            />
-          ),
-        },
-      ]}
-      showSearch
-      hasShadow
-      rowKey="id"
-      key="exam-table"
-      columns={[
-        ...columns,
-        user?.isTeacher
-          ? {
-              render: (value: UserClass) => (
-                <Dropdown
-                  menu={{
-                    items: genDropdownItems({
-                      delete: () => {
-                        deleteFn({ id: value.id as number });
-                      },
-                    }),
-                  }}
-                  trigger={['click']}
-                >
-                  <Button icon={<DownOutlined />}>Nhấp</Button>
-                </Dropdown>
-              ),
-              title: 'Hành động',
-              fixed: 'right',
-              width: 150,
-            }
-          : {},
-      ]}
-      dataSource={dataSource}
-      scroll={{
-        x: 1500,
-      }}
-      pagination={{ total: dataSource?.length }}
-    />
+            : {},
+        ]}
+        dataSource={dataSource}
+        scroll={{
+          x: 1500,
+        }}
+        pagination={{ total: dataSource?.length }}
+      />
+      <Modal
+        destroyOnClose
+        centered
+        closable
+        title="Thêm học sinh vào lớp"
+        open={open}
+        onCancel={toggleOpen}
+        onOk={handleOnOk}
+      >
+        {!isFetching && !isFetchingUserClass && users && (
+          <Select
+            showSearch
+            mode="multiple"
+            allowClear
+            placeholder="Vui lòng chọn hoặc gõ để tìm kiếm..."
+            style={{ width: '100%' }}
+            options={transformToAntdSelectOptions(
+              validUsers,
+              'fullname',
+              'id',
+              (value, _index, context) => `${value} - ${context?.email}`,
+            )}
+            optionFilterProp="children"
+            maxTagCount="responsive"
+            filterOption={(input, option) => ((option?.label as string) ?? '').includes(input)}
+            onChange={(value: number[]) => setSelectedStudentList(value)}
+          />
+        )}
+      </Modal>
+    </>
   );
 }
