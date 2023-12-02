@@ -17,6 +17,15 @@ export function useUserClassMutation() {
     onError: () => {},
   });
 
+  const { mutate: addManyFn } = useAddUserClass({
+    onSuccess: async (res) => {
+      await refetch();
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      CustomMessage.success(res.message);
+    },
+    onError: () => {},
+  });
+
   const { mutate: patchFn } = usePatchUserClass({
     onSuccess: (res) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -35,6 +44,7 @@ export function useUserClassMutation() {
 
   return {
     addFn,
+    addManyFn,
     patchFn,
     deleteFn,
   };

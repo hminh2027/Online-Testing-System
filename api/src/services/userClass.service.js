@@ -1,12 +1,21 @@
 const { prisma } = require("../database/prisma-client");
 
-function createOne({ classCode, studentId, isPending }) {
+function createOne({ classCode, studentId, isPending, isStudentRequested }) {
   return prisma.userClass.create({
-    data: { isPending, classCode, studentId },
+    data: { isPending, classCode, studentId, isStudentRequested },
   });
 }
 
-function getManyByClassCode({ classCode }) {
+function getOneByStudentIdAndClassCode(studentId, classCode) {
+  return prisma.userClass.findFirst({
+    where: {
+      classCode,
+      studentId,
+    },
+  });
+}
+
+function getManyByClassCode(classCode) {
   const include = {
     Class: true,
     User: true,
@@ -21,7 +30,18 @@ function getManyByClassCode({ classCode }) {
     include,
     where: {
       classCode,
+      isStudentRequested: true,
     },
+  });
+}
+
+function getManyByStudentId(studentId) {
+  return prisma.userClass.findMany({
+    where: {
+      studentId,
+      isStudentRequested: false,
+    },
+    include: { Class: { include: { User: true } } },
   });
 }
 
@@ -49,7 +69,9 @@ function deleteOneById(id) {
 
 module.exports = {
   createOne,
+  getOneByStudentIdAndClassCode,
   getManyByClassCode,
+  getManyByStudentId,
   patchStatusById,
   deleteOneById,
 };

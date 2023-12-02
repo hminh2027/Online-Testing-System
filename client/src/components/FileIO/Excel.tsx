@@ -11,8 +11,17 @@ interface ExcelUploaderProps<T> {
   setData: (data: T[]) => void;
   table?: ReactNode;
   handleOk: () => void;
+  content?: string;
+  templateUrl: string;
 }
-export function ExcelUploader<T>({ data, setData, table, handleOk }: ExcelUploaderProps<T>) {
+export function ExcelUploader<T>({
+  data,
+  setData,
+  table,
+  handleOk,
+  content,
+  templateUrl,
+}: ExcelUploaderProps<T>) {
   const [isModalOpen, toggleModal] = useToggle(false);
 
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -34,7 +43,7 @@ export function ExcelUploader<T>({ data, setData, table, handleOk }: ExcelUpload
   return (
     <>
       <Button onClick={toggleModal} block type="primary">
-        Import Excel
+        {content ?? 'Import Excel'}
       </Button>
       <Modal
         centered
@@ -65,10 +74,7 @@ export function ExcelUploader<T>({ data, setData, table, handleOk }: ExcelUpload
             </Upload.Dragger>
             <Typography.Text>
               Tải file mẫu{' '}
-              <Typography.Link
-                href="https://res.cloudinary.com/minh2027/raw/upload/v1699628359/Testing%20Folder/ols-question-sample-excel_xaaf2r.xlsx"
-                download
-              >
+              <Typography.Link href={templateUrl} download>
                 Excel
               </Typography.Link>{' '}
               và điền theo format

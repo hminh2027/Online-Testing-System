@@ -1,16 +1,18 @@
-import { Checkbox, Descriptions, Input } from 'antd';
+import { Checkbox, Descriptions, Input, Tag } from 'antd';
 import { useClass } from '../../hooks/useClass';
 import { useDrawer } from '@/hooks/useDrawer';
-import { Status } from '@/components';
 import { formatISOToVi } from '@/utils';
+import { useListExam } from '@/features/exam/hooks/useExam';
 
 export function ClassDetail() {
   const { detailId } = useDrawer();
-  const { data, isFetching } = useClass(detailId);
+  const { data: classData, isFetching: isClassFetching } = useClass(detailId);
+  const { data: examData, isFetching: isExamFetching } = useListExam({ classCode: detailId });
 
-  if (isFetching) return <>Loading</>;
+  if (isClassFetching || isExamFetching) return <>Loading</>;
 
-  const classDetails = data?.content;
+  const classDetails = classData?.content;
+  const examDetails = examData?.content;
 
   const mapDetailsToArray = () => [
     {
@@ -40,6 +42,14 @@ export function ClassDetail() {
     {
       label: 'Cho phép học sinh đăng bài',
       value: <Checkbox checked={classDetails?.isStudentPostAllowed} disabled />,
+    },
+    {
+      label: 'Bài kiểm tra đang giao',
+      value: examDetails?.map((exam) => (
+        <Tag style={{ margin: 5 }} key={exam.id} color="blue">
+          {exam.title}
+        </Tag>
+      )),
     },
     {
       label: 'Ngày tạo',

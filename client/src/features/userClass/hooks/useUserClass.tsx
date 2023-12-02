@@ -10,6 +10,7 @@ import type {
 export const {
   useList: useListUserClass,
   useAddItem: useAddUserClass,
+  useAddItems: useAddUserClasses,
   usePatchItem: usePatchUserClass,
   useDeleteItem: useDeleteUserClass,
 } = initialCustomQuery<UserClassCreateDTO, ResUserClassList, ResUserClassItem, ResUserClassModify>(

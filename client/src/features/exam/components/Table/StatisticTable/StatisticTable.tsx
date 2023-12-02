@@ -14,6 +14,7 @@ export function StatisticTable({ data }: StatisticTableProps) {
 
   return (
     <CustomTable
+      searchBy="User.fullname"
       showActionHeader
       rowKey="id"
       actionHeader={[

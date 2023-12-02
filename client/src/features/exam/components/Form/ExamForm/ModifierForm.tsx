@@ -1,5 +1,5 @@
 import type { FormInstance } from 'antd';
-import { Col, DatePicker, Form, Input, InputNumber, Row, Select, Switch, Typography } from 'antd';
+import { Col, DatePicker, Form, Input, InputNumber, Row, Select, Switch } from 'antd';
 import { useEffect, useState } from 'react';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
@@ -106,7 +106,7 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item label="Thời lượng bài kiểm tra" name="duration">
+          <Form.Item label="Thời lượng bài kiểm tra" name="duration" required>
             <InputNumber<number>
               addonAfter="phút"
               min={1}
@@ -129,8 +129,8 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
           </Form.Item>
         </Col>
       </Row>
-      <Form.Item name="classCode" label="Lớp được giao" required>
-        <Select options={transformToAntdSelectOptions(classes, 'name', 'code')} />
+      <Form.Item name="classCode" label="Lớp được giao">
+        <Select allowClear options={transformToAntdSelectOptions(classes, 'name', 'code')} />
       </Form.Item>
       <Row gutter={16}>
         <Col span={8}>

@@ -54,6 +54,7 @@ function getManyByTeacherId(teacherId) {
   return prisma.exam.findMany({
     where: { teacherId },
     orderBy: { createdAt: "desc" },
+    include: { Class: true },
   });
 }
 
@@ -93,7 +94,9 @@ function updateOneById(id, data) {
       isShuffleQuestion: data.isShuffleQuestion,
       startAt: data.startAt,
       Class: {
-        connect: { code: data.classCode },
+        ...(data.classCode
+          ? { connect: { code: data.classCode } }
+          : { disconnect: { code: data.classCode } }),
       },
     },
   });

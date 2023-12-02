@@ -26,6 +26,7 @@ export function ClassFindForm({ classRoom, toggleModal }: ClassFindFormProps) {
       studentId: user?.id as number,
       classCode: classRoom.code,
       password: value.password,
+      isStudentRequested: true,
     });
 
     toggleModal(false);

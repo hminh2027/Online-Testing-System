@@ -12,6 +12,7 @@ import { ExamImportButton } from '../Button/ExamImportButton';
 import { useExcelTranformation } from '../../hooks/useExcelTranformation';
 import { ExcelTable } from '../Table/ExcelTable';
 import { CustomMessage, FileIO } from '@/components';
+import { excelUrls } from '@/constants/excel';
 
 interface ExamModifierProps {
   id?: number;
@@ -126,6 +127,7 @@ export function ExamModifier({
         <Flex gap={24}>
           {updatable && (
             <FileIO.Excel.Uploader
+              templateUrl={excelUrls.template.questions}
               table={<ExcelTable dataSource={dataSource as []} />}
               data={rawData}
               setData={setRawData}

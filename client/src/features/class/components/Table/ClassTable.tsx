@@ -63,7 +63,7 @@ export function ClassTable() {
         rowKey="code"
         key="class-table"
         columns={[
-          ...columns,
+          ...columns(user?.isTeacher as boolean),
           user?.isTeacher
             ? {
                 render: (value: ClassRoom) => (

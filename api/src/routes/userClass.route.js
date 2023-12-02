@@ -7,8 +7,10 @@ const router = express.Router();
 
 router
   .route("/")
-  .get(auth, userClassController.getManyByClassCode)
+  .get(auth, userClassController.getMany)
   .post(auth, userClassController.createOne);
+
+router.route("/many").post(auth, userClassController.createManyByEmail);
 
 router
   .route("/:id")

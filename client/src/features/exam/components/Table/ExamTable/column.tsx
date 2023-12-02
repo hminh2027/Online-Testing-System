@@ -1,5 +1,6 @@
 import type { ColumnsType } from 'antd/es/table';
 import { Link } from 'react-router-dom';
+import { Tag } from 'antd';
 import type { Exam } from '../../../types';
 import { formatISOToVi } from '@/utils';
 
@@ -16,6 +17,18 @@ export const columns: ColumnsType<Exam> = [
     title: 'Mô tả',
     dataIndex: 'description',
     ellipsis: true,
+  },
+  {
+    key: 'class',
+    title: 'Lớp đang giao',
+    dataIndex: ['Class', 'name'],
+    ellipsis: true,
+    render: (value: string, record: Exam) =>
+      value && (
+        <Link to={`/class/${record.classCode}`}>
+          <Tag color="blue">{value}</Tag>
+        </Link>
+      ),
   },
   {
     key: 'duration',

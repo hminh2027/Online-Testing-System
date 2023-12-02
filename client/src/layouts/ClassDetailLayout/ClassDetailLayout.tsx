@@ -1,9 +1,10 @@
 import type { MenuProps } from 'antd';
-import { Button, Flex, Layout, Menu } from 'antd';
+import { Button, Divider, Flex, Layout, Menu, Space, Typography } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import type { ReactNode } from 'react';
 import { NavLink, Outlet, useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import { PoweroffOutlined, SettingOutlined } from '@ant-design/icons';
 import styles from './index.module.css';
 import { useAuth } from '@/features/auth';
 import { useUserClassMutation } from '@/features/userClass/hooks/useUserClassMutation';
@@ -75,16 +76,47 @@ export function ClassDetailLayout({ children }: ClassDetailLayoutProps) {
     >
       <Layout.Sider>
         <Flex style={{ height: '100%' }} vertical justify="space-between">
-          <Menu
-            mode="vertical"
-            items={items}
-            style={{
-              width: '100%',
-              border: 'none',
-            }}
-          />
-          {!user?.isTeacher && (
-            <Button block onClick={handleClick}>
+          <Space direction="vertical">
+            <Divider>Thông tin lớp học</Divider>
+            <Flex justify="space-around">
+              <Typography.Text>Mã lớp:</Typography.Text>
+              <Typography.Text copyable strong>
+                {code}
+              </Typography.Text>
+            </Flex>
+            <Divider>Danh mục</Divider>
+            <Menu
+              mode="vertical"
+              items={items}
+              style={{
+                width: '100%',
+                border: 'none',
+              }}
+            />
+          </Space>
+
+          {user?.isTeacher ? (
+            <Button
+              icon={<SettingOutlined />}
+              style={{
+                borderRadius: 0,
+                height: 50,
+              }}
+              block
+              onClick={() => navigate('edit')}
+            >
+              Cài đặt lớp học
+            </Button>
+          ) : (
+            <Button
+              icon={<PoweroffOutlined />}
+              style={{
+                borderRadius: 0,
+                height: 50,
+              }}
+              block
+              onClick={handleClick}
+            >
               Rời lớp
             </Button>
           )}

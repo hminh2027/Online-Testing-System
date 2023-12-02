@@ -42,6 +42,10 @@ export const classRoutes: RouteObject[] = [
             path: 'schedule',
             element: <ClassPage.ClassSchedule />,
           },
+          {
+            path: 'edit',
+            element: <ClassPage.ClassEdit />,
+          },
         ],
       },
     ],

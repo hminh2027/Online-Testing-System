@@ -4,7 +4,7 @@ const _ = require("lodash");
 const httpStatus = require("http-status");
 
 const createOne = catchAsync(async (req, res) => {
-  const { classCode, studentId } = req.body;
+  const { classCode, studentId, isStudentRequested } = req.body;
 
   const classRoom = await classService.getOneByCode(classCode);
 
@@ -13,10 +13,21 @@ const createOne = catchAsync(async (req, res) => {
       .status(httpStatus.NOT_FOUND)
       .json({ message: "Lớp học không tồn tại" });
 
+  const existed = await userClassService.getOneByStudentIdAndClassCode(
+    +studentId,
+    classCode
+  );
+
+  if (existed)
+    return res
+      .status(httpStatus.CONFLICT)
+      .json({ message: "Lời mời đã tồn tại" });
+
   let userClass = await userClassService.createOne({
     classCode,
     studentId,
     isPending: classRoom.isStudentApprovalEnter,
+    isStudentRequested,
   });
   res.status(httpStatus.OK).json({
     content: userClass,
@@ -26,12 +37,19 @@ const createOne = catchAsync(async (req, res) => {
   });
 });
 
-const getManyByClassCode = catchAsync(async (req, res) => {
-  const { classCode } = req.query;
-
-  let userClass = await userClassService.getManyByClassCode({
-    classCode,
+const createManyByEmail = catchAsync(async (req, res) => {
+  res.status(httpStatus.OK).json({
+    content: "",
+    message: "",
   });
+});
+
+const getMany = catchAsync(async (req, res) => {
+  const { classCode, studentId } = req.query;
+  let userClass = null;
+  if (!studentId)
+    userClass = await userClassService.getManyByClassCode(classCode);
+  else userClass = await userClassService.getManyByStudentId(+studentId);
   res.status(httpStatus.OK).json({ content: userClass });
 });
 
@@ -60,7 +78,8 @@ const deleteOneById = catchAsync(async (req, res) => {
 
 module.exports = {
   createOne,
-  getManyByClassCode,
+  createManyByEmail,
+  getMany,
   patchStatusById,
   deleteOneById,
 };

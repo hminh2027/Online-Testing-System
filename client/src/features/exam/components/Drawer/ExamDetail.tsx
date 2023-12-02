@@ -60,7 +60,7 @@ export function ExamDetail() {
     },
     {
       label: 'Lớp được giao',
-      value: (
+      value: examDetails?.Class && (
         <Typography.Link href={`class/${examDetails?.classCode}`}>
           {examDetails?.Class.name}
         </Typography.Link>

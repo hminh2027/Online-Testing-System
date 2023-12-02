@@ -36,7 +36,7 @@ export interface ExamCreateDTO extends Resource {
   isShuffleQuestion: boolean;
   isShowAnswer: boolean;
   isResumeAllowed: boolean;
-  classCode: string;
+  classCode?: string;
 }
 
 export type ResExamItem = ResponseItem<Exam>;

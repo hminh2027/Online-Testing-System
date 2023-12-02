@@ -45,10 +45,11 @@ export function useExamMutation() {
   );
 
   const { mutate: deleteFn } = useDeleteExam({
-    onSuccess: (res) => {
+    onSuccess: async (res) => {
       resetDrawerState();
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       CustomMessage.success(res.message);
+      await refetch({ stale: true });
     },
     onError: () => {},
   });

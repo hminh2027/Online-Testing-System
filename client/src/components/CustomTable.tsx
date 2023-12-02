@@ -10,7 +10,7 @@ export type Action = { element: ReactNode };
 interface CustomTableProps<T> extends TableProps<T> {
   showSearch?: boolean;
   hasShadow?: boolean;
-  searchBy?: keyof T;
+  searchBy?: string;
 }
 
 interface TableWithActionHeader<T> extends CustomTableProps<T> {
@@ -41,13 +41,22 @@ export function CustomTable<T extends object>(props: TableProp<T>) {
     toggleMode(MODE.ADD);
   };
 
+  function extractDataFromObject<X extends object>(object: X, keys: string[]): string {
+    return keys.reduce((curObject, key) => curObject[key], object);
+  }
+
   const handleSearch: InputProps['onChange'] = (e) => {
     if (!searchBy) return;
+
     const { value } = e.target;
 
-    const filteredDataSource = dataSource?.filter((data) =>
-      (data[searchBy] as string).toLocaleLowerCase().includes(value.toLocaleLowerCase()),
-    );
+    const keys = searchBy.split('.');
+
+    const filteredDataSource = dataSource?.filter((data) => {
+      const res = extractDataFromObject(data, keys);
+
+      return res.toLocaleLowerCase().includes(value.toLocaleLowerCase());
+    });
 
     setInternalDataSource(filteredDataSource);
   };
@@ -57,11 +66,11 @@ export function CustomTable<T extends object>(props: TableProp<T>) {
       <Flex gap={16}>
         {showActionHeader &&
           (actionHeader ? (
-            <Flex>
+            <Space>
               {actionHeader.map((action: Action) => (
                 <>{action.element}</>
               ))}
-            </Flex>
+            </Space>
           ) : (
             <Space>
               <Button onClick={handleCreate}>Tạo</Button>

@@ -13,7 +13,6 @@ interface ExamTableProps {
   dataSource?: Exam[];
 }
 export function ExamTable({ dataSource }: ExamTableProps) {
-  // const { data: examData, isLoading } = useListExam({});
   const { toggleMode, setDetailId } = useDrawer();
   const { user } = useAuth();
   const { deleteFn } = useExamMutation();

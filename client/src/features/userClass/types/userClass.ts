@@ -6,6 +6,7 @@ export interface UserClass extends Resource {
   classCode: string;
   studentId: number;
   isPending: boolean;
+  isStudentRequested: boolean;
   User: User;
   Class: ClassRoom;
 }
@@ -14,6 +15,7 @@ export interface UserClassCreateDTO extends Resource {
   classCode: string;
   studentId: number;
   password?: string;
+  isStudentRequested: boolean;
 }
 
 export type ResUserClassItem = ResponseItem<UserClass>;

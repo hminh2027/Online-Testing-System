@@ -32,14 +32,15 @@ model User {
 }
 
 model UserClass {
-  id        Int      @id @default(autoincrement())
-  studentId Int
-  classCode String
-  isPending Boolean
-  createdAt DateTime @default(now())
+  id                 Int      @id @default(autoincrement())
+  studentId          Int
+  classCode          String
+  isPending          Boolean
+  isStudentRequested Boolean
+  createdAt          DateTime @default(now())
   // relations
-  User      User     @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Class     Class    @relation(fields: [classCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
+  User               User     @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Class              Class    @relation(fields: [classCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
 
   @@unique([studentId, classCode])
 }
@@ -64,7 +65,7 @@ model Class {
 
 model Exam {
   id                Int        @id @default(autoincrement())
-  classCode         String
+  classCode         String?
   teacherId         Int
   title             String
   description       String?    @db.LongText
@@ -81,7 +82,7 @@ model Exam {
   User              User       @relation(fields: [teacherId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   Question          Question[]
   Attempt           Attempt[]
-  Class             Class      @relation(fields: [classCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
+  Class             Class?     @relation(fields: [classCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Question {
