@@ -17,28 +17,12 @@ const getOneByEmail = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json({ content: { user } });
 });
 
-const updateOneById = catchAsync(async (req, res) => {
-  // should be validated before get into the handlers
-  // const { email, password, name, avatar_url } = req.body;
+const patchOneById = catchAsync(async (req, res) => {
   const { id } = req.user;
-  let user = await userService.updateOneById(id, req.body);
+  let user = await userService.patchOneById(id, req.body);
 
-  user = omit(user, ["password"]);
   res.status(httpStatus.OK).json({
-    message: "User updated successfully",
-    content: user,
-  });
-});
-
-// TODO: update password later
-const updateOnePasswordByEmail = catchAsync(async (req, res) => {
-  const { email, password } = req.body;
-  const { id } = req.user;
-  let user = await userService.updateOneById(id, { ...req.body, password });
-
-  user = omit(user, ["password"]);
-  res.status(httpStatus.OK).json({
-    message: "User updated successfully",
+    message: "Cập nhật thông tin thành công",
     content: user,
   });
 });
@@ -46,6 +30,5 @@ const updateOnePasswordByEmail = catchAsync(async (req, res) => {
 module.exports = {
   getOneByEmail,
   getOneById,
-  updateOneById,
-  updateOnePasswordByEmail,
+  patchOneById,
 };

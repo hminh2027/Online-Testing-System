@@ -6,12 +6,14 @@ import type {
   ResUserList,
   ResUserModify,
   User,
+  UserCreateDTO,
 } from '@/features/user/types';
+import type { Either } from '@/types';
 
 export const {
   useList: useListUser,
   useAddItem: useAddUser,
-  useUpdateItem: useUpdateUser,
-} = initialCustomQuery<User, ResUserList, ResUserItem, ResUserModify>(
+  usePatchItem: usePatchUser,
+} = initialCustomQuery<Either<User, UserCreateDTO>, ResUserList, ResUserItem, ResUserModify>(
   UserService,
 );

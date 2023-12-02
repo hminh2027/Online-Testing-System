@@ -38,13 +38,13 @@ async function getOneById(id) {
   });
 }
 
-async function updateOneById(id, data) {
-  return prisma.user.update({ where: { id } }, data);
+async function patchOneById(id, data) {
+  return prisma.user.update({ where: { id }, data });
 }
 
 module.exports = {
   createOne,
   getOneById,
-  updateOneById,
+  patchOneById,
   getOneByEmail,
 };

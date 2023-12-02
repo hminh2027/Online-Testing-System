@@ -7,9 +7,6 @@ const router = express.Router();
 router
   .route("/:id")
   .get(userController.getOneById)
-  .put(auth, userController.updateOneById);
-
-// TODO: update password later
-// ...
+  .patch(auth, userController.patchOneById);
 
 module.exports = router;

@@ -1,5 +1,6 @@
 import type { MenuProps } from 'antd';
 import { Avatar, Dropdown } from 'antd';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/features/auth';
 
 interface UserHeaderProps {
@@ -7,6 +8,9 @@ interface UserHeaderProps {
 }
 
 export function UserHeader({ username }: UserHeaderProps) {
+  const { logOut } = useAuth();
+  const { user } = useAuth();
+
   const initials = (): string | null => {
     const trimmedName = username && username.trim();
 
@@ -20,11 +24,9 @@ export function UserHeader({ username }: UserHeaderProps) {
     return (firstChar + lastChar).toUpperCase();
   };
 
-  const { logOut } = useAuth();
-
   const items: MenuProps['items'] = [
     {
-      label: 'Thông tin cá nhân',
+      label: <Link to="/profile/me">Thông tin cá nhân</Link>,
       key: '0',
     },
     {
@@ -43,11 +45,7 @@ export function UserHeader({ username }: UserHeaderProps) {
 
   return (
     <Dropdown menu={{ items }} trigger={['click']}>
-      <Avatar
-        src="https://play-lh.googleusercontent.com/aAZvy2vK1GUeB0JR3pjEvhCYZ-nci12JciXr7Xy2oj5EvweA_ZMvWCmQyQsY-1NQXUoF"
-        shape="circle"
-        size="large"
-      >
+      <Avatar src={user?.imageUrl} shape="circle" size="large">
         {initials()}
       </Avatar>
     </Dropdown>
