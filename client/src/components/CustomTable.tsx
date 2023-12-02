@@ -1,15 +1,16 @@
-import type { TableProps } from 'antd';
+import type { InputProps, TableProps } from 'antd';
 import { Button, Flex, Input, Space, Table } from 'antd';
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { useDrawer } from '@/hooks/useDrawer';
 import { MODE } from '@/constants';
 import type { Either } from '@/types';
 
 export type Action = { element: ReactNode };
 
-interface CustomTableProps<T extends object> extends TableProps<T> {
+interface CustomTableProps<T> extends TableProps<T> {
   showSearch?: boolean;
   hasShadow?: boolean;
+  searchBy?: keyof T;
 }
 
 interface TableWithActionHeader<T> extends CustomTableProps<T> {
@@ -28,13 +29,27 @@ export function CustomTable<T extends object>(props: TableProp<T>) {
     showSearch = false,
     hasShadow,
     pagination,
+    searchBy,
     ...rest
   } = props;
 
   const { toggleMode } = useDrawer();
 
+  const [internalDataSource, setInternalDataSource] = useState(dataSource);
+
   const handleCreate = () => {
     toggleMode(MODE.ADD);
+  };
+
+  const handleSearch: InputProps['onChange'] = (e) => {
+    if (!searchBy) return;
+    const { value } = e.target;
+
+    const filteredDataSource = dataSource?.filter((data) =>
+      (data[searchBy] as string).toLocaleLowerCase().includes(value.toLocaleLowerCase()),
+    );
+
+    setInternalDataSource(filteredDataSource);
   };
 
   return (
@@ -52,11 +67,11 @@ export function CustomTable<T extends object>(props: TableProp<T>) {
               <Button onClick={handleCreate}>Tạo</Button>
             </Space>
           ))}
-        {showSearch && <Input placeholder="Nhập và enter để tìm kiếm..." />}
+        {showSearch && <Input onChange={handleSearch} placeholder="Nhập và enter để tìm kiếm..." />}
       </Flex>
       <Table
         columns={columns}
-        dataSource={dataSource}
+        dataSource={internalDataSource}
         style={{
           boxShadow: hasShadow ? '0px 2px 12px rgba(39, 49, 60, 0.16)' : 'inherit',
         }}

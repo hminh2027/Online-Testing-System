@@ -32,6 +32,7 @@ export function ExamTable({ dataSource }: ExamTableProps) {
 
   return (
     <CustomTable
+      searchBy="title"
       showActionHeader={user?.isTeacher}
       actionHeader={[
         {

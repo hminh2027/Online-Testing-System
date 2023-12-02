@@ -34,7 +34,6 @@ export function StatisticTable({ data }: StatisticTableProps) {
           ),
         },
       ]}
-      showSearch
       hasShadow
       columns={columns(getLink)}
       dataSource={data || []}

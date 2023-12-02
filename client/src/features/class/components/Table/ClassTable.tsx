@@ -47,6 +47,7 @@ export function ClassTable() {
     <>
       <ClassFindModal open={isModalOpen} setIsOpen={toggleModal} />
       <CustomTable
+        searchBy="name"
         showActionHeader
         actionHeader={[
           {
