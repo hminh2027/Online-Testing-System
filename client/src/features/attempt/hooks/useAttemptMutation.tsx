@@ -1,33 +1,47 @@
 import { useNavigate } from 'react-router-dom';
-import { CustomMessage } from '@/components';
 import { useAddAttempt, useDeleteAttempt, usePatchAttempt, useUpdateAttempt } from './useAttempt';
+import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
 
 export function useAttemptMutation() {
   const navigate = useNavigate();
+  const { notify } = useAntDNoti();
   const { mutate: addFn } = useAddAttempt({
     onSuccess: (res) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.success(res.message);
+      notify({
+        type: 'success',
+        description: res.message,
+      });
     },
-    onError: () => {},
+    onError: (error) => {
+      notify({
+        type: 'error',
+        description: error,
+      });
+    },
   });
 
   const { mutate: updateFn } = useUpdateAttempt({
     onSuccess: (res) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.success(res.message);
+      notify({
+        type: 'success',
+        description: res.message,
+      });
     },
     onError: (error) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.error(error);
+      notify({
+        type: 'error',
+        description: error,
+      });
       navigate('/class');
     },
   });
 
   const { mutate: deleteFn } = useDeleteAttempt({
     onSuccess: (res) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.success(res.message);
+      notify({
+        type: 'success',
+        description: res.message,
+      });
     },
     onError: () => {},
   });

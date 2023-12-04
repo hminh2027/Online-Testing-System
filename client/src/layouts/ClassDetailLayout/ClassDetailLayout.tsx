@@ -9,7 +9,8 @@ import styles from './index.module.css';
 import { useAuth } from '@/features/auth';
 import { useUserClassMutation } from '@/features/userClass/hooks/useUserClassMutation';
 import { useListUserClass } from '@/features/userClass/hooks/useUserClass';
-import { CustomMessage } from '@/components';
+import { LoadingModal } from '@/components';
+import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
 
 interface ClassDetailLayoutProps {
   children?: ReactNode;
@@ -43,7 +44,7 @@ export function ClassDetailLayout({ children }: ClassDetailLayoutProps) {
   const { user } = useAuth();
   const { deleteFn } = useUserClassMutation();
   const navigate = useNavigate();
-
+  const { notify } = useAntDNoti();
   const { code } = useParams();
   const { data, isLoading } = useListUserClass({ classCode: code });
 
@@ -51,8 +52,10 @@ export function ClassDetailLayout({ children }: ClassDetailLayoutProps) {
 
   const handleClick = () => {
     if (request?.Class.isStudentApprovalLeave) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.error('Vui lòng liên hệ giáo viên để thực hiện hành động rời lớp');
+      notify({
+        type: 'error',
+        description: 'Vui lòng liên hệ giáo viên để thực hiện hành động rời lớp',
+      });
 
       return;
     }
@@ -66,7 +69,7 @@ export function ClassDetailLayout({ children }: ClassDetailLayoutProps) {
     if (!request) navigate('/class');
   }, [isLoading, navigate, request, user?.isTeacher]);
 
-  if (isLoading) return <>Loading</>;
+  if (isLoading) return <LoadingModal />;
 
   return (
     <Layout

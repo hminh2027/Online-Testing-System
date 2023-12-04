@@ -1,13 +1,14 @@
 import { Col, Divider, List, Row } from 'antd';
 import { useListClass } from '@/features/class/hooks/useClass';
 import { ClassCard } from '../Card';
+import { LoadingModal } from '@/components';
 
 interface ExamAssignmentProps {}
 export function ExamAssignment({}: ExamAssignmentProps) {
   const { data, isFetching } = useListClass({});
   const items = data?.content;
 
-  if (isFetching) return <>Loading</>;
+  if (isFetching) return <LoadingModal />;
 
   return (
     <Row

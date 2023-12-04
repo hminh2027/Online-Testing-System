@@ -3,7 +3,7 @@ import { DownOutlined } from '@ant-design/icons';
 import { useToggle } from 'react-use';
 import { columns } from './column';
 import { useListClass } from '../../hooks/useClass';
-import { CustomTable, Status } from '@/components';
+import { CustomTable, LoadingModal, Status } from '@/components';
 import { CLASS_STATUS, MODE } from '@/constants';
 import { useDrawer } from '@/hooks/useDrawer';
 import type { ClassRoom } from '../../types';
@@ -32,7 +32,7 @@ export function ClassTable() {
   const studentClasses = requests?.map((req) => req.Class);
   const teacherClasses = classData?.content;
 
-  if (isTeacherClassLoading || isStudentClassLoading) return <>Loading</>;
+  if (isTeacherClassLoading || isStudentClassLoading) return <LoadingModal />;
 
   const handleEdit = (code: string) => {
     toggleMode(MODE.EDIT);

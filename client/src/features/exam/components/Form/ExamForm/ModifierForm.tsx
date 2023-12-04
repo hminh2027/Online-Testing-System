@@ -11,7 +11,8 @@ import {
   transformToAntdSelectOptions,
 } from '@/utils';
 import { useListClass } from '@/features/class/hooks/useClass';
-import { CustomMessage } from '@/components';
+import { LoadingModal } from '@/components';
+import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
 
 interface ModifierFormProps {
   exam?: Exam;
@@ -25,7 +26,7 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
   const { addFn, updateFn } = useExamMutation();
   const [range, setRange] = useState<RangeProps>([dayjs(), null]);
   const { data: classData, isFetching } = useListClass({});
-
+  const { notify } = useAntDNoti();
   const classes = classData?.content;
 
   useEffect(() => {
@@ -41,8 +42,10 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
     if (!range) return null;
 
     if (!updatable) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.error('Không thể cập nhật bài kiểm tra đã có người làm');
+      notify({
+        type: 'error',
+        description: 'Không thể cập nhật bài kiểm tra đã có người làm',
+      });
 
       return null;
     }
@@ -77,7 +80,7 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
     classCode: data.classCode,
   });
 
-  if (isFetching || !classes) return <>Loading</>;
+  if (isFetching || !classes) return <LoadingModal />;
 
   return (
     <Form

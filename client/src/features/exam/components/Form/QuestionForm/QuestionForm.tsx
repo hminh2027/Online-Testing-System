@@ -14,12 +14,13 @@ import {
 import { DeleteOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { Uploader } from '@/components/Uploader';
-import { CustomMessage } from '@/components';
+import { LoadingModal } from '@/components';
 import { createValidator } from '@/utils';
 import { questionSchema } from './schema';
 import { useQuestion } from '@/features/exam/hooks/useQuestion';
 import { useQuestionMutation } from '@/features/exam/hooks/useQuestionMutation';
 import type { AnswerCreateDTO, QuestionCreateDTO } from '@/features/exam/types';
+import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
 
 interface QuestionFormProps {
   examId: number;
@@ -31,7 +32,7 @@ export function QuestionForm({ questionId, form, examId, toggleModal }: Question
   const [image, setImage] = useState<string | null>(null);
 
   const { data, isFetching } = useQuestion(questionId as number, { enabled: !!questionId });
-
+  const { notify } = useAntDNoti();
   const question = data?.content;
 
   const { addFn, updateFn, deleteAnsFn } = useQuestionMutation(examId);
@@ -62,10 +63,10 @@ export function QuestionForm({ questionId, form, examId, toggleModal }: Question
     const error = validateAnswer(answers);
 
     if (error) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.error(error);
-
-      return;
+      return notify({
+        type: 'error',
+        description: error,
+      });
     }
 
     const payload: QuestionCreateDTO = {
@@ -101,7 +102,7 @@ export function QuestionForm({ questionId, form, examId, toggleModal }: Question
     localDeleteFn(id);
   };
 
-  if (isFetching) return <>Loading</>;
+  if (isFetching) return <LoadingModal />;
 
   return (
     <Form

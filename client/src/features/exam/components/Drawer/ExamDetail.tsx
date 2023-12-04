@@ -2,12 +2,13 @@ import { Checkbox, Descriptions, Typography } from 'antd';
 import { useDrawer } from '@/hooks/useDrawer';
 import { formatISOToVi } from '@/utils';
 import { useExam } from '../../hooks/useExam';
+import { LoadingModal } from '@/components';
 
 export function ExamDetail() {
   const { detailId } = useDrawer();
   const { data, isFetching } = useExam(detailId);
 
-  if (isFetching) return <>Loading</>;
+  if (isFetching) return <LoadingModal />;
 
   const examDetails = data?.content;
 

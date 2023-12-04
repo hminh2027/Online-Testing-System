@@ -4,6 +4,7 @@ import { useListUserClass } from '../hooks/useUserClass';
 import { useAuth } from '@/features/auth';
 import { formatISOToVi } from '@/utils';
 import { useUserClassMutation } from '../hooks/useUserClassMutation';
+import { LoadingModal } from '@/components';
 
 export default function ClassRequest() {
   const { user } = useAuth();
@@ -12,7 +13,7 @@ export default function ClassRequest() {
 
   const requests = data?.content.filter((req) => req.isPending);
 
-  if (isLoading) return <>Loading</>;
+  if (isLoading) return <LoadingModal />;
 
   const handleAccept = (id: number) =>
     patchFn({

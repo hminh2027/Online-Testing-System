@@ -1,5 +1,5 @@
 import { Drawer, Form } from 'antd';
-import { Head } from '@/components';
+import { Head, LoadingModal } from '@/components';
 import { ExamModifier, ExamDetail } from '../components/Drawer';
 import { useDrawer } from '@/hooks/useDrawer';
 import { ExamTable } from '../components/Table';
@@ -12,7 +12,7 @@ export default function ExamList() {
   const { data: examData, isLoading } = useListExam({});
   const exams = examData?.content;
 
-  if (isLoading) return <>Loading</>;
+  if (isLoading) return <LoadingModal />;
 
   return (
     <>

@@ -2,7 +2,7 @@ import { Layout, Space } from 'antd';
 import { Content, Header } from 'antd/es/layout/layout';
 import type { ReactNode } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useAsync, useEffectOnce } from 'react-use';
+import { useAsync } from 'react-use';
 import styles from './index.module.css';
 import { studentTabs, teacherTabs } from '@/components/TabBar/config';
 import { TabBar } from '@/components/TabBar';
@@ -45,7 +45,7 @@ export function MainLayout({ children }: MainLayoutProps) {
         <Logo />
         <TabBar items={user?.isTeacher ? teacherTabs : studentTabs} />
         <Space>
-          <Notification count={15} />
+          <Notification />
           <UserHeader username={user?.fullname} />
         </Space>
       </Header>

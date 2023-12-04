@@ -4,6 +4,7 @@ import { useToggle } from 'react-use';
 import { useListExam } from '../../hooks/useExam';
 import { transformToAntdSelectOptions } from '@/utils';
 import { useExamMutation } from '../../hooks/useExamMutation';
+import { LoadingModal } from '@/components';
 
 export function ExamImportButton() {
   const { data: examData, isFetching } = useListExam({});
@@ -17,7 +18,7 @@ export function ExamImportButton() {
     if (selectedExamId) copyFn({ id: selectedExamId });
   };
 
-  if (isFetching || !exams) return <>Loading</>;
+  if (isFetching || !exams) return <LoadingModal />;
 
   return (
     <>

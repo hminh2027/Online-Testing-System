@@ -5,6 +5,7 @@ import { FileTextOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { useListExam } from '@/features/exam/hooks/useExam';
 import { formatISOToVi } from '@/utils';
+import { LoadingModal } from '@/components';
 
 export default function Schedule() {
   const { data: examData, isLoading } = useListExam({});
@@ -56,7 +57,7 @@ export default function Schedule() {
     }
   };
 
-  if (isLoading) return <>Loading</>;
+  if (isLoading) return <LoadingModal />;
 
   return <Calendar onSelect={handleOnSelect} cellRender={handleCellRender} />;
 }

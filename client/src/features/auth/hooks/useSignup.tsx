@@ -1,12 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
-import type { MessageType } from 'antd/es/message/interface';
 import type { ResAuthItem, SignUpPayload } from '..';
 import { endpoints } from '@/config';
 import { addItem } from '@/hooks/useCustomQuery';
 
 interface useSignupProps {
-  handleOnSuccess: (res: ResAuthItem) => MessageType;
-  handleOnError: (err: string) => MessageType;
+  handleOnSuccess: (res: ResAuthItem) => void;
+  handleOnError: (err: string) => void;
 }
 export default function useSignup({ handleOnSuccess, handleOnError }: useSignupProps) {
   const { mutate } = useMutation(

@@ -11,8 +11,6 @@ export default function ExamDetail() {
 
   const { data } = useExam(id || '');
 
-  console.log('first');
-
   const exam = data?.content;
 
   const steps = [

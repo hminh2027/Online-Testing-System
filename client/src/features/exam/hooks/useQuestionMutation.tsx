@@ -1,4 +1,3 @@
-import { CustomMessage } from '@/components';
 import {
   useAddQuestion,
   useAddQuestions,
@@ -9,15 +8,19 @@ import { useDeleteAnswer } from './useAnswer';
 import { useExam } from './useExam';
 import { axiosInstance } from '@/libs';
 import { endpoints } from '@/config';
+import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
 
 export function useQuestionMutation(examId: number) {
   const { refetch } = useExam(examId, {
     enabled: false,
   });
+  const { notify } = useAntDNoti();
   const { mutate: addFn } = useAddQuestion({
     onSuccess: async (res) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.success(res.message);
+      notify({
+        type: 'success',
+        description: res.message,
+      });
       await refetch();
     },
     onError: () => {},
@@ -25,8 +28,10 @@ export function useQuestionMutation(examId: number) {
 
   const { mutate: addManyFn } = useAddQuestions({
     onSuccess: async (res) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.success(res.message);
+      notify({
+        type: 'success',
+        description: res.message,
+      });
       await refetch();
     },
     onError: () => {},
@@ -34,8 +39,10 @@ export function useQuestionMutation(examId: number) {
 
   const { mutate: updateFn } = useUpdateQuestion({
     onSuccess: async (res) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.success(res.message);
+      notify({
+        type: 'success',
+        description: res.message,
+      });
       await refetch();
     },
     onError: () => {},
@@ -43,8 +50,10 @@ export function useQuestionMutation(examId: number) {
 
   const { mutate: deleteFn } = useDeleteQuestion({
     onSuccess: async (res) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.success(res.message);
+      notify({
+        type: 'success',
+        description: res.message,
+      });
       await refetch();
     },
     onError: () => {},
@@ -52,8 +61,10 @@ export function useQuestionMutation(examId: number) {
 
   const { mutate: deleteAnsFn } = useDeleteAnswer({
     onSuccess: (res) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.success(res.message);
+      notify({
+        type: 'success',
+        description: res.message,
+      });
     },
     onError: () => {},
   });

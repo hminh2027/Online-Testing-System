@@ -1,9 +1,10 @@
 import { Button, Divider, Flex, Form, Image, Input, Typography } from 'antd';
-import { CustomCard, CustomMessage } from '@/components';
+import { CustomCard } from '@/components';
 import type { ClassRoom } from '../types';
 import type { UserClassCreateDTO } from '@/features/userClass/types';
 import { useAuth } from '@/features/auth';
 import { useUserClassMutation } from '@/features/userClass/hooks/useUserClassMutation';
+import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
 
 interface ClassFindFormProps {
   classRoom: ClassRoom;
@@ -13,11 +14,14 @@ export function ClassFindForm({ classRoom, toggleModal }: ClassFindFormProps) {
   const [form] = Form.useForm();
   const { user } = useAuth();
   const { addFn } = useUserClassMutation();
+  const { notify } = useAntDNoti();
 
   const handleOnFinish = (value: UserClassCreateDTO) => {
     if (classRoom.password && value.password !== classRoom.password) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.error('Sai mật khẩu lớp học');
+      notify({
+        type: 'error',
+        description: 'Sai mật khẩu lớp học',
+      });
 
       return;
     }

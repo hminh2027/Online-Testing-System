@@ -1,28 +1,33 @@
 import { useMutation } from '@tanstack/react-query';
-import { CustomMessage } from '@/components';
 import { useAddExam, useDeleteExam, useListExam, useUpdateExam } from './useExam';
 import { useDrawer } from '@/hooks/useDrawer';
 import { addItem } from '@/hooks/useCustomQuery';
 import type { ExamCreateDTO, ResExamItem } from '../types';
 import { endpoints } from '@/config';
+import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
 
 export function useExamMutation() {
   const { resetDrawerState } = useDrawer();
   const { refetch } = useListExam({}, { enabled: false });
+  const { notify } = useAntDNoti();
 
   const { mutate: addFn } = useAddExam({
     onSuccess: (res) => {
       resetDrawerState();
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.success(res.message);
+      notify({
+        type: 'success',
+        description: res.message,
+      });
     },
     onError: () => {},
   });
   const { mutate: updateFn } = useUpdateExam({
     onSuccess: (res) => {
       resetDrawerState();
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.success(res.message);
+      notify({
+        type: 'success',
+        description: res.message,
+      });
     },
     onError: () => {},
   });
@@ -37,8 +42,10 @@ export function useExamMutation() {
       onSuccess: async (res) => {
         await refetch();
         resetDrawerState();
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        CustomMessage.success(res.message);
+        notify({
+          type: 'success',
+          description: res.message,
+        });
       },
       onError: () => {},
     },
@@ -47,8 +54,10 @@ export function useExamMutation() {
   const { mutate: deleteFn } = useDeleteExam({
     onSuccess: async (res) => {
       resetDrawerState();
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.success(res.message);
+      notify({
+        type: 'success',
+        description: res.message,
+      });
       await refetch({ stale: true });
     },
     onError: () => {},

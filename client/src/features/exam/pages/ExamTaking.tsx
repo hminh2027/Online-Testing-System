@@ -3,7 +3,7 @@ import { useAsync, useBeforeUnload, usePageLeave, useToggle, useWindowSize } fro
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
-import { CustomCard, CustomMessage } from '@/components';
+import { CustomCard, LoadingModal } from '@/components';
 import { ExamAnswerSheet, ExamTimer, ExamQuestionCard } from '../components';
 import useOngoingAttempt from '@/features/attempt/hooks/useOnGoingAttempt';
 import { useAttemptStore } from '@/features/attempt/stores';
@@ -12,6 +12,7 @@ import { useAttemptMutation } from '@/features/attempt/hooks/useAttemptMutation'
 import { useAuth } from '@/features/auth';
 import { socket } from '@/libs/socket';
 import type { Attempt } from '@/features/attempt/types';
+import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
 
 export default function ExamTaking() {
   useBeforeUnload(true, 'You have unsaved changes, are you sure?');
@@ -24,6 +25,7 @@ export default function ExamTaking() {
   const { increaseTaboutFn, updateFn } = useAttemptMutation();
   const navigation = useNavigate();
   const { user } = useAuth();
+  const { notify } = useAntDNoti();
 
   usePageLeave(() => {
     if (!localAttempt || !localAttempt.Exam.isProcting) return;
@@ -32,8 +34,10 @@ export default function ExamTaking() {
       payload: {},
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    CustomMessage.warning('Chú ý không rời khỏi khu vực làm bài!');
+    notify({
+      type: 'warning',
+      description: 'Chú ý không rời khỏi khu vực làm bài!',
+    });
   });
 
   useAsync(async () => {
@@ -109,7 +113,7 @@ export default function ExamTaking() {
     return array;
   }
 
-  if (!localAttempt) return <>Loading</>;
+  if (!localAttempt) return <LoadingModal />;
 
   const { Exam } = localAttempt;
 

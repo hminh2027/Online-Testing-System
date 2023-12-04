@@ -5,6 +5,7 @@ import { useClass } from '@/features/class/hooks/useClass';
 import type { ClassCreateDTO, ClassRoom } from '../../types';
 import { Uploader } from '@/components/Uploader';
 import { useClassMutation } from '../../hooks/useClassMutation';
+import { LoadingModal } from '@/components';
 
 interface ClassModifierProps {
   code?: string;
@@ -35,7 +36,7 @@ export function ClassModifier({ code, form }: ClassModifierProps) {
     setImage(classRoom.imageUrl);
   }, [classRoom, isFetching]);
 
-  if (isFetching) return <>Loading</>;
+  if (isFetching) return <LoadingModal />;
 
   const handleOnFinish = (values: ClassCreateDTO) => {
     const payload: ClassCreateDTO = {

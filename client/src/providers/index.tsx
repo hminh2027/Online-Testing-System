@@ -6,6 +6,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { ErrorPage } from '@/features/error';
 import { themeConfig } from '@/config';
 import { AuthProvider } from './AuthProvider';
+import { NotificationProvider } from '@/hooks/useAntDNoti/useAntDNoti';
 
 const queryClient = new QueryClient();
 
@@ -23,11 +24,13 @@ ConfigProvider.config({
 export default function AppProvider({ children }: PropsWithChildren) {
   return (
     <ErrorBoundary FallbackComponent={ErrorPage}>
-      <Suspense fallback={<Spin />}>
+      <Suspense fallback={<Spin fullscreen />}>
         <HelmetProvider>
           <ConfigProvider theme={themeConfig}>
             <QueryClientProvider client={queryClient}>
-              <AuthProvider>{children}</AuthProvider>
+              <NotificationProvider>
+                <AuthProvider>{children}</AuthProvider>
+              </NotificationProvider>
             </QueryClientProvider>
           </ConfigProvider>
         </HelmetProvider>

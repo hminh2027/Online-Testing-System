@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { useListPost } from '../hooks/usePost';
 import type { Post } from '../types';
 import { PostCard } from './PostCard';
+import { LoadingModal } from '@/components';
 
 const HEIGHT = 1000;
 
@@ -32,7 +33,7 @@ export function PostInfiniteList() {
     if (e.currentTarget.scrollHeight - e.currentTarget.scrollTop === HEIGHT) appendData();
   };
 
-  if (isFetching || !posts) return <>Loading</>;
+  if (isFetching || !posts) return <LoadingModal />;
 
   return (
     <List style={{ width: '100%' }}>

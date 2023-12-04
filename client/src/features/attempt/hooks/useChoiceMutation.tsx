@@ -1,14 +1,17 @@
 import { useNavigate } from 'react-router-dom';
-import { CustomMessage } from '@/components';
 import { useAddChoice, useAddChoices } from './useChoice';
+import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
 
 export function useChoiceMutation() {
   const navigate = useNavigate();
+  const { notify } = useAntDNoti();
   const { mutate: addFn } = useAddChoice({
     onSuccess: () => {},
     onError: (error) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.error(error);
+      notify({
+        type: 'error',
+        description: error,
+      });
       navigate('/class');
     },
   });
@@ -16,8 +19,10 @@ export function useChoiceMutation() {
   const { mutate: addManyFn } = useAddChoices({
     onSuccess: () => {},
     onError: (error) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.error(error);
+      notify({
+        type: 'error',
+        description: error,
+      });
       navigate('/class');
     },
   });

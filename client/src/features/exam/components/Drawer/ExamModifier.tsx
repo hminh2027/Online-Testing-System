@@ -11,8 +11,9 @@ import { ModifierForm } from '../Form';
 import { ExamImportButton } from '../Button/ExamImportButton';
 import { useExcelTranformation } from '../../hooks/useExcelTranformation';
 import { ExcelTable } from '../Table/ExcelTable';
-import { CustomMessage, FileIO } from '@/components';
+import { FileIO, LoadingModal } from '@/components';
 import { excelUrls } from '@/constants/excel';
+import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
 
 interface ExamModifierProps {
   id?: number;
@@ -38,6 +39,7 @@ export function ExamModifier({
   const [questions, setQuestions] = useState<ApiFormatData[]>([]);
   const [dataSource, setDataSource] = useState<TableFormatData[]>([]);
   const [updatable, setUpdatable] = useBoolean(true);
+  const { notify } = useAntDNoti();
 
   const { transformToApiFormat, transformToTableFormat, validateData } = useExcelTranformation();
 
@@ -83,8 +85,10 @@ export function ExamModifier({
     const error = validateData(apiFormatData);
 
     if (error) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.error(<Typography.Text strong>{error}</Typography.Text>);
+      notify({
+        type: 'error',
+        description: error,
+      });
       setRawData([]);
 
       return;
@@ -107,13 +111,15 @@ export function ExamModifier({
 
   useEffect(() => {
     if (paramId && !updatable) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.error('Không thể cập nhật bài kiểm tra đã có người làm');
+      notify({
+        type: 'error',
+        description: 'Không thể cập nhật bài kiểm tra đã có người làm',
+      });
       navigation('/exam');
     }
-  }, [navigation, paramId, updatable]);
+  }, [navigation, notify, paramId, updatable]);
 
-  if (isFetching) return <>Loading</>;
+  if (isFetching) return <LoadingModal />;
 
   return (
     <Flex vertical>

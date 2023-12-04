@@ -1,4 +1,4 @@
-import { CustomMessage } from '@/components';
+import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
 import {
   useAddUserClass,
   useAddUserClasses,
@@ -9,11 +9,15 @@ import {
 
 export function useUserClassMutation() {
   const { refetch } = useListUserClass({}, { enabled: false });
+  const { notify } = useAntDNoti();
+
   const { mutate: addFn } = useAddUserClass({
     onSuccess: async (res) => {
       await refetch();
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.success(res.message);
+      notify({
+        type: 'success',
+        description: res.message,
+      });
     },
     onError: () => {},
   });
@@ -21,24 +25,30 @@ export function useUserClassMutation() {
   const { mutate: addManyFn } = useAddUserClasses({
     onSuccess: async (res) => {
       await refetch();
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.success(res.message);
+      notify({
+        type: 'success',
+        description: res.message,
+      });
     },
     onError: () => {},
   });
 
   const { mutate: patchFn } = usePatchUserClass({
     onSuccess: (res) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.success(res.message);
+      notify({
+        type: 'success',
+        description: res.message,
+      });
     },
     onError: () => {},
   });
 
   const { mutate: deleteFn } = useDeleteUserClass({
     onSuccess: (res) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.success(res.message);
+      notify({
+        type: 'success',
+        description: res.message,
+      });
     },
     onError: () => {},
   });

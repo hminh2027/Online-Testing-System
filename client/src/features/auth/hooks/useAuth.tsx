@@ -1,5 +1,4 @@
 import { useAuthStore } from '../stores';
-import { CustomMessage } from '@/components/CustomMessage';
 import type { ResAuthItem } from '..';
 import { storage } from '@/utils';
 import useLogin from './useLogin';
@@ -8,9 +7,11 @@ import useUtcLogin from './useUtcLogin';
 import { axiosInstance } from '@/libs';
 import { endpoints } from '@/config';
 import type { ResUserItem } from '@/features/user';
+import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
 
 export const useAuth = () => {
   const { setUser, user } = useAuthStore();
+  const { notify } = useAntDNoti();
 
   const { logIn } = useLogin({
     handleOnError,
@@ -31,12 +32,17 @@ export const useAuth = () => {
     setUser(res.content.user);
     window.location.assign('class');
     storage.set('Token', res.content.tokens.accessToken);
-
-    return CustomMessage.success(res.message);
+    notify({
+      type: 'success',
+      description: res.message,
+    });
   }
 
   function handleOnError(err: string) {
-    return CustomMessage.error(err);
+    notify({
+      type: 'error',
+      description: err,
+    });
   }
 
   const logOut = () => {

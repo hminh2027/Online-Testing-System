@@ -19,7 +19,7 @@ export function AppRoutes() {
         ...routes,
         {
           index: true,
-          element: <Navigate to="/" replace />,
+          element: <Navigate to="/class" replace />,
         },
         {
           path: '*',

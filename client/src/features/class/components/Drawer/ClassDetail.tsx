@@ -3,13 +3,14 @@ import { useClass } from '../../hooks/useClass';
 import { useDrawer } from '@/hooks/useDrawer';
 import { formatISOToVi } from '@/utils';
 import { useListExam } from '@/features/exam/hooks/useExam';
+import { LoadingModal } from '@/components';
 
 export function ClassDetail() {
   const { detailId } = useDrawer();
   const { data: classData, isFetching: isClassFetching } = useClass(detailId);
   const { data: examData, isFetching: isExamFetching } = useListExam({ classCode: detailId });
 
-  if (isClassFetching || isExamFetching) return <>Loading</>;
+  if (isClassFetching || isExamFetching) return <LoadingModal />;
 
   const classDetails = classData?.content;
   const examDetails = examData?.content;

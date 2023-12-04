@@ -1,6 +1,5 @@
 export * from './CustomAvatar';
 export * from './CustomCard';
-export * from './CustomMessage';
 export * from './CustomTable';
 export * from './FileIO';
 export * from './Head';

@@ -1,28 +1,34 @@
-import { CustomMessage } from '@/components';
-import { useAddPost, useDeletePost, useListPost, useUpdatePost } from './usePost';
+import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
+import { useAddPost, useDeletePost, useUpdatePost } from './usePost';
 
 export function usePostMutation() {
-  const { refetch } = useListPost({}, { enabled: false });
-
+  // const { refetch } = useListPost({}, { enabled: false });
+  const { notify } = useAntDNoti();
   const { mutate: addFn } = useAddPost({
     onSuccess: (res) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.success(res.message);
+      notify({
+        type: 'success',
+        description: res.message,
+      });
     },
     onError: () => {},
   });
   const { mutate: updateFn } = useUpdatePost({
     onSuccess: (res) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.success(res.message);
+      notify({
+        type: 'success',
+        description: res.message,
+      });
     },
     onError: () => {},
   });
 
   const { mutate: deleteFn } = useDeletePost({
     onSuccess: (res) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      CustomMessage.success(res.message);
+      notify({
+        type: 'success',
+        description: res.message,
+      });
     },
     onError: () => {},
   });
