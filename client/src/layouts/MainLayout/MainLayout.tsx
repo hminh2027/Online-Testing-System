@@ -6,10 +6,9 @@ import { useAsync } from 'react-use';
 import styles from './index.module.css';
 import { studentTabs, teacherTabs } from '@/components/TabBar/config';
 import { TabBar } from '@/components/TabBar';
-import { Notification } from '@/components/Notification';
+import { Notification } from '@/features/notification/components';
 import { UserHeader } from '@/components/UserHeader';
 import { useAuthStore } from '@/features/auth/stores';
-import { DrawerContextProvider } from '@/hooks/useDrawer';
 import { Logo } from '@/components';
 import useOngoingAttempt from '@/features/attempt/hooks/useOnGoingAttempt';
 import { useAttemptStore } from '@/features/attempt/stores';
@@ -55,7 +54,7 @@ export function MainLayout({ children }: MainLayoutProps) {
           overflow: 'auto',
         }}
       >
-        <DrawerContextProvider>{children ?? <Outlet />}</DrawerContextProvider>
+        {children ?? <Outlet />}
       </Content>
     </Layout>
   );

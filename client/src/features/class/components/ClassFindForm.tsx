@@ -5,6 +5,7 @@ import type { UserClassCreateDTO } from '@/features/userClass/types';
 import { useAuth } from '@/features/auth';
 import { useUserClassMutation } from '@/features/userClass/hooks/useUserClassMutation';
 import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
+import { useNotificationMutation } from '@/features/notification/hooks/useNotificationMutation';
 
 interface ClassFindFormProps {
   classRoom: ClassRoom;
@@ -13,8 +14,9 @@ interface ClassFindFormProps {
 export function ClassFindForm({ classRoom, toggleModal }: ClassFindFormProps) {
   const [form] = Form.useForm();
   const { user } = useAuth();
-  const { addFn } = useUserClassMutation();
+  const { addFn: addUCFn } = useUserClassMutation();
   const { notify } = useAntDNoti();
+  const { addFn: addNotiFn } = useNotificationMutation();
 
   const handleOnFinish = (value: UserClassCreateDTO) => {
     if (classRoom.password && value.password !== classRoom.password) {
@@ -26,11 +28,18 @@ export function ClassFindForm({ classRoom, toggleModal }: ClassFindFormProps) {
       return;
     }
 
-    addFn({
+    addUCFn({
       studentId: user?.id as number,
       classCode: classRoom.code,
       password: value.password,
       isStudentRequested: true,
+    });
+
+    addNotiFn({
+      content: `Học sinh ${user?.fullname} gửi yêu cầu vào lớp ${classRoom.name} của bạn`,
+      recipents: [classRoom.teacherId],
+      url: `/class/${classRoom.code}`,
+      notiType: 'class',
     });
 
     toggleModal(false);

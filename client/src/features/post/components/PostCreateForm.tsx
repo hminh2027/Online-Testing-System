@@ -9,10 +9,7 @@ import type { PostCreateDTO } from '../types';
 import { upload } from '@/libs/cloudinary';
 import { CustomAvatar } from '@/components/CustomAvatar';
 import { useAuth } from '@/features/auth';
-import { useAddNotification } from '@/features/notification';
 import { useListUserClass } from '@/features/userClass/hooks/useUserClass';
-import { socket } from '@/libs/socket';
-import { Events } from '@/SocketClient';
 
 export function PostCreateForm() {
   const [form] = Form.useForm();
@@ -21,27 +18,14 @@ export function PostCreateForm() {
 
   const users = data?.content;
 
-  const { mutate: addNotiFn } = useAddNotification({
-    onSuccess: (res) => {
-      const message = res.content.content;
-
-      if (users) {
-        socket.emit(Events.CreateNoti, {
-          message,
-          recipentIds: users.map((user) => user.id as number),
-        });
-      }
-    },
-    onError: () => {},
-  });
   const { mutate: addPostFn } = useAddPost({
     onSuccess: () => {
       if (users) {
-        addNotiFn({
-          content: 'Có một bài viết mới',
-          url: '',
-          recipents: users.map((user) => user.id as number),
-        });
+        // addNotiFn({
+        //   content: 'Có một bài viết mới',
+        //   url: '',
+        //   recipents: users.map((user) => user.id as number),
+        // });
       }
     },
     onError: () => {},

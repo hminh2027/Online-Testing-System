@@ -2,6 +2,7 @@ import {
   DeleteOutlined,
   DownloadOutlined,
   EditOutlined,
+  EyeInvisibleOutlined,
   EyeOutlined,
   PlayCircleOutlined,
 } from '@ant-design/icons';
@@ -15,6 +16,7 @@ enum ItemsName {
   delete = 'delete',
   launch = 'launch',
   unassign = 'unassign',
+  unmark = 'unmark',
 }
 
 type ConfigProps = Record<ItemsName, ItemType>;
@@ -50,6 +52,11 @@ const defaultConfig: ConfigProps = {
     label: 'Làm bài',
     key: 'Làm bài',
     icon: <PlayCircleOutlined />,
+  },
+  unmark: {
+    label: 'Đánh dấu chưa đọc',
+    key: 'Đánh dấu chưa đọc',
+    icon: <EyeInvisibleOutlined />,
   },
 };
 

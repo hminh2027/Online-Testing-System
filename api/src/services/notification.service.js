@@ -1,6 +1,6 @@
 const { prisma } = require("../database/prisma-client");
 
-async function createOne({ content, url = "", userId, recipents }) {
+async function createOne({ content, url = "", userId, recipents, notiType }) {
   const noti = await prisma.notification.create({
     data: {
       content,
@@ -8,6 +8,7 @@ async function createOne({ content, url = "", userId, recipents }) {
       User: {
         connect: { id: userId },
       },
+      notiType,
     },
   });
 
@@ -22,22 +23,24 @@ async function createOne({ content, url = "", userId, recipents }) {
   return noti;
 }
 
-async function getManyByUserId({ userId }) {
+function getManyByUserId(userId) {
   return prisma.user_Notification.findMany({
-    where: { user_id: userId },
+    where: { userId },
+    include: { Notification: { include: { User: true } } },
+    orderBy: { Notification: { createdAt: "desc" } },
   });
 }
 
-async function patchOneById(id, { isRead }) {
+function patchOneById(id, { isRead }) {
   return prisma.user_Notification.update({
     where: { id },
     data: {
-      is_read: isRead,
+      isRead,
     },
   });
 }
 
-async function deleteOneById(id) {
+function deleteOneById(id) {
   return prisma.user_Notification.delete({ where: { id } });
 }
 

@@ -5,23 +5,40 @@ import { useAuth } from '@/features/auth';
 import { formatISOToVi } from '@/utils';
 import { useUserClassMutation } from '../hooks/useUserClassMutation';
 import { LoadingModal } from '@/components';
+import { useNotificationMutation } from '@/features/notification/hooks/useNotificationMutation';
+import type { UserClass } from '../types';
 
 export default function ClassRequest() {
   const { user } = useAuth();
   const { data, isLoading } = useListUserClass({ studentId: user?.id });
   const { patchFn, deleteFn } = useUserClassMutation();
+  const { addFn: addNotiFn } = useNotificationMutation();
 
-  const requests = data?.content.filter((req) => req.isPending);
+  const requests = data?.content.filter((req) => req.isPending && !req.isStudentRequested);
 
   if (isLoading) return <LoadingModal />;
 
-  const handleAccept = (id: number) =>
+  const handleAccept = ({ id, Class: { teacherId, name }, classCode }: UserClass) => {
     patchFn({
-      id,
+      id: id as number,
       payload: {},
     });
+    addNotiFn({
+      notiType: 'class',
+      recipents: [teacherId],
+      content: `Học sinh ${user?.fullname} đã nhận lời tham gia lớp học ${name}`,
+      url: `/class/${classCode}`,
+    });
+  };
 
-  const handleDecline = (id: number) => deleteFn({ id });
+  const handleDecline = ({ id, Class: { teacherId, name } }: UserClass) => {
+    deleteFn({ id: id as number });
+    addNotiFn({
+      notiType: 'class',
+      recipents: [teacherId],
+      content: `Học sinh ${user?.fullname} đã từ chối tham gia lớp học ${name}`,
+    });
+  };
 
   return (
     <>
@@ -36,7 +53,7 @@ export default function ClassRequest() {
           <List.Item
             actions={[
               <Button
-                onClick={() => handleAccept(item.id as number)}
+                onClick={() => handleAccept(item)}
                 icon={<CheckCircleOutlined />}
                 type="primary"
                 key={1}
@@ -44,7 +61,7 @@ export default function ClassRequest() {
                 Chấp nhận
               </Button>,
               <Button
-                onClick={() => handleDecline(item.id as number)}
+                onClick={() => handleDecline(item)}
                 icon={<CloseCircleOutlined />}
                 danger
                 key={2}

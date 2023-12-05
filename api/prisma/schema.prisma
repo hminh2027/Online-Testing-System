@@ -164,10 +164,17 @@ model Notification {
   userId            Int
   content           String
   url               String
+  notiType          NotificationType
   createdAt         DateTime            @default(now())
   // relations
   User              User                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   User_Notification User_Notification[]
+}
+
+enum NotificationType {
+  post
+  class
+  exam
 }
 
 model User_Notification {

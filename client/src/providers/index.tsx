@@ -7,6 +7,7 @@ import { ErrorPage } from '@/features/error';
 import { themeConfig } from '@/config';
 import { AuthProvider } from './AuthProvider';
 import { NotificationProvider } from '@/hooks/useAntDNoti/useAntDNoti';
+import { DrawerContextProvider } from '@/hooks/useDrawer';
 
 const queryClient = new QueryClient();
 
@@ -29,7 +30,9 @@ export default function AppProvider({ children }: PropsWithChildren) {
           <ConfigProvider theme={themeConfig}>
             <QueryClientProvider client={queryClient}>
               <NotificationProvider>
-                <AuthProvider>{children}</AuthProvider>
+                <DrawerContextProvider>
+                  <AuthProvider>{children}</AuthProvider>
+                </DrawerContextProvider>
               </NotificationProvider>
             </QueryClientProvider>
           </ConfigProvider>

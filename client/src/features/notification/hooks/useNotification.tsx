@@ -1,6 +1,6 @@
 import { NotificationService } from '@/features/notification/services';
 import type {
-  CommentNotificationDTO,
+  NotificationCreateDTO,
   ResNotificationList,
   ResNotificationModify,
 } from '@/features/notification/types';
@@ -11,6 +11,6 @@ export const {
   useAddItem: useAddNotification,
   usePatchItem: usePatchNotification,
   useDeleteItem: useDeleteNotification,
-} = initialCustomQuery<CommentNotificationDTO, ResNotificationList, null, ResNotificationModify>(
+} = initialCustomQuery<NotificationCreateDTO, ResNotificationList, null, ResNotificationModify>(
   NotificationService,
 );

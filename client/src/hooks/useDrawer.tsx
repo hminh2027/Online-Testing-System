@@ -9,6 +9,7 @@ type ContentConfig = Record<keyof typeof MODE, ReactElement>;
 
 interface DrawerProps {
   isDrawerOpen: boolean;
+  toggleDrawer: () => void;
   mode: MODE;
   handleClose: () => void;
   toggleMode: (targetMode: MODE) => void;
@@ -117,6 +118,7 @@ export function DrawerContextProvider({ children }: PropsWithChildren) {
       genTitle,
       genFooter,
       genContent,
+      toggleDrawer,
     }),
     [
       children,
@@ -130,6 +132,7 @@ export function DrawerContextProvider({ children }: PropsWithChildren) {
       genTitle,
       genFooter,
       genContent,
+      toggleDrawer,
     ],
   );
 

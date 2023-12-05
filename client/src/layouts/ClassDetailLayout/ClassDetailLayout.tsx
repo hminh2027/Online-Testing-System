@@ -16,7 +16,7 @@ interface ClassDetailLayoutProps {
   children?: ReactNode;
 }
 
-const sideNavItems = [
+const teacherSideNavItems: { label: string; path: string }[] = [
   {
     label: 'Bảng tin',
     path: 'newsfeed',
@@ -35,10 +35,20 @@ const sideNavItems = [
   },
 ];
 
-const items: MenuProps['items'] = sideNavItems.map((item) => ({
-  key: item.path,
-  label: <NavLink to={`${item.path}`}>{item.label}</NavLink>,
-}));
+const studentSideNavItems: { label: string; path: string }[] = [
+  {
+    label: 'Bảng tin',
+    path: 'newsfeed',
+  },
+  {
+    label: 'Bài kiểm tra',
+    path: 'exams',
+  },
+  {
+    label: 'Lịch thi',
+    path: 'schedule',
+  },
+];
 
 export function ClassDetailLayout({ children }: ClassDetailLayoutProps) {
   const { user } = useAuth();
@@ -71,6 +81,12 @@ export function ClassDetailLayout({ children }: ClassDetailLayoutProps) {
 
   if (isLoading) return <LoadingModal />;
 
+  const mapSideNavItem = (items: { label: string; path: string }[]): MenuProps['items'] =>
+    items.map((item) => ({
+      key: item.path,
+      label: <NavLink to={`${item.path}`}>{item.label}</NavLink>,
+    }));
+
   return (
     <Layout
       style={{
@@ -88,14 +104,16 @@ export function ClassDetailLayout({ children }: ClassDetailLayoutProps) {
               </Typography.Text>
             </Flex>
             <Divider>Danh mục</Divider>
-            <Menu
-              mode="vertical"
-              items={items}
-              style={{
-                width: '100%',
-                border: 'none',
-              }}
-            />
+            {user && (
+              <Menu
+                mode="vertical"
+                items={mapSideNavItem(user?.isTeacher ? teacherSideNavItems : studentSideNavItems)}
+                style={{
+                  width: '100%',
+                  border: 'none',
+                }}
+              />
+            )}
           </Space>
 
           {user?.isTeacher ? (
