@@ -13,6 +13,7 @@ import { Excel } from '@/components/FileIO/Excel';
 import type { User } from '@/features/user';
 import { useListUser } from '@/features/user';
 import { useListUserClass } from '@/features/userClass/hooks/useUserClass';
+import { useNotificationMutation } from '@/features/notification/hooks/useNotificationMutation';
 
 interface UserClassTableProps {
   dataSource?: UserClass[];
@@ -22,7 +23,7 @@ export function UserClassTable({ dataSource }: UserClassTableProps) {
   const { code } = useParams();
   const { deleteFn, addManyFn } = useUserClassMutation();
   const [selectedStudentList, setSelectedStudentList] = useState<number[]>([]);
-
+  const { addFn: addNotiFn } = useNotificationMutation();
   const [open, toggleOpen] = useToggle(false);
   const { data, isFetching } = useListUser(
     {},
@@ -56,6 +57,15 @@ export function UserClassTable({ dataSource }: UserClassTableProps) {
       })),
     );
 
+  const handleDeleteStudent = (id: number, studentId: number, className: string) => {
+    deleteFn({ id });
+    addNotiFn({
+      notiType: 'class',
+      content: `Bạn đã bị xoá khỏi lớp học ${className}`,
+      recipents: [studentId],
+    });
+  };
+
   return (
     <>
       <CustomTable
@@ -85,13 +95,11 @@ export function UserClassTable({ dataSource }: UserClassTableProps) {
           ...columns,
           user?.isTeacher
             ? {
-                render: (value: UserClass) => (
+                render: ({ id, studentId, Class: { name } }: UserClass) => (
                   <Dropdown
                     menu={{
                       items: genDropdownItems({
-                        delete: () => {
-                          deleteFn({ id: value.id as number });
-                        },
+                        delete: () => handleDeleteStudent(id as number, studentId, name),
                       }),
                     }}
                     trigger={['click']}

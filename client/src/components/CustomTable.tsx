@@ -1,6 +1,6 @@
 import type { InputProps, TableProps } from 'antd';
 import { Button, Flex, Input, Space, Table } from 'antd';
-import { useState, type ReactNode } from 'react';
+import { useState, type ReactNode, useEffect } from 'react';
 import { useDrawer } from '@/hooks/useDrawer';
 import { MODE } from '@/constants';
 import type { Either } from '@/types';
@@ -36,6 +36,10 @@ export function CustomTable<T extends object>(props: TableProp<T>) {
   const { toggleMode } = useDrawer();
 
   const [internalDataSource, setInternalDataSource] = useState(dataSource);
+
+  useEffect(() => {
+    setInternalDataSource(dataSource);
+  }, [dataSource]);
 
   const handleCreate = () => {
     toggleMode(MODE.ADD);

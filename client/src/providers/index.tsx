@@ -9,7 +9,14 @@ import { AuthProvider } from './AuthProvider';
 import { NotificationProvider } from '@/hooks/useAntDNoti/useAntDNoti';
 import { DrawerContextProvider } from '@/hooks/useDrawer';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      cacheTime: 0,
+      staleTime: 0,
+    },
+  },
+});
 
 ConfigProvider.config({
   theme: {

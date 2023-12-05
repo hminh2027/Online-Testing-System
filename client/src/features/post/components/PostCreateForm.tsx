@@ -3,6 +3,7 @@ import { Button, Divider, Flex, Form, Image, Input, Space, Upload } from 'antd';
 import { FileImageOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
+import isEmpty from 'lodash/isEmpty';
 import { CustomCard } from '@/components';
 import { useAddPost } from '../hooks/usePost';
 import type { PostCreateDTO } from '../types';
@@ -10,30 +11,44 @@ import { upload } from '@/libs/cloudinary';
 import { CustomAvatar } from '@/components/CustomAvatar';
 import { useAuth } from '@/features/auth';
 import { useListUserClass } from '@/features/userClass/hooks/useUserClass';
+import { useNotificationMutation } from '@/features/notification/hooks/useNotificationMutation';
 
 export function PostCreateForm() {
   const [form] = Form.useForm();
   const contentValue = Form.useWatch('content', form) as string;
   const { data } = useListUserClass({});
+  const { addFn: addNotiFn } = useNotificationMutation();
 
   const users = data?.content;
+  const [image, setImage] = useState<string | null>();
+  const { code } = useParams();
+  const { user } = useAuth();
 
   const { mutate: addPostFn } = useAddPost({
     onSuccess: () => {
-      if (users) {
-        // addNotiFn({
-        //   content: 'Có một bài viết mới',
-        //   url: '',
-        //   recipents: users.map((user) => user.id as number),
-        // });
+      if (isEmpty(users) || !users) return;
+      if (user?.isTeacher) {
+        addNotiFn({
+          notiType: 'post',
+          content: `'Giáo viên ${user?.fullname} vừa đăng một bài viết mới trong lớp ${users[0].Class.name}`,
+          recipents: users.map((u) => u.studentId),
+          url: `/class/${users[0].classCode}/newsfeed`,
+        });
+      } else {
+        const recipents = users?.filter((u) => u.studentId !== user?.id);
+
+        const { teacherId } = users[0].Class;
+
+        addNotiFn({
+          notiType: 'post',
+          content: `Học sinh ${user?.fullname} vừa đăng một bài viết mới trong lớp ${users[0].Class.name}`,
+          recipents: [...recipents.map((u) => u.studentId), teacherId],
+          url: `/class/${users[0].classCode}/newsfeed`,
+        });
       }
     },
     onError: () => {},
   });
-
-  const [image, setImage] = useState<string | null>();
-  const { code } = useParams();
-  const { user } = useAuth();
 
   const handleOnFinish = (value: PostCreateDTO) => {
     const createDto: PostCreateDTO = {

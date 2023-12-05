@@ -36,12 +36,3 @@ export function Notification() {
     </>
   );
 }
-
-// MAKE Noti a type -> display icon & url fixed
-// request to class (OK)
-// join the class (OK)
-// upload a post
-// comment on post
-// assign an exam
-// remove from class
-// finish exam?

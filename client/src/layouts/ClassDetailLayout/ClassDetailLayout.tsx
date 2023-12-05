@@ -11,6 +11,7 @@ import { useUserClassMutation } from '@/features/userClass/hooks/useUserClassMut
 import { useListUserClass } from '@/features/userClass/hooks/useUserClass';
 import { LoadingModal } from '@/components';
 import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
+import { useNotificationMutation } from '@/features/notification/hooks/useNotificationMutation';
 
 interface ClassDetailLayoutProps {
   children?: ReactNode;
@@ -57,7 +58,7 @@ export function ClassDetailLayout({ children }: ClassDetailLayoutProps) {
   const { notify } = useAntDNoti();
   const { code } = useParams();
   const { data, isLoading } = useListUserClass({ classCode: code });
-
+  const { addFn } = useNotificationMutation();
   const request = data?.content.find((req) => !req.isPending && req.studentId === user?.id);
 
   const handleClick = () => {
@@ -71,6 +72,12 @@ export function ClassDetailLayout({ children }: ClassDetailLayoutProps) {
     }
 
     deleteFn({ id: request?.id as number });
+    addFn({
+      content: `Học sinh ${user?.fullname} đã rời khỏi lớp học ${request?.Class.name}`,
+      notiType: 'class',
+      recipents: [request?.Class.teacherId as number],
+      url: `/class/${request?.classCode}`,
+    });
     navigate('/class');
   };
 

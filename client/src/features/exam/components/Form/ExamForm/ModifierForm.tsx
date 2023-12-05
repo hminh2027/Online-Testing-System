@@ -3,6 +3,7 @@ import { Col, DatePicker, Form, Input, InputNumber, Row, Select, Switch } from '
 import { useEffect, useState } from 'react';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
+import isEmpty from 'lodash/isEmpty';
 import { useExamMutation } from '@/features/exam/hooks/useExamMutation';
 import type { Exam, ExamCreateDTO } from '@/features/exam/types';
 import {
@@ -13,6 +14,8 @@ import {
 import { useListClass } from '@/features/class/hooks/useClass';
 import { LoadingModal } from '@/components';
 import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
+import { useNotificationMutation } from '@/features/notification/hooks/useNotificationMutation';
+import { useListUserClass } from '@/features/userClass/hooks/useUserClass';
 
 interface ModifierFormProps {
   exam?: Exam;
@@ -27,7 +30,18 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
   const [range, setRange] = useState<RangeProps>([dayjs(), null]);
   const { data: classData, isFetching } = useListClass({});
   const { notify } = useAntDNoti();
+  const { addFn: addNotiFn } = useNotificationMutation();
+
+  const [selectedClassCode, setSelectedClassCode] = useState<string>('');
+
+  const { data: userClassData } = useListUserClass(
+    { classCode: selectedClassCode },
+    { enabled: false },
+  );
+
   const classes = classData?.content;
+  const userClasses = userClassData?.content;
+  const validStudentsInClass = userClasses?.filter((uc) => !uc.isPending);
 
   useEffect(() => {
     if (!exam) return;
@@ -55,6 +69,19 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
       startAt: new Date(formatDatePicketToISO(range[0] as Dayjs)),
       deadlineAt: range[1] && new Date(formatDatePicketToISO(range[1])),
     };
+
+    if (
+      values.classCode !== exam?.classCode &&
+      !isEmpty(validStudentsInClass) &&
+      validStudentsInClass
+    ) {
+      addNotiFn({
+        content: `Giáo viên đã giao bài kiểm tra ${exam?.title} cho lớp ${validStudentsInClass[0].Class.name}`,
+        notiType: 'exam',
+        recipents: validStudentsInClass.map((u) => u.studentId),
+        url: `/class/${values.classCode}`,
+      });
+    }
 
     if (exam?.id) {
       return updateFn({
@@ -133,7 +160,11 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
         </Col>
       </Row>
       <Form.Item name="classCode" label="Lớp được giao">
-        <Select allowClear options={transformToAntdSelectOptions(classes, 'name', 'code')} />
+        <Select
+          allowClear
+          options={transformToAntdSelectOptions(classes, 'name', 'code')}
+          onChange={(value: string) => setSelectedClassCode(value)}
+        />
       </Form.Item>
       <Row gutter={16}>
         <Col span={8}>

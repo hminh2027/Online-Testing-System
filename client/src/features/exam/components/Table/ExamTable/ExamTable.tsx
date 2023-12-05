@@ -66,7 +66,7 @@ export function ExamTable({ dataSource }: ExamTableProps) {
             }
           : {},
       ]}
-      dataSource={dataSource}
+      dataSource={structuredClone(dataSource)}
       scroll={{
         x: 1500,
       }}

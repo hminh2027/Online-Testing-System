@@ -13,6 +13,7 @@ import { useAuth } from '@/features/auth';
 import { socket } from '@/libs/socket';
 import type { Attempt } from '@/features/attempt/types';
 import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
+import { useNotificationMutation } from '@/features/notification/hooks/useNotificationMutation';
 
 export default function ExamTaking() {
   useBeforeUnload(true, 'You have unsaved changes, are you sure?');
@@ -26,6 +27,7 @@ export default function ExamTaking() {
   const navigation = useNavigate();
   const { user } = useAuth();
   const { notify } = useAntDNoti();
+  const { addFn: addNotiFn } = useNotificationMutation();
 
   usePageLeave(() => {
     if (!localAttempt || !localAttempt.Exam.isProcting) return;
@@ -88,6 +90,11 @@ export default function ExamTaking() {
         id: localAttempt?.id as number,
         payload: {},
       });
+      addNotiFn({
+        content: `Học sinh ${user?.fullname} đã hoàn thành bài kiểm tra ${localAttempt.Exam.title} của bạn`,
+        notiType: 'exam',
+        recipents: [localAttempt.Exam.teacherId],
+      });
       Modal.error({
         centered: true,
         title: 'Hết giờ làm bài',
@@ -96,7 +103,7 @@ export default function ExamTaking() {
           navigation(`/class/${localAttempt.Exam.Class.code}/exams/${localAttempt.Exam.id}/result`),
       });
     }
-  }, [localAttempt, navigation, updateFn]);
+  }, [addNotiFn, localAttempt, navigation, updateFn, user?.fullname]);
 
   function handleShuffle<T>(array: T[]) {
     const examQuestionOrder = storage.get('ExamQuestionOrder') as string;
@@ -121,6 +128,12 @@ export default function ExamTaking() {
     updateFn({
       id: localAttempt.id as number,
       payload: {},
+    });
+
+    addNotiFn({
+      content: `Học sinh ${user?.fullname} đã hoàn thành bài kiểm tra ${localAttempt.Exam.title} của bạn`,
+      notiType: 'exam',
+      recipents: [localAttempt.Exam.teacherId],
     });
 
     navigation(`/class/${localAttempt.Exam.Class.code}/exams/${localAttempt.Exam.id}/result`);

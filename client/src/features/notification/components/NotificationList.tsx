@@ -39,7 +39,7 @@ export function NotificationList({ toggleDrawer }: NotificationListProps) {
             backgroundColor: isRead ? 'white' : '#f4f9fe',
             borderRadius: 8,
             padding: '1rem',
-            margin: '0.2rem 0',
+            margin: '0.5rem 0',
             cursor: 'pointer',
             transition: 'all 0.3s ease-in-out',
           }}
