@@ -63,7 +63,7 @@ export function ExamAnswerList({ answers, questionId }: ExamAnswerListProps) {
             value={ans.id}
             style={{
               border: '1px solid grey',
-              borderRadius: 8,
+              borderRadius: 2,
               padding: 12,
             }}
           >
@@ -84,7 +84,7 @@ export function ExamAnswerList({ answers, questionId }: ExamAnswerListProps) {
             value={ans.id}
             style={{
               border: '1px solid grey',
-              borderRadius: 8,
+              borderRadius: 2,
               padding: 12,
             }}
           >

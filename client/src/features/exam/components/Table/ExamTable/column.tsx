@@ -26,7 +26,7 @@ export const columns: ColumnsType<Exam> = [
     render: (value: string, record: Exam) =>
       value && (
         <Link to={`/class/${record.classCode}`}>
-          <Tag color="blue">{value}</Tag>
+          <Tag color="geekblue">{value}</Tag>
         </Link>
       ),
   },

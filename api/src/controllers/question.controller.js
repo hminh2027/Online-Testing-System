@@ -55,6 +55,12 @@ const getOneById = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json({ content: question });
 });
 
+const getManyByExamId = catchAsync(async (req, res) => {
+  const { examId } = req.query;
+  let questions = await questionService.getManyByExamId(+examId);
+  res.status(httpStatus.OK).json({ content: questions });
+});
+
 const updateIndex = catchAsync(async (req, res) => {
   const { indexArray } = req.body;
 
@@ -84,6 +90,7 @@ module.exports = {
   createOne,
   createMany,
   getOneById,
+  getManyByExamId,
   updateIndex,
   updateOneById,
   deleteOneById,

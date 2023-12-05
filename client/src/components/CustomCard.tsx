@@ -16,7 +16,7 @@ export function CustomCard(props: CustomCardProps) {
         ...style,
         boxShadow: hasShadow ? '0px 2px 12px rgba(39, 49, 60, 0.16)' : 'inherit',
         padding: padding || 'inherit',
-        borderRadius: radius || 8,
+        borderRadius: radius || 2,
       }}
       {...rest}
     >

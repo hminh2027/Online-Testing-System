@@ -56,5 +56,5 @@ export default function ClassSchedule() {
 
   if (isLoading) return <LoadingModal />;
 
-  return <Calendar onSelect={handleOnSelect} cellRender={handleCellRender} />;
+  return <Calendar mode="month" onSelect={handleOnSelect} cellRender={handleCellRender} />;
 }

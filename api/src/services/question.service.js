@@ -29,6 +29,15 @@ function getOneById(id) {
   });
 }
 
+function getManyByExamId(examId) {
+  return prisma.question.findMany({
+    where: { examId },
+    include: {
+      Answer: true,
+    },
+  });
+}
+
 function updateOneById(id, data) {
   return prisma.question.update({
     data: {
@@ -64,6 +73,7 @@ function deleteMany(examId) {
 module.exports = {
   createOne,
   getOneById,
+  getManyByExamId,
   count,
   updateOneById,
   patchIndexById,

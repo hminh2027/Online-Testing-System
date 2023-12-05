@@ -5,10 +5,6 @@ export type TabBarCustomConfig = {
 
 export const teacherTabs: TabBarCustomConfig[] = [
   {
-    label: 'Tổng quan',
-    path: 'overview',
-  },
-  {
     label: 'Lớp học',
     path: 'class',
   },

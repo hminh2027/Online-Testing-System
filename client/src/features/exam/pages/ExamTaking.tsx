@@ -153,7 +153,15 @@ export default function ExamTaking() {
 
   return (
     <>
-      <Typography.Title level={2}>Đề thi {Exam?.title}</Typography.Title>
+      <Typography.Title
+        style={{
+          textAlign: 'center',
+          margin: 16,
+        }}
+        level={2}
+      >
+        Đề thi {Exam?.title}
+      </Typography.Title>
       <Row
         gutter={24}
         style={{

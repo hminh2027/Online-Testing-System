@@ -4,7 +4,10 @@ const { auth } = require("../middlewares");
 
 const router = express.Router();
 
-router.route("/").post(auth, questionController.createOne);
+router
+  .route("/")
+  .get(auth, questionController.getManyByExamId)
+  .post(auth, questionController.createOne);
 router.route("/many").post(auth, questionController.createMany);
 
 router

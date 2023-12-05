@@ -14,3 +14,40 @@
 body {
   margin: 0;
 }
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+::-webkit-scrollbar-corner {
+  background: 0 0;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background: 0 0;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background: #c2c5c8;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5d6778;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #5d6778;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 2px;
+  background: rgba(65, 83, 100, 0.12);
+}
+
+* {
+  scrollbar-color: #c2c5c8 rgba(65, 83, 100, 0.12);
+  scrollbar-width: thin;
+}

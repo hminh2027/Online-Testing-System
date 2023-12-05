@@ -9,6 +9,7 @@ import { QuestionService } from '../services/QuestionService';
 
 export const {
   useItem: useQuestion,
+  useList: useListQuestion,
   useAddItem: useAddQuestion,
   useAddItems: useAddQuestions,
   useUpdateItem: useUpdateQuestion,

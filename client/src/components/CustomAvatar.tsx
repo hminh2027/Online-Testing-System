@@ -3,10 +3,11 @@ import { Avatar as AntAvatar } from 'antd';
 
 interface CustomAvatarAvatarProps extends AntAvatarProps {
   name?: string;
+  pointer?: boolean;
 }
 
 export function CustomAvatar(props: CustomAvatarAvatarProps) {
-  const { name, ...rest } = props;
+  const { name, pointer = false, style, ...rest } = props;
 
   const initials = (): string | null => {
     const trimmedName = name && name.trim();
@@ -22,7 +23,15 @@ export function CustomAvatar(props: CustomAvatarAvatarProps) {
   };
 
   return (
-    <AntAvatar shape="circle" alt={name} {...rest}>
+    <AntAvatar
+      shape="circle"
+      alt={name}
+      {...rest}
+      style={{
+        cursor: pointer ? 'pointer' : 'initial',
+        ...style,
+      }}
+    >
       {initials()}
     </AntAvatar>
   );

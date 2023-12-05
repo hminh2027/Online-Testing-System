@@ -7,7 +7,7 @@ interface ExamAnswerSheetProps {
 export function ExamAnswerSheet({ questions }: ExamAnswerSheetProps) {
   return (
     <Space direction="vertical" size="middle">
-      <Flex style={{ width: '100%' }} justify="space-between">
+      <Flex gap={12} style={{ width: '100%' }} justify="space-between">
         <Badge color="blue" text="Câu hiện tại" />
         <Badge color="orange" text="Đánh dấu" />
         <Badge color="green" text="Đã trả lời" />

@@ -9,7 +9,7 @@ export default function ExamDetail() {
   const [curStep, setCurStep] = useState(0);
   const navigation = useNavigate();
 
-  const { data } = useExam(id || '');
+  const { data } = useExam(id as string);
 
   const exam = data?.content;
 
@@ -20,7 +20,7 @@ export default function ExamDetail() {
     },
     {
       title: 'Nội dung bài kiểm tra',
-      content: exam && id && <ExamContent examId={+id} questions={exam.Question} />,
+      content: exam && id && <ExamContent examId={+id} />,
     },
     // {
     //   title: 'Giao bài kiểm tra',

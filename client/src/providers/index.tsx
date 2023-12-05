@@ -22,6 +22,7 @@ ConfigProvider.config({
   theme: {
     token: {
       ...themeConfig.token,
+      colorPrimary: '#1c375b',
     },
     components: {
       ...themeConfig.components,

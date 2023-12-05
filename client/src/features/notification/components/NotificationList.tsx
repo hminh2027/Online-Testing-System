@@ -37,7 +37,6 @@ export function NotificationList({ toggleDrawer }: NotificationListProps) {
         <List.Item
           style={{
             backgroundColor: isRead ? 'white' : '#f4f9fe',
-            borderRadius: 8,
             padding: '1rem',
             margin: '0.5rem 0',
             cursor: 'pointer',
@@ -65,6 +64,7 @@ export function NotificationList({ toggleDrawer }: NotificationListProps) {
             <List.Item.Meta
               style={{
                 alignItems: 'center',
+                gap: 8,
               }}
               avatar={
                 <CustomAvatar

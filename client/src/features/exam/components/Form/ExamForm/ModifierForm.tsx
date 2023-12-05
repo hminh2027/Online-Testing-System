@@ -161,6 +161,7 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
       </Row>
       <Form.Item name="classCode" label="Lớp được giao">
         <Select
+          placeholder="Chọn lớp học cần giao bài..."
           allowClear
           options={transformToAntdSelectOptions(classes, 'name', 'code')}
           onChange={(value: string) => setSelectedClassCode(value)}

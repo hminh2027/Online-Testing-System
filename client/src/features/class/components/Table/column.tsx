@@ -20,7 +20,7 @@ export const columns = (isShowExam: boolean): ColumnsType<ClassRoom> => [
     render: (values: Exam[]) =>
       isShowExam
         ? values.map((exam) => (
-            <Tag style={{ margin: 5 }} key={exam.title} color="blue">
+            <Tag style={{ margin: 5 }} key={exam.title} color="geekblue">
               {exam.title}
             </Tag>
           ))

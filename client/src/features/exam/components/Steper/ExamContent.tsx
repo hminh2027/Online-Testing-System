@@ -5,26 +5,29 @@ import { Button, Divider, Flex, Form, Input, List, Modal, Space } from 'antd';
 import { useEffect, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { useToggle } from 'react-use';
+import { useParams } from 'react-router-dom';
 import type { Question } from '../../types';
 import { useQuestionMutation } from '../../hooks/useQuestionMutation';
 import { QuestionForm } from '../Form';
 import { QuestionCard } from '../Card';
+import { useListQuestion } from '../../hooks/useQuestion';
 
 interface ExamContentProps {
   examId: number;
-  questions: Question[];
 }
-export function ExamContent({ examId, questions }: ExamContentProps) {
+export function ExamContent({ examId }: ExamContentProps) {
   const [form] = Form.useForm();
+  const { id } = useParams();
+  const { data } = useListQuestion({ examId });
 
   const [items, setItems] = useState<Question[]>([]);
   const [isModalOpen, toggleModal] = useToggle(false);
-  const { updateIndex } = useQuestionMutation(examId);
+  const { updateIndex } = useQuestionMutation(id ? +id : 0);
 
   useEffect(() => {
-    if (!questions) return;
-    setItems(questions);
-  }, [questions]);
+    if (!data) return;
+    setItems(data.content);
+  }, [data]);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;

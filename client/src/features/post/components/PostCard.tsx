@@ -60,7 +60,7 @@ export function PostCard(props: PostCardProps) {
         <Flex vertical gap={6}>
           <Typography.Text>{content}</Typography.Text>
           {imageUrl && (
-            <Image loading="lazy" style={{ borderRadius: 8 }} width="100%" src={imageUrl} />
+            <Image loading="lazy" style={{ borderRadius: 2 }} width="100%" src={imageUrl} />
           )}
         </Flex>
         {/* comment footer */}

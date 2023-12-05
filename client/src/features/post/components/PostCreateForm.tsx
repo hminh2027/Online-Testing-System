@@ -87,7 +87,7 @@ export function PostCreateForm() {
             />
           </Flex>
         </Form.Item>
-        {image && <Image style={{ borderRadius: 8 }} width="100%" src={image} />}
+        {image && <Image style={{ borderRadius: 2 }} width="100%" src={image} />}
       </Form>
       <Divider />
       <Form.Item>
