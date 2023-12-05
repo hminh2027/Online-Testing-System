@@ -79,6 +79,7 @@ export function CustomTable<T extends object>(props: TableProp<T>) {
         {showSearch && <Input onChange={handleSearch} placeholder="Nhập và enter để tìm kiếm..." />}
       </Flex>
       <Table
+        bordered
         columns={columns}
         dataSource={internalDataSource}
         style={{
