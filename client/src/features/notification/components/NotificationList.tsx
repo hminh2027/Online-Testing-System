@@ -72,6 +72,7 @@ export function NotificationList({ toggleDrawer }: NotificationListProps) {
                   size="large"
                   name={item.User.fullname}
                   src={item.User.imageUrl}
+                  subIconType={item.notiType}
                 />
               }
               title={item.content}
