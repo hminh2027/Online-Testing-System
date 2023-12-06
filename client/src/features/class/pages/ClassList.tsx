@@ -9,7 +9,12 @@ export default function ClassList() {
   const handleSubmit = () => form.submit();
 
   return (
-    <>
+    <div
+    style={{
+      width: '90%',
+      margin: '2rem auto',
+    }}
+    >
       <Head title="Danh sách lớp học" />
       <Drawer
         size="large"
@@ -28,6 +33,6 @@ export default function ClassList() {
         })}
       </Drawer>
       <ClassTable />
-    </>
+    </div>
   );
 }

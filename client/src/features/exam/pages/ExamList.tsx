@@ -15,7 +15,12 @@ export default function ExamList() {
   if (isLoading) return <LoadingModal />;
 
   return (
-    <>
+    <div
+      style={{
+        width: '90%',
+        margin: '2rem auto',
+      }}
+    >
       <Head title="Danh sách bài kiểm tra" />
       <Drawer
         size="large"
@@ -34,6 +39,6 @@ export default function ExamList() {
         })}
       </Drawer>
       <ExamTable dataSource={exams} />
-    </>
+    </div>
   );
 }

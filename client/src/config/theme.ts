@@ -122,6 +122,9 @@ export const themeConfig: ThemeConfig = {
     DatePicker: {
       ...FieldConfig,
     },
+    Steps: {
+      ...FieldConfig,
+    },
     Select: {
       controlHeight: 34,
       optionActiveBg: colorScheme.primary,
@@ -134,11 +137,14 @@ export const themeConfig: ThemeConfig = {
       activeBorderColor: colorScheme.primary,
       hoverBorderColor: colorScheme.primary,
       controlHeight: 34,
+
+      ...FieldConfig,
     },
     InputNumber: {
       colorBorder: colorScheme.primary,
       activeBorderColor: colorScheme.primary,
       hoverBorderColor: colorScheme.primary,
+      ...FieldConfig,
     },
     Calendar: {
       ...FieldConfig,
