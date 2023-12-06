@@ -25,4 +25,15 @@ type AuthResponse = {
   user: User;
 };
 
+export interface UTCResponse {
+  data: {
+    email: string;
+    firstName: string;
+    lastName: string;
+    birth: string;
+    studentId: string;
+    tel: string;
+  };
+  error: string;
+}
 export type ResAuthItem = ResponseItem<AuthResponse>;

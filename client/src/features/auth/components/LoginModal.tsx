@@ -1,26 +1,35 @@
-import { Button, Form, Input, Modal, Typography } from 'antd';
-import { useAuth } from '@/features/auth/hooks';
+import { Button, Form, Input, Modal } from 'antd';
+import useUtcLogin from '../hooks/useUtcLogin';
 
 export interface LoginUtcPayload {
   studentId: string;
   password: string;
 }
 
+// 192610058 - 08/11/2001
+
 interface LoginModalProps {
-  isModalOpen: boolean;
+  open: boolean;
+  toggleOpen: () => void;
 }
-export function LoginModal({ isModalOpen }: LoginModalProps) {
+export function LoginModal({ open, toggleOpen }: LoginModalProps) {
   const [utcForm] = Form.useForm();
-  const { logInUtc } = useAuth();
+  const { logInUtc } = useUtcLogin();
 
   const handleSubmit = (values: LoginUtcPayload) => {
     logInUtc(values);
   };
 
   return (
-    <Modal title="Basic Modal" open={isModalOpen}>
-      <Typography.Title>Đăng Nhập</Typography.Title>
-
+    <Modal
+      onCancel={toggleOpen}
+      centered
+      footer={null}
+      destroyOnClose
+      closable
+      title="Đăng Nhập Sinh Viên UTC"
+      open={open}
+    >
       <Form
         autoComplete="off"
         form={utcForm}
@@ -28,10 +37,10 @@ export function LoginModal({ isModalOpen }: LoginModalProps) {
         layout="vertical"
         onFinish={handleSubmit}
       >
-        <Form.Item label="Mã sinh viên" name="username">
+        <Form.Item label="Mã sinh viên" name="username" required>
           <Input />
         </Form.Item>
-        <Form.Item label="Mật khẩu" name="password">
+        <Form.Item label="Mật khẩu" name="password" required>
           <Input type="password" />
         </Form.Item>
 

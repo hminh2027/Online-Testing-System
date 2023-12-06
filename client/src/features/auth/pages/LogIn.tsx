@@ -1,10 +1,10 @@
-import { Button, Divider, Flex, Form, Input, Typography } from 'antd';
+import { Button, Flex, Form, Input, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import { CustomCard } from '@/components/CustomCard';
 import { useAuth } from '@/features/auth/hooks';
-import type { LoginPayload } from '..';
 import { createValidator } from '@/utils/validator';
 import { logInSchema } from '@/features/auth/schemas/logInSchema';
+import type { LoginPayload } from '..';
 
 export default function Login() {
   const { logIn } = useAuth();
@@ -24,6 +24,7 @@ export default function Login() {
       style={{
         minHeight: '100vh',
       }}
+      gap={16}
     >
       <Typography.Title>Đăng Nhập</Typography.Title>
       <CustomCard hasShadow style={{ width: '25%' }}>
@@ -49,9 +50,6 @@ export default function Login() {
               <Button type="primary" block htmlType="submit">
                 Đăng nhập
               </Button>
-              <Divider>Hoặc</Divider>
-              <Button block>Đăng nhập với facebook</Button>
-              <Button block>Đăng nhập với gmail</Button>
             </Flex>
           </Form.Item>
         </Form>

@@ -3,7 +3,6 @@ import type { ResAuthItem } from '..';
 import { storage } from '@/utils';
 import useLogin from './useLogin';
 import useSignup from './useSignup';
-import useUtcLogin from './useUtcLogin';
 import { axiosInstance } from '@/libs';
 import { endpoints } from '@/config';
 import type { ResUserItem } from '@/features/user';
@@ -19,11 +18,6 @@ export const useAuth = () => {
   });
 
   const { signUp } = useSignup({
-    handleOnError,
-    handleOnSuccess,
-  });
-
-  const { logInUtc } = useUtcLogin({
     handleOnError,
     handleOnSuccess,
   });
@@ -71,7 +65,6 @@ export const useAuth = () => {
 
   return {
     logIn,
-    logInUtc,
     signUp,
     logOut,
     refresh,

@@ -1,21 +1,39 @@
 import { useMutation } from '@tanstack/react-query';
-import type { LoginPayload, ResAuthItem } from '..';
 import { addItem } from '@/hooks/useCustomQuery';
+import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
+import { useAuth } from '.';
+import type { LoginUtcPayload, UTCResponse } from '..';
 
-interface useUtcLoginProps {
-  handleOnSuccess: (res: ResAuthItem) => void;
-  handleOnError: (err: string) => void;
-}
-export default function useUtcLogin({ handleOnSuccess, handleOnError }: useUtcLoginProps) {
+export default function useUtcLogin() {
+  const { notify } = useAntDNoti();
+  const { signUp } = useAuth();
   const { mutate } = useMutation(
-    (payload: LoginPayload) =>
-      addItem<LoginPayload, ResAuthItem>({
+    (payload: LoginUtcPayload) =>
+      addItem<LoginUtcPayload, UTCResponse>({
         payload,
         url: 'http://localhost:5000/student',
       }),
     {
-      onSuccess: handleOnSuccess,
-      onError: handleOnError,
+      onSuccess: ({ data: { email, firstName, lastName, studentId, tel }, error }) => {
+        if (!error) {
+          signUp({
+            email,
+            fullname: `${lastName} ${firstName}`,
+            isTeacher: false,
+            password: '123123',
+            phone: tel,
+            school: 'Trường đại học Giao Thông Vận Tải (UTC)',
+            studentId,
+          });
+        }
+      },
+      onError: (err) => {
+        console.log(err);
+        notify({
+          type: 'error',
+          description: err,
+        });
+      },
     },
   );
 
