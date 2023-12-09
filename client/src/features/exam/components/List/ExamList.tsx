@@ -67,7 +67,8 @@ export function ExamList({ dataSource }: ExamListProps) {
             }
 
             addFn({ examId: id });
-            navigation(`${id}/taking`);
+
+            return navigation(`${id}/taking`);
           },
           view: () => navigation(`${id}/result`),
         });

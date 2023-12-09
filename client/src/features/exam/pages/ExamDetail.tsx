@@ -3,11 +3,13 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ExamContent, ExamMeta } from '../components';
 import { useExam } from '../hooks/useExam';
+import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
 
 export default function ExamDetail() {
   const { id } = useParams();
   const [curStep, setCurStep] = useState(0);
   const navigation = useNavigate();
+  const { notify } = useAntDNoti();
 
   const { data } = useExam(id as string);
 
@@ -35,7 +37,13 @@ export default function ExamDetail() {
 
   const handlePrev = () => curStep > 0 && setCurStep(curStep - 1);
   const handleNext = () => curStep < steps.length - 1 && setCurStep(curStep + 1);
-  const handleFinish = () => navigation('/class');
+  const handleFinish = () => {
+    notify({
+      type: 'success',
+      description: 'Cập nhật bài kiểm tra thành công',
+    });
+    navigation('/exams');
+  };
 
   return (
     <Flex

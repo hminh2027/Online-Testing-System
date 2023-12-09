@@ -1,4 +1,4 @@
-import { Button, Col, Flex, Modal, Row, Typography } from 'antd';
+import { Button, Col, Flex, Modal, Row, Space, Typography } from 'antd';
 import { useAsync, useBeforeUnload, usePageLeave, useToggle, useWindowSize } from 'react-use';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
@@ -182,9 +182,14 @@ export default function ExamTaking() {
                   />
                 )}
               </Flex>
-              <Button block danger type="primary" onClick={handleSubmit}>
-                Nộp bài
-              </Button>
+              <Space direction="vertical">
+                <Button block danger type="dashed" onClick={handleSubmit}>
+                  Đánh dấu
+                </Button>
+                <Button block danger type="primary" onClick={handleSubmit}>
+                  Nộp bài
+                </Button>
+              </Space>
             </Flex>
           </CustomCard>
         </Col>

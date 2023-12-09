@@ -73,6 +73,7 @@ function getManyByClassCode(classCode, studentId) {
     ...(studentId && {
       include: {
         Attempt: { where: { studentId } },
+        Question: true,
       },
     }),
     orderBy: { createdAt: "desc" },

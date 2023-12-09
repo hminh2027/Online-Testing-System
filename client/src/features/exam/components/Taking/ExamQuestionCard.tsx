@@ -1,4 +1,4 @@
-import { Flex, Typography } from 'antd';
+import { Flex, Typography, Image } from 'antd';
 import { CustomCard } from '@/components';
 import { ExamAnswerList } from './ExamAnswerList';
 import type { Question } from '../../types';
@@ -17,6 +17,7 @@ export function ExamQuestionCard({ question, index }: ExamQuestionCardProps) {
       title={`Câu thứ ${index}`}
     >
       <Flex vertical gap={24}>
+        {question.imageUrl && <Image src={question.imageUrl} alt={question.content} />}
         <Typography.Text>{question.content}</Typography.Text>
         <ExamAnswerList questionId={question.id as number} answers={question.Answer} />
       </Flex>

@@ -27,7 +27,7 @@ export default function useUtcLogin() {
           });
         }
       },
-      onError: (err) => {
+      onError: (err: string) => {
         console.log(err);
         notify({
           type: 'error',
