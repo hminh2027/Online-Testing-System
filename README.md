@@ -17,9 +17,6 @@
   - leave class
   - config password for class
 
-- Request module
-  - invite student
-
 - Post module
   - CRUD post
   - comment to a post
