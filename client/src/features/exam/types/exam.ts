@@ -14,7 +14,7 @@ export interface Exam extends Resource {
   startAt: Date;
   endAt: Date;
   attemptLimit?: number;
-  isProcting: boolean;
+  isProctoring: boolean;
   isShuffleQuestion: boolean;
   isShowAnswer: boolean;
   isResumeAllowed: boolean;
@@ -32,7 +32,7 @@ export interface ExamCreateDTO extends Resource {
   startAt: Date;
   endAt?: Date | null;
   attemptLimit?: number;
-  isProcting: boolean;
+  isProctoring: boolean;
   isShuffleQuestion: boolean;
   isShowAnswer: boolean;
   isResumeAllowed: boolean;

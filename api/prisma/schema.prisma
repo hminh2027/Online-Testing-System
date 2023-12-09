@@ -73,7 +73,7 @@ model Exam {
   startAt           DateTime?  @default(now())
   endAt             DateTime?
   attemptLimit      Int?
-  isProcting        Boolean?   @default(false)
+  isProctoring      Boolean?   @default(false)
   isShuffleQuestion Boolean?   @default(false)
   isShowAnswer      Boolean?   @default(false)
   isResumeAllowed   Boolean?   @default(false)

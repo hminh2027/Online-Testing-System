@@ -53,7 +53,7 @@ export function ExamDetail() {
     },
     {
       label: 'Bật chống gian lận',
-      value: <Checkbox disabled checked={!!examDetails?.isProcting} />,
+      value: <Checkbox disabled checked={!!examDetails?.isProctoring} />,
     },
     {
       label: 'Bật đảo đề',

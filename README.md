@@ -9,11 +9,10 @@
   - take exam
   - proctoring exam (force fullscreen, leave screen counter, ...)
   - shuffle questions
-  - 
 
 - Class module
   - CRUD class
-  - invite student to class
+  - invite student to class (bulk from Excel file)
   - remove student from class
   - leave class
   - config password for class
@@ -45,6 +44,7 @@
   - questions suggestion when creating exam
   - socket for real-time notification
   - export to docx format
+  - cancel class-joining request
 
 ## DB design
 ![erd](./ERD.png)

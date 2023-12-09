@@ -100,7 +100,7 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
     description: data.description,
     duration: data.duration,
     attemptLimit: data.attemptLimit,
-    isProcting: data.isProcting,
+    isProctoring: data.isProctoring,
     isShuffleQuestion: data.isShuffleQuestion,
     isShowAnswer: data.isShowAnswer,
     isResumeAllowed: data.isResumeAllowed,
@@ -174,7 +174,7 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
           </Form.Item>
         </Col>
         <Col span={8}>
-          <Form.Item label="Chống gian lận" name="isProcting" valuePropName="checked">
+          <Form.Item label="Chống gian lận" name="isProctoring" valuePropName="checked">
             <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
           </Form.Item>
         </Col>

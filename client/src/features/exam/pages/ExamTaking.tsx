@@ -30,7 +30,7 @@ export default function ExamTaking() {
   const { addFn: addNotiFn } = useNotificationMutation();
 
   usePageLeave(() => {
-    if (!localAttempt || !localAttempt.Exam.isProcting) return;
+    if (!localAttempt || !localAttempt.Exam.isProctoring) return;
     increaseTaboutFn({
       id: localAttempt?.id as number,
       payload: {},
@@ -50,7 +50,7 @@ export default function ExamTaking() {
   }, []);
 
   useEffect(() => {
-    if (localAttempt?.Exam.isProcting)
+    if (localAttempt?.Exam.isProctoring)
       toggleOpen(height + 50 < window.screen.height && height < window.screen.height);
   }, [toggleOpen, height, localAttempt]);
 
@@ -64,7 +64,7 @@ export default function ExamTaking() {
       socket.emit('heartbeat', user.id);
     }, 5000);
 
-    return () => clearInterval(timer);
+    return () => clearInterval(timer as never);
   }, [user, localAttempt]);
 
   useEffect(() => {
@@ -93,6 +93,7 @@ export default function ExamTaking() {
         notiType: 'exam',
         recipents: [localAttempt.Exam.teacherId],
       });
+      storage.clear('ExamQuestionOrder');
       Modal.error({
         centered: true,
         title: 'Hết giờ làm bài',
@@ -133,7 +134,7 @@ export default function ExamTaking() {
       notiType: 'exam',
       recipents: [localAttempt.Exam.teacherId],
     });
-
+    storage.clear('ExamQuestionOrder');
     navigation(`/class/${localAttempt.Exam.Class.code}/exams/${localAttempt.Exam.id}/result`);
   };
 
