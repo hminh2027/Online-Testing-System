@@ -43,7 +43,7 @@ export default function ClassSchedule() {
                   avatar={<FileTextOutlined />}
                   title={item.title}
                   description={`Từ ${formatISOToVi(item.startAt)} -> ${
-                    item.deadlineAt ? formatISOToVi(item.deadlineAt) : 'không hạn nộp'
+                    item.endAt ? formatISOToVi(item.endAt) : 'không hạn nộp'
                   }`}
                 />
               </List.Item>

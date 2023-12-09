@@ -25,7 +25,7 @@ export function ExamList({ dataSource }: ExamListProps) {
   const { notify } = useAntDNoti();
 
   const checkExamStatus = (exam: Exam) => {
-    if ((exam.deadlineAt && isBeforeNow(exam.deadlineAt)) || isAfterNow(exam.startAt))
+    if ((exam.endAt && isBeforeNow(exam.endAt)) || isAfterNow(exam.startAt))
       return EXAM_STATUS.NOT_AVAILABLE;
 
     if (!user?.isTeacher && exam.Attempt?.length === exam.attemptLimit)
@@ -100,7 +100,7 @@ export function ExamList({ dataSource }: ExamListProps) {
               avatar={<FileTextOutlined />}
               title={item.title}
               description={`Hạn nộp: ${
-                item.deadlineAt ? formatISOToTime(item.deadlineAt) : 'Không có hạn nộp'
+                item.endAt ? formatISOToTime(item.endAt) : 'Không có hạn nộp'
               }`}
             />
           </List.Item>

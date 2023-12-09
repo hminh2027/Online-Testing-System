@@ -40,7 +40,7 @@ export function ExamDetail() {
     },
     {
       label: 'Thời gian kết thúc',
-      value: examDetails?.deadlineAt ? formatISOToVi(examDetails?.deadlineAt) : 'Không hạn nộp',
+      value: examDetails?.endAt ? formatISOToVi(examDetails?.endAt) : 'Không hạn nộp',
     },
 
     {

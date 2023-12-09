@@ -71,7 +71,7 @@ model Exam {
   description       String?    @db.LongText
   duration          Int
   startAt           DateTime?  @default(now())
-  deadlineAt        DateTime?
+  endAt             DateTime?
   attemptLimit      Int?
   isProcting        Boolean?   @default(false)
   isShuffleQuestion Boolean?   @default(false)

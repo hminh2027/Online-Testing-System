@@ -47,9 +47,9 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
     if (!exam) return;
 
     const startAt = formatISOToDatePicker(exam.startAt);
-    const deadlineAt = exam.deadlineAt && formatISOToDatePicker(exam.deadlineAt);
+    const endAt = exam.endAt && formatISOToDatePicker(exam.endAt);
 
-    setRange([startAt, deadlineAt]);
+    setRange([startAt, endAt]);
   }, [exam]);
 
   const handleOnFinish = (values: ExamCreateDTO) => {
@@ -67,7 +67,7 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
     const payload: ExamCreateDTO = {
       ...values,
       startAt: new Date(formatDatePicketToISO(range[0] as Dayjs)),
-      deadlineAt: range[1] && new Date(formatDatePicketToISO(range[1])),
+      endAt: range[1] && new Date(formatDatePicketToISO(range[1])),
     };
 
     if (
@@ -95,7 +95,7 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
 
   const handleOnDatePickerOk = (dates: RangeProps) => setRange(dates);
 
-  const dataAdapter = (data: Exam): Omit<ExamCreateDTO, 'startAt' | 'deadlineAt'> => ({
+  const dataAdapter = (data: Exam): Omit<ExamCreateDTO, 'startAt' | 'endAt'> => ({
     title: data.title,
     description: data.description,
     duration: data.duration,

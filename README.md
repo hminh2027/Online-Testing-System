@@ -1,6 +1,6 @@
 # Class Management & Examination
 
-## BRD
+## BRD (by roles)
 - Teacher
   - manage classroom:
     - create a class
@@ -29,9 +29,10 @@
   - join/leave a class
   - take exam
 
-- Shared common
-    - login/sign up (supports UTC login!)
-    - forgot password
+- Common
+    - login/sign up (supports login via UTC account!)
+    - forgot password (❌)
+    - 
     - update/view profile
     - statistics:
       - late submit
@@ -56,6 +57,6 @@
 ![erd](./ERD.png)
 
 ## Tech stack
-- FE: React + Vite + MUI + Zustand
-- BE: Express + Socket
+- FE: React + Vite + Antd + Zustand (not really :D)
+- BE: Express + Socket (not enough time...)
 - DB: MySQL + Prisma
