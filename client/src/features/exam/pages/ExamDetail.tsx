@@ -42,7 +42,7 @@ export default function ExamDetail() {
       type: 'success',
       description: 'Cập nhật bài kiểm tra thành công',
     });
-    navigation('/exams');
+    navigation('/exam');
   };
 
   return (

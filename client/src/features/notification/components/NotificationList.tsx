@@ -68,7 +68,6 @@ export function NotificationList({ toggleDrawer }: NotificationListProps) {
               }}
               avatar={
                 <CustomAvatar
-                  shape="square"
                   size="large"
                   name={item.User.fullname}
                   src={item.User.imageUrl}

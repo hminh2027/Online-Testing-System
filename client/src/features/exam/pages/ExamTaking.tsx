@@ -1,5 +1,12 @@
 import { Button, Col, Flex, Modal, Row, Space, Typography } from 'antd';
-import { useAsync, useBeforeUnload, usePageLeave, useToggle, useWindowSize } from 'react-use';
+import {
+  useAsync,
+  useBeforeUnload,
+  useLocation,
+  usePageLeave,
+  useToggle,
+  useWindowSize,
+} from 'react-use';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +21,7 @@ import { socket } from '@/libs/socket';
 import type { Attempt } from '@/features/attempt/types';
 import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
 import { useNotificationMutation } from '@/features/notification/hooks/useNotificationMutation';
+import { useAnswerSheetStore } from '../stores/answerSheetStore';
 
 export default function ExamTaking() {
   useBeforeUnload(true, 'You have unsaved changes, are you sure?');
@@ -28,6 +36,8 @@ export default function ExamTaking() {
   const { user } = useAuth();
   const { notify } = useAntDNoti();
   const { addFn: addNotiFn } = useNotificationMutation();
+  const { setQuestionStatus } = useAnswerSheetStore();
+  const { hash } = useLocation();
 
   usePageLeave(() => {
     if (!localAttempt || !localAttempt.Exam.isProctoring) return;
@@ -40,7 +50,7 @@ export default function ExamTaking() {
       type: 'warning',
       description: 'Chú ý không rời khỏi khu vực làm bài!',
     });
-  });
+  }, [localAttempt as never]);
 
   useAsync(async () => {
     const { content } = await fetchOnGoingAttempt();
@@ -146,6 +156,14 @@ export default function ExamTaking() {
       onOk: submit,
     });
 
+  const setFlag = () => {
+    const id = hash?.split('-')[1];
+
+    if (!id) return;
+
+    setQuestionStatus(+id - 1, 'flagged');
+  };
+
   const examTimer = dayjs(localAttempt.startedAt)
     .add(Exam.duration, 'minutes')
     .diff(dayjs(), 'minutes');
@@ -183,7 +201,7 @@ export default function ExamTaking() {
                 )}
               </Flex>
               <Space direction="vertical">
-                <Button block danger type="dashed" onClick={handleSubmit}>
+                <Button block danger type="dashed" onClick={setFlag}>
                   Đánh dấu
                 </Button>
                 <Button block danger type="primary" onClick={handleSubmit}>

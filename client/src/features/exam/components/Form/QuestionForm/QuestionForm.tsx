@@ -63,10 +63,12 @@ export function QuestionForm({ questionId, form, examId, toggleModal }: Question
     const error = validateAnswer(answers);
 
     if (error) {
-      return notify({
+      notify({
         type: 'error',
         description: error,
       });
+
+      return;
     }
 
     const payload: QuestionCreateDTO = {

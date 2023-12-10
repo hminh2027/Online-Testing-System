@@ -79,7 +79,7 @@ export function CustomAvatar(props: CustomAvatarAvatarProps) {
             left: '100%',
             top: '100%',
             backgroundColor: getSubIconBg(subIconType),
-            translate: '-50% -50%',
+            translate: '-75% -75%',
           }}
         >
           {getSubIcon(subIconType)}

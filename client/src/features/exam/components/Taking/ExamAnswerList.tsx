@@ -2,10 +2,12 @@ import type { RadioChangeEvent } from 'antd';
 import { Checkbox, Flex, Radio } from 'antd';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-use';
 import type { Answer } from '../../types';
 import { useAttemptStore } from '@/features/attempt/stores';
 import type { Choice } from '@/features/attempt/types/choice';
 import { useChoiceMutation } from '@/features/attempt/hooks/useChoiceMutation';
+import { useAnswerSheetStore } from '../../stores/answerSheetStore';
 
 const ALPHABETICAL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -16,11 +18,15 @@ interface ExamAnswerListProps {
 
 export function ExamAnswerList({ answers, questionId }: ExamAnswerListProps) {
   const { addFn, addManyFn } = useChoiceMutation();
+  const { setQuestionStatus } = useAnswerSheetStore();
+  const { hash } = useLocation();
 
   const { attempt } = useAttemptStore();
   const [selectedAnswers, setSelectedAnswers] = useState<number[]>([]);
 
   const isMultiple = answers.filter((item) => item.isCorrect).length > 1;
+
+  const id = hash?.split('-')[1];
 
   const handleOnRadioSelect = (event: RadioChangeEvent) => {
     const answerId = event.target.value as number;
@@ -32,6 +38,8 @@ export function ExamAnswerList({ answers, questionId }: ExamAnswerListProps) {
       questionId,
       attemptId: attempt?.id as number,
     });
+
+    if (id) setQuestionStatus(+id - 1, 'visited');
   };
 
   const handleOnChangeCheckbox = (values: CheckboxValueType[]) => {
@@ -44,6 +52,7 @@ export function ExamAnswerList({ answers, questionId }: ExamAnswerListProps) {
     }));
 
     addManyFn(mappedAnswers);
+    if (id) setQuestionStatus(+id - 1, 'visited');
   };
 
   useEffect(() => {

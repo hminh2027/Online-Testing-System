@@ -1,25 +1,27 @@
 import { Space, Flex, Badge, List } from 'antd';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import type { Question } from '../../types';
 import ExamAnswerBox from './ExamAnswerBox';
+
+import type { AnswerStatusType } from '../../stores/answerSheetStore';
+import { useAnswerSheetStore } from '../../stores/answerSheetStore';
 
 interface ExamAnswerSheetProps {
   questions: Question[];
 }
 
-enum QuestionStatus {
-  flagged,
-  visited,
-  unvisited,
-}
-
-interface QuestionWithStatus {
-  question: Question;
-  status: keyof typeof QuestionStatus;
-}
-
 export function ExamAnswerSheet({ questions }: ExamAnswerSheetProps) {
-  const [localQuestions, setLocalQuestions] = useState<QuestionWithStatus>();
+  const { setQuestionMap } = useAnswerSheetStore();
+
+  useEffect(() => {
+    const questionMap = new Map<number, AnswerStatusType>();
+
+    questions.forEach((_, index) => {
+      questionMap.set(index, 'unvisited');
+    });
+
+    setQuestionMap(questionMap);
+  }, [questions, setQuestionMap]);
 
   return (
     <Space direction="vertical" size="middle">
@@ -31,17 +33,12 @@ export function ExamAnswerSheet({ questions }: ExamAnswerSheetProps) {
       <List
         grid={{
           gutter: 24,
-          xs: 1,
-          md: 2,
-          lg: 3,
-          sm: 4,
-          xl: 5,
-          column: 7,
+          column: 5,
         }}
         dataSource={questions}
-        renderItem={(item, index) => (
+        renderItem={(_, index) => (
           <List.Item>
-            <ExamAnswerBox index={index} item={item} />
+            <ExamAnswerBox index={index} />
           </List.Item>
         )}
       />
