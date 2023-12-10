@@ -1,10 +1,26 @@
-import { Space, Flex, Badge, Button, List } from 'antd';
+import { Space, Flex, Badge, List } from 'antd';
+import { useState } from 'react';
 import type { Question } from '../../types';
+import ExamAnswerBox from './ExamAnswerBox';
 
 interface ExamAnswerSheetProps {
   questions: Question[];
 }
+
+enum QuestionStatus {
+  flagged,
+  visited,
+  unvisited,
+}
+
+interface QuestionWithStatus {
+  question: Question;
+  status: keyof typeof QuestionStatus;
+}
+
 export function ExamAnswerSheet({ questions }: ExamAnswerSheetProps) {
+  const [localQuestions, setLocalQuestions] = useState<QuestionWithStatus>();
+
   return (
     <Space direction="vertical" size="middle">
       <Flex gap={12} style={{ width: '100%' }} justify="space-between">
@@ -25,9 +41,7 @@ export function ExamAnswerSheet({ questions }: ExamAnswerSheetProps) {
         dataSource={questions}
         renderItem={(item, index) => (
           <List.Item>
-            <Button href={`#question-${index + 1}`} key={item.id}>
-              {index + 1}
-            </Button>
+            <ExamAnswerBox index={index} item={item} />
           </List.Item>
         )}
       />

@@ -1,4 +1,4 @@
-import { Menu } from 'antd';
+import { Menu, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useLocation } from 'react-use';
@@ -21,15 +21,12 @@ export function TabBar({ items }: TabBarProps) {
 
   const mappedItems = items.map((item) => ({
     key: `${item.path}`,
-    label: <NavLink to={`/${item.path}`}>{item.label}</NavLink>,
+    label: (
+      <NavLink to={`/${item.path}`}>
+        <Typography.Text strong>{item.label}</Typography.Text>
+      </NavLink>
+    ),
   }));
 
-  return (
-    <Menu
-      disabledOverflow
-      selectedKeys={[curPath]}
-      mode="horizontal"
-      items={mappedItems}
-    />
-  );
+  return <Menu disabledOverflow selectedKeys={[curPath]} mode="horizontal" items={mappedItems} />;
 }
