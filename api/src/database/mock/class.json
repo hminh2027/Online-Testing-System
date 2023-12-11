@@ -64,5 +64,104 @@
     "isStudentApprovalEnter": true,
     "isStudentApprovalLeave": true,
     "isStudentPostAllowed": true
+  },
+  {
+    "code": "AB1234",
+    "teacherId": 1,
+    "name": "Lớp đại cương Toán Đại Học",
+    "imageUrl": "",
+    "description": "Lớp học cung cấp kiến thức Toán cơ bản cho sinh viên đại học",
+    "password": "123123",
+    "isStudentApprovalEnter": true,
+    "isStudentApprovalLeave": true,
+    "isStudentPostAllowed": false
+  },
+  {
+    "code": "CD5678",
+    "teacherId": 1,
+    "name": "Khóa học Thuyết Trình Hiệu Quả",
+    "imageUrl": "",
+    "description": "Học cách thức thuyết trình hiệu quả và thu hút sự chú ý của người nghe",
+    "password": "123123",
+    "isStudentApprovalEnter": true,
+    "isStudentApprovalLeave": false,
+    "isStudentPostAllowed": true
+  },
+  {
+    "code": "EF9012",
+    "teacherId": 1,
+    "name": "Lớp Nâng Cao Kỹ Năng Ứng Xử",
+    "imageUrl": "",
+    "description": "Học cách tương tác và ứng xử một cách chuyên nghiệp trong môi trường công việc",
+    "password": "",
+    "isStudentApprovalEnter": false,
+    "isStudentApprovalLeave": true,
+    "isStudentPostAllowed": true
+  },
+  {
+    "code": "GH3456",
+    "teacherId": 1,
+    "name": "Lớp ôn tập Lý 12",
+    "imageUrl": "",
+    "description": "Lớp học ôn tập kiến thức Lý cho học sinh lớp 12",
+    "password": "123123",
+    "isStudentApprovalEnter": true,
+    "isStudentApprovalLeave": true,
+    "isStudentPostAllowed": false
+  },
+  {
+    "code": "IJ7890",
+    "teacherId": 1,
+    "name": "Lớp ôn tập Lịch Sử 12",
+    "imageUrl": "",
+    "description": "Lớp ôn tập kiến thức Lịch Sử cho học sinh lớp 12 trước kỳ thi cuối kỳ",
+    "password": "",
+    "isStudentApprovalEnter": false,
+    "isStudentApprovalLeave": false,
+    "isStudentPostAllowed": true
+  },
+  {
+    "code": "KL2345",
+    "teacherId": 1,
+    "name": "Lớp ôn tập Địa Lý 12",
+    "imageUrl": "",
+    "description": "Lớp ôn tập Địa Lý cho học sinh lớp 12 trước kỳ thi quan trọng",
+    "password": "",
+    "isStudentApprovalEnter": true,
+    "isStudentApprovalLeave": false,
+    "isStudentPostAllowed": true
+  },
+  {
+    "code": "MN6789",
+    "teacherId": 1,
+    "name": "Lớp học chứng khoán Trading 101",
+    "imageUrl": "",
+    "description": "Lớp học gồm dội ngũ các chuyên gia đào tạo, cam kết đầu ra sau khoá học có thể thuần thục thực chiến",
+    "password": "123123",
+    "isStudentApprovalEnter": false,
+    "isStudentApprovalLeave": true,
+    "isStudentPostAllowed": false
+  },
+  {
+    "code": "OP1234",
+    "teacherId": 1,
+    "name": "Khóa học Công Nghệ Thông Tin Cơ Bản",
+    "imageUrl": "",
+    "description": "Học cách sử dụng các công nghệ thông tin cơ bản và hiệu quả",
+    "password": "",
+    "isStudentApprovalEnter": true,
+    "isStudentApprovalLeave": true,
+    "isStudentPostAllowed": true
+  },
+  {
+    "code": "QR5678",
+    "teacherId": 1,
+    "name": "Lớp ôn tập Văn Hóa 12",
+    "imageUrl": "",
+    "description": "Lớp học ôn tập kiến thức Văn Hóa cho học sinh lớp 12 trước kỳ thi quan trọng",
+    "password": "123123",
+    "isStudentApprovalEnter": false,
+    "isStudentApprovalLeave": false,
+    "isStudentPostAllowed": false
   }
 ]
