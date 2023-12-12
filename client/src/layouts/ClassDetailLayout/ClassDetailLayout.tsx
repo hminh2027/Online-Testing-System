@@ -19,6 +19,10 @@ interface ClassDetailLayoutProps {
 
 const teacherSideNavItems: { label: string; path: string }[] = [
   {
+    label: 'Thông tin lớp học',
+    path: '',
+  },
+  {
     label: 'Bảng tin',
     path: 'newsfeed',
   },
@@ -37,6 +41,10 @@ const teacherSideNavItems: { label: string; path: string }[] = [
 ];
 
 const studentSideNavItems: { label: string; path: string }[] = [
+  {
+    label: 'Thông tin lớp học',
+    path: '',
+  },
   {
     label: 'Bảng tin',
     path: 'newsfeed',

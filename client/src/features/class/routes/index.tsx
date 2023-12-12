@@ -22,6 +22,10 @@ export const classRoutes: RouteObject[] = [
         element: <ClassDetailLayout />,
         children: [
           {
+            index: true,
+            element: <ClassPage.ClassDetail />,
+          },
+          {
             path: 'newsfeed',
             children: postRoutes,
           },
