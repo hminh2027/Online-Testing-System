@@ -36,9 +36,7 @@ export default function Login() {
             <Input type="password" />
           </Form.Item>
           <Form.Item>
-            <Flex justify="space-between">
-              <Link to="/forgot">Quên mật khẩu</Link>
-
+            <Flex justify="end">
               <Link replace to="/signup">
                 Chưa có tài khoản?
               </Link>

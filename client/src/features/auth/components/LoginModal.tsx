@@ -27,7 +27,7 @@ export function LoginModal({ open, toggleOpen }: LoginModalProps) {
       footer={null}
       destroyOnClose
       closable
-      title="Đăng Nhập Sinh Viên UTC"
+      title="Đăng Ký cho Sinh Viên UTC"
       open={open}
     >
       <Form
@@ -46,7 +46,7 @@ export function LoginModal({ open, toggleOpen }: LoginModalProps) {
 
         <Form.Item>
           <Button type="primary" block htmlType="submit">
-            Đăng nhập
+            Đăng ký
           </Button>
         </Form.Item>
       </Form>

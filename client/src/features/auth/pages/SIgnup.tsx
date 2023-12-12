@@ -5,9 +5,10 @@ import type { RangePickerProps } from 'antd/es/date-picker';
 import { useToggle } from 'react-use';
 import { CustomCard } from '@/components/CustomCard';
 import { useAuth } from '@/features/auth/hooks';
-import { LoginModal, type SignUpPayload } from '..';
+import { LoginModal } from '../components';
 import { signUpSchema } from '../schemas/signUpSchema';
 import { createValidator } from '@/utils/validator';
+import type { SignUpPayload } from '..';
 
 export default function SignUp() {
   const { signUp } = useAuth();
@@ -43,16 +44,61 @@ export default function SignUp() {
           layout="vertical"
           onFinish={handleSubmit}
         >
-          <Divider>Thông tin tài khoản</Divider>
-          <Form.Item rules={[yupSync]} required label="Email" name="email">
-            <Input />
-          </Form.Item>
-          <Form.Item rules={[yupSync]} required label="Mật khẩu" name="password">
-            <Input type="password" />
-          </Form.Item>
-          <Form.Item rules={[yupSync]} required label="Xác nhận mật khẩu" name="confirmPassword">
-            <Input type="password" />
-          </Form.Item>
+          <Flex justify="space-between" gap={24}>
+            <div>
+              <Divider>Thông tin tài khoản</Divider>
+              <Form.Item rules={[yupSync]} required label="Email" name="email">
+                <Input />
+              </Form.Item>
+              <Form.Item rules={[yupSync]} required label="Mật khẩu" name="password">
+                <Input type="password" />
+              </Form.Item>
+              <Form.Item
+                rules={[yupSync]}
+                required
+                label="Xác nhận mật khẩu"
+                name="confirmPassword"
+              >
+                <Input type="password" />
+              </Form.Item>
+            </div>
+            <div>
+              <Divider>Thông tin cá nhân</Divider>
+              <Row gutter={10}>
+                <Col span={12}>
+                  <Form.Item rules={[yupSync]} required label="Họ và tên" name="fullname">
+                    <Input />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item rules={[yupSync]} label="Mã học sinh/sinh viên" name="studentId">
+                    <Input />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={10}>
+                <Col span={12}>
+                  <Form.Item rules={[yupSync]} label="Số điện thoại" name="phone">
+                    <Input />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item rules={[yupSync]} label="Ngày sinh" name="birth">
+                    <DatePicker
+                      format="DD/MM/YYYY"
+                      style={{
+                        width: '100%',
+                      }}
+                      disabledDate={disabledDate}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Form.Item rules={[yupSync]} label="Trường học" name="school">
+                <Input />
+              </Form.Item>
+            </div>
+          </Flex>
           <Form.Item initialValue={false} label="Đăng ký với vai trò" name="isTeacher">
             <Select
               options={[
@@ -67,42 +113,8 @@ export default function SignUp() {
               ]}
             />
           </Form.Item>
-          <Divider>Thông tin cá nhân</Divider>
-          <Row gutter={10}>
-            <Col span={12}>
-              <Form.Item rules={[yupSync]} required label="Họ và tên" name="fullname">
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item rules={[yupSync]} label="Mã học sinh/sinh viên" name="studentId">
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={10}>
-            <Col span={12}>
-              <Form.Item rules={[yupSync]} label="Số điện thoại" name="phone">
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item rules={[yupSync]} label="Ngày sinh" name="birth">
-                <DatePicker
-                  format="DD/MM/YYYY"
-                  style={{
-                    width: '100%',
-                  }}
-                  disabledDate={disabledDate}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Form.Item rules={[yupSync]} label="Trường học" name="school">
-            <Input />
-          </Form.Item>
           <Form.Item>
-            <Flex justify="space-between">
+            <Flex justify="end">
               <Link replace to="/login">
                 Đã có tài khoản?
               </Link>
