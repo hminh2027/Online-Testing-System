@@ -1,7 +1,7 @@
-import type { MenuProps } from 'antd';
-import { Avatar, Dropdown } from 'antd';
+import { Dropdown, type MenuProps } from 'antd';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/features/auth';
+import { CustomAvatar } from './CustomAvatar';
 
 interface UserHeaderProps {
   username?: string;
@@ -10,19 +10,6 @@ interface UserHeaderProps {
 export function UserHeader({ username }: UserHeaderProps) {
   const { logOut } = useAuth();
   const { user } = useAuth();
-
-  const initials = (): string | null => {
-    const trimmedName = username && username.trim();
-
-    if (!trimmedName) return null;
-    const nameArray = trimmedName.split(' ');
-
-    if (nameArray.length === 1) return nameArray[0].charAt(0).toUpperCase();
-
-    const [firstChar, lastChar] = [nameArray[0].charAt(0), nameArray[1].charAt(0)];
-
-    return (firstChar + lastChar).toUpperCase();
-  };
 
   const items: MenuProps['items'] = [
     {
@@ -45,9 +32,7 @@ export function UserHeader({ username }: UserHeaderProps) {
 
   return (
     <Dropdown menu={{ items }} trigger={['click']}>
-      <Avatar src={user?.imageUrl} shape="circle" size="large">
-        {initials()}
-      </Avatar>
+      <CustomAvatar name={username} src={user?.imageUrl} shape="circle" size="large" />
     </Dropdown>
   );
 }

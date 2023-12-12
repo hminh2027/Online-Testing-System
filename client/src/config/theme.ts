@@ -1,7 +1,7 @@
 import type { ThemeConfig } from 'antd';
 import type { ComponentToken } from 'antd/es/app/style';
 
-const colorScheme = {
+export const colorScheme = {
   primary: '#1c375b',
   primaryHover: '#324b6b',
   white: '#ffffff',

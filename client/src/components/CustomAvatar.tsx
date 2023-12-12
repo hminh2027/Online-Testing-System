@@ -3,6 +3,7 @@ import { Avatar as AntAvatar } from 'antd';
 import { FileTextOutlined, FormOutlined, TeamOutlined } from '@ant-design/icons';
 import type { CSSProperties, ReactElement } from 'react';
 import type { NotificationTypeKey } from '@/features/notification';
+import { colorScheme } from '@/config';
 
 interface CustomAvatarAvatarProps extends AntAvatarProps {
   name?: string;
@@ -66,6 +67,7 @@ export function CustomAvatar(props: CustomAvatarAvatarProps) {
         {...rest}
         style={{
           cursor: pointer ? 'pointer' : 'initial',
+          backgroundColor: colorScheme.primaryHover,
           ...style,
         }}
       >
