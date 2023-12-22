@@ -1,7 +1,18 @@
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, Col, Divider, Flex, Form, List, Row, Space, Typography } from 'antd';
+import {
+  Button,
+  DatePicker,
+  Divider,
+  Flex,
+  Form,
+  Input,
+  List,
+  Modal,
+  Space,
+  Typography,
+} from 'antd';
 import {
   EyeInvisibleOutlined,
   FieldTimeOutlined,
@@ -13,6 +24,7 @@ import {
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
+import dayjs from 'dayjs';
 import type { User } from '..';
 import { useAuth } from '@/features/auth';
 import { CustomCard, Uploader } from '@/components';
@@ -42,7 +54,7 @@ export default function UserProfile() {
 
   const convertToDetailArray = (
     details: User,
-  ): { label: string; value: string; icon?: ReactNode }[] => [
+  ): { label: string; value: string; icon?: ReactNode; form?: ReactNode }[] => [
     {
       label: 'Email',
       value: `${details.email}`,
@@ -52,21 +64,55 @@ export default function UserProfile() {
       label: 'Mật khẩu',
       value: '*******',
       icon: <EyeInvisibleOutlined />,
+      form: (
+        <Form>
+          <Form.Item>
+            <Input.Password placeholder="Nhập mật khẩu hiện tại..." />
+          </Form.Item>
+          <Form.Item>
+            <Input.Password placeholder="Nhập mật khẩu mới..." />
+          </Form.Item>
+          <Form.Item>
+            <Input.Password placeholder="Xác nhận mật khẩu mới..." />
+          </Form.Item>
+        </Form>
+      ),
     },
     {
       label: 'Tên đầy đủ',
       value: `${details.fullname}`,
       icon: <UserOutlined />,
+      form: (
+        <Form>
+          <Form.Item>
+            <Input type="text" defaultValue={details.fullname} placeholder="Nhập họ tên..." />
+          </Form.Item>
+        </Form>
+      ),
     },
     {
       label: 'Số điện thoại',
       value: `${details.phone}`,
       icon: <PhoneOutlined />,
+      form: (
+        <Form>
+          <Form.Item>
+            <Input type="tel" defaultValue={details.phone} placeholder="Nhập số điện thoại..." />
+          </Form.Item>
+        </Form>
+      ),
     },
     {
       label: 'Ngày sinh',
       value: `${details.birth}`,
       icon: <HeartOutlined />,
+      form: (
+        <Form>
+          <Form.Item>
+            <DatePicker defaultValue={dayjs(details.birth)} style={{ width: '100%' }} />
+          </Form.Item>
+        </Form>
+      ),
     },
     {
       label: 'Vai trò',
@@ -89,6 +135,17 @@ export default function UserProfile() {
       icon: <FieldTimeOutlined />,
     },
   ];
+
+  const handleDisplayModal = (title: string, component: ReactNode) =>
+    Modal.confirm({
+      icon: null,
+      content: component,
+      closable: true,
+      maskClosable: true,
+      title: `Cập nhật ${title}`,
+      centered: true,
+      cancelText: 'Huỷ',
+    });
 
   return (
     <CustomCard
@@ -117,7 +174,13 @@ export default function UserProfile() {
               </Typography.Text>
               <Typography.Text> {detail.value}</Typography.Text>
 
-              <Button type="link">Chỉnh sửa</Button>
+              <Button
+                type="link"
+                onClick={() => handleDisplayModal(detail.label, detail.form)}
+                disabled={!detail.form}
+              >
+                Chỉnh sửa
+              </Button>
             </Flex>
           ))}
       </Flex>
