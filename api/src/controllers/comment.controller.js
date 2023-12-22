@@ -11,6 +11,12 @@ const createOne = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).json({ content: post });
 });
 
+const getManyByPostId = catchAsync(async (req, res) => {
+  const { postId } = req.query;
+  let posts = await commentService.getManyByPostId(+postId);
+  res.status(httpStatus.OK).json({ content: posts });
+});
+
 const updateOneById = catchAsync(async (req, res) => {
   const { id: userId } = req.user;
   const { id: postId } = req.params;
@@ -30,6 +36,7 @@ const deleteOneById = catchAsync(async (req, res) => {
 
 module.exports = {
   createOne,
+  getManyByPostId,
   updateOneById,
   deleteOneById,
 };

@@ -5,7 +5,10 @@ const { auth } = require("../middlewares");
 
 const router = express.Router();
 
-router.route("/").post(auth, commentController.createOne);
+router
+  .route("/")
+  .post(auth, commentController.createOne)
+  .get(auth, commentController.getManyByPostId);
 
 router
   .route("/:id")

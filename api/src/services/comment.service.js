@@ -1,6 +1,6 @@
 const { prisma } = require("../database/prisma-client");
 
-async function createOne({ content, userId, postId }) {
+function createOne({ content, userId, postId }) {
   return prisma.comment.create({
     data: {
       content,
@@ -10,7 +10,14 @@ async function createOne({ content, userId, postId }) {
   });
 }
 
-async function updateOneById(id, { content }) {
+function getManyByPostId(postId) {
+  return prisma.comment.findMany({
+    where: { postId },
+    include: { User: true },
+  });
+}
+
+function updateOneById(id, { content }) {
   return prisma.comment.update({
     where: { id },
     data: {
@@ -19,12 +26,13 @@ async function updateOneById(id, { content }) {
   });
 }
 
-async function deleteOneById(id) {
+function deleteOneById(id) {
   return prisma.comment.delete({ where: { id } });
 }
 
 module.exports = {
   createOne,
+  getManyByPostId,
   updateOneById,
   deleteOneById,
 };

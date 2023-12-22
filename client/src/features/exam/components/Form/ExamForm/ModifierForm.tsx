@@ -28,7 +28,7 @@ type RangeProps = [Dayjs | null, Dayjs | null] | null;
 export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
   const { addFn, updateFn } = useExamMutation();
   const [range, setRange] = useState<RangeProps>([dayjs(), null]);
-  const { data: classData, isFetching } = useListClass({});
+  const { data: classData, isFetching } = useListClass({}, { refetchOnWindowFocus: false });
   const { notify } = useAntDNoti();
   const { addFn: addNotiFn } = useNotificationMutation();
 

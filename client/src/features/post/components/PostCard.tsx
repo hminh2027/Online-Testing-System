@@ -72,7 +72,7 @@ export function PostCard(props: PostCardProps) {
           </Button>
         </Flex>
         <CommentCreateForm postId={id as number} />
-        {openComment && <CommentList comments={Comment} />}
+        {openComment && <CommentList postId={id as number} />}
       </Flex>
 
       <Modal
