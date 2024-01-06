@@ -2,23 +2,30 @@ import { InboxOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { Button, Flex, Image } from 'antd';
 import Dragger from 'antd/es/upload/Dragger';
+import { useToggle } from 'react-use';
 import { upload } from '@/libs/cloudinary';
+import { LoadingModal } from './LoadingModal';
 
 interface UploaderProps {
   image: string | null;
   setImage: (value: string | null) => void;
 }
 export function Uploader({ image, setImage }: UploaderProps) {
+  const [isUploading, setIsUploading] = useToggle(false);
   const handleCustomRequest: UploadProps['customRequest'] = (options) => {
     const { file } = options;
 
+    setIsUploading(true);
+
     upload(file)
       .then((res) => setImage(res))
+      .finally(() => setIsUploading(false))
       .catch(() => {});
   };
 
   return (
-    <div>
+    <>
+      {isUploading && <LoadingModal />}
       {image ? (
         <Flex vertical gap={10}>
           <Image src={image} width="100%" />
@@ -40,6 +47,6 @@ export function Uploader({ image, setImage }: UploaderProps) {
           <p>Nhấn để đăng ảnh</p>
         </Dragger>
       )}
-    </div>
+    </>
   );
 }
