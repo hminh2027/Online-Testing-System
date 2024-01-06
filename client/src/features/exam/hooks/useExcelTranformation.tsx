@@ -1,3 +1,4 @@
+import { isEmpty, isNil } from 'lodash';
 import type { Answer, ApiFormatData, TableFormatData } from '../types';
 
 interface QuestionMeta {
@@ -17,11 +18,14 @@ export function useExcelTranformation() {
 
     // mapping data to Map object
     rows.forEach((row) => {
-      const question = row[0];
+      let question = row[0];
       const explanation = row[1];
       const point = row[2];
       const answer = row[3];
       const isCorrect = row[4];
+
+      // transform values
+      question = !isNil(question) ? String(question).trim() : '';
 
       // Eliminate empty rows
       if ((!question && !answer) || row.length === 0) return;
