@@ -11,7 +11,7 @@ export default function useUtcLogin() {
     (payload: LoginUtcPayload) =>
       addItem<LoginUtcPayload, UTCResponse>({
         payload,
-        url: 'http://localhost:5000/student',
+        url: `${import.meta.env.VITE_UTC_API_URL}/student`,
       }),
     {
       onSuccess: ({ data: { email, firstName, lastName, studentId, tel }, error }) => {
