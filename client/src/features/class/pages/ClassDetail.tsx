@@ -2,6 +2,7 @@ import { Image, Typography } from 'antd';
 import { useParams } from 'react-router-dom';
 import { useClass } from '../hooks/useClass';
 import { LoadingModal } from '@/components';
+import DefaultThumbnail from '@/assets/default.jpeg';
 
 export default function ClassDetail() {
   const { code } = useParams();
@@ -19,7 +20,15 @@ export default function ClassDetail() {
         <Typography.Text strong>{classRoom?.User.fullname}</Typography.Text>!
       </Typography.Text>
       <br />
-      {classRoom?.imageUrl && <Image width="80%" src={classRoom.imageUrl} />}
+      <br />
+      <Image
+        wrapperStyle={{
+          overflow: 'hidden',
+          height: 700,
+        }}
+        width="80%"
+        src={classRoom?.imageUrl || DefaultThumbnail}
+      />
     </Typography.Paragraph>
   );
 }
