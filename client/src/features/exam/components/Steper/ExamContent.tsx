@@ -51,10 +51,6 @@ export function ExamContent({ examId }: ExamContentProps) {
     }
   };
 
-  const handleAdd = () => {
-    toggleModal(true);
-  };
-
   const handleOk = () => {
     form.submit();
   };
@@ -77,11 +73,9 @@ export function ExamContent({ examId }: ExamContentProps) {
             value={items.reduce((acc, item) => acc + item.point, 0)}
           />
         </Space>
-        <Space>
-          <Button onClick={handleAdd} type="primary" icon={<PlusOutlined />}>
-            Tạo câu hỏi mới
-          </Button>
-        </Space>
+        <Button onClick={toggleModal} type="primary" icon={<PlusOutlined />}>
+          Tạo câu hỏi mới
+        </Button>
       </Flex>
       <Divider orientation="left">Nội dung</Divider>
       <DndContext onDragEnd={handleDragEnd}>
