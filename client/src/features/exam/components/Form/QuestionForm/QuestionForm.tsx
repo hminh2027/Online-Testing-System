@@ -15,6 +15,7 @@ import {
 import { DeleteOutlined, RobotOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
+import { useUnmount } from 'react-use';
 import { Uploader } from '@/components/Uploader';
 import { LoadingModal } from '@/components';
 import { createValidator } from '@/utils';
@@ -58,6 +59,10 @@ export function QuestionForm({ questionId, form, examId, toggleModal }: Question
     setImage(question?.imageUrl as string);
   }, [question?.imageUrl]);
 
+  useUnmount(() => {
+    form.resetFields();
+  });
+
   const yupSync = createValidator(questionSchema);
 
   const validateAnswer = (answers: AnswerCreateDTO[]): string => {
@@ -89,12 +94,12 @@ export function QuestionForm({ questionId, form, examId, toggleModal }: Question
 
     const response = await promt([userMessage, systemMessage]);
 
-    const { answers, question } = extract(response);
+    const { answers, question: content } = await extract(response);
 
-    form.setFieldValue('content', question);
+    form.setFieldValue('content', content);
     form.setFieldValue('answers', answers);
 
-    setQuestionsInConservation((prev) => [...prev, question]);
+    setQuestionsInConservation((prev) => [...prev, content]);
   };
 
   const handleFinish = (values: QuestionCreateDTO) => {

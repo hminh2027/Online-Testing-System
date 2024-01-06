@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useToggle } from 'react-use';
-import type { Exam, Question } from '../types';
+import type { Exam } from '../types';
 
 const chatGptApiKey = import.meta.env.VITE_CHAT_GPT_API_KEY as string;
 
@@ -65,12 +65,12 @@ export const usePromt = () => {
     }
   };
 
-  const handleResponse = (response: string): PromtResult => {
-    const { question, answers } = JSON.parse(response) as PromtResult;
+  const handleResponse = async (response: string): Promise<PromtResult> => {
+    const { answers, question } = (await JSON.parse(response)) as PromtResult;
 
     return {
-      question,
       answers,
+      question,
     };
   };
 
