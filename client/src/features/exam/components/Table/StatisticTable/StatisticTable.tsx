@@ -21,13 +21,13 @@ export function StatisticTable({ data }: StatisticTableProps) {
         {
           element: (
             <Excel.Exporter
-              fileName="bảng điểm"
+              fileName={data && `Bảng điểm cho bài kiểm tra ${data[0]?.Exam.title}`}
               content="Xuất thống kê"
               table={
                 <Table
                   id="excel-table"
                   rowKey="id"
-                  columns={columns(getLink)}
+                  columns={[...columns(getLink).slice(0, -1)]}
                   dataSource={data || []}
                 />
               }
