@@ -1,4 +1,3 @@
-import { Checkbox } from 'antd';
 import type { ColumnType } from 'antd/es/table';
 import type { TableFormatData } from '@/features/exam/types';
 
@@ -31,6 +30,6 @@ export const columns: ColumnType<TableFormatData>[] = [
   {
     dataIndex: 'isCorrect',
     title: 'Đáp án đúng',
-    render: (_, record) => <Checkbox disabled checked={!!record.isCorrect} />,
+    render: (_, record) => (record.isCorrect ? 'V' : ''),
   },
 ];

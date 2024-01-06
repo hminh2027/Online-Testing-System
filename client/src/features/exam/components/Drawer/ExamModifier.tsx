@@ -141,7 +141,7 @@ export function ExamModifier({
             />
           )}
           <FileIO.Excel.Exporter
-            fileName={`${exam?.title}-excel`}
+            fileName={`${exam?.title}`}
             table={
               <ExcelTable
                 dataSource={transformToTableFormat(mappingDataProps(exam?.Question as [])) as []}
