@@ -1,92 +1,37 @@
 [
   {
-    "content": "1",
-    "questionId": 1,
-    "isCorrect": true
-  },
-  {
-    "content": "0",
+    "content": "Despite of the rain, the event will continue as planned.",
     "questionId": 1,
     "isCorrect": false
   },
   {
-    "content": "Vô nghiệm",
+    "content": "In spite of the rain, the event will continue as planned.",
+    "questionId": 1,
+    "isCorrect": true
+  },
+  {
+    "content": "Despite the rain, the event will cancel as planned.",
     "questionId": 1,
     "isCorrect": false
   },
   {
-    "content": "Đa số nghiệm",
+    "content": "Even though the rain, the event will go on.",
     "questionId": 1,
     "isCorrect": false
   },
   {
-    "content": "1",
+    "content": "I enjoy to swim in the ocean.",
     "questionId": 2,
     "isCorrect": false
   },
   {
-    "content": "0",
-    "questionId": 2,
-    "isCorrect": false
-  },
-  {
-    "content": "2",
-    "questionId": 2,
-    "isCorrect": false
-  },
-  {
-    "content": "3",
+    "content": "I enjoy swimming in the ocean.",
     "questionId": 2,
     "isCorrect": true
   },
   {
-    "content": "1",
-    "questionId": 3,
-    "isCorrect": false
-  },
-  {
-    "content": "4",
-    "questionId": 3,
-    "isCorrect": true
-  },
-  {
-    "content": "2",
-    "questionId": 3,
-    "isCorrect": false
-  },
-  {
-    "content": "3",
-    "questionId": 3,
-    "isCorrect": false
-  },
-  {
-    "content": "5",
-    "questionId": 4,
-    "isCorrect": true
-  },
-  {
-    "content": "0",
-    "questionId": 4,
-    "isCorrect": false
-  },
-  {
-    "content": "2",
-    "questionId": 4,
-    "isCorrect": false
-  },
-  {
-    "content": "3",
-    "questionId": 4,
-    "isCorrect": false
-  },
-  {
-    "content": "Đoạn thẳng nối trung điểm hai cạnh của tam giác",
-    "questionId": 5,
-    "isCorrect": true
-  },
-  {
-    "content": "Đoạn là tiếp tuyến của cạnh huyền của tam giác",
-    "questionId": 5,
+    "content": "I enjoy swam in the ocean.",
+    "questionId": 2,
     "isCorrect": false
   }
 ]

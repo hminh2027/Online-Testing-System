@@ -1,43 +1,16 @@
 [
   {
     "index": 1,
-    "content": "Cho 2x + 3 = 5. Vậy x = ?",
+    "content": "Chọn đáp án đúng:",
     "imageUrl": "",
     "point": 1,
     "examId": 1,
-    "explanation": "Vì x = (5 - 3)/2 = 1",
+    "explanation": "Cụm \"In spite of\" + Noun",
     "isPointPerCorrection": false
   },
   {
     "index": 2,
-    "content": "Hình tam giác có mấy đỉnh?",
-    "imageUrl": "",
-    "point": 1,
-    "examId": 1,
-    "explanation": "",
-    "isPointPerCorrection": false
-  },
-  {
-    "index": 3,
-    "content": "Hình tứ giác có mấy đỉnh?",
-    "imageUrl": "",
-    "point": 1,
-    "examId": 1,
-    "explanation": "",
-    "isPointPerCorrection": false
-  },
-  {
-    "index": 4,
-    "content": "Hình ngũ giác có mấy cạnh?",
-    "imageUrl": "",
-    "point": 1,
-    "examId": 1,
-    "explanation": "",
-    "isPointPerCorrection": false
-  },
-  {
-    "index": 5,
-    "content": "Định nghĩa đường trung bình là gì?",
+    "content": "Chia động từ:",
     "imageUrl": "",
     "point": 1,
     "examId": 1,
