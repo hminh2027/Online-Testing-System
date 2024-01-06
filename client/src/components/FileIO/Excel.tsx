@@ -114,13 +114,13 @@ export function ExcelExporter({ fileName, table, content }: ExcelExporterProps) 
           onOk={handleOk}
           okText="Xuất"
           cancelText="Huỷ"
-          title="Export Excel"
+          title="Xuất file Excel"
           width={1500}
         >
           {table}
         </Modal>
       )}
-      <Button onClick={toggleModal}>{content ?? 'Export Excel'}</Button>
+      <Button onClick={toggleModal}>{content ?? 'Xuất file Excel'}</Button>
     </>
   );
 }
