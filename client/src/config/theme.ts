@@ -63,6 +63,7 @@ const ButtonConfig = {
   // colorTextDisabled: variables.neutralTextDisabled,
   colorPrimary: colorScheme.primary,
   colorPrimaryHover: colorScheme.primaryHover,
+  colorPrimaryActive: colorScheme.activeLink,
 };
 
 export const themeConfig: ThemeConfig = {
