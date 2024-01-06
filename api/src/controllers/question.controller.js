@@ -13,6 +13,7 @@ const createOne = catchAsync(async (req, res) => {
   const answers = req.body.answers.map((answer) => ({
     ...answer,
     questionId: question.id,
+    content: answer.content + "",
   }));
 
   await answerService.createMany(answers);
@@ -37,6 +38,7 @@ const createMany = catchAsync(async (req, res) => {
       ...answer,
       questionId: +question.id,
       isCorrect: !!answer.isCorrect,
+      content: answer.content + "",
     }));
 
     await answerService.createMany(answers);

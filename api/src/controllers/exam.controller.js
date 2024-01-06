@@ -47,6 +47,7 @@ const copyOneById = catchAsync(async (req, res) => {
     const answers = q.Answer.map((answer) => ({
       ...omit(answer, ["id"]),
       questionId: +question.id,
+      content: answer.content + "",
     }));
 
     await answerService.createMany(answers);
