@@ -1,4 +1,4 @@
-import { isEmpty, isNil } from 'lodash';
+import isNil from 'lodash/isNil';
 import type { Answer, ApiFormatData, TableFormatData } from '../types';
 
 interface QuestionMeta {

@@ -133,7 +133,7 @@ export function ExamModifier({
         <Flex gap={24}>
           {updatable && (
             <FileIO.Excel.Uploader
-              templateUrl={excelUrls.template.questions}
+              templateUrl={excelUrls.questions}
               table={<ExcelTable dataSource={dataSource as []} />}
               data={rawData}
               setData={setRawData}

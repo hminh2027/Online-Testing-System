@@ -162,7 +162,6 @@ export default function UserProfile() {
           Cập nhật ảnh
         </Button>
         <Divider>Thông tin tài khoản</Divider>
-        <List />
         {userDetals &&
           convertToDetailArray(userDetals).map((detail) => (
             <Flex justify="space-between" key={detail.label}>

@@ -26,10 +26,10 @@ export const usePromt = () => {
     const promtString = `Tạo ra 1 câu hỏi và 4 đáp án (format JSON) (phải có 1 đáp án đúng) cho một bài kiểm tra với các điều kiện sau:
     \n - câu hỏi mới không được trùng với các câu hỏi trước đó
     \n - dữ liệu trả về theo định dạng JSON: { "question": string, "answers": [{content: string, isCorrect: boolean}] }
-    \n - nội dung câu hỏi và đáp án phải phù hợp cho lớp học dựa theo những dữ liệu sau:
-    \n 1. Tên bài kiểm tra: ${title}
-    \n 2. Mô tả bài kiểm tra: ${examDesc} 
-    \n 3. Những câu hỏi đã được tạo trước đó là: [${questions.map((q) => `"${q}"`).join(', ')}`;
+    \n - nội dung câu hỏi và đáp án phải phù hợp dựa theo những dữ liệu sau:
+    \n \t 1. Tên bài kiểm tra: ${title}
+    \n \t 2. Mô tả bài kiểm tra: ${examDesc} 
+    \n \t 3. Những câu hỏi đã được tạo trước đó là: [${questions.map((q) => `"${q}"`).join(', ')}`;
 
     return promtString;
   };
