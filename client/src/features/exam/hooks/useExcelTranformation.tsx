@@ -9,8 +9,8 @@ interface QuestionMeta {
 
 export function useExcelTranformation() {
   const transformToApiFormat = (rawData: string[][]): ApiFormatData[] => {
-    // Take rows which have index > "header" and index < "!end" keyword
-    const endIndex = rawData.findIndex((r) => r[0]?.toLowerCase() === '!end');
+    // Take rows which have index > "header" and index < "end" keyword
+    const endIndex = rawData.findIndex((r) => r[0]?.toLowerCase() === 'end');
     const rows = rawData.slice(1, endIndex);
 
     let prevQuestionMeta: QuestionMeta | null = null;
