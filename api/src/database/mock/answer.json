@@ -33,5 +33,50 @@
     "content": "I enjoy swam in the ocean.",
     "questionId": 2,
     "isCorrect": false
+  },
+  {
+    "content": "Python",
+    "questionId": 3,
+    "isCorrect": false
+  },
+  {
+    "content": "C++",
+    "questionId": 3,
+    "isCorrect": true
+  },
+  {
+    "content": "Sự kế thừa.",
+    "questionId": 4,
+    "isCorrect": false
+  },
+  {
+    "content": "Sự đóng gói",
+    "questionId": 4,
+    "isCorrect": false
+  },
+  {
+    "content": "Sự đa dạng hóa trong cách một phương thức được triển khai",
+    "questionId": 4,
+    "isCorrect": true
+  },
+  {
+    "content": "target=\"_blank\"",
+    "questionId": 5,
+    "isCorrect": true
+  },
+  {
+    "content": "target=\"_false\"",
+    "questionId": 5,
+    "isCorrect": false
+  },
+  {
+    "content": "height: fixed; width: fixed;",
+    "questionId": 6,
+    "isCorrect": true
+  },
+  {
+    "content": "height: inherit; width: inherit;",
+    "questionId": 6,
+    "isCorrect": false
   }
 ]

@@ -33,6 +33,7 @@ export const useAuth = () => {
   }
 
   function handleOnError(err: string) {
+    console.log(err);
     notify({
       type: 'error',
       description: err,

@@ -23,6 +23,7 @@ interface ResultMeta {
   inCorrect: number;
   blank: number;
   totalPoint: number;
+  examTotalPoint: number;
   startedAt: string;
   endedAt: string;
   timeSpent: number;
@@ -43,11 +44,14 @@ export function useResult() {
     });
 
   const extractResult = (attempt: Attempt): Result => {
+    const examTotalPoint = attempt.Exam.Question?.reduce((acc, cur) => acc + cur.point, 0);
+
     const meta = {
       correct: 0,
       inCorrect: 0,
       blank: 0,
       totalPoint: 0,
+      examTotalPoint,
       startedAt: formatISOToVi(attempt.startedAt),
       endedAt: formatISOToVi(attempt.endedAt),
       timeSpent: dayjs(attempt.endedAt).diff(attempt.startedAt, 'minutes'),

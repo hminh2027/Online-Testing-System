@@ -4,7 +4,7 @@
     "teacherId": 1,
     "name": "Ôn Ngữ Văn 12",
     "imageUrl": "",
-    "description": "Lớp học ôn thi THPT Quốc gia môn Ngữ Văn lớp 12",
+    "description": "Ôn thi THPT Quốc gia môn Ngữ Văn lớp 12",
     "password": "",
     "isStudentApprovalEnter": true,
     "isStudentApprovalLeave": true,
@@ -24,7 +24,7 @@
   {
     "code": "3977BF",
     "teacherId": 1,
-    "name": "Lớp ôn thi kĩ năng mềm",
+    "name": "Ôn thi kĩ năng mềm",
     "imageUrl": "",
     "description": "Lớp học ôn thi kĩ năng mềm cho các bạn sinh viên chuẩn bị đi thực tập và xin việc",
     "password": "",

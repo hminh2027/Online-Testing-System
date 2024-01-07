@@ -21,7 +21,7 @@ export function ExamAnswerSheet({ questions }: ExamAnswerSheetProps) {
     });
 
     setQuestionMap(questionMap);
-  }, [questions, setQuestionMap]);
+  }, []);
 
   return (
     <Space direction="vertical" size="middle">

@@ -36,7 +36,7 @@ export function ResultCard({ meta, setValue, attempts }: ResultCardProps) {
         <Flex vertical gap={12}>
           <Flex justify="space-between">
             <Typography.Text strong>Tổng điểm:</Typography.Text>
-            <span>{meta.totalPoint}</span>
+            <span>{meta.totalPoint}/{meta.examTotalPoint}</span>
           </Flex>
           <Flex justify="space-between">
             <Typography.Text strong>Bắt đầu lúc:</Typography.Text>

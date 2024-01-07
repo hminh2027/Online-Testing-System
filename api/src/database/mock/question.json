@@ -16,5 +16,41 @@
     "examId": 1,
     "explanation": "",
     "isPointPerCorrection": false
+  },
+  {
+    "index": 1,
+    "content": "Đâu là một ngôn ngữ lập trình thuộc dạng \"ngôn ngữ biên dịch\" (compiled language)?",
+    "imageUrl": "",
+    "point": 1,
+    "examId": 2,
+    "explanation": "",
+    "isPointPerCorrection": false
+  },
+  {
+    "index": 2,
+    "content": "Trong lập trình hướng đối tượng (OOP), khái niệm \"đa hình\" (polymorphism) liên quan đến điều gì?",
+    "imageUrl": "",
+    "point": 1,
+    "examId": 2,
+    "explanation": "",
+    "isPointPerCorrection": false
+  },
+  {
+    "index": 1,
+    "content": "Trong HTML, để tạo một liên kết (hyperlink) mở một trang web mới trong một tab mới, bạn sẽ sử dụng thuộc tính nào?",
+    "imageUrl": "",
+    "point": 1,
+    "examId": 3,
+    "explanation": "",
+    "isPointPerCorrection": false
+  },
+  {
+    "index": 2,
+    "content": "Trong CSS, để thiết lập một đối tượng có chiều cao và chiều rộng cố định và không thay đổi kích thước khi nội dung thay đổi, bạn sẽ sử dụng thuộc tính nào?",
+    "imageUrl": "",
+    "point": 1,
+    "examId": 3,
+    "explanation": "",
+    "isPointPerCorrection": false
   }
 ]
