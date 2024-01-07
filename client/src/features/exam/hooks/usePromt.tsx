@@ -18,6 +18,14 @@ type PromtInput = {
   content: string;
 }[];
 
+// ${
+//   isEmpty(questions.length)
+//     ? ''
+//     : `\n \t 3. Những câu hỏi đã được tạo trước đó là: [${questions
+//         .map((q) => `"${q}"`)
+//         .join(', ')}`
+// }
+
 export const usePromt = () => {
   const [isPromting, setIsPromting] = useToggle(false);
 
@@ -30,13 +38,7 @@ export const usePromt = () => {
     \n - nội dung câu hỏi và đáp án phải phù hợp dựa theo những dữ liệu sau:
     \n \t 1. Tên bài kiểm tra: ${title}
     \n \t 2. Mô tả bài kiểm tra: ${examDesc} 
-    ${
-      isEmpty(questions.length)
-        ? ''
-        : `\n \t 3. Những câu hỏi đã được tạo trước đó là: [${questions
-            .map((q) => `"${q}"`)
-            .join(', ')}`
-    }`;
+    `;
 
     return promtString;
   };
