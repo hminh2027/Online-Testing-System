@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import isEmpty from 'lodash/isEmpty';
+import type { RangePickerProps } from 'antd/es/date-picker';
 import { useExamMutation } from '@/features/exam/hooks/useExamMutation';
 import type { Exam, ExamCreateDTO } from '@/features/exam/types';
 import {
@@ -56,6 +57,12 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
 
   const yupSync = createValidator(examSchema);
 
+  const isEndDateValid = (startAt: Dayjs, endAt: Dayjs, duration: number) => {
+    if (!endAt || !startAt || !duration) return true;
+
+    return endAt.diff(startAt, 'minute') >= duration;
+  };
+
   const handleOnFinish = (values: ExamCreateDTO) => {
     if (!range) return null;
 
@@ -66,6 +73,19 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
       });
 
       return null;
+    }
+
+    const isValid = isEndDateValid(range[0] as Dayjs, range[1] as Dayjs, values.duration);
+
+    if (!isValid) {
+      return form.setFields([
+        {
+          name: 'range',
+          errors: [
+            'Thời gian kết thúc không hợp lệ, phải lớn hơn tổng thời gian bắt đầu và thời lượng bài kiểm tra',
+          ],
+        },
+      ]);
     }
 
     const payload: ExamCreateDTO = {
@@ -111,6 +131,29 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
     classCode: data.classCode,
   });
 
+  const genRange = (start: number, end: number) => {
+    const result = [];
+
+    for (let i = start; i < end; i++) result.push(i);
+
+    return result;
+  };
+
+  const handleDisabledTime: RangePickerProps['disabledTime'] = (_, type) => {
+    if (type === 'start') {
+      // I need hours and minutes disabled when they are < than current time
+      const minutes = dayjs().minute();
+      const hours = dayjs().hour();
+
+      return {
+        disabledHours: () => genRange(0, 24).splice(0, hours),
+        disabledMinutes: () => genRange(0, 60).splice(0, minutes),
+      };
+    }
+
+    return {};
+  };
+
   if (isFetching || !classes) return <LoadingModal />;
 
   return (
@@ -120,7 +163,16 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
       layout="vertical"
       preserve={false}
       onFinish={handleOnFinish}
-      initialValues={exam ? { ...dataAdapter(exam) } : {}}
+      initialValues={
+        exam
+          ? {
+              ...dataAdapter(exam),
+              range,
+            }
+          : {
+              range: [dayjs(), null],
+            }
+      }
     >
       <Form.Item rules={[yupSync]} label="Tiêu đề bài thi" required name="title">
         <Input />
@@ -152,10 +204,14 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
       </Row>
       <Row gutter={16}>
         <Col span={24}>
-          <Form.Item label="Thời gian bài thi" required>
+          <Form.Item label="Thời gian bài thi" required name="range">
             <DatePicker.RangePicker
-              showTime
+              placeholder={['Thời gian bắt đầu', 'Thời gian kết thúc']}
+              showTime={{ format: 'HH:mm' }}
+              format="DD/MM/YYYY HH:mm"
               allowEmpty={[false, true]}
+              disabledDate={(current) => current && current < dayjs()}
+              disabledTime={handleDisabledTime}
               value={range}
               style={{ width: '100%' }}
               onOk={handleOnDatePickerOk}
