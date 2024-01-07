@@ -1,9 +1,5 @@
 import * as yup from 'yup';
-
-const errorMessages = {
-  required: 'Vui lòng không bỏ trống',
-  email: 'Vui lòng điền email hợp lệ',
-};
+import { errorMessages } from '@/constants/errorMessage';
 
 export const signUpSchema = yup.object({
   email: yup.string().email(errorMessages.email).trim().required(errorMessages.required),

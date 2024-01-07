@@ -6,6 +6,8 @@ import type { ClassCreateDTO, ClassRoom } from '../../types';
 import { Uploader } from '@/components/Uploader';
 import { useClassMutation } from '../../hooks/useClassMutation';
 import { LoadingModal } from '@/components';
+import { createValidator } from '@/utils';
+import { classSchema } from '../../schemas/class.schema';
 
 interface ClassModifierProps {
   code?: string;
@@ -36,6 +38,8 @@ export function ClassModifier({ code, form }: ClassModifierProps) {
     setImage(classRoom.imageUrl);
   }, [classRoom, isFetching]);
 
+  const yupSync = createValidator(classSchema);
+
   if (isFetching) return <LoadingModal />;
 
   const handleOnFinish = (values: ClassCreateDTO) => {
@@ -64,22 +68,23 @@ export function ClassModifier({ code, form }: ClassModifierProps) {
         preserve={false}
         initialValues={classRoom ? { ...dataAdapter(classRoom) } : {}}
       >
-        <Form.Item label="Tên lớp học" required name="name">
+        <Form.Item rules={[yupSync]} label="Tên lớp học" required name="name">
           <Input />
         </Form.Item>
-        <Form.Item label="Mô tả lớp học" required name="description">
+        <Form.Item rules={[yupSync]}label="Mô tả lớp học" required name="description">
           <Input.TextArea rows={8} />
         </Form.Item>
-        <Form.Item label="Ảnh bìa lớp" name="imageUrl">
+        <Form.Item rules={[yupSync]}label="Ảnh bìa lớp" name="imageUrl">
           <Uploader image={image} setImage={setImage} />
         </Form.Item>
-        <Form.Item label="Mật khẩu lớp học" name="password">
+        <Form.Item rules={[yupSync]}label="Mật khẩu lớp học" name="password">
           <Input.Password />
         </Form.Item>
         <Form.Item
           label="Kiểm duyệt học sinh vào lớp"
           name="isStudentApprovalEnter"
           valuePropName="checked"
+          rules={[yupSync]}
         >
           <Switch checkedChildren="Bật" unCheckedChildren="Tắt" defaultChecked />
         </Form.Item>
@@ -87,6 +92,7 @@ export function ClassModifier({ code, form }: ClassModifierProps) {
           label="Chặn học sinh tự rời lớp học"
           name="isStudentApprovalLeave"
           valuePropName="checked"
+          rules={[yupSync]}
         >
           <Switch checkedChildren="Bật" unCheckedChildren="Tắt" defaultChecked />
         </Form.Item>
@@ -94,6 +100,7 @@ export function ClassModifier({ code, form }: ClassModifierProps) {
           label="Cho phép học sinh đăng bài"
           name="isStudentPostAllowed"
           valuePropName="checked"
+          rules={[yupSync]}
         >
           <Switch checkedChildren="Bật" unCheckedChildren="Tắt" defaultChecked />
         </Form.Item>

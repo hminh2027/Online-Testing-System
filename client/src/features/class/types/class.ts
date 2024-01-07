@@ -19,10 +19,10 @@ export interface ClassCreateDTO extends Resource {
   name: string;
   description: string;
   imageUrl: string | null;
-  isStudentApprovalEnter: boolean;
-  isStudentApprovalLeave: boolean;
-  isStudentPostAllowed: boolean;
-  password: string;
+  isStudentApprovalEnter?: boolean;
+  isStudentApprovalLeave?: boolean;
+  isStudentPostAllowed?: boolean;
+  password?: string;
 }
 
 export type ResClassItem = ResponseItem<ClassRoom>;

@@ -13,9 +13,13 @@ function createOne(data) {
       isShowAnswer: data.isShowAnswer,
       isShuffleQuestion: data.isShuffleQuestion,
       startAt: data.startAt,
-      Class: {
-        connect: { code: data.classCode },
-      },
+      ...(data.classCode
+        ? {
+            Class: {
+              connect: { code: data.classCode },
+            },
+          }
+        : {}),
       User: {
         connect: {
           id: +data.teacherId,
@@ -80,7 +84,14 @@ function getManyByClassCode(classCode, studentId) {
   });
 }
 
-function updateOneById(id, data) {
+async function updateOneById(id, data) {
+  const exam = await getOneById(id);
+
+  if (!exam)
+    throw new ApiError(httpStatus.NOT_FOUND, "Bài kiểm tra không tồn tại");
+
+  const shouldDisconnectClassCode = !data.classCode && !!exam.classCode;
+
   return prisma.exam.update({
     where: { id },
     data: {
@@ -97,7 +108,9 @@ function updateOneById(id, data) {
       Class: {
         ...(data.classCode
           ? { connect: { code: data.classCode } }
-          : { disconnect: { code: data.classCode } }),
+          : shouldDisconnectClassCode
+          ? { disconnect: { code: data.classCode } }
+          : {}),
       },
     },
   });

@@ -1,13 +1,14 @@
 import * as yup from 'yup';
+import { errorMessages } from '@/constants/errorMessage';
 
 export const examSchema = yup.object({
-  title: yup.string().trim().required(),
-  description: yup.string().trim().required(),
-  duration: yup.string().trim().optional(),
-  attemptLimit: yup.number().integer().optional(),
-  isProctoring: yup.boolean().default(false).required(),
-  isShuffleQuestion: yup.boolean().default(false).required(),
-  isShowAnswer: yup.boolean().default(false).required(),
-  isResumeAllowed: yup.boolean().default(false).required(),
-  classCode: yup.string().trim().optional(),
+  title: yup.string().trim().required(errorMessages.required),
+  description: yup.string().trim().required(errorMessages.required),
+  duration: yup.string().trim().required(errorMessages.required),
+  attemptLimit: yup.number().integer().nullable(),
+  isProctoring: yup.boolean().default(false).required(errorMessages.required),
+  isShuffleQuestion: yup.boolean().default(false).required(errorMessages.required),
+  isShowAnswer: yup.boolean().default(false).required(errorMessages.required),
+  isResumeAllowed: yup.boolean().default(false).required(errorMessages.required),
+  classCode: yup.string().trim().nullable(),
 });
