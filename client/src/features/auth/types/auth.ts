@@ -14,7 +14,17 @@ export interface SignUpPayload {
   phone?: string;
   birth?: Date;
   school?: string;
-  studentId?: string;
+}
+
+export interface SignUpFormValues {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  fullname: string;
+  isTeacher: boolean;
+  phone?: string;
+  birth?: Date;
+  school?: string;
 }
 
 type AuthResponse = {

@@ -6,9 +6,10 @@ import { useToggle } from 'react-use';
 import { CustomCard } from '@/components/CustomCard';
 import { useAuth } from '@/features/auth/hooks';
 import { LoginModal } from '../components';
-import { signUpSchema } from '../schemas/signUpSchema';
+import { signUpSchema } from '../schemas/signUp.schema';
 import { createValidator } from '@/utils/validator';
-import type { SignUpPayload } from '..';
+import type { SignUpFormValues } from '..';
+import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
 
 export default function SignUp() {
   const { signUp } = useAuth();
@@ -17,8 +18,18 @@ export default function SignUp() {
 
   const [form] = Form.useForm();
   const [open, toggleOpen] = useToggle(false);
+  const { notify } = useAntDNoti();
 
-  const handleSubmit = (values: SignUpPayload) => {
+  const handleSubmit = (values: SignUpFormValues) => {
+    if (values.password !== values.confirmPassword) {
+      notify({
+        type: 'error',
+        description: 'Mật khẩu không khớp',
+      });
+
+      return;
+    }
+
     signUp(values);
   };
 
@@ -65,13 +76,8 @@ export default function SignUp() {
             <div>
               <Divider>Thông tin cá nhân</Divider>
               <Row gutter={10}>
-                <Col span={12}>
+                <Col span={24}>
                   <Form.Item rules={[yupSync]} required label="Họ và tên" name="fullname">
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  <Form.Item rules={[yupSync]} label="Mã học sinh/sinh viên" name="studentId">
                     <Input />
                   </Form.Item>
                 </Col>

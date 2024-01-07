@@ -7,6 +7,7 @@ import isEmpty from 'lodash/isEmpty';
 import { useExamMutation } from '@/features/exam/hooks/useExamMutation';
 import type { Exam, ExamCreateDTO } from '@/features/exam/types';
 import {
+  createValidator,
   formatDatePicketToISO,
   formatISOToDatePicker,
   transformToAntdSelectOptions,
@@ -16,6 +17,7 @@ import { LoadingModal } from '@/components';
 import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
 import { useNotificationMutation } from '@/features/notification/hooks/useNotificationMutation';
 import { useListUserClass } from '@/features/userClass/hooks/useUserClass';
+import { examSchema } from '@/features/exam/schemas/exam.schema';
 
 interface ModifierFormProps {
   exam?: Exam;
@@ -51,6 +53,8 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
 
     setRange([startAt, endAt]);
   }, [exam]);
+
+  const yupSync = createValidator(examSchema);
 
   const handleOnFinish = (values: ExamCreateDTO) => {
     if (!range) return null;
@@ -118,15 +122,15 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
       onFinish={handleOnFinish}
       initialValues={exam ? { ...dataAdapter(exam) } : {}}
     >
-      <Form.Item label="Tiêu đề bài thi" required name="title">
+      <Form.Item rules={[yupSync]} label="Tiêu đề bài thi" required name="title">
         <Input />
       </Form.Item>
-      <Form.Item label="Mô tả" required name="description">
+      <Form.Item rules={[yupSync]} label="Mô tả" required name="description">
         <Input.TextArea rows={3} />
       </Form.Item>
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label="Giới hạn làm bài" name="attemptLimit">
+          <Form.Item rules={[yupSync]} label="Giới hạn làm bài" name="attemptLimit">
             <InputNumber<string>
               addonAfter="lần"
               type="number"
@@ -136,7 +140,7 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item label="Thời lượng bài kiểm tra" name="duration" required>
+          <Form.Item rules={[yupSync]} label="Thời lượng bài kiểm tra" name="duration" required>
             <InputNumber<number>
               addonAfter="phút"
               min={1}
@@ -159,7 +163,7 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
           </Form.Item>
         </Col>
       </Row>
-      <Form.Item name="classCode" label="Lớp được giao">
+      <Form.Item rules={[yupSync]} name="classCode" label="Lớp được giao">
         <Select
           placeholder="Chọn lớp học cần giao bài..."
           allowClear
@@ -169,24 +173,44 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
       </Form.Item>
       <Row gutter={16}>
         <Col span={8}>
-          <Form.Item label="Cho phép kết nối lại" name="isResumeAllowed" valuePropName="checked">
+          <Form.Item
+            rules={[yupSync]}
+            label="Cho phép kết nối lại"
+            name="isResumeAllowed"
+            valuePropName="checked"
+          >
             <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
           </Form.Item>
         </Col>
         <Col span={8}>
-          <Form.Item label="Chống gian lận" name="isProctoring" valuePropName="checked">
+          <Form.Item
+            rules={[yupSync]}
+            label="Chống gian lận"
+            name="isProctoring"
+            valuePropName="checked"
+          >
             <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
           </Form.Item>
         </Col>
         <Col span={8}>
-          <Form.Item label="Đảo đề" name="isShuffleQuestion" valuePropName="checked">
+          <Form.Item
+            rules={[yupSync]}
+            label="Đảo đề"
+            name="isShuffleQuestion"
+            valuePropName="checked"
+          >
             <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
           </Form.Item>
         </Col>
       </Row>
       <Row gutter={16}>
         <Col span={8}>
-          <Form.Item label="Hiển thị đáp án" name="isShowAnswer" valuePropName="checked">
+          <Form.Item
+            rules={[yupSync]}
+            label="Hiển thị đáp án"
+            name="isShowAnswer"
+            valuePropName="checked"
+          >
             <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
           </Form.Item>
         </Col>

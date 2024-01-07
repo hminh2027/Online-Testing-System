@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { CustomCard } from '@/components/CustomCard';
 import { useAuth } from '@/features/auth/hooks';
 import { createValidator } from '@/utils/validator';
-import { logInSchema } from '@/features/auth/schemas/logInSchema';
+import { logInSchema } from '@/features/auth/schemas/logIn.schema';
 import type { LoginPayload } from '..';
 
 export default function Login() {
