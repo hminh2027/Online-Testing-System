@@ -12,7 +12,7 @@ export function ExamTimer({ total, remain, onComplete }: ExamTimerProps) {
       size={150}
       isPlaying
       duration={total * 60}
-      initialRemainingTime={remain * 60}
+      initialRemainingTime={remain}
       colors={['#375b1c', '#1c375b', '#cd4236', '#cd4236']}
       colorsTime={[7, 5, 2, 0]}
       onComplete={onComplete}

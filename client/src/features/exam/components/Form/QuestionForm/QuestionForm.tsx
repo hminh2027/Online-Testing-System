@@ -14,7 +14,6 @@ import {
 } from 'antd';
 import { DeleteOutlined, RobotOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
-import isEmpty from 'lodash/isEmpty';
 import { useUnmount } from 'react-use';
 import { Uploader } from '@/components/Uploader';
 import { LoadingModal } from '@/components';
@@ -22,7 +21,7 @@ import { createValidator } from '@/utils';
 import { questionSchema } from './schema';
 import { useQuestion } from '@/features/exam/hooks/useQuestion';
 import { useQuestionMutation } from '@/features/exam/hooks/useQuestionMutation';
-import type { AnswerCreateDTO, Question, QuestionCreateDTO } from '@/features/exam/types';
+import type { AnswerCreateDTO, QuestionCreateDTO } from '@/features/exam/types';
 import { useAntDNoti } from '@/hooks/useAntDNoti/useAntDNoti';
 import { useExam } from '@/features/exam/hooks/useExam';
 import { usePromt } from '@/features/exam/hooks/usePromt';
@@ -35,7 +34,7 @@ interface QuestionFormProps {
 }
 export function QuestionForm({ questionId, form, examId, toggleModal }: QuestionFormProps) {
   const [image, setImage] = useState<string | null>(null);
-  const [questionsInConversation, setQuestionsInConservation] = useState<Question['content'][]>([]);
+  // const [questionsInConversation, setQuestionsInConservation] = useState<Question['content'][]>([]);
 
   const { data: questionData, isFetching: isQuestionFetching } = useQuestion(questionId as number, {
     enabled: !!questionId,
@@ -49,11 +48,11 @@ export function QuestionForm({ questionId, form, examId, toggleModal }: Question
   const { addFn, updateFn, deleteAnsFn } = useQuestionMutation(examId);
   const { promt, isPromting, promtConstructor, extract } = usePromt();
 
-  useEffect(() => {
-    if (!exam || isEmpty(exam?.Question)) return;
+  // useEffect(() => {
+  //   if (!exam || isEmpty(exam?.Question)) return;
 
-    setQuestionsInConservation(exam.Question.map((q) => q.content));
-  }, [exam, exam?.Question]);
+  //   setQuestionsInConservation(exam.Question.map((q) => q.content));
+  // }, [exam, exam?.Question]);
 
   useEffect(() => {
     setImage(question?.imageUrl as string);
@@ -84,7 +83,7 @@ export function QuestionForm({ questionId, form, examId, toggleModal }: Question
 
     const userMessage = {
       role: 'user',
-      content: promtConstructor(questionsInConversation, exam),
+      content: promtConstructor(exam),
     };
 
     const systemMessage = {
@@ -99,7 +98,7 @@ export function QuestionForm({ questionId, form, examId, toggleModal }: Question
     form.setFieldValue('content', content);
     form.setFieldValue('answers', answers);
 
-    setQuestionsInConservation((prev) => [...prev, content]);
+    // setQuestionsInConservation((prev) => [...prev, content]);
   };
 
   const handleFinish = (values: QuestionCreateDTO) => {

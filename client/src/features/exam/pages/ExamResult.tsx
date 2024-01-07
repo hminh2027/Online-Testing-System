@@ -31,7 +31,7 @@ export default function ExamResult() {
     const data = extractResult(selectedAttempt);
 
     setResult(data);
-  }, [extractResult, selectedAttempt]);
+  }, [selectedAttempt]);
 
   return (
     <Row gutter={24}>

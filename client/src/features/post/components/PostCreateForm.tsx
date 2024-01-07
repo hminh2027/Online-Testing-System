@@ -30,7 +30,7 @@ export function PostCreateForm() {
       if (user?.isTeacher) {
         addNotiFn({
           notiType: 'post',
-          content: `'Giáo viên ${user?.fullname} vừa đăng một bài viết mới trong lớp ${users[0].Class.name}`,
+          content: `Giáo viên ${user?.fullname} vừa đăng một bài viết mới trong lớp ${users[0].Class.name}`,
           recipents: users.map((u) => u.studentId),
           url: `/class/${users[0].classCode}/newsfeed`,
         });

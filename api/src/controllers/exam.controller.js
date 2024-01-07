@@ -91,6 +91,15 @@ const deleteOneById = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json({ message: "Xóa bài kiểm tra thành công" });
 });
 
+const patchOneById = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const exam = await examService.removeClassCodeConnection(+id);
+
+  res
+    .status(httpStatus.OK)
+    .json({ message: "Hủy giao bài kiểm tra thành công", data: exam });
+});
+
 module.exports = {
   createOne,
   getOneById,
@@ -98,4 +107,5 @@ module.exports = {
   getManyByTeacherId,
   updateOneById,
   deleteOneById,
+  patchOneById,
 };

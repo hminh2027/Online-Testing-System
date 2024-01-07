@@ -166,7 +166,7 @@ export default function ExamTaking() {
 
   const examTimer = dayjs(localAttempt.startedAt)
     .add(Exam.duration, 'minutes')
-    .diff(dayjs(), 'minutes');
+    .diff(dayjs(), 'seconds');
 
   return (
     <>

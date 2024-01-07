@@ -54,6 +54,17 @@ async function getOneById(id) {
   };
 }
 
+function removeClassCodeConnection(id) {
+  return prisma.exam.update({
+    where: { id },
+    data: {
+      Class: {
+        disconnect: true,
+      },
+    },
+  });
+}
+
 function getManyByTeacherId(teacherId) {
   return prisma.exam.findMany({
     where: { teacherId },
@@ -128,4 +139,5 @@ module.exports = {
   getManyByClassCode,
   updateOneById,
   deleteOneById,
+  removeClassCodeConnection,
 };

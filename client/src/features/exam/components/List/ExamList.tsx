@@ -21,7 +21,7 @@ export function ExamList({ dataSource }: ExamListProps) {
   const { addFn } = useAttemptMutation();
   const { user } = useAuth();
   const navigation = useNavigate();
-  const { deleteFn } = useExamMutation();
+  const { patchFn } = useExamMutation();
   const { notify } = useAntDNoti();
 
   const checkExamStatus = (exam: Exam) => {
@@ -45,7 +45,11 @@ export function ExamList({ dataSource }: ExamListProps) {
           modify: () => navigation(`/exam/${id}`),
           view: () => navigation(`/class/${code}/exams/${id}`),
           download: () => {},
-          delete: () => deleteFn({ id }),
+          delete: () =>
+            patchFn({
+              id,
+              payload: {},
+            }),
         })
       : genDropdownItems({
           launch: () => {

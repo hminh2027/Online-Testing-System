@@ -13,6 +13,7 @@ router
   .route("/:id")
   .get(auth, examController.getOneById)
   .put(auth, examController.updateOneById)
+  .patch(auth, examController.patchOneById)
   .delete(auth, examController.deleteOneById);
 
 router.route("/:id/copy").post(auth, examController.copyOneById);

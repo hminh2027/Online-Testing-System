@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useToggle } from 'react-use';
-import isEmpty from 'lodash/isEmpty';
 import type { Exam } from '../types';
 
 const chatGptApiKey = import.meta.env.VITE_CHAT_GPT_API_KEY as string;
@@ -29,7 +28,7 @@ type PromtInput = {
 export const usePromt = () => {
   const [isPromting, setIsPromting] = useToggle(false);
 
-  const promtConstructor = (questions: string[], examDetail: Exam): string => {
+  const promtConstructor = (examDetail: Exam): string => {
     const { title, description: examDesc } = examDetail;
 
     const promtString = `Tạo ra 1 câu hỏi và 4 đáp án (format JSON) (phải có 1 đáp án đúng) cho một bài kiểm tra với các điều kiện sau:
