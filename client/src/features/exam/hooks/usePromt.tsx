@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useToggle } from 'react-use';
+import isEmpty from 'lodash/isEmpty';
 import type { Exam } from '../types';
 
 const chatGptApiKey = import.meta.env.VITE_CHAT_GPT_API_KEY as string;
@@ -29,7 +30,13 @@ export const usePromt = () => {
     \n - nội dung câu hỏi và đáp án phải phù hợp dựa theo những dữ liệu sau:
     \n \t 1. Tên bài kiểm tra: ${title}
     \n \t 2. Mô tả bài kiểm tra: ${examDesc} 
-    \n \t 3. Những câu hỏi đã được tạo trước đó là: [${questions.map((q) => `"${q}"`).join(', ')}`;
+    ${
+      isEmpty(questions.length)
+        ? ''
+        : `\n \t 3. Những câu hỏi đã được tạo trước đó là: [${questions
+            .map((q) => `"${q}"`)
+            .join(', ')}`
+    }`;
 
     return promtString;
   };

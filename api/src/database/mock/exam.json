@@ -1,7 +1,7 @@
 [
   {
     "title": "Ngữ pháp tiếng Anh nâng cao",
-    "description": "",
+    "description": "Bài kiểm tra kiến thức về ngữ pháp tiếng Anh nâng cao",
     "classCode": "80FDAE",
     "duration": 10,
     "teacherId": 1,
@@ -13,7 +13,7 @@
   },
   {
     "title": "Lý thuyết cơ bản lập trình",
-    "description": "",
+    "description": "Bài kiểm tra trắc nghiệm lý thuyết cơ bản về lập trình",
     "classCode": "362734",
     "duration": 10,
     "teacherId": 1,
@@ -25,7 +25,7 @@
   },
   {
     "title": "Lý thuyết HTML CSS JS",
-    "description": "",
+    "description": "Bài kiểm tra kiến thức về ngôn ngữ HTML, CSS và JavaScript",
     "classCode": "362734",
     "duration": 10,
     "teacherId": 1,
@@ -37,7 +37,7 @@
   },
   {
     "title": "Ngữ Văn - 15p",
-    "description": "",
+    "description": "Bài kiểm tra môn Ngữ Văn lớp 12 thời lượng 15 phút",
     "classCode": "BA0980",
     "duration": 15,
     "teacherId": 1,
@@ -49,7 +49,7 @@
   },
   {
     "title": "Kĩ năng thuyết trình",
-    "description": "",
+    "description": "Bài kiểm tra lý thuyết về các phương pháp, kĩ thuật nên áp dụng khi thuyết trình",
     "classCode": "3977BF",
     "duration": 15,
     "teacherId": 1,
@@ -61,7 +61,7 @@
   },
   {
     "title": "Kĩ năng ứng xử",
-    "description": "",
+    "description": "Bài kiểm tra kĩ năng ứng xử trong các tình huống khác nhau",
     "classCode": "3977BF",
     "duration": 7,
     "teacherId": 1,
@@ -73,7 +73,7 @@
   },
   {
     "title": "Kĩ năng phân tích thị trường chứng khoán",
-    "description": "",
+    "description": "Bài kiểm tra kĩ năng phân tích thị trường chứng khoán",
     "classCode": "7B2F0F",
     "duration": 15,
     "teacherId": 1,
@@ -85,7 +85,7 @@
   },
   {
     "title": "Ngữ pháp tiếng Anh cơ bản",
-    "description": "",
+    "description": "Bài kiểm tra ngữ pháp Tiếng Anh cơ bản",
     "classCode": "80FDAE",
     "duration": 30,
     "teacherId": 1,
