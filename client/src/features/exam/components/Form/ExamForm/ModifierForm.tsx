@@ -1,10 +1,11 @@
 import type { FormInstance } from 'antd';
 import { Col, DatePicker, Form, Input, InputNumber, Row, Select, Switch } from 'antd';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import isEmpty from 'lodash/isEmpty';
 import type { RangePickerProps } from 'antd/es/date-picker';
+import isNil from 'lodash/isNil';
 import { useExamMutation } from '@/features/exam/hooks/useExamMutation';
 import type { Exam, ExamCreateDTO } from '@/features/exam/types';
 import {
@@ -30,7 +31,6 @@ type RangeProps = [Dayjs | null, Dayjs | null] | null;
 
 export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
   const { addFn, updateFn } = useExamMutation();
-  const [range, setRange] = useState<RangeProps>([dayjs(), null]);
   const { data: classData, isFetching } = useListClass({}, { refetchOnWindowFocus: false });
   const { notify } = useAntDNoti();
   const { addFn: addNotiFn } = useNotificationMutation();
@@ -39,33 +39,20 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
 
   const { data: userClassData } = useListUserClass(
     { classCode: selectedClassCode },
-    { enabled: false },
+    { enabled: !!selectedClassCode },
   );
 
   const classes = classData?.content;
   const userClasses = userClassData?.content;
+
   const validStudentsInClass = userClasses?.filter((uc) => !uc.isPending);
-
-  useEffect(() => {
-    if (!exam) return;
-
-    const startAt = formatISOToDatePicker(exam.startAt);
-    const endAt = exam.endAt && formatISOToDatePicker(exam.endAt);
-
-    setRange([startAt, endAt]);
-  }, [exam]);
 
   const yupSync = createValidator(examSchema);
 
-  const isEndDateValid = (startAt: Dayjs, endAt: Dayjs, duration: number) => {
-    if (!endAt || !startAt || !duration) return true;
-
-    return endAt.diff(startAt, 'minute') >= duration;
-  };
+  const isEndDateValid = (startAt: Dayjs, endAt: Dayjs, duration: number) =>
+    endAt.diff(startAt, 'minute') >= duration;
 
   const handleOnFinish = (values: ExamCreateDTO) => {
-    if (!range) return null;
-
     if (!updatable) {
       notify({
         type: 'error',
@@ -75,7 +62,10 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
       return null;
     }
 
-    const isValid = isEndDateValid(range[0] as Dayjs, range[1] as Dayjs, values.duration);
+    const range = form.getFieldValue('range') as RangeProps;
+
+    const isValid =
+      range && range[1] && isEndDateValid(range[0] as Dayjs, range[1], values.duration);
 
     if (!isValid) {
       return form.setFields([
@@ -94,10 +84,12 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
       endAt: range[1] && new Date(formatDatePicketToISO(range[1])),
     };
 
+    console.log(validStudentsInClass);
+
     if (
       values.classCode !== exam?.classCode &&
-      !isEmpty(validStudentsInClass) &&
-      validStudentsInClass
+      !isNil(validStudentsInClass) &&
+      !isEmpty(validStudentsInClass)
     ) {
       addNotiFn({
         content: `Giáo viên đã giao bài kiểm tra ${exam?.title} cho lớp ${validStudentsInClass[0].Class.name}`,
@@ -116,8 +108,6 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
 
     return addFn(payload);
   };
-
-  const handleOnDatePickerOk = (dates: RangeProps) => setRange(dates);
 
   const dataAdapter = (data: Exam): Omit<ExamCreateDTO, 'startAt' | 'endAt'> => ({
     title: data.title,
@@ -167,7 +157,10 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
         exam
           ? {
               ...dataAdapter(exam),
-              range,
+              range: [
+                formatISOToDatePicker(exam.startAt),
+                exam.endAt ? formatISOToDatePicker(exam.endAt) : null,
+              ],
             }
           : {
               range: [dayjs(), null],
@@ -212,9 +205,7 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
               allowEmpty={[false, true]}
               disabledDate={(current) => current && current < dayjs()}
               disabledTime={handleDisabledTime}
-              value={range}
               style={{ width: '100%' }}
-              onOk={handleOnDatePickerOk}
             />
           </Form.Item>
         </Col>

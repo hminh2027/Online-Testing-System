@@ -40,6 +40,7 @@ function getManyByTeacherId(teacherId, name) {
   return prisma.class.findMany({
     where: { teacherId, name: { contains: name } },
     include: { Exam: { select: { title: true } } },
+    orderBy: { createdAt: "desc" },
   });
 }
 
