@@ -8,6 +8,7 @@
   - copy exam
   - take exam
   - proctoring exam (force fullscreen, leave screen counter, ...)
+  - questions suggestion when creating exam using ChatGPT
   - shuffle questions
 
 - Class module
@@ -38,7 +39,6 @@
 - Improvements
   - support smart editor when creating exam
   - forgot password
-  - questions suggestion when creating exam
   - socket for real-time notification
   - export to docx format
   - cancel class-joining request

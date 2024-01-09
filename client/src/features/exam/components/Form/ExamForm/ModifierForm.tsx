@@ -65,7 +65,7 @@ export function ModifierForm({ exam, form, updatable }: ModifierFormProps) {
     const range = form.getFieldValue('range') as RangeProps;
 
     const isValid =
-      range && range[1] && isEndDateValid(range[0] as Dayjs, range[1], values.duration);
+      range && range[1] ? isEndDateValid(range[0] as Dayjs, range[1], values.duration) : true;
 
     if (!isValid) {
       return form.setFields([
